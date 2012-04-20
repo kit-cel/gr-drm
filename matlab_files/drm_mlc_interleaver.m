@@ -7,7 +7,7 @@ switch channel_type
         p_ind = drm_mlc_permutation('MSC', MSC);
         stream_out = zeros(2, 2 * (MSC.N_1 + MSC.N_2) ) - 1; % minus one for error checking
         for k = 1 : 2
-            for i = 1 : 2 * MSC.N_1 + MSC.N_2
+            for i = 1 : 2 * (MSC.N_1 + MSC.N_2)
                 stream_out(k, i) = stream_in(k, p_ind(k, i));
             end
         end
