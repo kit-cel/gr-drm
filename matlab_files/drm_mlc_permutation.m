@@ -1,4 +1,5 @@
 function [indexes] = drm_mlc_permutation(channel_type, channel_params)
+% computes the permutation indexes for bit and MSC cell interleaving
 
 switch channel_type
     case 'MSC'
@@ -110,6 +111,26 @@ switch channel_type
         for i = 2 : x_in
             P_0(i) = mod(t_0 * P_0(i-1) + q, s);
             while P_0(i) >= x_in
+                P_0(i) = mod(t_0 * P_0(i) + q, s);
+            end
+        end
+        
+        indexes = P_0 + 1; % matlab based indexing
+        
+    case 'MSC_cells'
+        MSC = channel_params;
+        P_0 = zeros(1, MSC.N_MUX) - 1; % all indexes are set to -1 at first to detect errors
+        
+        % calculate variables
+        t_0 = 5;
+        s = 2^(ceil(log2(MSC.N_MUX)));
+        q = s/4 - 1;
+        
+        % calculate indexes
+        P_0(1) = 0;
+        for i = 2 : MSC.N_MUX
+            P_0(i) = mod(t_0 * P_0(i-1) + q, s);
+            while P_0(i) >= MSC.N_MUX
                 P_0(i) = mod(t_0 * P_0(i) + q, s);
             end
         end

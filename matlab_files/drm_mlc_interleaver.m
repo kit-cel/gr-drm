@@ -28,7 +28,16 @@ switch channel_type
         stream_out = zeros(1, 2 * FAC.N_FAC) - 1; % minus one for error checking
         for i = 1 : 2 * FAC.N_FAC
             stream_out(i) = stream_in(p_ind(i));
-        end       
+        end 
+        
+    case 'MSC_cells'
+        % MSC cell interleaving
+        MSC = channel_params;
+        p_ind = drm_mlc_permutation('MSC_cells', MSC);
+        stream_out = zeros(1, MSC.N_MUX) - 1; % minus one for error checking
+        for i = 1 : MSC.N_MUX
+            stream_out(i) = stream_in(p_ind(i));
+        end
 end
 
 end

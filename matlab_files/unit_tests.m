@@ -20,6 +20,8 @@ else
     fprintf( ' failed! \n' )
 end
 
+clear ref_prbs bits_in ref_out bits_out
+
 i = i + 1;
 
 %% Interleaver index generator
@@ -29,7 +31,7 @@ fprintf('Test %d...',i);
 failed = 0;
 
 % check MSC
-MSC = struct('N_1', 396, 'N_2', 1941); % example MSC struct
+MSC = struct('N_1', 396, 'N_2', 1941, 'N_MUX', 2337); % example MSC struct
 indexes = drm_mlc_permutation('MSC', MSC);
 
 length_indexes = length(indexes(1, :));
@@ -106,13 +108,30 @@ for k = 1 : length_indexes
                 
 end
 
+% check MSC cell interleaving
+indexes = drm_mlc_permutation('MSC_cells', MSC);
+length_indexes = length(indexes);
+
+if length_indexes ~= MSC.N_MUX
+    warning('index vector length mismatch')
+    failed = 1;
+end
+
+for k = 1 : length_indexes
+    % all indexes have to be unique and between 1 and N
+    if length(find(indexes == k)) > 1 || indexes(k) > MSC.N_MUX || indexes(k) <= 0
+        disp(indexes(k))
+        failed = 1;
+    end
+end
+
 if failed
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
 end
 
-clear failed MSC SDC FAC indexes length_indexes
+clear failed MSC SDC FAC indexes length_indexes not_unique too_big too_small
 
 i = i + 1;
 
@@ -162,5 +181,7 @@ if failed
 else
     fprintf(' passed. \n')
 end
+
+clear stream_out ref_in ref_out SDC FAC MSC a_16 a_4
 
 i = i + 1;

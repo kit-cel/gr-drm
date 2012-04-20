@@ -8,7 +8,7 @@ clc
 %% calculate global variables, for the list of assumptions see drm_global_variables.m
 run drm_global_variables
 
-%% create dummy bits (TODO: fill them with real data)
+%% create dummy bit streams
 msc_stream = ones(1, MSC.L_MUX); % one MSC multiplex frame
 sdc_stream = zeros(1, SDC.L_SDC); % one SDC block
 fac_stream = ones(1, FAC.L_FAC); % one FAC block
@@ -33,8 +33,13 @@ msc_stream_interleaved = drm_mlc_interleaver(msc_stream_encoded, 'MSC', MSC);
 sdc_stream_interleaved = drm_mlc_interleaver(sdc_stream_encoded, 'SDC', SDC);
 fac_stream_interleaved = drm_mlc_interleaver(fac_stream_encoded, 'FAC', FAC);
 
-%% mapping
+%% bit to symbol mapping
 msc_stream_mapped = drm_mapping(msc_stream_interleaved, 'MSC', MSC);
 sdc_stream_mapped = drm_mapping(sdc_stream_interleaved, 'SDC', SDC);
 fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
-%% OFDM, guard interval etc.
+
+%% MSC cell interleaving
+msc_stream_map_interl = drm_mlc_interleaver(msc_stream_mapped, 'MSC_cells', MSC);
+
+%% building super transmission frame
+msc_stf = drm_build_tsf(msc_stream_map_interl, MSC);
