@@ -29,8 +29,7 @@ switch channel_type
         M_02 = FAC.R_X0 * floor((2 * FAC.N_FAC - 12) / FAC.R_Y0); % M_01 = 0, same as for SDC; M_02 is 69 -> should be L_FAC = 72 ?
         stream_out = cell(1,1);
         stream_out{1,1} = stream_in; % FIXME: why does this not fit? M_02 (69) is smaller than L_FAC (72), cropping does not seem to make sense.
-        if M_02 ~= length(stream_in); warning('fac length mismatch'); end       
+        if M_02 ~= length(stream_in); warning('fac length mismatch (is this a problem?)'); end 
 end
 
-% TODO: throw error if input is invalid
-
+end

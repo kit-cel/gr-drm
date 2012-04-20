@@ -34,5 +34,7 @@ sdc_stream_interleaved = drm_mlc_interleaver(sdc_stream_encoded, 'SDC', SDC);
 fac_stream_interleaved = drm_mlc_interleaver(fac_stream_encoded, 'FAC', FAC);
 
 %% mapping
-
+msc_stream_mapped = drm_mapping(msc_stream_interleaved, 'MSC', MSC);
+sdc_stream_mapped = drm_mapping(sdc_stream_interleaved, 'SDC', SDC);
+fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
 %% OFDM, guard interval etc.

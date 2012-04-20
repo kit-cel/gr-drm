@@ -4,10 +4,10 @@ L = length(bits_in);
 
 prbs = ones(1, L) - 2;
 
-shift_register = ones(1, 9); % Startbelegung
+shift_register = ones(1, 9); % inital state
 
 for i = 1:L
-    % mod2 Addition gemaess Polynom G(x) = x^9 + x^5 + 1
+    % mod2 addition according to G(x) = x^9 + x^5 + 1
     output = mod(shift_register(5) + shift_register(9), 2); 
     prbs(i) = output;
     
