@@ -170,8 +170,6 @@ end
 % TODO: when MSC is filled with real data, append transmission frames
 % instead of repeating them
 
-% FIXME: there are still zeros in the superframe, maybe too many zeros?
-
 % add dummy symbols
 a_16 = sqrt(10);
 msc_stream = [repmat(msc_stream, 1, MSC.M_TF), a_16.*[1 + 1i, 1 - 1i] ];
