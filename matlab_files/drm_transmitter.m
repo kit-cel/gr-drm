@@ -41,5 +41,5 @@ fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
 %% MSC cell interleaving
 msc_stream_map_interl = drm_mlc_interleaver(msc_stream_mapped, 'MSC_cells', MSC);
 
-%% building super transmission frame
-msc_stf = drm_build_tsf(msc_stream_map_interl, MSC);
+%% build super transmission frame
+super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, SDC, FAC);
