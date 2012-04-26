@@ -15,9 +15,9 @@ switch channel_type
         % 16-QAM, 4 bit per symbol
         MSC = channel_params;
         stream_out = zeros(1, MSC.N_MUX);
-        for i = 1 : 2 : MSC.N_MUX
-            map_ind = 2^3 * stream_in(1, i) + 2^2 * stream_in(2,i) ...
-                         + 2^1 * stream_in(1, i+1) + 2^0 * stream_in(2, i+1);
+        for i = 1 : MSC.N_MUX
+            map_ind = 2^3 * stream_in(1, 2*i-1) + 2^2 * stream_in(2,2*i-1) ...
+                         + 2^1 * stream_in(1, 2*i) + 2^0 * stream_in(2, 2*i);
             stream_out(i) = map_tab_16(map_ind + 1); % matlab indexing
         end
     case 'SDC'
