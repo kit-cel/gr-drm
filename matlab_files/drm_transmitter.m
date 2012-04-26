@@ -43,3 +43,6 @@ msc_stream_map_interl = drm_mlc_interleaver(msc_stream_mapped, 'MSC_cells', MSC)
 
 %% build super transmission frame
 super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, SDC, FAC);
+
+%% OFDM (real baseband output)
+transmit_baseband = drm_ofdm(super_tframe, MSC);
