@@ -1,9 +1,7 @@
 %% DRM transmitter
 
 clear all
-
 clc
-
 
 %% calculate global variables, for the list of assumptions see drm_global_variables.m
 run drm_global_variables
@@ -44,5 +42,5 @@ msc_stream_map_interl = drm_mlc_interleaver(msc_stream_mapped, 'MSC_cells', MSC)
 %% build super transmission frame
 super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, SDC, FAC);
 
-%% OFDM (real baseband output)
-transmit_baseband = drm_ofdm(super_tframe, MSC);
+%% OFDM (complex baseband output)
+complex_baseband = drm_ofdm(super_tframe, MSC);

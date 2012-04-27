@@ -189,5 +189,14 @@ for i = 1 : length(pos_MSC)
     end
 end
 
-stream_out = superframe;
+
+%% add zeros for unused channels
+% DC is at index nfft/2
+
+nfft = 256;
+zero_chan_up = ceil((nfft - nchan)/2);
+zero_chan_down = floor((nfft - nchan)/2);
+superframe_padded = [zeros(zero_chan_down, nsym*MSC.M_TF); superframe; zeros(zero_chan_up, nsym*MSC.M_TF)];
+
+stream_out = superframe_padded;
 end
