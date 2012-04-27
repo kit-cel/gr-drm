@@ -7,7 +7,7 @@ r_max = MSC.M_TF; % number of transmission frames in a super transmission frame
 
 %% OFDM operation TODO: check for correctness!!!
 
-nfft = 256;
+nfft = 1024;
 nguard = nfft/4;
 OFDM_signal = zeros(r_max * N_S, nfft + nguard);
 
