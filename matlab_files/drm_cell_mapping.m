@@ -135,6 +135,11 @@ for i = 1 : nsym
             else
                 frame(gain_pos{i}(l) ,i) = a_gain * gain_phase{i}{l};
             end
+        else
+            if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
+                % boost time or frequency reference cell but don't change phase
+                frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l));
+            end
         end
     end
 end
@@ -171,7 +176,7 @@ end
 % instead of repeating them
 
 % add dummy symbols
-a_16 = sqrt(10);
+a_16 = 1/sqrt(10);
 msc_stream = [repmat(msc_stream, 1, MSC.M_TF), a_16.*[1 + 1i, 1 - 1i] ];
 
 pos_MSC = cell(1, nsym * MSC.M_TF);

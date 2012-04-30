@@ -7,9 +7,9 @@ clc
 run drm_global_variables
 
 %% create dummy bit streams
-msc_stream = ones(1, MSC.L_MUX); % one MSC multiplex frame
-sdc_stream = zeros(1, SDC.L_SDC); % one SDC block
-fac_stream = ones(1, FAC.L_FAC); % one FAC block
+msc_stream = randint(1, MSC.L_MUX); % one MSC multiplex frame
+sdc_stream = randint(1, SDC.L_SDC); % one SDC block
+fac_stream = randint(1, FAC.L_FAC); % one FAC block
 
 %% energy dispersal
 msc_stream_scrambled = drm_scrambler(msc_stream);
