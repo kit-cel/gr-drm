@@ -1,11 +1,11 @@
-function [stream_out] = drm_cell_mapping(msc_stream, sdc_stream, fac_stream, MSC, SDC, FAC)
+function [stream_out] = drm_cell_mapping(msc_stream, sdc_stream, fac_stream, MSC, SDC, FAC, OFDM)
 % maps MSC, SDC, FAC, control and pilot cells on a transmission super frame
 
 %% build empty transmission frame
-nchan = 207; % carriers ranging from -103 ... +103 (0 is unused)
-nsym = 15; % 15 OFDM symbols per transmission frame
+nchan = OFDM.K_max - OFDM.K_min + 1; % carriers ranging from -103 ... +103 (0 is unused)
+nsym = OFDM.N_S; % 15 OFDM symbols per transmission frame
 frame = zeros(nchan, nsym); % empty transmission frame
-k_off = 103 + 1; % k is meant as carrier number, not vector index, so 103 (negative half K) is added; +1 because of matlab indexing
+k_off = OFDM.k_off; % k is meant as carrier number, not vector index, so 103 (negative half K) is added; +1 because of matlab indexing
 
 %% FAC cell mapping
 
@@ -151,7 +151,7 @@ superframe = repmat(frame, 1, MSC.M_TF);
 
 %% SDC 
 % only at the beginning of each transmission super frame
-% all the cells in the first 3 symbols that are not gain, time or frequency references
+% all the cells in the first 2 symbols that are not gain, time or frequency references
 
 % find indexes of positions that are still zero, 0 (=> 0 + k_off) has to be
 % omitted later on
@@ -163,7 +163,7 @@ pos_SDC{2} = find(frame(:, 2) == 0);
 n = 0;
 for i = 1 : 2
     for l = 1 : length(pos_SDC{i})
-        if pos_SDC{i}(l) ~= 104 % the DC carrier is omitted
+        if pos_SDC{i}(l) ~= k_off % the DC carrier is omitted
             n = n + 1;
             superframe(pos_SDC{i}(l), i) = sdc_stream(n);
         end
@@ -187,7 +187,7 @@ end
 n = 0;
 for i = 1 : length(pos_MSC)
     for l = 1 : length(pos_MSC{i})
-        if pos_MSC{i}(l) ~= 104 % the DC carrier is omitted
+        if pos_MSC{i}(l) ~= k_off % the DC carrier is omitted
             n = n + 1;
             superframe(pos_MSC{i}(l), i) = msc_stream(n);
         end
@@ -198,7 +198,7 @@ end
 %% add zeros for unused channels
 % DC is at index nfft/2
 
-nfft = 1024;
+nfft = OFDM.nfft;
 zero_chan_up = ceil((nfft - nchan)/2);
 zero_chan_down = floor((nfft - nchan)/2);
 superframe_padded = [zeros(zero_chan_down, nsym*MSC.M_TF); superframe; zeros(zero_chan_up, nsym*MSC.M_TF)];

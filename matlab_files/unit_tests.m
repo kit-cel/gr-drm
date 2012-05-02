@@ -1,10 +1,10 @@
 clear all
 clc
 
+fprintf('VARIOUS TESTS... \n')
 %% Scrambler
 
-i = 1;
-fprintf('Test %d...',i);
+fprintf('Test Scrambler...');
 
 ref_prbs = [0 0 0 0 0 1 1 1 1 0 1 1 1 1 1 0]; % see DRM standard ('energy dispersal')
 
@@ -22,11 +22,9 @@ end
 
 clear ref_prbs bits_in ref_out bits_out
 
-i = i + 1;
-
 %% Interleaver index generator
 
-fprintf('Test %d...',i);
+fprintf('Test Index Generator...');
 
 failed = 0;
 
@@ -133,11 +131,9 @@ end
 
 clear failed MSC SDC FAC indexes length_indexes not_unique too_big too_small
 
-i = i + 1;
-
 %% Mapping
 
-fprintf('Test %d...',i);
+fprintf('Test Mapping...');
 
 failed = 0;
 
@@ -184,4 +180,141 @@ end
 
 clear stream_out ref_in ref_out SDC FAC MSC a_16 a_4
 
-i = i + 1;
+%% Receiver tests start here
+fprintf('RECEIVER TESTS...\n')
+
+%% OFDM
+
+run drm_transmitter % this realisation is also used for following tests
+
+super_tframe_recv = drm_iofdm(complex_baseband, OFDM);
+
+fprintf('Test OFDM/iOFDM...');
+
+failed = 0;
+
+s = warning('off', 'drm:transmitter');
+
+
+
+if super_tframe ~= super_tframe_recv
+    failed = 1;
+end
+
+if failed
+    fprintf(' failed! \n')
+else
+    fprintf(' passed. \n')
+end
+
+%% Cell demapping
+
+fprintf('Test Cell demapping...');
+
+[msc_stream_map_interl_rx sdc_stream_mapped_rx fac_stream_mapped_rx] = drm_cell_demapping(super_tframe, MSC, SDC, FAC, OFDM);
+
+% FAC
+failed = 0;
+
+if fac_stream_mapped_rx ~= fac_stream_mapped
+    failed = 1;
+end
+
+if failed
+    fprintf(' FAC failed! ')
+else
+    fprintf(' FAC passed. ')
+end
+
+% SDC
+failed = 0;
+
+if sdc_stream_mapped_rx ~= sdc_stream_mapped
+    failed = 1;
+end
+
+if failed
+    fprintf(' SDC failed! ')
+else
+    fprintf(' SDC passed. ')
+end
+
+% MSC
+failed = 0;
+
+if msc_stream_map_interl_rx ~= repmat(msc_stream_map_interl, 3, 1)
+    failed = 1;
+end
+
+if failed
+    fprintf(' MSC failed! \n')
+else
+    fprintf(' MSC passed. \n')
+end
+
+%% MSC cell deinterleaving
+fprintf('Test MSC Cell deinterleaving...');
+
+failed = 0;
+
+msc_stream_mapped_rx = drm_mlc_deinterleaver(repmat(msc_stream_map_interl, 3, 1), 'MSC_cells', MSC);
+
+msc_stream_mapped = repmat(msc_stream_mapped, 3, 1);
+
+if msc_stream_mapped_rx ~= msc_stream_mapped
+    failed = 1;
+end
+
+if failed
+    fprintf(' failed! \n')
+else
+    fprintf(' passed. \n')
+end
+
+%% Demapping
+fprintf('Test Symbol Demapping...');
+
+% MSC
+failed = 0;
+
+% msc_stream_interl_rx = drm_demapping(msc_stream_mapped, 'MSC', MSC);
+% 
+% if msc_stream_interl_rx ~= msc_stream_interl
+%     failed = 1;
+% end
+% 
+% if failed
+%     fprintf(' MSC failed!')
+% else
+%     fprintf(' MSC passed.')
+% end
+
+% SDC
+failed = 0; 
+
+sdc_stream_interl_rx = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
+
+if sdc_stream_interl_rx ~= sdc_stream_interleaved
+    failed = 1;
+end
+
+if failed
+    fprintf(' SDC failed!')
+else
+    fprintf(' SDC passed.')
+end
+
+% FAC
+failed = 0; 
+
+fac_stream_interl_rx = drm_demapping(fac_stream_mapped, 'FAC', FAC);
+
+if fac_stream_interl_rx ~= fac_stream_interleaved
+    failed = 1;
+end
+
+if failed
+    fprintf(' FAC failed! \n')
+else
+    fprintf(' FAC passed. \n')
+end
