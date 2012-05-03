@@ -3,6 +3,7 @@
 %%%%%%%%%%%%%%%%%%
 
 % perfect synchronisation and no channel influences are assumed
+% OFDM and channel parameters are treated as given!
 
 % clear has to be disabled for unit_tests.m
 %clear all
@@ -19,7 +20,7 @@ super_tframe_rx = drm_iofdm(complex_baseband, OFDM);
 [msc_stream_map_interl sdc_stream_map, fac_stream_map] = drm_cell_demapping(super_tframe, MSC, SDC, FAC, OFDM);
 
 %% MSC cell deinterleaving
-[msc_stream_mapped] = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
+msc_stream_mapped = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
 
 %% Symbol demapping
 msc_stream_interl = drm_demapping(msc_stream_mapped, 'MSC', MSC);

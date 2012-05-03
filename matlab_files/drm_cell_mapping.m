@@ -32,8 +32,7 @@ fac_pos{11,2} = [21 33 45 63 75] + k_off;
 fac_pos{12,2} = [23 35 47 65 77] + k_off;
 
 n = 0;
-for i = 1:12
-    
+for i = 1:12   
     for k = 1:length(fac_pos{i, 2})
         n = n + 1;
         frame(fac_pos{i, 2}(k), fac_pos{i, 1}) = fac_stream(n);
@@ -172,12 +171,15 @@ end
 
 %% MSC
 
-% TODO: when MSC is filled with real data, append transmission frames
-% instead of repeating them
-
 % add dummy symbols
+
+msc_stream_sf = [];
+for i = 1 : MSC.M_TF
+    msc_stream_sf = [msc_stream_sf, msc_stream{i}];
+end
 a_16 = 1/sqrt(10);
-msc_stream = [repmat(msc_stream, 1, MSC.M_TF), a_16.*[1 + 1i, 1 - 1i] ];
+msc_stream_sf = [msc_stream_sf, a_16.*[1 + 1i, 1 - 1i] ];
+msc_stream = msc_stream_sf;
 
 pos_MSC = cell(1, nsym * MSC.M_TF);
 for i = 1 : length(pos_MSC)

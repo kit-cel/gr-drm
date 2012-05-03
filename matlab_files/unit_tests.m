@@ -209,7 +209,8 @@ failed = 1;
 
 s = warning('off', 'drm:transmitter');
 
-% this is a very unprecise test because equality can't be exactly tested
+% this is a very unprecise test because equality can't be exactly tested du
+% to little differences after FFT
 if isequal(round(super_tframe), round(super_tframe_recv))
     failed = 0;
 end
@@ -222,8 +223,6 @@ else
 end
 
 %% Cell demapping
-
-
 
 fprintf('Test Cell demapping...');
 
@@ -263,7 +262,9 @@ end
 n_total = n_total + 1;
 failed = 1;
 
-if isequal(msc_stream_map_interl_rx, repmat(msc_stream_map_interl, 3, 1))
+if isequal(msc_stream_map_interl_rx(1, :), msc_stream_map_interl{1}) && ...
+   isequal(msc_stream_map_interl_rx(2, :), msc_stream_map_interl{2}) && ...
+   isequal(msc_stream_map_interl_rx(3, :), msc_stream_map_interl{3})
     failed = 0;
 end
 
@@ -280,9 +281,9 @@ fprintf('Test MSC Cell deinterleaving...');
 n_total = n_total + 1;
 failed = 1;
 
-msc_stream_mapped_rx = drm_mlc_deinterleaver(repmat(msc_stream_map_interl, 3, 1), 'MSC_cells', MSC);
+msc_stream_mapped_rx = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
 
-msc_stream_mapped = repmat(msc_stream_mapped, 3, 1);
+%msc_stream_mapped = repmat(msc_stream_mapped, 3, 1);
 
 if isequal(round(msc_stream_mapped_rx), round(msc_stream_mapped))
     failed = 0;
@@ -304,7 +305,7 @@ failed = 1;
 
 msc_stream_interl_rx = drm_demapping(msc_stream_mapped, 'MSC', MSC);
 
-if isequal(msc_stream_interl_rx{1}, msc_stream_interleaved)
+if isequal(msc_stream_interl_rx, msc_stream_interleaved)
     failed = 0;
 end
 
@@ -402,6 +403,8 @@ if failed
 else
     fprintf(' FAC passed. \n')
 end
+
+%% Viterbi Decoder
 
 
 %% End of unit tests

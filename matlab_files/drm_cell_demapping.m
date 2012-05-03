@@ -93,8 +93,17 @@ end
 msc_stream_map_interl = msc_stream_map_interl(1: end - MSC.N_L);
 
 % break down into a matrix of M_TF rows and N_MUX cells
+% msc_cells = cell(MSC.M_TF, 1);
+% for i = 1 : MSC.M_TF
+%     msc_cells{i} = msc_stream_map_interl((i-1)*MSC.N_MUX + 1 : i*MSC.N_MUX);
+% end
+% 
+% msc_stream_map_interl = msc_cells; % rename for output
+
+
 msc_stream_map_interl = [msc_stream_map_interl(1 : MSC.N_MUX);...
                          msc_stream_map_interl(MSC.N_MUX+1 : 2*MSC.N_MUX);...
                          msc_stream_map_interl(2*MSC.N_MUX+1 : end)];
+
 
 end
