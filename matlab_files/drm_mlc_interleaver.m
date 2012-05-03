@@ -31,7 +31,7 @@ switch channel_type
         end 
         
     case 'MSC_cells'
-        % MSC cell interleaving
+        % MSC cell interleaving (short, 400ms)
         MSC = channel_params;
         p_ind = drm_mlc_permutation('MSC_cells', MSC);
         stream_out = zeros(1, MSC.N_MUX) - 1; % minus one for error checking

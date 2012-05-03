@@ -22,10 +22,14 @@ super_tframe_rx = drm_iofdm(complex_baseband, OFDM);
 [msc_stream_mapped] = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
 
 %% Symbol demapping
-%msc_stream_interl = drm_demapping(msc_stream_mapped, 'MSC', MSC);
+msc_stream_interl = drm_demapping(msc_stream_mapped, 'MSC', MSC);
+sdc_stream_interl = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
 fac_stream_interl = drm_demapping(fac_stream_mapped, 'FAC', FAC);
 
 %% Bit deinterleaving
+%msc_stream_encoded = drm_mlc_deinterleaver(msc_stream_interl, 'MSC', MSC);
+sdc_stream_encoded = drm_mlc_deinterleaver(sdc_stream_interl, 'SDC', SDC);
+fac_stream_encoded = drm_mlc_deinterleaver(fac_stream_interl, 'FAC', FAC);
 
 %% Decoding
 

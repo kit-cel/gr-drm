@@ -1,8 +1,12 @@
 clear all
 clc
 
+fprintf('START OF UNIT TESTS \n \n')
 fprintf('VARIOUS TESTS... \n')
+
 %% Scrambler
+n_total = 1;
+n_failed = 0;
 
 fprintf('Test Scrambler...');
 
@@ -14,15 +18,17 @@ ref_out = mod(bits_in + ref_prbs, 2);
 
 bits_out = drm_scrambler(bits_in);
 
-if bits_out == ref_out
+if isequal(bits_out, ref_out)
     fprintf( ' passed. \n' )
 else
     fprintf( ' failed! \n' )
+    n_failed = n_failed + 1;
 end
 
 clear ref_prbs bits_in ref_out bits_out
 
 %% Interleaver index generator
+n_total = n_total + 1;
 
 fprintf('Test Index Generator...');
 
@@ -124,6 +130,7 @@ for k = 1 : length_indexes
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
@@ -132,10 +139,11 @@ end
 clear failed MSC SDC FAC indexes length_indexes not_unique too_big too_small
 
 %% Mapping
+n_total = n_total + 1;
 
 fprintf('Test Mapping...');
 
-failed = 0;
+failed = 1;
 
 % normalization factors
 a_4 = 1/sqrt(2);
@@ -146,12 +154,12 @@ MSC = struct('N_MUX', 16);
 ref_in = [0 0 0 0 0 1 0 1 0 0 0 0 0 1 0 1 1 0 1 0 1 1 1 1 1 0 1 0 1 1 1 1 ; ...
           0 0 0 1 0 0 0 1 1 0 1 1 1 0 1 1 0 0 0 1 0 0 0 1 1 0 1 1 1 0 1 1 ];
 ref_out = a_16.*[3 + 3i, 3 - 1i, 3 + 1i, 3 - 3i, -1 + 3i, -1 - 1i, -1 + 1i, -1 - 3i, ...
-                 1 + 3i, 1 - 1i, 3 + 1i, 3 - 3i, -3 + 3i, -3 - 1i, -3 + 1i, -3 - 3i];
+                 1 + 3i, 1 - 1i, 1 + 1i, 1 - 3i, -3 + 3i, -3 - 1i, -3 + 1i, -3 - 3i];
 
 stream_out = drm_mapping(ref_in, 'MSC', MSC);
 
-if ref_out ~= stream_out
-    failed = 1;
+if isequal(ref_out, stream_out)
+    failed = 0;
 end
 
 % example FAC struct
@@ -161,6 +169,10 @@ ref_out = a_4.*[1 + 1i, 1 - 1i, -1 + 1i, -1 - 1i];
 
 stream_out = drm_mapping(ref_in, 'FAC', FAC);
 
+if isequal(ref_out, stream_out)
+    failed = 0;
+end
+
 % example SDC struct
 SDC = struct('N_SDC', 4);
 ref_in = [0 0 0 1 1 0 1 1];
@@ -168,11 +180,12 @@ ref_out = a_4.*[1 + 1i, 1 - 1i, -1 + 1i, -1 - 1i];
 
 stream_out = drm_mapping(ref_in, 'SDC', SDC);
 
-if ref_out ~= stream_out
-    failed = 1;
+if isequal(ref_out, stream_out)
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
@@ -184,6 +197,7 @@ clear stream_out ref_in ref_out SDC FAC MSC a_16 a_4
 fprintf('RECEIVER TESTS...\n')
 
 %% OFDM
+n_total = n_total + 1;
 
 run drm_transmitter % this realisation is also used for following tests
 
@@ -191,17 +205,17 @@ super_tframe_recv = drm_iofdm(complex_baseband, OFDM);
 
 fprintf('Test OFDM/iOFDM...');
 
-failed = 0;
+failed = 1;
 
 s = warning('off', 'drm:transmitter');
 
-
-
-if super_tframe ~= super_tframe_recv
-    failed = 1;
+% this is a very unprecise test because equality can't be exactly tested
+if isequal(round(super_tframe), round(super_tframe_recv))
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
@@ -209,44 +223,52 @@ end
 
 %% Cell demapping
 
+
+
 fprintf('Test Cell demapping...');
 
 [msc_stream_map_interl_rx sdc_stream_mapped_rx fac_stream_mapped_rx] = drm_cell_demapping(super_tframe, MSC, SDC, FAC, OFDM);
 
 % FAC
-failed = 0;
+n_total = n_total + 1;
+failed = 1;
 
-if fac_stream_mapped_rx ~= fac_stream_mapped
-    failed = 1;
+if isequal(fac_stream_mapped_rx, fac_stream_mapped)
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' FAC failed! ')
 else
     fprintf(' FAC passed. ')
 end
 
 % SDC
-failed = 0;
+n_total = n_total + 1;
+failed = 1;
 
-if sdc_stream_mapped_rx ~= sdc_stream_mapped
-    failed = 1;
+if isequal(sdc_stream_mapped_rx, sdc_stream_mapped)
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' SDC failed! ')
 else
     fprintf(' SDC passed. ')
 end
 
 % MSC
-failed = 0;
+n_total = n_total + 1;
+failed = 1;
 
-if msc_stream_map_interl_rx ~= repmat(msc_stream_map_interl, 3, 1)
-    failed = 1;
+if isequal(msc_stream_map_interl_rx, repmat(msc_stream_map_interl, 3, 1))
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' MSC failed! \n')
 else
     fprintf(' MSC passed. \n')
@@ -255,17 +277,19 @@ end
 %% MSC cell deinterleaving
 fprintf('Test MSC Cell deinterleaving...');
 
-failed = 0;
+n_total = n_total + 1;
+failed = 1;
 
 msc_stream_mapped_rx = drm_mlc_deinterleaver(repmat(msc_stream_map_interl, 3, 1), 'MSC_cells', MSC);
 
 msc_stream_mapped = repmat(msc_stream_mapped, 3, 1);
 
-if msc_stream_mapped_rx ~= msc_stream_mapped
-    failed = 1;
+if isequal(round(msc_stream_mapped_rx), round(msc_stream_mapped))
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
@@ -275,46 +299,110 @@ end
 fprintf('Test Symbol Demapping...');
 
 % MSC
-failed = 0;
+n_total = n_total + 1;
+failed = 1;
 
-% msc_stream_interl_rx = drm_demapping(msc_stream_mapped, 'MSC', MSC);
-% 
-% if msc_stream_interl_rx ~= msc_stream_interl
-%     failed = 1;
-% end
-% 
-% if failed
-%     fprintf(' MSC failed!')
-% else
-%     fprintf(' MSC passed.')
-% end
+msc_stream_interl_rx = drm_demapping(msc_stream_mapped, 'MSC', MSC);
 
-% SDC
-failed = 0; 
-
-sdc_stream_interl_rx = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
-
-if sdc_stream_interl_rx ~= sdc_stream_interleaved
-    failed = 1;
+if isequal(msc_stream_interl_rx{1}, msc_stream_interleaved)
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
+    fprintf(' MSC failed!')
+else
+    fprintf(' MSC passed.')
+end
+
+% SDC
+n_total = n_total + 1;
+failed = 1; 
+
+sdc_stream_interl_rx = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
+
+if isequal(sdc_stream_interl_rx, sdc_stream_interleaved)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
     fprintf(' SDC failed!')
 else
     fprintf(' SDC passed.')
 end
 
 % FAC
-failed = 0; 
+n_total = n_total + 1;
+failed = 1; 
 
 fac_stream_interl_rx = drm_demapping(fac_stream_mapped, 'FAC', FAC);
 
-if fac_stream_interl_rx ~= fac_stream_interleaved
-    failed = 1;
+if isequal(fac_stream_interl_rx, fac_stream_interleaved)
+    failed = 0;
 end
 
 if failed
+    n_failed = n_failed + 1;
     fprintf(' FAC failed! \n')
 else
     fprintf(' FAC passed. \n')
 end
+
+%% Deinterleaver
+fprintf('Test Bit Deinterleaving...');
+
+% MSC
+n_total = n_total + 1;
+failed = 1;
+
+msc_stream_deinterl_rx = drm_mlc_deinterleaver(msc_stream_interleaved, 'MSC', MSC);
+
+if isequal(msc_stream_deinterl_rx{1}, msc_stream_encoded)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' MSC failed!')
+else
+    fprintf(' MSC passed.')
+end
+
+% SDC
+n_total = n_total + 1;
+failed = 1;
+
+sdc_stream_deinterl_rx = drm_mlc_deinterleaver(sdc_stream_interleaved, 'SDC', SDC);
+
+if isequal(sdc_stream_deinterl_rx, sdc_stream_encoded)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' SDC failed!')
+else
+    fprintf(' SDC passed.')
+end
+
+% FAC
+n_total = n_total + 1;
+failed = 1;
+
+fac_stream_deinterl_rx = drm_mlc_deinterleaver(fac_stream_interleaved, 'FAC', FAC);
+
+if isequal(fac_stream_deinterl_rx, fac_stream_encoded)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' FAC failed! \n')
+else
+    fprintf(' FAC passed. \n')
+end
+
+
+%% End of unit tests
+fprintf('\nTOTAL: %d / %d Tests failed. \n', n_failed, n_total);

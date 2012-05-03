@@ -50,7 +50,7 @@ complex_baseband = drm_ofdm(super_tframe, MSC);
 clear msc_stream sdc_stream fac_stream
 clear msc_stream_scrambled sdc_stream_scrambled fac_stream_scrambled
 clear msc_stream_partitioned sdc_stream_partitioned fac_stream_partitioned
-clear msc_stream_encoded sdc_stream_encoded fac_stream_encoded
+%clear msc_stream_encoded sdc_stream_encoded fac_stream_encoded
 %clear msc_stream_interleaved sdc_stream_interleaved fac_stream_interleaved
 %clear msc_stream_mapped
 %clear msc_stream_map_interl sdc_stream_mapped fac_stream_mapped

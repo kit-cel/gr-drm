@@ -7,7 +7,7 @@ a_4 = 1/sqrt(2);
 % mapping tables are ordered by the binary index of the symbols + 1
 % example: 11 -> -1 - i = map_tab_4(4); 00 -> 1 + i = map_tab_4(1)
 map_tab_16 = a_16.*[3 + 3i, 3 - 1i, 3 + 1i, 3 - 3i, -1 + 3i, -1 - 1i, -1 + 1i, -1 - 3i, ...
-                    1 + 3i, 1 - 1i, 1 + 1i, 1 - 3i, -3 + 3i, -3 - 1i, -3 - 1i, -3 - 3i];
+                    1 + 3i, 1 - 1i, 1 + 1i, 1 - 3i, -3 + 3i, -3 - 1i, -3 + 1i, -3 - 3i];
 map_tab_4 = a_4.*[1 + 1i, 1 - 1i, -1 + 1i, -1 - 1i];
 
 switch channel_type
