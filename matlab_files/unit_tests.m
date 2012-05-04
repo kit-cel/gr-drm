@@ -2,7 +2,8 @@ clear all
 clc
 
 fprintf('START OF UNIT TESTS \n \n')
-fprintf('VARIOUS TESTS... \n')
+fprintf('The tests have to be executed with ''testfile.aac'' (contains one superframe).\n\n')
+fprintf('VARIOUS TESTS \n')
 
 %% Scrambler
 n_total = 1;
@@ -186,15 +187,15 @@ end
 
 if failed
     n_failed = n_failed + 1;
-    fprintf(' failed! \n')
+    fprintf(' failed! \n\n')
 else
-    fprintf(' passed. \n')
+    fprintf(' passed. \n\n')
 end
 
 clear stream_out ref_in ref_out SDC FAC MSC a_16 a_4
 
 %% Receiver tests start here
-fprintf('RECEIVER TESTS...\n')
+fprintf('RECEIVER TESTS\n')
 
 %% OFDM
 n_total = n_total + 1;
@@ -262,11 +263,15 @@ end
 n_total = n_total + 1;
 failed = 1;
 
-if isequal(msc_stream_map_interl_rx(1, :), msc_stream_map_interl{1}) && ...
-   isequal(msc_stream_map_interl_rx(2, :), msc_stream_map_interl{2}) && ...
-   isequal(msc_stream_map_interl_rx(3, :), msc_stream_map_interl{3})
+if isequal(msc_stream_map_interl_rx, msc_stream_map_interl)
     failed = 0;
 end
+
+% if isequal(msc_stream_map_interl_rx(1, :), msc_stream_map_interl{1}) && ...
+%    isequal(msc_stream_map_interl_rx(2, :), msc_stream_map_interl{2}) && ...
+%    isequal(msc_stream_map_interl_rx(3, :), msc_stream_map_interl{3})
+%     failed = 0;
+% end
 
 if failed
     n_failed = n_failed + 1;
@@ -359,7 +364,7 @@ failed = 1;
 
 msc_stream_deinterl_rx = drm_mlc_deinterleaver(msc_stream_interleaved, 'MSC', MSC);
 
-if isequal(msc_stream_deinterl_rx{1}, msc_stream_encoded)
+if isequal(msc_stream_deinterl_rx, msc_stream_encoded)
     failed = 0;
 end
 

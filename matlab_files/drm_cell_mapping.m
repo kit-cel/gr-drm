@@ -175,7 +175,7 @@ end
 
 msc_stream_sf = [];
 for i = 1 : MSC.M_TF
-    msc_stream_sf = [msc_stream_sf, msc_stream{i}];
+    msc_stream_sf = [msc_stream_sf, msc_stream(i, :)];
 end
 a_16 = 1/sqrt(10);
 msc_stream_sf = [msc_stream_sf, a_16.*[1 + 1i, 1 - 1i] ];

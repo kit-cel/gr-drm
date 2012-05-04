@@ -1,5 +1,9 @@
 function [stream_out] = drm_iofdm(complex_baseband, OFDM)
 
+%% reshape baseband signal ordered by the symbol number
+
+complex_baseband = transpose(reshape(complex_baseband, OFDM.nfft + OFDM.nguard, OFDM.N_S*OFDM.M_TF));
+
 %% remove guard interval
 
 time_domain_noprefix = zeros(OFDM.N_S * OFDM.M_TF, OFDM.nfft);

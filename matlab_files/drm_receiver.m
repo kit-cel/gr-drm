@@ -13,29 +13,38 @@
 run drm_global_variables
 run drm_transmitter
 
-%% OFDM Demod
-super_tframe_rx = drm_iofdm(complex_baseband, OFDM);
+%% preallocate memory for output, calculate number of frames
 
-%% Cell Demapping
-[msc_stream_map_interl sdc_stream_map, fac_stream_map] = drm_cell_demapping(super_tframe, MSC, SDC, FAC, OFDM);
+n_stf = size(complex_baseband, 1); % number of super transmission frames
+msc_data = zeros(n_stf, MSC.M_TF*MSC.L_MUX); % always M_TF multiplex frames per row
+sdc_data = zeros(1, SDC.L_SDC);
+fac_data = zeros(1, FAC.L_FAC);
 
-%% MSC cell deinterleaving
-msc_stream_mapped = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
+for n = 1 : n_stf
+    %% OFDM Demod
+    super_tframe_rx = drm_iofdm(complex_baseband(n, :), OFDM);
 
-%% Symbol demapping
-msc_stream_interl = drm_demapping(msc_stream_mapped, 'MSC', MSC);
-sdc_stream_interl = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
-fac_stream_interl = drm_demapping(fac_stream_mapped, 'FAC', FAC);
+    %% Cell Demapping
+    [msc_stream_map_interl sdc_stream_map, fac_stream_map] = drm_cell_demapping(super_tframe_rx, MSC, SDC, FAC, OFDM);
 
-%% Bit deinterleaving
-%msc_stream_encoded = drm_mlc_deinterleaver(msc_stream_interl, 'MSC', MSC);
-sdc_stream_encoded = drm_mlc_deinterleaver(sdc_stream_interl, 'SDC', SDC);
-fac_stream_encoded = drm_mlc_deinterleaver(fac_stream_interl, 'FAC', FAC);
+    %% MSC cell deinterleaving
+    msc_stream_mapped = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
 
-%% Decoding
+    %% Symbol demapping
+    msc_stream_interl = drm_demapping(msc_stream_mapped, 'MSC', MSC);
+    sdc_stream_interl = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
+    fac_stream_interl = drm_demapping(fac_stream_mapped, 'FAC', FAC);
 
-%% Departitioning
+    %% Bit deinterleaving
+    msc_stream_encoded = drm_mlc_deinterleaver(msc_stream_interl, 'MSC', MSC);
+    sdc_stream_encoded = drm_mlc_deinterleaver(sdc_stream_interl, 'SDC', SDC);
+    fac_stream_encoded = drm_mlc_deinterleaver(fac_stream_interl, 'FAC', FAC);
 
-%% Unscrambling
+    %% Decoding
 
-%% Output
+    %% Departitioning
+
+    %% Unscrambling
+
+    %% Output (append to previous output)
+end
