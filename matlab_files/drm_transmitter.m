@@ -13,9 +13,10 @@ if fid == -1
     error('file not found')
 end   
 
-%% create dummy bit streams TODO: replace msc stream by a 3,1-matrix
+%% create (dummy) bit streams
 %msc_stream = randint(MSC.M_TF, MSC.L_MUX); % one MSC multiplex frame
 sdc_stream = randint(1, SDC.L_SDC); % one SDC block
+%fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
 fac_stream = randint(1, FAC.L_FAC); % one FAC block
 
 %% preallocate memory for output, calculate number of frames
