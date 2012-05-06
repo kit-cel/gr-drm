@@ -15,7 +15,7 @@ switch channel_type
     case 'MSC'
         % 16-QAM, 4 bit per symbol
         MSC = channel_params;
-        stream_demapped = zeros(3, 4*MSC.N_MUX);
+        stream_demapped = zeros(MSC.M_TF, 4*MSC.N_MUX);
         for i = 1 : MSC.M_TF
             for l = 1 : MSC.N_MUX
                 stream_demapped(i, 4*l-3 : 4*l) = map_tab_16{qamdemod(sqrt(10)*stream_mapped(i, l), 16) + 1};
@@ -23,19 +23,19 @@ switch channel_type
         end
         
         % split stream up (MLC)
-        stream_splitted = cell(MSC.M_TF, 1);
+        stream_split = cell(MSC.M_TF, 1);
         for i = 1 : MSC.M_TF
-            stream_splitted{i} = zeros(2, 2*MSC.N_MUX);
+            stream_split{i} = zeros(2, 2*MSC.N_MUX);
             for l = 1 : MSC.N_MUX
-                stream_splitted{i}(1, 2*l-1) = stream_demapped(i, 4*l-3);
-                stream_splitted{i}(1, 2*l) = stream_demapped(i, 4*l-1);
-                stream_splitted{i}(2, 2*l-1) = stream_demapped(i, 4*l-2);
-                stream_splitted{i}(2, 2*l) = stream_demapped(i, 4*l);
+                stream_split{i}(1, 2*l-1) = stream_demapped(i, 4*l-3);
+                stream_split{i}(1, 2*l) = stream_demapped(i, 4*l-1);
+                stream_split{i}(2, 2*l-1) = stream_demapped(i, 4*l-2);
+                stream_split{i}(2, 2*l) = stream_demapped(i, 4*l);
             end
         end
         
         % rename for output
-        stream_demapped = stream_splitted;
+        stream_demapped = stream_split;
         
     case 'SDC'
         % 4-QAM, 2 bit per symbol
@@ -48,9 +48,11 @@ switch channel_type
     case 'FAC'
         % 4-QAM, 2 bit per symbol
         FAC = channel_params;
-        stream_demapped = zeros(1, FAC.L_FAC);
-        for i = 1 : FAC.N_FAC
-            stream_demapped(2*i-1 : 2*i) = map_tab_4{qamdemod(stream_mapped(i), 4) + 1};
+        stream_demapped = zeros(3, FAC.L_FAC);
+        for l = 1:3
+            for i = 1 : FAC.N_FAC
+                stream_demapped(l, 2*i-1 : 2*i) = map_tab_4{qamdemod(stream_mapped(l, i), 4) + 1};
+            end
         end
         
 end

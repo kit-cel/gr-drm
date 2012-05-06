@@ -28,10 +28,12 @@ switch channel_type
         % FAC deinterleaving
         FAC = channel_params;
         p_ind = drm_mlc_permutation('FAC', FAC);
-        stream_deinterl = zeros(1, 2*FAC.N_FAC);
-        for i = 1 : 2*FAC.N_FAC
-            stream_deinterl(p_ind(i)) = stream_interl(i);
-        end  
+        stream_deinterl = zeros(3, 2*FAC.N_FAC);
+        for l = 1 : 3
+            for i = 1 : 2*FAC.N_FAC
+                stream_deinterl(l, p_ind(i)) = stream_interl(l, i);
+            end  
+        end
         
     case 'MSC_cells'
         % MSC cell deinterleaving (short, N_MUX cells (=400ms) are

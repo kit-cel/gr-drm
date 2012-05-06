@@ -47,12 +47,15 @@ if n_fac ~= FAC.N_FAC
     error('FAC cells mismatch')
 end
 
-fac_stream_mapped = zeros(1, FAC.N_FAC);
-n = 0;
-for i = 1 : 12
-    for l = 1 : length(fac_pos{i, 2})
-        n = n + 1;
-        fac_stream_mapped(n) = super_tframe(fac_pos{i, 2}(l), fac_pos{i, 1});
+fac_stream_mapped = zeros(3, FAC.N_FAC);
+for l = 0:2
+    sym_off = l*OFDM.N_S;
+    n = 0;
+    for i = 1 : 12
+        for k = 1 : length(fac_pos{i, 2})
+            n = n + 1;
+            fac_stream_mapped(l+1, n) = super_tframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off);
+        end
     end
 end
 
