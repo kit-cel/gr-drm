@@ -233,7 +233,7 @@ fprintf('Test Cell demapping...');
 n_total = n_total + 1;
 failed = 1;
 
-if isequal(fac_stream_mapped_rx, fac_stream_mapped)
+if isequal(fac_stream_mapped_rx, fac_stream_mapped(1,:))
     failed = 0;
 end
 

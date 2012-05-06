@@ -16,8 +16,8 @@ end
 %% create (dummy) bit streams
 %msc_stream = randint(MSC.M_TF, MSC.L_MUX); % one MSC multiplex frame
 sdc_stream = randint(1, SDC.L_SDC); % one SDC block
-%fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
-fac_stream = randint(1, FAC.L_FAC); % one FAC block
+fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
+%fac_stream = randint(1, FAC.L_FAC); % one FAC block
 
 %% preallocate memory for output, calculate number of frames
 msc_data = fread(fid, [1, inf], 'ubit1');
@@ -38,43 +38,53 @@ for n = 1 : n_stf
     
     %% energy dispersal
     msc_stream_scrambled = cell(MSC.M_TF, 1);
+    fac_stream_scrambled = zeros(3, FAC.L_FAC);
     for i = 1 : MSC.M_TF
         msc_stream_scrambled{i} = drm_scrambler(msc_stream(i, :));
+        fac_stream_scrambled(i,:) = drm_scrambler(fac_stream(i,:));
     end
     sdc_stream_scrambled = drm_scrambler(sdc_stream);
-    fac_stream_scrambled = drm_scrambler(fac_stream);
+    
 
     %% partitioning
     msc_stream_partitioned = cell(MSC.M_TF, 1);
+    fac_stream_partitioned = zeros(3, FAC.L_FAC);
     for i = 1 : MSC.M_TF
         msc_stream_partitioned{i} = drm_mlc_partitioning(msc_stream_scrambled{i}, 'MSC', MSC);
+        fac_stream_partitioned(i,:) = drm_mlc_partitioning(fac_stream_scrambled(i,:), 'FAC', FAC);
     end
     sdc_stream_partitioned = drm_mlc_partitioning(sdc_stream_scrambled, 'SDC', SDC);
-    fac_stream_partitioned = drm_mlc_partitioning(fac_stream_scrambled, 'FAC', FAC);
+    %fac_stream_partitioned = drm_mlc_partitioning(fac_stream_scrambled, 'FAC', FAC);
 
     %% encoding
     msc_stream_encoded = cell(MSC.M_TF, 1);
+    fac_stream_encoded = zeros(3, 2*FAC.N_FAC);
     for i = 1 : MSC.M_TF
         msc_stream_encoded{i} = drm_mlc_encoder(msc_stream_partitioned{i}, 'MSC', MSC);
+        fac_stream_encoded(i,:) = drm_mlc_encoder(fac_stream_partitioned(i,:), 'FAC', FAC);
     end
     sdc_stream_encoded = drm_mlc_encoder(sdc_stream_partitioned, 'SDC', SDC);
-    fac_stream_encoded = drm_mlc_encoder(fac_stream_partitioned, 'FAC', FAC);
+    %fac_stream_encoded = drm_mlc_encoder(fac_stream_partitioned, 'FAC', FAC);
 
     %% interleaving
     msc_stream_interleaved = cell(MSC.M_TF, 1);
+    fac_stream_interleaved = zeros(3, 2*FAC.N_FAC);
     for i = 1 : MSC.M_TF
         msc_stream_interleaved{i} = drm_mlc_interleaver(msc_stream_encoded{i}, 'MSC', MSC);
+        fac_stream_interleaved(i,:) = drm_mlc_interleaver(fac_stream_encoded(i,:), 'FAC', FAC);
     end
     sdc_stream_interleaved = drm_mlc_interleaver(sdc_stream_encoded, 'SDC', SDC);
-    fac_stream_interleaved = drm_mlc_interleaver(fac_stream_encoded, 'FAC', FAC);
+    %fac_stream_interleaved = drm_mlc_interleaver(fac_stream_encoded, 'FAC', FAC);
 
     %% bit to symbol mapping
     msc_stream_mapped = zeros(MSC.M_TF, MSC.N_MUX);
+    fac_stream_mapped = zeros(3, FAC.N_FAC);
     for i = 1 : MSC.M_TF
         msc_stream_mapped(i,:) = drm_mapping(msc_stream_interleaved{i}, 'MSC', MSC);
+        fac_stream_mapped(i,:) = drm_mapping(fac_stream_interleaved(i,:), 'FAC', FAC);
     end
     sdc_stream_mapped = drm_mapping(sdc_stream_interleaved, 'SDC', SDC);
-    fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
+    %fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
 
     %% MSC cell interleaving
     msc_stream_map_interl = zeros(MSC.M_TF, MSC.N_MUX);

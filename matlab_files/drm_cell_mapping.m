@@ -7,39 +7,6 @@ nsym = OFDM.N_S; % 15 OFDM symbols per transmission frame
 frame = zeros(nchan, nsym); % empty transmission frame
 k_off = OFDM.k_off; % k is meant as carrier number, not vector index, so 103 (negative half K) is added; +1 because of matlab indexing
 
-%% FAC cell mapping
-
-% 1st column: symbol index; 2nd column: carrier indexes k
-fac_pos = cell(12, 2); 
-
-% symbol index (zero-based)
-for i = 1:12
-    fac_pos{i,1} = i + 2; 
-end
-
-% carrier indexes k
-fac_pos{1,2} = [13 25 43 55 67] + k_off; 
-fac_pos{2,2} = [15 27 45 57 69] + k_off;
-fac_pos{3,2} = [17 29 47 59 71] + k_off;
-fac_pos{4,2} = [19 31 49 61 73] + k_off;
-fac_pos{5,2} = [9 21 33 51 63 75] + k_off;
-fac_pos{6,2} = [11 23 35 53 65 77] + k_off;
-fac_pos{7,2} = [13 25 37 55 67 79] + k_off;
-fac_pos{8,2} = [15 27 39 57 69 81] + k_off;
-fac_pos{9,2} = [17 29 41 59 71 83] + k_off;
-fac_pos{10,2} = [19 31 43 61 73] + k_off;
-fac_pos{11,2} = [21 33 45 63 75] + k_off;
-fac_pos{12,2} = [23 35 47 65 77] + k_off;
-
-n = 0;
-for i = 1:12   
-    for k = 1:length(fac_pos{i, 2})
-        n = n + 1;
-        frame(fac_pos{i, 2}(k), fac_pos{i, 1}) = fac_stream(n);
-    end
-end
-
-
 %% frequency reference cells (channels correspond to 750 Hz, 2250 Hz and 3000 Hz)
 
 freq_pos = [16 48 64] + k_off; % channel position of the cell
@@ -145,8 +112,45 @@ end
 
 %% combine 3 transmission frames to a super transmission frame
 
-% Pilot and FAC cells are repeated every transmission frame
+% Pilot cells are repeated every transmission frame
 superframe = repmat(frame, 1, MSC.M_TF);
+
+%% FAC cell mapping
+
+% 1st column: symbol index; 2nd column: carrier indexes k
+fac_pos = cell(12, 2); 
+
+% symbol index (zero-based)
+for i = 1:12
+    fac_pos{i,1} = i + 2; 
+end
+
+% carrier indexes k
+fac_pos{1,2} = [13 25 43 55 67] + k_off; 
+fac_pos{2,2} = [15 27 45 57 69] + k_off;
+fac_pos{3,2} = [17 29 47 59 71] + k_off;
+fac_pos{4,2} = [19 31 49 61 73] + k_off;
+fac_pos{5,2} = [9 21 33 51 63 75] + k_off;
+fac_pos{6,2} = [11 23 35 53 65 77] + k_off;
+fac_pos{7,2} = [13 25 37 55 67 79] + k_off;
+fac_pos{8,2} = [15 27 39 57 69 81] + k_off;
+fac_pos{9,2} = [17 29 41 59 71 83] + k_off;
+fac_pos{10,2} = [19 31 43 61 73] + k_off; 
+fac_pos{11,2} = [21 33 45 63 75] + k_off;
+fac_pos{12,2} = [23 35 47 65 77] + k_off;
+
+% first/intermediate/last FAC block is inserted
+for l = 0:2 
+    sym_off = l*OFDM.N_S;
+    n = 0;
+    for i = 1:12   
+        for k = 1:length(fac_pos{i, 2})
+            n = n + 1;
+            superframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off) = fac_stream(l+1, n);
+        end
+    end
+end
+
 
 %% SDC 
 % only at the beginning of each transmission super frame

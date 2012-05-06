@@ -47,7 +47,7 @@ switch channel_type
         % FAC encoding (no tailbits)
         FAC = channel_params;
         
-        stream_in = stream_in{1,1};       
+        %stream_in = stream_in{1,1};       
         puncturing_pattern = [1 1 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0 ]; % code rate 3/5
         [stream_out_p1, final_state] = convenc(stream_in, trellis, puncturing_pattern);
         stream_out_p2 = convenc(tail_bits, trellis, puncturing_pattern);
