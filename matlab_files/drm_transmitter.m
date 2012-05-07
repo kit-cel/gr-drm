@@ -104,10 +104,13 @@ end
 %% write to wav file
 % reshape baseband signal to one vector so that it is treated as mono
 baseband_mono = reshape(complex_baseband, n_stf * OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard), 1);
+baseband_stereo = [zeros(length(baseband_mono), 1), zeros(length(baseband_mono), 1)];
+baseband_stereo(:, 1) = real(baseband_mono);
+baseband_stereo(:, 2) = imag(baseband_mono);
 fs = 48000; % wav file sampling rate in Hz
-N = 16; % FIXME: find out how DREAM does this
+N = 16; % FIXME: convert samples to 16 bit
 filename = 'transmitter_out.wav';
-wavwrite(baseband_mono, fs, N, filename);
+wavwrite(baseband_stereo, fs, N, filename);
 
 %% clear data
 clear msc_stream sdc_stream fac_stream

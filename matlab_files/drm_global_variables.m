@@ -59,7 +59,7 @@ N_SDC = 322;
 
 L_SDC = R_X0*floor((2*N_SDC - 12)/R_Y0);
 
-SDC = struct('N_SDC', N_SDC, 'L_SDC', L_SDC, 'R_0', R_0, 'R_X0', R_X0, 'R_Y0', R_Y0, 'name', name);
+SDC = struct('N_SDC', N_SDC, 'L_SDC', L_SDC, 'R_0', R_0, 'R_X0', R_X0, 'R_Y0', R_Y0, 'name', name, 'X', X);
 
 %% FAC: 4-QAM, SM, EEP
 
