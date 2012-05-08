@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('testfile.aac');
+fid = fopen('sample_short.aac');
 if fid == -1
     error('file not found')
 end   
@@ -103,14 +103,18 @@ end
 
 %% write to wav file
 % reshape baseband signal to one vector so that it is treated as mono
-baseband_mono = reshape(complex_baseband, n_stf * OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard), 1);
-baseband_stereo = [zeros(length(baseband_mono), 1), zeros(length(baseband_mono), 1)];
-baseband_stereo(:, 1) = real(baseband_mono);
-baseband_stereo(:, 2) = imag(baseband_mono);
+baseband_mono = zeros(n_stf* OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard), 1);
+for i = 1:n_stf
+    baseband_mono((i-1)* OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard) + 1 : i * OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard)) = complex_baseband(i, :);
+end
 fs = 48000; % wav file sampling rate in Hz
-N = 16; % FIXME: convert samples to 16 bit
+N = 16;
+t = 0:1/fs:n_stf*1.2 - 1/fs;
+rf = exp(2i*pi*12000*t);
+baseband_mono_rf = 5 .* real(rf .* transpose(baseband_mono)); % amplification is an experimental value
+baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
 filename = 'transmitter_out.wav';
-wavwrite(baseband_stereo, fs, N, filename);
+wavwrite(baseband_mono_rf, fs, N, filename);
 
 %% clear data
 clear msc_stream sdc_stream fac_stream

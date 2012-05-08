@@ -9,7 +9,7 @@ sdc(1:4) = [0 0 0 1];
 
 %% Data fields (RM B, SO 3, SDC mode 1 => total of 37 bytes)
 
-% Multiplex description data entity (mandatory for every SDC block)
+% type 0 - Multiplex description data entity (mandatory)
 
 % header
 sdc(5:11) = []; % length of body in bytes, 7 bit
