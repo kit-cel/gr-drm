@@ -202,7 +202,7 @@ n_total = n_total + 1;
 
 run drm_transmitter % this realisation is also used for following tests
 
-super_tframe_recv = drm_iofdm(complex_baseband, OFDM);
+super_tframe_rx = drm_iofdm(complex_baseband, OFDM);
 
 fprintf('Test OFDM/iOFDM...');
 
@@ -212,7 +212,7 @@ s = warning('off', 'drm:transmitter');
 
 % this is a very unprecise test because equality can't be exactly tested du
 % to little differences after FFT
-if isequal(round(super_tframe), round(super_tframe_recv))
+if isequal(round(super_tframe), round(super_tframe_rx))
     failed = 0;
 end
 
@@ -221,6 +221,91 @@ if failed
     fprintf(' failed! \n')
 else
     fprintf(' passed. \n')
+end
+
+%% Reference cells
+
+fprintf('Test Reference cells...');
+
+% build empty transmission frame
+nchan = OFDM.K_max - OFDM.K_min + 1; % carriers ranging from -103 ... +103 (0 is unused)
+nsym = OFDM.N_S; % 15 OFDM symbols per transmission frame
+frame = zeros(nchan, nsym); % empty transmission frame
+k_off = OFDM.k_off; % k is meant as carrier number, not vector index, so 103 (negative half K) is added; +1 because of matlab indexing
+
+% frequency pilot cells
+
+freq_pos = [16 48 64] + k_off; % channel position of the cell
+freq_phase = [331 651 555]; % phase of the cell
+a_freq = sqrt(2); % amplitude of the cell
+
+for i = 1:length(freq_phase)
+    freq_phase(i) = exp(1i * 2*pi * freq_phase(i) / 1024);
+end
+
+for i = 1:nsym
+    for k = 1 : length(freq_pos)
+        if frame(freq_pos(k), i) == 0
+            frame(freq_pos(k), i) = a_freq * freq_phase(k);
+        else
+            warning('cell is already occupied')
+            disp(frame(freq_pos(k), i))
+        end
+    end
+end
+
+% time reference cells
+
+time_pos = [14 16 18 20 24 26 32 36 42 44 48 49 50 54 56 62 64 66 68] + k_off;
+time_phase = [304 331 108 620 192 704 44 432 588 844 651 651 651 460 460 944 555 940 428];
+a_time = sqrt(2);
+
+for i = 1:length(time_phase)
+    time_phase(i) = exp(1i * 2*pi * time_phase(i) / 1024);
+end
+
+for k = 1 : length(time_pos)
+    if frame(time_pos(k), 1) == 0 || frame(time_pos(k), 1) == a_time * time_phase(k)
+        frame(time_pos(k), 1) = a_time * time_phase(k);
+    else
+        error('trying to overwrite cell with different content')
+    end
+end
+
+pilot_superframe = repmat(frame, 1, 3);
+
+% test time cells
+failed = 0;
+for k = 1:length(time_pos)
+    for n = 1:nsym:nsym*MSC.M_TF
+        if abs(pilot_superframe(time_pos(k), n) - super_tframe_rx(time_pos(k) + 408, n)) > 0.01
+            failed = 1;
+        end
+    end
+end
+
+if ~failed
+    fprintf(' Frequency pilots passed.')
+else
+    n_failed = n_failed + 1;
+    fprintf(' Frequency pilots failed!')
+end
+
+% test frequency cells
+failed = 0;
+for k = 1:length(freq_pos)
+    for n = 1:nsym*MSC.M_TF
+        if abs(pilot_superframe(freq_pos(k), n) - super_tframe_rx(freq_pos(k) + 408, n)) > 0.01
+            failed = 1;
+        end
+    end
+end
+
+if ~failed
+    fprintf(' Time pilots passed. \n')
+else
+    n_failed = n_failed + 1;
+    fprintf(' Time pilots failed! \n')
 end
 
 %% Cell demapping
@@ -267,12 +352,6 @@ if isequal(msc_stream_map_interl_rx, msc_stream_map_interl)
     failed = 0;
 end
 
-% if isequal(msc_stream_map_interl_rx(1, :), msc_stream_map_interl{1}) && ...
-%    isequal(msc_stream_map_interl_rx(2, :), msc_stream_map_interl{2}) && ...
-%    isequal(msc_stream_map_interl_rx(3, :), msc_stream_map_interl{3})
-%     failed = 0;
-% end
-
 if failed
     n_failed = n_failed + 1;
     fprintf(' MSC failed! \n')
@@ -286,7 +365,7 @@ fprintf('Test MSC Cell deinterleaving...');
 n_total = n_total + 1;
 failed = 1;
 
-msc_stream_mapped_rx = drm_mlc_deinterleaver(msc_stream_map_interl, 'MSC_cells', MSC);
+msc_stream_mapped_rx = drm_mlc_deinterleaver(msc_stream_map_interl_rx, 'MSC_cells', MSC);
 
 %msc_stream_mapped = repmat(msc_stream_mapped, 3, 1);
 
@@ -308,7 +387,7 @@ fprintf('Test Symbol Demapping...');
 n_total = n_total + 1;
 failed = 1;
 
-msc_stream_interl_rx = drm_demapping(msc_stream_mapped, 'MSC', MSC);
+msc_stream_interl_rx = drm_demapping(msc_stream_mapped_rx, 'MSC', MSC);
 
 if isequal(msc_stream_interl_rx, msc_stream_interleaved)
     failed = 0;
@@ -325,7 +404,7 @@ end
 n_total = n_total + 1;
 failed = 1; 
 
-sdc_stream_interl_rx = drm_demapping(sdc_stream_mapped, 'SDC', SDC);
+sdc_stream_interl_rx = drm_demapping(sdc_stream_mapped_rx, 'SDC', SDC);
 
 if isequal(sdc_stream_interl_rx, sdc_stream_interleaved)
     failed = 0;
@@ -342,7 +421,7 @@ end
 n_total = n_total + 1;
 failed = 1; 
 
-fac_stream_interl_rx = drm_demapping(fac_stream_mapped, 'FAC', FAC);
+fac_stream_interl_rx = drm_demapping(fac_stream_mapped_rx, 'FAC', FAC);
 
 if isequal(fac_stream_interl_rx, fac_stream_interleaved)
     failed = 0;
@@ -362,7 +441,7 @@ fprintf('Test Bit Deinterleaving...');
 n_total = n_total + 1;
 failed = 1;
 
-msc_stream_deinterl_rx = drm_mlc_deinterleaver(msc_stream_interleaved, 'MSC', MSC);
+msc_stream_deinterl_rx = drm_mlc_deinterleaver(msc_stream_interl_rx, 'MSC', MSC);
 
 if isequal(msc_stream_deinterl_rx, msc_stream_encoded)
     failed = 0;
@@ -379,7 +458,7 @@ end
 n_total = n_total + 1;
 failed = 1;
 
-sdc_stream_deinterl_rx = drm_mlc_deinterleaver(sdc_stream_interleaved, 'SDC', SDC);
+sdc_stream_deinterl_rx = drm_mlc_deinterleaver(sdc_stream_interl_rx, 'SDC', SDC);
 
 if isequal(sdc_stream_deinterl_rx, sdc_stream_encoded)
     failed = 0;
@@ -396,7 +475,7 @@ end
 n_total = n_total + 1;
 failed = 1;
 
-fac_stream_deinterl_rx = drm_mlc_deinterleaver(fac_stream_interleaved, 'FAC', FAC);
+fac_stream_deinterl_rx = drm_mlc_deinterleaver(fac_stream_interl_rx, 'FAC', FAC);
 
 if isequal(fac_stream_deinterl_rx, fac_stream_encoded)
     failed = 0;

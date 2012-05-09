@@ -145,8 +145,12 @@ for l = 0:2
     n = 0;
     for i = 1:12   
         for k = 1:length(fac_pos{i, 2})
-            n = n + 1;
-            superframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off) = fac_stream(l+1, n);
+            if superframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off) ~= 0
+                error('FAC cell mapping: overwriting non-empty cell');
+            else
+                n = n + 1;
+                superframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off) = fac_stream(l+1, n);
+            end
         end
     end
 end
@@ -167,8 +171,12 @@ n = 0;
 for i = 1 : 2
     for l = 1 : length(pos_SDC{i})
         if pos_SDC{i}(l) ~= k_off % the DC carrier is omitted
-            n = n + 1;
-            superframe(pos_SDC{i}(l), i) = sdc_stream(n);
+            if superframe(pos_SDC{i}(l), i) ~= 0
+                error('SDC cell mapping: overwriting non-empty cell');
+            else
+                n = n + 1;
+                superframe(pos_SDC{i}(l), i) = sdc_stream(n);
+            end
         end
     end
 end
@@ -194,8 +202,12 @@ n = 0;
 for i = 1 : length(pos_MSC)
     for l = 1 : length(pos_MSC{i})
         if pos_MSC{i}(l) ~= k_off % the DC carrier is omitted
-            n = n + 1;
-            superframe(pos_MSC{i}(l), i) = msc_stream(n);
+            if superframe(pos_MSC{i}(l), i) ~= 0
+                error('MSC cell mapping: overwriting non-empty cell');
+            else
+                n = n + 1;
+                superframe(pos_MSC{i}(l), i) = msc_stream(n);
+            end
         end
     end
 end

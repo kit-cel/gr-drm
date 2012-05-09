@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('sample_short.aac');
+fid = fopen('testfile.aac');
 if fid == -1
     error('file not found')
 end   
@@ -54,7 +54,6 @@ for n = 1 : n_stf
         fac_stream_partitioned(i,:) = drm_mlc_partitioning(fac_stream_scrambled(i,:), 'FAC', FAC);
     end
     sdc_stream_partitioned = drm_mlc_partitioning(sdc_stream_scrambled, 'SDC', SDC);
-    %fac_stream_partitioned = drm_mlc_partitioning(fac_stream_scrambled, 'FAC', FAC);
 
     %% encoding
     msc_stream_encoded = cell(MSC.M_TF, 1);
@@ -64,7 +63,6 @@ for n = 1 : n_stf
         fac_stream_encoded(i,:) = drm_mlc_encoder(fac_stream_partitioned(i,:), 'FAC', FAC);
     end
     sdc_stream_encoded = drm_mlc_encoder(sdc_stream_partitioned, 'SDC', SDC);
-    %fac_stream_encoded = drm_mlc_encoder(fac_stream_partitioned, 'FAC', FAC);
 
     %% interleaving
     msc_stream_interleaved = cell(MSC.M_TF, 1);
@@ -74,7 +72,6 @@ for n = 1 : n_stf
         fac_stream_interleaved(i,:) = drm_mlc_interleaver(fac_stream_encoded(i,:), 'FAC', FAC);
     end
     sdc_stream_interleaved = drm_mlc_interleaver(sdc_stream_encoded, 'SDC', SDC);
-    %fac_stream_interleaved = drm_mlc_interleaver(fac_stream_encoded, 'FAC', FAC);
 
     %% bit to symbol mapping
     msc_stream_mapped = zeros(MSC.M_TF, MSC.N_MUX);
@@ -84,7 +81,6 @@ for n = 1 : n_stf
         fac_stream_mapped(i,:) = drm_mapping(fac_stream_interleaved(i,:), 'FAC', FAC);
     end
     sdc_stream_mapped = drm_mapping(sdc_stream_interleaved, 'SDC', SDC);
-    %fac_stream_mapped = drm_mapping(fac_stream_interleaved, 'FAC', FAC);
 
     %% MSC cell interleaving
     msc_stream_map_interl = zeros(MSC.M_TF, MSC.N_MUX);
@@ -96,7 +92,7 @@ for n = 1 : n_stf
     super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, SDC, FAC, OFDM);
 
     %% OFDM (complex baseband output)
-    complex_baseband_new = drm_ofdm(super_tframe, MSC, OFDM);
+    complex_baseband_new = drm_ofdm(super_tframe, OFDM);
     complex_baseband(n, :) = complex_baseband_new;
     
 end
