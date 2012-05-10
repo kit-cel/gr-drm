@@ -233,7 +233,7 @@ nsym = OFDM.N_S; % 15 OFDM symbols per transmission frame
 frame = zeros(nchan, nsym); % empty transmission frame
 k_off = OFDM.k_off; % k is meant as carrier number, not vector index, so 103 (negative half K) is added; +1 because of matlab indexing
 
-% frequency pilot cells
+%% frequency pilot cells
 
 freq_pos = [16 48 64] + k_off; % channel position of the cell
 freq_phase = [331 651 555]; % phase of the cell
@@ -254,7 +254,7 @@ for i = 1:nsym
     end
 end
 
-% time reference cells
+%% time reference cells
 
 time_pos = [14 16 18 20 24 26 32 36 42 44 48 49 50 54 56 62 64 66 68] + k_off;
 time_phase = [304 331 108 620 192 704 44 432 588 844 651 651 651 460 460 944 555 940 428];
@@ -272,13 +272,92 @@ for k = 1 : length(time_pos)
     end
 end
 
+%% gain reference cells
+
+% calculate position: k = 1 + 2 * (s mod 3) + 6 * p
+gain_pos = cell(nsym,1);
+for s = 0 : nsym-1  
+    for p = -20 : 1 : 20
+        k = 1 + 2 * mod(s, 3) + 6 * p;
+        if k >= -103 && k <= 103
+            gain_pos{s+1} = [gain_pos{s+1}, k + k_off];
+        end
+    end
+
+end
+
+% calculate phase index
+x = 2;
+y = 3;
+k_0 = 1;
+s = 0:nsym-1;
+
+W_1024 = [512 0 512 0 512; 0 512 0 512 0; 512 0 512 0 512];
+Z_256 = [0 57 164 64 12; 168 255 161 106 118; 25 232 132 233 38];
+Q_1024 = 12;
+
+gain_phase = cell(nsym,1);
+
+for i = 1 : nsym
+    gain_phase{i} = cell(1,length(gain_pos{i}));
+    for l = 1 : length(gain_phase{i})
+        n = mod(s(i), y) + 1; % + 1 comes from matlab indexing
+        m = floor(s(i)/y) + 1;
+        p = (gain_pos{i}(l) - k_off - k_0 - n*x)/(x*y);  
+        v_1024 = mod(4*Z_256(n,m) + p*W_1024(n,m) + p^2 * (1 + s(i)) * Q_1024, 1024);
+        gain_phase{i}{l} = exp(1i * 2*pi * v_1024 / 1024);
+    end
+end
+
+% map the reference symbols to the transmission frame
+a_gain = sqrt(2);
+for i = 1 : nsym
+    for l = 1 : length(gain_pos{i})
+        k = gain_pos{i}(l);
+        if frame(gain_pos{i}(l) ,i) == 0
+            % check if it's a cell to be over-boosted
+            if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
+                frame(gain_pos{i}(l) ,i) = a_gain^2 * gain_phase{i}{l};
+            else
+                frame(gain_pos{i}(l) ,i) = a_gain * gain_phase{i}{l};
+            end
+        else
+            if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
+                % boost time or frequency reference cell but don't change phase
+                frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l));
+            end
+        end
+    end
+end
+
+% as the pilot structure is repeated in every transmission frame, a super
+% transmission frame can be built by appending transmission frames.
 pilot_superframe = repmat(frame, 1, 3);
+
+% test gain cells
+failed = 0;
+n_total = n_total + 1;
+for k = 1:nsym
+    for n = 1:length(gain_pos{k})
+        if abs(pilot_superframe(gain_pos{k}(n), k) - super_tframe_rx(gain_pos{k}(n) + 409, k)) > 0.1
+            failed = 1;
+        end
+    end
+end
+
+if ~failed
+    fprintf(' Gain pilots passed.')
+else
+    n_failed = n_failed + 1;
+    fprintf(' Gain pilots failed!')
+end        
 
 % test time cells
 failed = 0;
+n_total = n_total + 1;
 for k = 1:length(time_pos)
     for n = 1:nsym:nsym*MSC.M_TF
-        if abs(pilot_superframe(time_pos(k), n) - super_tframe_rx(time_pos(k) + 408, n)) > 0.01
+        if abs(pilot_superframe(time_pos(k), n) - super_tframe_rx(time_pos(k) + 409, n)) > 0.01
             failed = 1;
         end
     end
@@ -293,9 +372,10 @@ end
 
 % test frequency cells
 failed = 0;
+n_total = n_total + 1;
 for k = 1:length(freq_pos)
     for n = 1:nsym*MSC.M_TF
-        if abs(pilot_superframe(freq_pos(k), n) - super_tframe_rx(freq_pos(k) + 408, n)) > 0.01
+        if abs(pilot_superframe(freq_pos(k), n) - super_tframe_rx(freq_pos(k) + 409, n)) > 0.01
             failed = 1;
         end
     end

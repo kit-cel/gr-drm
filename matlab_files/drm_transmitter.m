@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('testfile.aac');
+fid = fopen('sample_short.aac');
 if fid == -1
     error('file not found')
 end   
@@ -29,7 +29,7 @@ complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 %% interate as long there is data in the aac file, then stop
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1'); %FIXME this reads the same thing all the time
+    msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');
     % zeropadding if end of file is reached
     if length(msc_stream) ~= MSC.M_TF*MSC.L_MUX
         msc_stream = [msc_stream, zeros(1, MSC.M_TF*MSC.L_MUX - length(msc_stream))];
@@ -106,9 +106,9 @@ end
 fs = 48000; % wav file sampling rate in Hz
 N = 16;
 t = 0:1/fs:n_stf*1.2 - 1/fs;
-rf = exp(2i*pi*12000*t);
-baseband_mono_rf = 5 .* real(rf .* transpose(baseband_mono)); % amplification is an experimental value
-baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
+rf = 5 .* exp(2i*pi*12000*t);
+baseband_mono_rf = real(rf .* transpose(baseband_mono));
+%baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
 filename = 'transmitter_out.wav';
 wavwrite(baseband_mono_rf, fs, N, filename);
 

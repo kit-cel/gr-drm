@@ -50,20 +50,13 @@ end
 
 % calculate position: k = 1 + 2 * (s mod 3) + 6 * p
 gain_pos = cell(nsym,1);
-i = 1;
-for s = 0 : 2  
+for s = 0 : nsym-1  
     for p = -20 : 1 : 20
         k = 1 + 2 * mod(s, 3) + 6 * p;
         if k >= -103 && k <= 103
-            gain_pos{i} = [gain_pos{i}, k + k_off];
-            % continue periodically
-            gain_pos{i+3} = gain_pos{i};
-            gain_pos{i+6} = gain_pos{i};
-            gain_pos{i+9} = gain_pos{i};
-            gain_pos{i+12} = gain_pos{i};
+            gain_pos{s+1} = [gain_pos{s+1}, k + k_off];
         end
     end
-    i = i + 1;
 end
 
 % calculate phase index
@@ -83,7 +76,7 @@ for i = 1 : nsym
     for l = 1 : length(gain_phase{i})
         n = mod(s(i), y) + 1; % + 1 comes from matlab indexing
         m = floor(s(i)/y) + 1;
-        p = (gain_pos{i}(l) - k_0 - n*x)/(x*y);  
+        p = (gain_pos{i}(l) - k_off - k_0 - n*x)/(x*y);  
         v_1024 = mod(4*Z_256(n,m) + p*W_1024(n,m) + p^2 * (1 + s(i)) * Q_1024, 1024);
         gain_phase{i}{l} = exp(1i * 2*pi * v_1024 / 1024);
     end
@@ -144,7 +137,7 @@ for l = 0:2
     sym_off = l*OFDM.N_S;
     n = 0;
     for i = 1:12   
-        for k = 1:length(fac_pos{i, 2})
+        for k = 1:length(fac_pos{i, 2})            
             if superframe(fac_pos{i, 2}(k), fac_pos{i, 1} + sym_off) ~= 0
                 error('FAC cell mapping: overwriting non-empty cell');
             else
@@ -212,13 +205,12 @@ for i = 1 : length(pos_MSC)
     end
 end
 
-
 %% add zeros for unused channels
 % DC is at index nfft/2
 
 nfft = OFDM.nfft;
-zero_chan_up = ceil((nfft - nchan)/2);
-zero_chan_down = floor((nfft - nchan)/2);
+zero_chan_up = floor((nfft - nchan)/2); % THIS MIGHT BE WRONG!! switching ceil and floor lets Dream estimate the correct DC freq.
+zero_chan_down = ceil((nfft - nchan)/2);
 superframe_padded = [zeros(zero_chan_down, nsym*MSC.M_TF); superframe; zeros(zero_chan_up, nsym*MSC.M_TF)];
 
 stream_out = superframe_padded;

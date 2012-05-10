@@ -8,7 +8,7 @@ load pos_cells
 %% remove empty channels at both sides
 nchan = OFDM.K_max - OFDM.K_min + 1;
 nfft = OFDM.nfft;
-zero_chan_down = floor((nfft - nchan)/2);
+zero_chan_down = ceil((nfft - nchan)/2);
 
 super_tframe = super_tframe(zero_chan_down + 1 : nchan + zero_chan_down, :);
 
