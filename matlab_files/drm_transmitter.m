@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('sample_short.aac');
+fid = fopen('testfile.aac');
 if fid == -1
     error('file not found')
 end   
