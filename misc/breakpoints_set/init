@@ -1,0 +1,688 @@
+! DO NOT ADD ANYTHING BELOW THIS LINE -- DDD WILL OVERWRITE IT
+Ddd*dddinitVersion: 3.3.12
+
+! Debugger settings.
+Ddd*autoDebugger: on
+Ddd*debugger: gdb
+Ddd*useSourcePath: off
+! Ddd*bashSettings: 
+! Ddd*dbgSettings: 
+! Ddd*dbxSettings: 
+! Ddd*gdbSettings: \
+! set print asm-demangle on\n
+! Ddd*jdbSettings: 
+! Ddd*perlSettings: 
+! Ddd*pydbSettings: 
+! Ddd*xdbSettings: 
+
+! Source.
+Ddd*findWordsOnly: on
+Ddd*findCaseSensitive: on
+! Ddd*tabWidth: 8
+! Ddd*indentSource: 0
+! Ddd*indentCode: 4
+Ddd*cacheSourceFiles: on
+Ddd*cacheMachineCode: on
+Ddd*displayGlyphs: on
+Ddd*displayLineNumbers: off
+Ddd*disassemble: off
+Ddd*allRegisters: off
+
+! Undo Buffer.
+! Ddd*maxUndoDepth: -1
+! Ddd*maxUndoSize: 2000000
+
+! Misc preferences.
+Ddd*keyboardFocusPolicy: POINTER
+Ddd*statusAtBottom: on
+Ddd*suppressWarnings: off
+Ddd*warnIfLocked: off
+Ddd*checkGrabs: on
+Ddd*saveHistoryOnExit: on
+Ddd*paperSize: 210mm x 297mm
+Ddd*blinkWhileBusy: on
+Ddd*splashScreen: on
+Ddd*startupTips: on
+
+! Keys.
+Ddd*globalTabCompletion: on
+Ddd*cutCopyPasteBindings: Motif
+Ddd*selectAllBindings: KDE
+
+! Data.
+Ddd*pannedGraphEditor: off
+Ddd*graph_edit.showGrid: on
+Ddd*graph_edit.snapToGrid: on
+Ddd*graph_edit.showHints: on
+Ddd*graph_edit.showAnnotations: on
+Ddd*graph_edit.layoutMode: regular
+Ddd*graph_edit.autoLayout: off
+Ddd*showBaseDisplayTitles: on
+Ddd*showDependentDisplayTitles: off
+Ddd*autoCloseDataWindow: on
+Ddd*graph_edit.gridWidth: 16
+Ddd*graph_edit.gridHeight: 16
+Ddd*detectAliases: on
+Ddd*clusterDisplays: off
+Ddd*displayPlacement: XmVERTICAL
+Ddd*align2dArrays: on
+Ddd*arrayOrientation: XmVERTICAL
+Ddd*structOrientation: XmVERTICAL
+Ddd*showMemberNames: on
+
+! Themes.
+Ddd*themes: \
+! tinyvalues.vsl	\n\
+! suppress.vsl	\n\
+! smallvalues.vsl	\n\
+! smalltitles.vsl	\n\
+! red.vsl	\n\
+! green.vsl	\n\
+! 	green.vsl\n\
+x86.vsl	$eax*;$ebx*;$ecx*;$edx*;($eflags &*\n\
+rednil.vsl	*\n
+
+! Tips.
+Ddd*buttonTips: on
+Ddd*valueTips: on
+Ddd*buttonDocs: on
+Ddd*valueDocs: on
+
+! Helpers.
+! Ddd*editCommand: ${XEDITOR-false} +@LINE@ @FILE@ || xterm -e sensible-editor +@LINE@ @FILE@
+! Ddd*getCoreCommand: gcore -o @FILE@ @PID@
+! Ddd*psCommand: ps x 2> /dev/null || ps -ef 2> /dev/null || ps
+! Ddd*termCommand: xterm -bg \'grey96\' -fg \'black\' -cr \'DarkGreen\' -fn \'@FONT@\' -title \'DDD: Execution Window\' -e /bin/sh -c
+! Ddd*uncompressCommand: gzip -d -c
+! Ddd*wwwCommand: firefox -remote \'openURL(@URL@)\' || mozilla -remote \'openURL(@URL@)\' || opera -remote \'openURL(@URL@)\' || ${WWWBROWSER-false} \'@URL@\' || konqueror \'openURL(@URL@)\' || galeon \'openURL(@URL@)\' || skipstone \'openURL(@URL@)\' || light \'openURL(@URL@)\' || netscape -remote \'openURL(@URL@)\' || mozilla \'@URL@\' || kfmbrowser \'@URL@\' || netscape \'@URL@\' || gnudoit \'(w3-fetch \"@URL@\")\' || mosaic \'@URL@\' || Mosaic \'@URL@\' || xterm -e lynx \'@URL@\'
+! Ddd*plotCommand: gnuplot -bg \'grey96\' -font \'@FONT@\' -name \'@NAME@\' -geometry +5000+5000
+Ddd*plotTermType: xlib
+! Ddd*printCommand: lpr
+
+! Tool Bars.
+Ddd*toolbarsAtBottom: off
+Ddd*buttonImages: on
+Ddd*buttonCaptions: on
+Ddd*flatToolbarButtons: on
+Ddd*flatDialogButtons: on
+Ddd*buttonColorKey: g
+Ddd*activeButtonColorKey: c
+
+! Command Tool.
+Ddd*commandToolBar: off
+Ddd*toolRightOffset: 411
+Ddd*toolTopOffset: 414
+
+! Buttons.
+Ddd*consoleButtons: 
+Ddd*sourceButtons: 
+Ddd*dataButtons: 
+Ddd*verifyButtons: on
+
+! Display shortcuts.
+Ddd*bashDisplayShortcuts: 
+Ddd*dbgDisplayShortcuts: 
+! Ddd*dbxDisplayShortcuts: 
+Ddd*gdbDisplayShortcuts: 
+Ddd*makeDisplayShortcuts: 
+! Ddd*jdbDisplayShortcuts: 
+! Ddd*perlDisplayShortcuts: \
+! sprintf(\"%#x\", ())	// Convert to Hex\n\
+! sprintf(\"%#o\", ())	// Convert to Oct
+! Ddd*pydbDisplayShortcuts: \
+! /t ()	// Convert to Bin\n\
+! /d ()	// Convert to Dec\n\
+! /x ()	// Convert to Hex\n\
+! /o ()	// Convert to Oct
+! Ddd*xdbDisplayShortcuts: 
+
+! Fonts.
+! Ddd*defaultFont: helvetica-medium
+! Ddd*variableWidthFont: helvetica-medium
+! Ddd*fixedWidthFont: lucidatypewriter-medium
+! Ddd*dataFont: lucidatypewriter-medium
+Ddd*defaultFontSize: 120
+Ddd*variableWidthFontSize: 120
+Ddd*fixedWidthFontSize: 120
+Ddd*dataFontSize: 120
+
+! Windows.
+Ddd*openDataWindow: off
+Ddd*openSourceWindow: on
+Ddd*openDebuggerConsole: on
+Ddd*separateSourceWindow: off
+Ddd*separateDataWindow: off
+Ddd*separateExecWindow: off
+Ddd*groupIconify: off
+Ddd*uniconifyWhenReady: on
+
+! Maintenance.
+Ddd*dumpCore: on
+Ddd*debugCoreDumps: off
+
+! Window sizes.
+Ddd*graph_edit.height: 1000
+Ddd*source_text_w.columns: 149
+Ddd*source_text_w.rows: 75
+Ddd*code_text_w.columns: 80
+Ddd*code_text_w.rows: 4
+Ddd*gdb_w.columns: 149
+Ddd*gdb_w.rows: 5
+
+! Last DDD geometry.
+Ddd*command_shell.geometry: +-9+-8
+
+! Last DDD session.
+Ddd*restartCommands: \
+set confirm off\n\
+file /home/felix/dream/drm/linux/drm\n\
+break ../common/GUI-QT/main.cpp:209\n\
+disable @1@\n\
+break ../common/GUI-QT/main.cpp:221\n\
+disable @2@\n\
+break ../common/GUI-QT/main.cpp:219\n\
+delete @3@\n\
+break ../common/GUI-QT/main.cpp:219\n\
+disable @4@\n\
+break ../common/GUI-QT/main.cpp:220\n\
+disable @5@\n\
+break ../common/DrmReceiver.cpp:307\n\
+disable @6@\n\
+break ../common/DrmReceiver.cpp:256\n\
+disable @7@\n\
+break ../common/DrmReceiver.cpp:257\n\
+disable @8@\n\
+break ../common/DrmReceiver.cpp:272\n\
+disable @9@\n\
+break ../common/DrmReceiver.cpp:277\n\
+disable @10@\n\
+break ../common/DrmReceiver.cpp:282\n\
+disable @11@\n\
+break ../common/DrmReceiver.cpp:386\n\
+disable @12@\n\
+break ../common/DrmReceiver.cpp:396\n\
+disable @13@\n\
+break ../common/DrmReceiver.cpp:380\n\
+delete @14@\n\
+break ../common/DrmReceiver.cpp:380\n\
+delete @15@\n\
+break ../common/DrmReceiver.cpp:380\n\
+disable @16@\n\
+break ../common/DrmReceiver.cpp:374\n\
+disable @17@\n\
+break ../common/DrmReceiver.cpp:899\n\
+disable @18@\n\
+break ../common/sync/SyncUsingPil.cpp:154\n\
+delete @19@\n\
+break ../common/sync/SyncUsingPil.cpp:154\n\
+disable @20@\n\
+break ../common/sync/SyncUsingPil.cpp:104\n\
+disable @21@\n\
+break ../common/sync/TimeSync.cpp:660\n\
+disable @22@\n\
+break ../common/ofdmcellmapping/OFDMCellMapping.cpp:158\n\
+disable @23@\n\
+break ../common/ofdmcellmapping/OFDMCellMapping.cpp:191\n\
+disable @24@\n\
+break ../common/ofdmcellmapping/OFDMCellMapping.cpp:200\n\
+disable @25@\n\
+break ../common/DrmReceiver.cpp:404\n\
+disable @26@\n\
+break ../common/DrmReceiver.cpp:411\n\
+disable @27@\n\
+break ../common/DrmReceiver.cpp:418\n\
+disable @28@\n\
+break ../common/DrmReceiver.cpp:431\n\
+disable @29@\n\
+break ../common/DrmReceiver.cpp:444\n\
+disable @30@\n\
+break ../common/DrmReceiver.cpp:451\n\
+disable @31@\n\
+break ../common/DrmReceiver.cpp:459\n\
+disable @32@\n\
+break ../common/DrmReceiver.cpp:465\n\
+disable @33@\n\
+break ../common/DrmReceiver.cpp:471\n\
+disable @34@\n\
+break ../common/DrmReceiver.cpp:482\n\
+disable @35@\n\
+break ../common/DrmReceiver.cpp:494\n\
+disable @36@\n\
+break ../common/DrmReceiver.cpp:603\n\
+disable @37@\n\
+break ../common/DrmReceiver.cpp:480\n\
+disable @38@\n\
+break ../common/DataIO.cpp:648\n\
+disable @39@\n\
+break ../common/DataIO.cpp:650\n\
+disable @40@\n\
+break ../common/DataIO.cpp:645\n\
+disable @41@\n\
+break ../common/FAC/FAC.cpp:403\n\
+info line ../common/FAC/FAC.cpp:432\n\
+handle SIGHUP stop\n\
+handle SIGHUP print\n\
+handle SIGHUP pass\n\
+handle SIGINT stop\n\
+handle SIGINT print\n\
+handle SIGINT ignore\n\
+handle SIGQUIT stop\n\
+handle SIGQUIT print\n\
+handle SIGQUIT pass\n\
+handle SIGILL stop\n\
+handle SIGILL print\n\
+handle SIGILL pass\n\
+handle SIGTRAP stop\n\
+handle SIGTRAP print\n\
+handle SIGTRAP ignore\n\
+handle SIGABRT stop\n\
+handle SIGABRT print\n\
+handle SIGABRT pass\n\
+handle SIGEMT stop\n\
+handle SIGEMT print\n\
+handle SIGEMT pass\n\
+handle SIGFPE stop\n\
+handle SIGFPE print\n\
+handle SIGFPE pass\n\
+handle SIGKILL stop\n\
+handle SIGKILL print\n\
+handle SIGKILL pass\n\
+handle SIGBUS stop\n\
+handle SIGBUS print\n\
+handle SIGBUS pass\n\
+handle SIGSEGV stop\n\
+handle SIGSEGV print\n\
+handle SIGSEGV pass\n\
+handle SIGSYS stop\n\
+handle SIGSYS print\n\
+handle SIGSYS pass\n\
+handle SIGPIPE stop\n\
+handle SIGPIPE print\n\
+handle SIGPIPE pass\n\
+handle SIGALRM nostop\n\
+handle SIGALRM noprint\n\
+handle SIGALRM pass\n\
+handle SIGTERM stop\n\
+handle SIGTERM print\n\
+handle SIGTERM pass\n\
+handle SIGURG nostop\n\
+handle SIGURG noprint\n\
+handle SIGURG pass\n\
+handle SIGSTOP stop\n\
+handle SIGSTOP print\n\
+handle SIGSTOP pass\n\
+handle SIGTSTP stop\n\
+handle SIGTSTP print\n\
+handle SIGTSTP pass\n\
+handle SIGCONT stop\n\
+handle SIGCONT print\n\
+handle SIGCONT pass\n\
+handle SIGCHLD nostop\n\
+handle SIGCHLD noprint\n\
+handle SIGCHLD pass\n\
+handle SIGTTIN stop\n\
+handle SIGTTIN print\n\
+handle SIGTTIN pass\n\
+handle SIGTTOU stop\n\
+handle SIGTTOU print\n\
+handle SIGTTOU pass\n\
+handle SIGIO nostop\n\
+handle SIGIO noprint\n\
+handle SIGIO pass\n\
+handle SIGXCPU stop\n\
+handle SIGXCPU print\n\
+handle SIGXCPU pass\n\
+handle SIGXFSZ stop\n\
+handle SIGXFSZ print\n\
+handle SIGXFSZ pass\n\
+handle SIGVTALRM nostop\n\
+handle SIGVTALRM noprint\n\
+handle SIGVTALRM pass\n\
+handle SIGPROF nostop\n\
+handle SIGPROF noprint\n\
+handle SIGPROF pass\n\
+handle SIGWINCH nostop\n\
+handle SIGWINCH noprint\n\
+handle SIGWINCH pass\n\
+handle SIGLOST stop\n\
+handle SIGLOST print\n\
+handle SIGLOST pass\n\
+handle SIGUSR1 stop\n\
+handle SIGUSR1 print\n\
+handle SIGUSR1 pass\n\
+handle SIGUSR2 stop\n\
+handle SIGUSR2 print\n\
+handle SIGUSR2 pass\n\
+handle SIGPWR stop\n\
+handle SIGPWR print\n\
+handle SIGPWR pass\n\
+handle SIGPOLL nostop\n\
+handle SIGPOLL noprint\n\
+handle SIGPOLL pass\n\
+handle SIGWIND stop\n\
+handle SIGWIND print\n\
+handle SIGWIND pass\n\
+handle SIGPHONE stop\n\
+handle SIGPHONE print\n\
+handle SIGPHONE pass\n\
+handle SIGWAITING nostop\n\
+handle SIGWAITING noprint\n\
+handle SIGWAITING pass\n\
+handle SIGLWP nostop\n\
+handle SIGLWP noprint\n\
+handle SIGLWP pass\n\
+handle SIGDANGER stop\n\
+handle SIGDANGER print\n\
+handle SIGDANGER pass\n\
+handle SIGGRANT stop\n\
+handle SIGGRANT print\n\
+handle SIGGRANT pass\n\
+handle SIGRETRACT stop\n\
+handle SIGRETRACT print\n\
+handle SIGRETRACT pass\n\
+handle SIGMSG stop\n\
+handle SIGMSG print\n\
+handle SIGMSG pass\n\
+handle SIGSOUND stop\n\
+handle SIGSOUND print\n\
+handle SIGSOUND pass\n\
+handle SIGSAK stop\n\
+handle SIGSAK print\n\
+handle SIGSAK pass\n\
+handle SIGPRIO nostop\n\
+handle SIGPRIO noprint\n\
+handle SIGPRIO pass\n\
+handle SIG33 nostop\n\
+handle SIG33 noprint\n\
+handle SIG33 pass\n\
+handle SIG34 stop\n\
+handle SIG34 print\n\
+handle SIG34 pass\n\
+handle SIG35 stop\n\
+handle SIG35 print\n\
+handle SIG35 pass\n\
+handle SIG36 stop\n\
+handle SIG36 print\n\
+handle SIG36 pass\n\
+handle SIG37 stop\n\
+handle SIG37 print\n\
+handle SIG37 pass\n\
+handle SIG38 stop\n\
+handle SIG38 print\n\
+handle SIG38 pass\n\
+handle SIG39 stop\n\
+handle SIG39 print\n\
+handle SIG39 pass\n\
+handle SIG40 stop\n\
+handle SIG40 print\n\
+handle SIG40 pass\n\
+handle SIG41 stop\n\
+handle SIG41 print\n\
+handle SIG41 pass\n\
+handle SIG42 stop\n\
+handle SIG42 print\n\
+handle SIG42 pass\n\
+handle SIG43 stop\n\
+handle SIG43 print\n\
+handle SIG43 pass\n\
+handle SIG44 stop\n\
+handle SIG44 print\n\
+handle SIG44 pass\n\
+handle SIG45 stop\n\
+handle SIG45 print\n\
+handle SIG45 pass\n\
+handle SIG46 stop\n\
+handle SIG46 print\n\
+handle SIG46 pass\n\
+handle SIG47 stop\n\
+handle SIG47 print\n\
+handle SIG47 pass\n\
+handle SIG48 stop\n\
+handle SIG48 print\n\
+handle SIG48 pass\n\
+handle SIG49 stop\n\
+handle SIG49 print\n\
+handle SIG49 pass\n\
+handle SIG50 stop\n\
+handle SIG50 print\n\
+handle SIG50 pass\n\
+handle SIG51 stop\n\
+handle SIG51 print\n\
+handle SIG51 pass\n\
+handle SIG52 stop\n\
+handle SIG52 print\n\
+handle SIG52 pass\n\
+handle SIG53 stop\n\
+handle SIG53 print\n\
+handle SIG53 pass\n\
+handle SIG54 stop\n\
+handle SIG54 print\n\
+handle SIG54 pass\n\
+handle SIG55 stop\n\
+handle SIG55 print\n\
+handle SIG55 pass\n\
+handle SIG56 stop\n\
+handle SIG56 print\n\
+handle SIG56 pass\n\
+handle SIG57 stop\n\
+handle SIG57 print\n\
+handle SIG57 pass\n\
+handle SIG58 stop\n\
+handle SIG58 print\n\
+handle SIG58 pass\n\
+handle SIG59 stop\n\
+handle SIG59 print\n\
+handle SIG59 pass\n\
+handle SIG60 stop\n\
+handle SIG60 print\n\
+handle SIG60 pass\n\
+handle SIG61 stop\n\
+handle SIG61 print\n\
+handle SIG61 pass\n\
+handle SIG62 stop\n\
+handle SIG62 print\n\
+handle SIG62 pass\n\
+handle SIG63 stop\n\
+handle SIG63 print\n\
+handle SIG63 pass\n\
+handle SIGCANCEL nostop\n\
+handle SIGCANCEL noprint\n\
+handle SIGCANCEL pass\n\
+handle SIG32 nostop\n\
+handle SIG32 noprint\n\
+handle SIG32 pass\n\
+handle SIG64 stop\n\
+handle SIG64 print\n\
+handle SIG64 pass\n\
+handle SIG65 stop\n\
+handle SIG65 print\n\
+handle SIG65 pass\n\
+handle SIG66 stop\n\
+handle SIG66 print\n\
+handle SIG66 pass\n\
+handle SIG67 stop\n\
+handle SIG67 print\n\
+handle SIG67 pass\n\
+handle SIG68 stop\n\
+handle SIG68 print\n\
+handle SIG68 pass\n\
+handle SIG69 stop\n\
+handle SIG69 print\n\
+handle SIG69 pass\n\
+handle SIG70 stop\n\
+handle SIG70 print\n\
+handle SIG70 pass\n\
+handle SIG71 stop\n\
+handle SIG71 print\n\
+handle SIG71 pass\n\
+handle SIG72 stop\n\
+handle SIG72 print\n\
+handle SIG72 pass\n\
+handle SIG73 stop\n\
+handle SIG73 print\n\
+handle SIG73 pass\n\
+handle SIG74 stop\n\
+handle SIG74 print\n\
+handle SIG74 pass\n\
+handle SIG75 stop\n\
+handle SIG75 print\n\
+handle SIG75 pass\n\
+handle SIG76 stop\n\
+handle SIG76 print\n\
+handle SIG76 pass\n\
+handle SIG77 stop\n\
+handle SIG77 print\n\
+handle SIG77 pass\n\
+handle SIG78 stop\n\
+handle SIG78 print\n\
+handle SIG78 pass\n\
+handle SIG79 stop\n\
+handle SIG79 print\n\
+handle SIG79 pass\n\
+handle SIG80 stop\n\
+handle SIG80 print\n\
+handle SIG80 pass\n\
+handle SIG81 stop\n\
+handle SIG81 print\n\
+handle SIG81 pass\n\
+handle SIG82 stop\n\
+handle SIG82 print\n\
+handle SIG82 pass\n\
+handle SIG83 stop\n\
+handle SIG83 print\n\
+handle SIG83 pass\n\
+handle SIG84 stop\n\
+handle SIG84 print\n\
+handle SIG84 pass\n\
+handle SIG85 stop\n\
+handle SIG85 print\n\
+handle SIG85 pass\n\
+handle SIG86 stop\n\
+handle SIG86 print\n\
+handle SIG86 pass\n\
+handle SIG87 stop\n\
+handle SIG87 print\n\
+handle SIG87 pass\n\
+handle SIG88 stop\n\
+handle SIG88 print\n\
+handle SIG88 pass\n\
+handle SIG89 stop\n\
+handle SIG89 print\n\
+handle SIG89 pass\n\
+handle SIG90 stop\n\
+handle SIG90 print\n\
+handle SIG90 pass\n\
+handle SIG91 stop\n\
+handle SIG91 print\n\
+handle SIG91 pass\n\
+handle SIG92 stop\n\
+handle SIG92 print\n\
+handle SIG92 pass\n\
+handle SIG93 stop\n\
+handle SIG93 print\n\
+handle SIG93 pass\n\
+handle SIG94 stop\n\
+handle SIG94 print\n\
+handle SIG94 pass\n\
+handle SIG95 stop\n\
+handle SIG95 print\n\
+handle SIG95 pass\n\
+handle SIG96 stop\n\
+handle SIG96 print\n\
+handle SIG96 pass\n\
+handle SIG97 stop\n\
+handle SIG97 print\n\
+handle SIG97 pass\n\
+handle SIG98 stop\n\
+handle SIG98 print\n\
+handle SIG98 pass\n\
+handle SIG99 stop\n\
+handle SIG99 print\n\
+handle SIG99 pass\n\
+handle SIG100 stop\n\
+handle SIG100 print\n\
+handle SIG100 pass\n\
+handle SIG101 stop\n\
+handle SIG101 print\n\
+handle SIG101 pass\n\
+handle SIG102 stop\n\
+handle SIG102 print\n\
+handle SIG102 pass\n\
+handle SIG103 stop\n\
+handle SIG103 print\n\
+handle SIG103 pass\n\
+handle SIG104 stop\n\
+handle SIG104 print\n\
+handle SIG104 pass\n\
+handle SIG105 stop\n\
+handle SIG105 print\n\
+handle SIG105 pass\n\
+handle SIG106 stop\n\
+handle SIG106 print\n\
+handle SIG106 pass\n\
+handle SIG107 stop\n\
+handle SIG107 print\n\
+handle SIG107 pass\n\
+handle SIG108 stop\n\
+handle SIG108 print\n\
+handle SIG108 pass\n\
+handle SIG109 stop\n\
+handle SIG109 print\n\
+handle SIG109 pass\n\
+handle SIG110 stop\n\
+handle SIG110 print\n\
+handle SIG110 pass\n\
+handle SIG111 stop\n\
+handle SIG111 print\n\
+handle SIG111 pass\n\
+handle SIG112 stop\n\
+handle SIG112 print\n\
+handle SIG112 pass\n\
+handle SIG113 stop\n\
+handle SIG113 print\n\
+handle SIG113 pass\n\
+handle SIG114 stop\n\
+handle SIG114 print\n\
+handle SIG114 pass\n\
+handle SIG115 stop\n\
+handle SIG115 print\n\
+handle SIG115 pass\n\
+handle SIG116 stop\n\
+handle SIG116 print\n\
+handle SIG116 pass\n\
+handle SIG117 stop\n\
+handle SIG117 print\n\
+handle SIG117 pass\n\
+handle SIG118 stop\n\
+handle SIG118 print\n\
+handle SIG118 pass\n\
+handle SIG119 stop\n\
+handle SIG119 print\n\
+handle SIG119 pass\n\
+handle SIG120 stop\n\
+handle SIG120 print\n\
+handle SIG120 pass\n\
+handle SIG121 stop\n\
+handle SIG121 print\n\
+handle SIG121 pass\n\
+handle SIG122 stop\n\
+handle SIG122 print\n\
+handle SIG122 pass\n\
+handle SIG123 stop\n\
+handle SIG123 print\n\
+handle SIG123 pass\n\
+handle SIG124 stop\n\
+handle SIG124 print\n\
+handle SIG124 pass\n\
+handle SIG125 stop\n\
+handle SIG125 print\n\
+handle SIG125 pass\n\
+handle SIG126 stop\n\
+handle SIG126 print\n\
+handle SIG126 pass\n\
+handle SIG127 stop\n\
+handle SIG127 print\n\
+handle SIG127 pass\n\
+handle SIGINFO stop\n\
+handle SIGINFO print\n\
+handle SIGINFO pass\n
