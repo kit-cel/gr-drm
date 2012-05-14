@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('testfile.aac');
+fid = fopen('sample_short.aac');
 if fid == -1
     error('file not found')
 end   
@@ -90,7 +90,7 @@ for n = 1 : n_stf
     end
 
     %% build super transmission frame
-    super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, SDC, FAC, OFDM);
+    super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, OFDM);
 
     %% OFDM (complex baseband output)
     complex_baseband_new = drm_ofdm(super_tframe, OFDM);

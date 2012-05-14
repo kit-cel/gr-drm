@@ -324,7 +324,7 @@ for i = 1 : nsym
         else
             if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
                 % boost time or frequency reference cell but don't change phase
-                frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l));
+                frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l), i);
             end
         end
     end

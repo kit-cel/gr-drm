@@ -1,4 +1,4 @@
-function [stream_out] = drm_cell_mapping(msc_stream, sdc_stream, fac_stream, MSC, SDC, FAC, OFDM)
+function [stream_out] = drm_cell_mapping(msc_stream, sdc_stream, fac_stream, MSC, OFDM)
 % maps MSC, SDC, FAC, control and pilot cells on a transmission super frame
 
 %% build empty transmission frame
@@ -63,7 +63,7 @@ end
 x = 2;
 y = 3;
 k_0 = 1;
-s = 0:nsym-1;
+s = 0:(nsym-1);
 
 W_1024 = [512 0 512 0 512; 0 512 0 512 0; 512 0 512 0 512];
 Z_256 = [0 57 164 64 12; 168 255 161 106 118; 25 232 132 233 38];
@@ -76,8 +76,8 @@ for i = 1 : nsym
     for l = 1 : length(gain_phase{i})
         n = mod(s(i), y) + 1; % + 1 comes from matlab indexing
         m = floor(s(i)/y) + 1;
-        p = (gain_pos{i}(l) - k_off - k_0 - n*x)/(x*y);  
-        v_1024 = mod(4*Z_256(n,m) + p*W_1024(n,m) + p^2 * (1 + s(i)) * Q_1024, 1024);
+        p = (gain_pos{i}(l) - k_off - k_0 - (n-1)*x)/(x*y);  
+        v_1024 = mod(4*Z_256(n,m) + p*W_1024(n,m) + (p^2) * (1 + s(i)) * Q_1024, 1024);
         gain_phase{i}{l} = exp(1i * 2*pi * v_1024 / 1024);
     end
 end
@@ -87,17 +87,18 @@ a_gain = sqrt(2);
 for i = 1 : nsym
     for l = 1 : length(gain_pos{i})
         k = gain_pos{i}(l);
-        if frame(gain_pos{i}(l) ,i) == 0
+        if frame(k,i) == 0
             % check if it's a cell to be over-boosted
             if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
-                frame(gain_pos{i}(l) ,i) = a_gain^2 * gain_phase{i}{l};
+                frame(k,i) = (a_gain^2) * gain_phase{i}{l};
             else
-                frame(gain_pos{i}(l) ,i) = a_gain * gain_phase{i}{l};
+                frame(k,i) = a_gain * gain_phase{i}{l};
             end
         else
             if k == -103 + k_off || k == -101 + k_off || k == 101 + k_off || k == 103 + k_off
                 % boost time or frequency reference cell but don't change phase
-                frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l));
+                frame(k ,i) = a_gain * frame(k, i);
+                %frame(gain_pos{i}(l) ,i) = a_gain * frame(gain_pos{i}(l));
             end
         end
     end
