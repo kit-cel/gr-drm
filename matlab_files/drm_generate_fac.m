@@ -29,23 +29,18 @@ for i = 1:3
     fac(i, 20) = 0; % rfu (set to zero until defined)
 
     % service parameters (44 bit)
-    fac(i, 21:44) = [1 0 1 0 1 0 1 0 1 0 1 0 ...
-                     1 0 1 0 1 0 1 0 1 0 1 0]; % unique service identifier (arbitrarily chosen)
-    fac(i, 45:46) = [0 0]; % short ID (arbitrarily chosen)
+    fac(i, 21:44) = [0 0 0 0 0 0 0 1 0 0 1 0 ...
+                     0 0 1 1 0 1 0 0 0 1 0 1]; % unique service identifier, displayed as hex (arbitrarily chosen)
+    fac(i, 45:46) = [0 0]; % short ID (arbitrarily chosen, has to match the one in the SDC)
     fac(i, 47) = 0; % audio CA indication (no)
     fac(i, 48:51) = [0 1 1 1]; % language (german)
     fac(i, 52) = 0; % Audio/Data flag (audio)
-    fac(i, 53:57) = [0 1 0 1 0]; % service descriptor (Pop music)
+    fac(i, 53:57) = [0 0 0 1 1]; % service descriptor (Pop music)
     fac(i, 58) = 0; % data CA indication (no data stream present)
     fac(i, 59:64) = [0 0 0 0 0 0]; % rfu (set to zero until defined)
 
     % add crc word (G(x) = x^8 + x^4 + x^3 + x^2 + 1)
     fac(i, :) = drm_crc(fac(i, 1:64), 'FAC');
-%     crc_gen = crc.generator('Polynomial', [1 0 0 0 1 1 1 0 1],...
-%                             'InitialState', [1 1 1 1 1 1 1 1],...
-%                             'FinalXOR', [1 1 1 1 1 1 1 1]);
-%     generate(crc_gen, fac(i, 1:64));
-%     fac(i, :) = generate(crc_gen, transpose(fac(i, 1:64)));
 end
 
 end
