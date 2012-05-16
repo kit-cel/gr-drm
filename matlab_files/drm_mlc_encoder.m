@@ -50,9 +50,9 @@ switch channel_type
         %stream_in = stream_in{1,1};       
         puncturing_pattern = [1 1 0 0 0 0 1 0 0 0 0 0 1 1 0 0 0 0 ]; % code rate 3/5
         [stream_out_p1, final_state] = convenc(stream_in, trellis, puncturing_pattern);
-        stream_out_p2 = convenc(tail_bits, trellis, puncturing_pattern);
+        stream_out_p2 = convenc(tail_bits, trellis, puncturing_pattern, final_state);
         stream_out = [stream_out_p1 stream_out_p2];
         
-        if length(stream_out) ~= FAC.N_FAC * 2; warning('encoded FAC length mismatch'); end
+        if length(stream_out) ~= FAC.N_FAC * 2; error('encoded FAC length mismatch'); end
             
 end

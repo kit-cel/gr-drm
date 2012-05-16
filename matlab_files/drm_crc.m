@@ -18,6 +18,7 @@ switch channel_type
             shift_reg(1) = shift_reg_old(2);
         end
         % read out crc word
+        %crc_word = [0 1 1 0 0 1 0 0];
         crc_word = mod(shift_reg + 1, 2); % crc word shall be inverted prior to transmission
         
     case 'SDC'

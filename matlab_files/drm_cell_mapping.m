@@ -47,6 +47,7 @@ for k = 1 : length(time_pos)
 end
 
 %% gain references (periodic every 3 symbols)
+%% see standard p. 147
 
 % calculate position: k = 1 + 2 * (s mod 3) + 6 * p
 gain_pos = cell(nsym,1);

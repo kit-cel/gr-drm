@@ -303,7 +303,7 @@ for i = 1 : nsym
     for l = 1 : length(gain_phase{i})
         n = mod(s(i), y) + 1; % + 1 comes from matlab indexing
         m = floor(s(i)/y) + 1;
-        p = (gain_pos{i}(l) - k_off - k_0 - n*x)/(x*y);  
+        p = (gain_pos{i}(l) - k_off - k_0 - (n-1)*x)/(x*y);  
         v_1024 = mod(4*Z_256(n,m) + p*W_1024(n,m) + p^2 * (1 + s(i)) * Q_1024, 1024);
         gain_phase{i}{l} = exp(1i * 2*pi * v_1024 / 1024);
     end

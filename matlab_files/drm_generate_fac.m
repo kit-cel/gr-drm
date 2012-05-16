@@ -40,12 +40,12 @@ for i = 1:3
     fac(i, 59:64) = [0 0 0 0 0 0]; % rfu (set to zero until defined)
 
     % add crc word (G(x) = x^8 + x^4 + x^3 + x^2 + 1)
-    fac(i, :) = drm_crc(fac(1:64), 'FAC');
+    fac(i, :) = drm_crc(fac(i, 1:64), 'FAC');
 %     crc_gen = crc.generator('Polynomial', [1 0 0 0 1 1 1 0 1],...
 %                             'InitialState', [1 1 1 1 1 1 1 1],...
 %                             'FinalXOR', [1 1 1 1 1 1 1 1]);
 %     generate(crc_gen, fac(i, 1:64));
-%    fac(i, :) = generate(crc_gen, transpose(fac(i, 1:64)));
+%     fac(i, :) = generate(crc_gen, transpose(fac(i, 1:64)));
 end
 
 end

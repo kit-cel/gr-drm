@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('sample_short.aac');
+fid = fopen('testfile.aac');
 if fid == -1
     error('file not found')
 end   
@@ -18,7 +18,7 @@ end
 %sdc_stream = randint(1, SDC.L_SDC); % one SDC block
 fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
 sdc_stream = drm_generate_sdc(SDC); % SDC block to be sent with every super transmission frame
-%fac_stream = randint(1, FAC.L_FAC); % one FAC block
+%fac_stream = randint(3, FAC.L_FAC); % one FAC block
 
 %% preallocate memory for output, calculate number of frames
 msc_data = fread(fid, [1, inf], 'ubit1');
@@ -107,7 +107,7 @@ end
 fs = 48000; % wav file sampling rate in Hz
 N = 16;
 t = 0:1/fs:n_stf*1.2 - 1/fs;
-rf = 5 .* exp(2i*pi*12000*t);
+rf = exp(2i*pi*12000*t);
 baseband_mono_rf = real(rf .* transpose(baseband_mono));
 %baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
 filename = 'transmitter_out.wav';
