@@ -41,6 +41,7 @@ for n = 1 : n_stf
     fac_stream_encoded = drm_mlc_deinterleaver(fac_stream_interl, 'FAC', FAC);
 
     %% Decoding
+    fac_stream_decoded = drm_mlc_decoder(fac_stream_encoded, 'FAC', FAC, OFDM);
 
     %% Departitioning
 

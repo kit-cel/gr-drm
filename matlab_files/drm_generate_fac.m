@@ -35,7 +35,7 @@ for i = 1:3
     fac(i, 47) = 0; % audio CA indication (no)
     fac(i, 48:51) = [0 1 1 1]; % language (german)
     fac(i, 52) = 0; % Audio/Data flag (audio)
-    fac(i, 53:57) = [0 0 0 1 1]; % service descriptor (Pop music)
+    fac(i, 53:57) = [0 0 0 1 1]; % service descriptor (Information)
     fac(i, 58) = 0; % data CA indication (no data stream present)
     fac(i, 59:64) = [0 0 0 0 0 0]; % rfu (set to zero until defined)
 
