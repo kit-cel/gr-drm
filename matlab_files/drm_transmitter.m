@@ -105,10 +105,10 @@ for i = 1:n_stf
     baseband_mono((i-1)* OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard) + 1 : i * OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard)) = complex_baseband(i, :);
 end
 fs = 48000; % wav file sampling rate in Hz
-N = 16;
+N = 16; % number of bits for wavwrite
 t = 0:1/fs:n_stf*1.2 - 1/fs;
-rf = exp(2i*pi*12000*t);
-baseband_mono_rf = real(rf .* transpose(baseband_mono));
+rf = exp(2i*pi*12000*t); % carrier
+baseband_mono_rf = real(rf .* transpose(baseband_mono)); % mix and take real part
 %baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
 filename = 'transmitter_out.wav';
 wavwrite(baseband_mono_rf, fs, N, filename);
