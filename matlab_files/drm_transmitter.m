@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
-fid = fopen('sample_short.aac');
+fid = fopen('/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/aac_24kHz_mono_sbr.dat');
 if fid == -1
     error('file not found')
 end   
@@ -27,10 +27,12 @@ n_stf = ceil(length(msc_data)/(MSC.M_TF*MSC.L_MUX)); % number of super transmiss
 % complex baseband output preallocation
 complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
-%% interate as long there is data in the aac file, then stop
+%% iterate as long there is data in the aac file, then stop
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');
+    msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');  
+    %b = repmat([0 0 0 0 1 1], 1, MSC.L_MUX/6); % test vector 2  
+    %msc_stream = repmat(b, 3, 1);
     % zeropadding if end of file is reached
     if length(msc_stream) ~= MSC.M_TF*MSC.L_MUX
         msc_stream = [msc_stream, zeros(1, MSC.M_TF*MSC.L_MUX - length(msc_stream))];
@@ -39,8 +41,11 @@ for n = 1 : n_stf
     
     %% energy dispersal
     msc_stream_scrambled = cell(MSC.M_TF, 1);
+    %a = repmat([1 0], 1, MSC.L_MUX/2); % test vector 1
+    
     fac_stream_scrambled = zeros(3, FAC.L_FAC);
     for i = 1 : MSC.M_TF
+        %msc_stream_scrambled{i} = b; % test assignment
         msc_stream_scrambled{i} = drm_scrambler(msc_stream(i, :));
         fac_stream_scrambled(i,:) = drm_scrambler(fac_stream(i,:));
     end
@@ -84,12 +89,13 @@ for n = 1 : n_stf
     sdc_stream_mapped = drm_mapping(sdc_stream_interleaved, 'SDC', SDC);
 
     %% MSC cell interleaving
-    msc_stream_map_interl = zeros(MSC.M_TF, MSC.N_MUX);
+    msc_stream_map_interl = zeros(MSC.M_TF, MSC.N_MUX);    
     for i = 1 : MSC.M_TF
         msc_stream_map_interl(i,:) = drm_mlc_interleaver(msc_stream_mapped(i,:), 'MSC_cells', MSC);
     end
 
     %% build super transmission frame
+
     super_tframe = drm_cell_mapping(msc_stream_map_interl, sdc_stream_mapped, fac_stream_mapped, MSC, OFDM);
 
     %% OFDM (complex baseband output)
@@ -109,14 +115,13 @@ N = 16; % number of bits for wavwrite
 t = 0:1/fs:n_stf*1.2 - 1/fs;
 rf = exp(2i*pi*12000*t); % carrier
 baseband_mono_rf = real(rf .* transpose(baseband_mono)); % mix and take real part
-%baseband_mono_rf = [baseband_mono_rf, baseband_mono_rf, baseband_mono_rf, baseband_mono_rf];
 filename = 'transmitter_out.wav';
 wavwrite(baseband_mono_rf, fs, N, filename);
 
 %% clear data
-clear msc_stream sdc_stream fac_stream
-clear msc_stream_scrambled sdc_stream_scrambled fac_stream_scrambled
-clear msc_stream_partitioned sdc_stream_partitioned fac_stream_partitioned
+%clear msc_stream sdc_stream fac_stream
+%clear msc_stream_scrambled sdc_stream_scrambled fac_stream_scrambled
+%clear msc_stream_partitioned sdc_stream_partitioned fac_stream_partitioned
 %clear msc_stream_encoded sdc_stream_encoded fac_stream_encoded
 %clear msc_stream_interleaved sdc_stream_interleaved fac_stream_interleaved
 %clear msc_stream_mapped

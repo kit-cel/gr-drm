@@ -27,12 +27,12 @@ N_MUX = 2337;
 N_SFU = 7011;
 N_SFA = 7013;
 N_L = N_SFA - N_SFU;
-X = 123; % number of bytes in higher protected part A, arbitraryly chosen
+L_A = 123; % number of bytes in higher protected part A, arbitraryly chosen
 
 R_all = 0.62; R_0 = 1/2; R_1 = 3/4; R_Ylcm = 4;
 R_X0 = 1; R_Y0 = 2; R_X1 = 3; R_Y1 = 4;
 
-N_1 = ceil(8*X/(2*R_Ylcm*(R_0 + R_1)))*R_Ylcm;
+N_1 = ceil(8*L_A/(2*R_Ylcm*(R_0 + R_1)))*R_Ylcm;
 N_2 = N_MUX - N_1;
 L_1 = 2*N_1*(R_0 + R_1);
 L_2 = R_X0*floor((2*N_2 - 12)/R_Y0) + R_X1*floor((2*N_2 - 12)/R_Y1);    
@@ -59,7 +59,7 @@ N_SDC = 322;
 
 L_SDC = R_X0*floor((2*N_SDC - 12)/R_Y0);
 
-SDC = struct('N_SDC', N_SDC, 'L_SDC', L_SDC, 'R_0', R_0, 'R_X0', R_X0, 'R_Y0', R_Y0, 'name', name, 'X', X);
+SDC = struct('N_SDC', N_SDC, 'L_SDC', L_SDC, 'R_0', R_0, 'R_X0', R_X0, 'R_Y0', R_Y0, 'name', name, 'L_A', L_A);
 
 %% FAC: 4-QAM, SM, EEP
 
@@ -71,5 +71,5 @@ FAC = struct('N_FAC', 65, 'L_FAC', 72, 'R_0', R_0, 'R_X0', R_X0, 'R_Y0', R_Y0, '
 
 %% clear temporary variables
 clear L_1 L_2 L_SDC L_MUX N_1 N_2 N_MUX N_SDC R_0 R_1 ...
-        R_X0 R_X1 R_Y0 R_Y1 R_Ylcm R_all X K_min K_max k_off ...
+        R_X0 R_X1 R_Y0 R_Y1 R_Ylcm R_all L_A K_min K_max k_off ...
         nfft nguard N_S M_TF N_L N_SFA N_SFU pos_frame

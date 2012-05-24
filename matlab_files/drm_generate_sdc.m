@@ -11,7 +11,6 @@ AFS = [0 0 0 1];
 % header
 n_bytes_0 = 5;
 type_0 = zeros(1, n_bytes_0 * 8);
-%type_0 = zeros(1, 52);
 type_0(1:7) = [0 0 0 0 0 1 1]; % length of body in bytes, 7 bit (52 bit -> 7 byte)
 type_0(8) = 0; % version flag (data for current super transmission frame)
 type_0(9:12) = [0 0 0 0]; % type of data entity
@@ -50,14 +49,14 @@ type_9(9:12) = [1 0 0 1]; % type of data entity
 
 % body
 type_9(13:14) = [0 0]; % Short ID (like FAC and type 0)
-type_9(15:16) = [0 0]; % Stream ID (arbitrary?)
+type_9(15:16) = [0 0]; % Stream ID (arbitrary)
 type_9(17:18) = [0 0]; % audio coding (AAC) 
-type_9(19) = 0; % SBR flag (no SBR) 
+type_9(19) = 1; % SBR flag (with SBR) 
 type_9(20:21) = [0 0]; % audio mode (mono) 
-type_9(22:24) = [0 1 1]; % audio sampling rate (24 kHz) NOTE: 48 kHz not supported by DREAM!!!
+type_9(22:24) = [0 1 1]; % audio sampling rate (24 kHz) NOTE: 48 kHz not supported by DREAM (used for DRM+)!!!
 type_9(25) = 0; % text flag (no text) 
 type_9(26) = 0; % enhancement flag (no enhancement information available)
-type_9(27:31) = [1 1 1 0 0]; % coder field (no MPEG surround information)
+type_9(27:31) = [0 0 0 0 0]; % coder field (no MPEG surround information)
 type_9(32) = 0; % rfa
 
 
