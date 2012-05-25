@@ -16,10 +16,10 @@ type_0(8) = 0; % version flag (data for current super transmission frame)
 type_0(9:12) = [0 0 0 0]; % type of data entity
 
 % body
-type_0(13:14) = [0 1]; % protection level part A FIXME
-type_0(15:16) = [0 1]; % protection level part B FIXME
-type_0(17:28) = [0 0 0 0 0 1 1 1 1 0 1 1]; % data length for part A FIXME
-type_0(29:40) = [0 0 1 0 0 1 0 1 1 1 0 1]; % data length for part B FIXME
+type_0(13:14) = [0 0]; % protection level part A
+type_0(15:16) = [0 1]; % protection level part B
+type_0(17:28) = [0 0 0 0 0 0 0 0 0 0 0 0]; % data length for part A
+type_0(29:40) = [0 0 1 0 1 1 0 0 1 0 1 1]; % data length for part B FIXME (decimal value is 714.25...)
 
 
 % type 1 - Label data entity

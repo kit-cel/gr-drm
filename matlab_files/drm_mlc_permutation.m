@@ -14,21 +14,6 @@ switch channel_type
         s_2 = 2^(ceil(log2(x_in_2)));
         q_1 = s_1/4 - 1;        
         q_2 = s_2/4 - 1;
-
-        
-        % calculate indexes for the stream coming from C_0
-        % higher protected part
-        P_0_1 = zeros(1, x_in_1) - 1;
-        
-        P_0_1(1) = 0;
-        for i = 1 : x_in_1 - 1
-            P_0_1(i+1) = mod(t_0 * P_0_1(i) + q_1, s_1);
-            
-            while P_0_1(i+1) >= x_in_1
-                P_0_1(i+1) = mod(t_0 * P_0_1(i+1) + q_1, s_1);
-            end
-        end
-        P_0_1 = P_0_1 + 1; % matlab based indexing
         
         % lower protected part
         P_0_2 = zeros(1, x_in_2) - 1;
@@ -42,20 +27,6 @@ switch channel_type
             end
         end
         P_0_2 = P_0_2 + x_in_1 + 1; % matlab based indexing and shift
-      
-        % calculate indexes for the stream coming from C_1
-        % higher protected part
-       P_1_1 = zeros(1, x_in_1) - 1;
-        
-        P_1_1(1) = 0;
-        for i = 1 : x_in_1 - 1
-            P_1_1(i+1) = mod(t_1 * P_1_1(i) + q_1, s_1);
-            
-            while P_1_1(i+1) >= x_in_1
-                P_1_1(i+1) = mod(t_1 * P_1_1(i+1) + q_1, s_1);
-            end
-        end
-        P_1_1 = P_1_1 + 1; % matlab based indexing
         
         % lower protected part
         P_1_2 = zeros(1, x_in_2) - 1;
@@ -72,7 +43,7 @@ switch channel_type
         
         % concatenate index vectors
         
-        indexes = [P_0_1 P_0_2 ; P_1_1 P_1_2];
+        indexes = [P_0_2; P_1_2];
         
     case 'SDC'
         SDC = channel_params;

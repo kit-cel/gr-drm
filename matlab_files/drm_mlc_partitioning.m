@@ -4,6 +4,8 @@ function [stream_out] = drm_mlc_partitioning(stream_in, channel_type, channel_pa
 
 switch channel_type
     case 'MSC'
+        % NOTE: this was originally intended for UEP, but it also works
+        % with EEP, the corresponding vectors are simply empty.
         MSC = channel_params;
         M_01 = 2 * MSC.N_1 * MSC.R_0;
         M_11 = 2 * MSC.N_1 * MSC.R_1;
@@ -28,9 +30,6 @@ switch channel_type
         FAC = channel_params; 
         M_02 = FAC.R_X0 * floor((2 * FAC.N_FAC - 12) / FAC.R_Y0); % M_01 = 0, same as for SDC; M_02 is 69 -> should be L_FAC = 72 ?
         stream_out = stream_in;
-        %stream_out = cell(1,1);
-        %stream_out{1,1} = stream_in; % FIXME: why does this not fit? M_02 (69) is smaller than L_FAC (72), cropping does not seem to make sense.
-        %if M_02 ~= length(stream_in); warning('drm:transmitter','fac length mismatch (is this a problem?)'); end 
 end
 
 end

@@ -36,7 +36,7 @@ fprintf('Test Index Generator...');
 failed = 0;
 
 % check MSC
-MSC = struct('N_1', 396, 'N_2', 1941, 'N_MUX', 2337); % example MSC struct
+MSC = struct('N_1', 0, 'N_2', 2337, 'N_MUX', 2337); % example MSC struct
 indexes = drm_mlc_permutation('MSC', MSC);
 
 length_indexes = length(indexes(1, :));

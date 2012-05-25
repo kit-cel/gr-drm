@@ -2,7 +2,7 @@
 % - robustness mode B
 % - spectrum occupancy 3 (10 kHz)
 % - protection level 1 for A & B in MSC, SDC uses 4-QAM
-% - MSC using 16-QAM, SM and UEP
+% - MSC using 16-QAM, SM and EEP
 % - short interleaving of MSC cells
 
 %% OFDM parameters
@@ -27,9 +27,10 @@ N_MUX = 2337;
 N_SFU = 7011;
 N_SFA = 7013;
 N_L = N_SFA - N_SFU;
-L_A = 123; % number of bytes in higher protected part A, arbitraryly chosen
+L_A = 0; % number of bytes in higher protected part A (EEP -> 0)
 
-R_all = 0.62; R_0 = 1/2; R_1 = 3/4; R_Ylcm = 4;
+% Overall Code Rate R_all = 0.62 
+R_0 = 1/2; R_1 = 3/4; R_Ylcm = 4;
 R_X0 = 1; R_Y0 = 2; R_X1 = 3; R_Y1 = 4;
 
 N_1 = ceil(8*L_A/(2*R_Ylcm*(R_0 + R_1)))*R_Ylcm;
@@ -48,7 +49,7 @@ end
 
 MSC = struct('M_TF', M_TF, 'N_SFU', N_SFU, 'N_SFA', N_SFA, 'N_L', N_L, 'N_MUX', N_MUX, ...
                 'N_1',N_1, 'N_2', N_2, 'L_MUX', L_MUX, 'R_0', R_0, 'R_1', R_1, 'R_X0', R_X0, ...
-                'R_Y0', R_Y0, 'R_X1', R_X1, 'R_Y1', R_Y1, 'L_1', L_1, 'L_2', L_2, 'name', name);
+                'R_Y0', R_Y0, 'R_X1', R_X1, 'R_Y1', R_Y1, 'name', name);
 
 %% SDC: 4-QAM, SM, EEP
 

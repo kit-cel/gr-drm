@@ -8,8 +8,8 @@ switch channel_type
         p_ind = drm_mlc_permutation('MSC', MSC);
         stream_deinterl = cell(MSC.M_TF,1);
         for i = 1 : MSC.M_TF
-            stream_deinterl{i} = zeros(2, 2*MSC.N_MUX);
-            for l = 1 : 2*MSC.N_MUX
+            stream_deinterl{i} = zeros(2, 2*(MSC.N_1 + MSC.N_2));
+            for l = 1 : 2*(MSC.N_1 + MSC.N_2)
                 stream_deinterl{i}(1, p_ind(1, l)) = stream_interl{i}(1, l);
                 stream_deinterl{i}(2, p_ind(2, l)) = stream_interl{i}(2, l);
             end
