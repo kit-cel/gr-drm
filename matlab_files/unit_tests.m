@@ -622,5 +622,84 @@ else
     fprintf(' FAC passed. \n')
 end
 
+%% Departitioning (only MSC in this case)
+fprintf('Testing Departitioning...');
+n_total = n_total + 1;
+failed = 1;
+
+msc_stream_depart_rx = drm_mlc_departitioning(msc_stream_decoded_rx, MSC);
+
+if isequal(msc_stream_depart_rx, msc_stream_scrambled)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' MSC failed! \n')
+else
+    fprintf(' MSC passed. \n')
+end
+
+%% Descrambling
+fprintf('Testing Descrambling...');
+
+% MSC
+n_total = n_total + 1;
+failed = 1;
+
+msc_stream_rx = zeros(MSC.M_TF, MSC.L_MUX);
+for i = 1 : MSC.M_TF
+   msc_stream_rx(i,:) = drm_scrambler(msc_stream_depart_rx{i}); 
+end
+
+if isequal(msc_stream, msc_stream_rx)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' MSC failed! ')
+else
+    fprintf(' MSC passed. ')
+end
+
+% SDC
+n_total = n_total + 1;
+failed = 1;
+
+sdc_stream_rx = drm_scrambler(sdc_stream_decoded_rx);
+
+if isequal(sdc_stream_rx, sdc_stream)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' SDC failed! ')
+else
+    fprintf(' SDC passed. ')
+end
+
+% FAC
+n_total = n_total + 1;
+failed = 1;
+
+fac_stream_rx = zeros(MSC.M_TF, FAC.L_FAC);
+for i = 1:MSC.M_TF
+    fac_stream_rx(i,:) = drm_scrambler(fac_stream_decoded_rx(i,:));
+end
+
+if isequal(fac_stream_rx, fac_stream)
+    failed = 0;
+end
+
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' FAC failed! \n')
+else
+    fprintf(' FAC passed. \n')
+end
+
 %% End of unit tests
 fprintf('\nTOTAL: %d / %d Tests failed. \n', n_failed, n_total);
