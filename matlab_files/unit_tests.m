@@ -394,19 +394,19 @@ fprintf('Test Cell demapping...');
 
 [msc_stream_map_interl_rx sdc_stream_mapped_rx fac_stream_mapped_rx] = drm_cell_demapping(super_tframe, MSC, SDC, FAC, OFDM);
 
-% FAC
+% MSC
 n_total = n_total + 1;
 failed = 1;
 
-if isequal(fac_stream_mapped_rx, fac_stream_mapped)
+if isequal(msc_stream_map_interl_rx, msc_stream_map_interl)
     failed = 0;
 end
 
 if failed
     n_failed = n_failed + 1;
-    fprintf(' FAC failed! ')
+    fprintf(' MSC failed! ')
 else
-    fprintf(' FAC passed. ')
+    fprintf(' MSC passed. ')
 end
 
 % SDC
@@ -424,20 +424,21 @@ else
     fprintf(' SDC passed. ')
 end
 
-% MSC
+% FAC
 n_total = n_total + 1;
 failed = 1;
 
-if isequal(msc_stream_map_interl_rx, msc_stream_map_interl)
+if isequal(fac_stream_mapped_rx, fac_stream_mapped)
     failed = 0;
 end
 
 if failed
     n_failed = n_failed + 1;
-    fprintf(' MSC failed! \n')
+    fprintf(' FAC failed! \n')
 else
-    fprintf(' MSC passed. \n')
+    fprintf(' FAC passed. \n')
 end
+
 
 %% MSC cell deinterleaving
 fprintf('Test MSC Cell deinterleaving...');
@@ -568,8 +569,58 @@ else
     fprintf(' FAC passed. \n')
 end
 
-%% Viterbi Decoder
+%% Viterbi Decoder (hard decision)
+fprintf('Test Channel Decoding...');
 
+% MSC
+n_total = n_total + 1;
+failed = 1;
+
+msc_stream_decoded_rx = drm_mlc_decoder(msc_stream_deinterl_rx, 'MSC', MSC, OFDM);
+
+if isequal(msc_stream_decoded_rx, msc_stream_partitioned)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' MSC failed! ')
+else
+    fprintf(' MSC passed. ')
+end
+% SDC
+n_total = n_total + 1;
+failed = 1;
+
+sdc_stream_decoded_rx = drm_mlc_decoder(sdc_stream_deinterl_rx, 'SDC', SDC, OFDM);
+
+if isequal(sdc_stream_decoded_rx, sdc_stream_scrambled)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' SDC failed! ')
+else
+    fprintf(' SDC passed. ')
+end
+
+% FAC
+n_total = n_total + 1;
+failed = 1;
+
+fac_stream_decoded_rx = drm_mlc_decoder(fac_stream_deinterl_rx, 'FAC', FAC, OFDM);
+
+if isequal(fac_stream_decoded_rx, fac_stream_scrambled)
+    failed = 0;
+end
+
+if failed
+    n_failed = n_failed + 1;
+    fprintf(' FAC failed! \n')
+else
+    fprintf(' FAC passed. \n')
+end
 
 %% End of unit tests
 fprintf('\nTOTAL: %d / %d Tests failed. \n', n_failed, n_total);

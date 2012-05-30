@@ -5,9 +5,8 @@
 % perfect synchronisation and no channel influences are assumed
 % OFDM and channel parameters are treated as given!
 
-% clear has to be disabled for unit_tests.m
-%clear all
-%clc
+clear all
+clc
 
 %% Declare global variables, create input stream
 run drm_global_variables
@@ -41,8 +40,10 @@ for n = 1 : n_stf
     fac_stream_encoded = drm_mlc_deinterleaver(fac_stream_interl, 'FAC', FAC);
 
     %% Decoding
-    % fac_stream_decoded = drm_mlc_decoder(fac_stream_encoded, 'FAC', FAC, OFDM);
-
+    msc_stream_decoded = drm_mlc_decoder(msc_stream_encoded, 'MSC', MSC, OFDM);
+    sdc_stream_decoded = drm_mlc_decoder(sdc_stream_encoded, 'SDC', SDC, OFDM);
+    fac_stream_decoded = drm_mlc_decoder(fac_stream_encoded, 'FAC', FAC, OFDM);   
+    
     %% Departitioning
 
     %% Unscrambling

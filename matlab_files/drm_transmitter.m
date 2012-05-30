@@ -9,22 +9,20 @@ run drm_global_variables
 
 %% open binary file (aac encoded) for transmission
 % fid = fopen('/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/aac_24kHz_mono_sbr.dat');
-% fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/testfile.aac');
-fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/msc_data.dat');
+ fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/testfile.aac');
+% fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/msc_data.dat');
 
 if fid == -1
     error('file not found')
 end   
 
 %% create (dummy) bit streams
-%msc_stream = randint(MSC.M_TF, MSC.L_MUX); % one MSC multiplex frame
-%sdc_stream = randint(1, SDC.L_SDC); % one SDC block
+% msc_stream = drm_source_enc(MSC, SDC);
 fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
 sdc_stream = drm_generate_sdc(SDC); % SDC block to be sent with every super transmission frame
-%fac_stream = randint(3, FAC.L_FAC); % one FAC block
 
 %% preallocate memory for output, calculate number of frames
-msc_data = fread(fid, [1, inf], 'ubit1');
+msc_data = fread(fid, [1, inf], 'ubit1'); % only for length calculation, data is not used
 frewind(fid); % set file pointer back to beginning of file
 n_stf = ceil(length(msc_data)/(MSC.M_TF*MSC.L_MUX)); % number of super transmission frames
 % complex baseband output preallocation
@@ -33,22 +31,17 @@ complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 %% iterate as long there is data in the aac file, then stop
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    %msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');  
-    b = repmat([0 0 0 0 1 1], 1, MSC.L_MUX/6); % test vector 2  
-    msc_stream = repmat(b, 3, 1);
+    msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');  
     % zeropadding if end of file is reached
-%     if length(msc_stream) ~= MSC.M_TF*MSC.L_MUX
-%         msc_stream = [msc_stream, zeros(1, MSC.M_TF*MSC.L_MUX - length(msc_stream))];
-%     end
-%     msc_stream = transpose(reshape(msc_stream, MSC.L_MUX, MSC.M_TF));
+    if length(msc_stream) ~= MSC.M_TF*MSC.L_MUX
+        msc_stream = [msc_stream, zeros(1, MSC.M_TF*MSC.L_MUX - length(msc_stream))];
+    end
+    msc_stream = transpose(reshape(msc_stream, MSC.L_MUX, MSC.M_TF));
     
     %% energy dispersal
-    msc_stream_scrambled = cell(MSC.M_TF, 1);
-    %a = repmat([1 0], 1, MSC.L_MUX/2); % test vector 1
-    
+    msc_stream_scrambled = cell(MSC.M_TF, 1);   
     fac_stream_scrambled = zeros(3, FAC.L_FAC);
     for i = 1 : MSC.M_TF
-        %msc_stream_scrambled{i} = b; % test assignment
         msc_stream_scrambled{i} = drm_scrambler(msc_stream(i, :));
         fac_stream_scrambled(i,:) = drm_scrambler(fac_stream(i,:));
     end
