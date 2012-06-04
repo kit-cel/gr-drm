@@ -2,3 +2,5 @@ github.txt
 *.m~
 transmitter_out.wav
 *~
+*.o
+*.mexa64
