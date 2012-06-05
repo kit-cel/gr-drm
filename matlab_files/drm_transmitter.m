@@ -8,43 +8,26 @@
 run drm_global_variables
 
 %% create MSC stream
-% fid = fopen('/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/aac_24kHz_mono_sbr.dat');
-% fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/testfile.aac');
-% fid = fopen('home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/msc_data.dat');
-
-filename = 'laughfuzzball.wav'; 
+filename = 'music_24khz.wav'; 
 raw_pcm_stream = drm_read_wav(filename);
-msc_stream = drm_read_faac_file(); % this reads one super audio frame
-
-% if fid == -1
-%     error('file not found')
-% end   
+% C++ application has to be executed in order to convert the PCM stream
+% into a AAC stream
+[msc_data n_stf] = drm_read_faac_file(); % this reads one super audio frame
 
 %% create SDC and FAC streams
-% msc_stream = drm_source_enc(MSC, SDC);
 fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
 sdc_stream = drm_generate_sdc(SDC); % SDC block to be sent with every super transmission frame
 
 %% preallocate memory for output, calculate number of frames
-
-% msc_data = fread(fid, [1, inf], 'ubit1'); % only for length calculation, data is not used
-% frewind(fid); % set file pointer back to beginning of file
-% n_stf = ceil(length(msc_data)/(MSC.M_TF*MSC.L_MUX)); % number of super transmission frames
-
 % complex baseband output preallocation
-n_stf = 10; % just controls the length of the data stream, data is repeated anyway
 complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
 %% iterate as long there is data in the aac file, then stop
 
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    % msc_stream = fread(fid, [1, MSC.M_TF*MSC.L_MUX], 'ubit1');  
-    % zeropadding if end of file is reached
-%     if length(msc_stream) ~= MSC.M_TF*MSC.L_MUX
-%         msc_stream = [msc_stream, zeros(1, MSC.M_TF*MSC.L_MUX - length(msc_stream))];
-%     end
-%   msc_stream = transpose(reshape(msc_stream, MSC.L_MUX, MSC.M_TF));
+    msc_stream = msc_data(n, :);
+    msc_stream = transpose(reshape(msc_stream, 5826, 3));
     
     %% energy dispersal
     msc_stream_scrambled = cell(MSC.M_TF, 1);   

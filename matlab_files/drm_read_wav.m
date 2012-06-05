@@ -1,6 +1,7 @@
 function [raw_pcm_stream] = drm_read_wav(filename)
-% read wav file and reshape it. '.wav' may be omitted.
-% wav file sampling frequency must be 24 kHz.
+% read wav file and truncate it, if needed. '.wav' may be omitted.
+% wav file sampling frequency must be 12 kHz. output is also written to
+% binary file.
 
 % read wav file
 samples = wavread(filename, 'native');
@@ -14,10 +15,11 @@ if n<1
     error('wav file too short');
 end
 
-samples = samples(1: n*transf_length);
+% truncate samples to an integer multiple of transform length
+raw_pcm_stream = samples(1: n*transf_length);
 
-samples = transpose(samples); % transpose for reshape
-samples = reshape(samples, transf_length, n); % reshape
-raw_pcm_stream = transpose(samples); % n rows, 960 columns
+% write raw PCM stream to binary file
+fid = fopen('raw_pcm.dat', 'w', 'native');
+fwrite(fid, raw_pcm_stream, 'uint8', 'native');
 
 end

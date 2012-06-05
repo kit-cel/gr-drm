@@ -69,14 +69,49 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     aac_ptr = mxGetPr(aac_out);
 
 //do something
-    for(i=0;i<dimx;i++)
-    {
-        for(j=0;j<dimy;j++)
-        {
-            mexPrintf("element[%d][%d] = %f\n",j,i,pcm_ptr[i*dimy+j]);
-            aac_ptr[i*dimy+j] = pcm_ptr[i*dimy+j]+5; //adds 5 to every element in pcm_ptr
-        }
-    }
+//     for(i=0;i<dimx;i++)
+//     {
+//         for(j=0;j<dimy;j++)
+//         {
+//             mexPrintf("element[%d][%d] = %f\n",j,i,pcm_ptr[i*dimy+j]);
+//             aac_ptr[i*dimy+j] = pcm_ptr[i*dimy+j]+5; //adds 5 to every element in pcm_ptr
+//         }
+//     }
+    
+    /* declare input and output buffers */
+	CVectorEx < _SAMPLE > vecInputData;
+	CVectorEx < _SAMPLE >* pvecInputData = &vecInputData;
+	CVectorEx < _BINARY > vecOutputData;
+	CVectorEx < _BINARY >* pvecOutputData = &vecOutputData;
+	CVectorEx < _BINARY > vecOutputTmp;
+	CVector<_BYTE>			aac_crc_bits;
+	CVector<_SAMPLE>		vecsEncInData;
+	CMatrix<_BYTE>			audio_frame;
+	CVector<int>			veciFrameLength;
+
+	/* open encoder instance */
+	unsigned long lEncSampRate = 24000;
+	unsigned int numChannels = 1;
+	unsigned long lNumSampEncIn;
+
+	unsigned long lMaxBytesEncOut;
+
+	faacEncHandle encHandle;
+	encHandle = faacEncOpen(lEncSampRate, numChannels, &lNumSampEncIn, &lMaxBytesEncOut);
+	std::cout << "lNumSampEncIn:\t" << lNumSampEncIn << std::endl;
+	std::cout << "lMaxBytesEncOut:\t" << lMaxBytesEncOut << std::endl;
+	if(encHandle == NULL)
+	{
+		std::cout << "Failed to open FAAC encoder instance!" << std::endl;
+	}
+
+	/* init input and output buffers */
+	int iNumAACFrames = 10; // we use 24 kHz sampling NOTE: Dream would have used 12 kHz -> 5 AAC frames
+	int iInputBlockSize = lNumSampEncIn * iNumAACFrames * 5; // should be enough samples for 1 super transmission frame
+	int iOutputBlockSize = 5826; // see AudioSourceDecoder InitInteralTx()
+	std::cout << "iInputBlockSize / iOutputBlockSize:\t" << iInputBlockSize << " / " << iOutputBlockSize << std::endl;
+	pvecInputData->Init(iInputBlockSize);
+	pvecOutputData->Init(iOutputBlockSize);
 
     return;
 }
