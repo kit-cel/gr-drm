@@ -16,7 +16,7 @@
 #include <matrix.h>
 #include <mex.h>   
 
-#include "faac.h"
+#include "libs/faac.h"
 #include "drm/Vector.h"
 #include <iostream>
 #include <fstream>

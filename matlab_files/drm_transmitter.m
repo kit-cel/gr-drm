@@ -8,7 +8,7 @@
 run drm_global_variables
 
 %% create MSC stream
-filename = 'music_24khz.wav'; 
+filename = 'ifeelgood_24khz.wav'; 
 raw_pcm_stream = drm_read_wav(filename);
 % C++ application has to be executed in order to convert the PCM stream
 % into a AAC stream
