@@ -1,7 +1,7 @@
 /*********************************************************************
  * faac_wrapper.cpp
  *
- * syntax = [aac_data n_stf] = faac_wrapper(fs, file)
+ * syntax = [aac_data n_stf] = faac_wrapper(fs, n_samples, pcm_data)
  *
  * The input .wav file has to match the sample rate given and must be 16 bit signed.
  *
@@ -20,8 +20,6 @@
 
 #include "libs/faac.h"
 #include "drm/Vector.h"
-#include <iostream>
-#include <fstream>
 
 /* Definitions to keep compatibility with earlier versions of ML */
 #ifndef MWSIZE_MAX
@@ -48,35 +46,21 @@ typedef int mwSignedIndex;
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 {
     /* check  arguments ***************************************************/
-    if(nrhs!=4) 
+    if(nrhs!=3) 
       mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:invalidNumInputs",
-              "Two inputs required.");
+              "Three inputs required.");
     
-//     else if(nlhs != 2) 
-//       mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:invalidNumOutputs",
-//               "Two outputs required.");
-
-//     /* input must be a string */
-//     if ( mxIsChar(prhs[1]) != 1)
-//       mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:inputNotString",
-//               "Input must be a string.");
-// 
-//     /* input must be a row vector */
-//     if (mxGetM(prhs[1])!=1)
-//       mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:inputNotVector",
-//               "Input must be a row vector.");
+    else if(nlhs != 2) 
+      mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:invalidNumOutputs",
+              "Two outputs required.");
 
     /* declare variables *************************************************/
     // input variables
     unsigned long lEncSampRate = mxGetScalar(prhs[0]); // sampling frequency
-    char* file = mxArrayToString(prhs[1]); // input file (raw PCM audio)
     int n_samples;
-    n_samples = mxGetScalar(prhs[2]); // number of input samples
+    n_samples = mxGetScalar(prhs[1]); // number of input samples
     short* pcm;
-    pcm = (short*) mxGetPr(prhs[3]);
-    
-    //typecast back to short
-    std::cout << "n_samples:\t" << n_samples << std::endl;
+    pcm = (short*) mxGetPr(prhs[2]);
     
     // output variables
     int n_stf; // number of super transmission frames
@@ -121,8 +105,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     /* open encoder instance *********************************************/
     faacEncHandle encHandle;
 	encHandle = faacEncOpen(lEncSampRate, numChannels, &lNumSampEncIn, &lMaxBytesEncOut);     
-    std::cout << "lNumSampEncIn:\t" << lNumSampEncIn << std::endl;
-    std::cout << "lMaxBytesEncOut:\t" << lMaxBytesEncOut << std::endl;
     
     if(encHandle == NULL)
 	{
@@ -130,36 +112,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
               "Failed to open FAAC encoder instance.");
 	}
     
-//     /* read PCM stream from file (only whole super tranmsission frames )**/
-// 	ifstream pcm_in;
-// 	pcm_in.open("raw_pcm.dat", ios::in | ios::binary);
-// 	if(!pcm_in.is_open())
-// 	{
-//         mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:openPCMFile",
-//               "Failed to open PCM file.");
-// 	}
-//     
-// 	// get length of file for preallocation
-// 	pcm_in.seekg (0, ios::end);
-//     int length = pcm_in.tellg();
     int transform_length = 960; // FAAC transform length
     int blocks = n_samples/transform_length; // number of input blocks for FAAC encoder
     int superframes = blocks/iNumAACFrames; // number of superframes (400ms)
     n_stf = (int) superframes/3;
     superframes = n_stf * 3; // truncate to whole super transmission frames
-//     pcm_in.seekg (0, ios::beg);
-//     std::cout << "length (from file):\t" << length << std::endl;
-    std::cout << "n_stf:\t" << n_stf << std::endl;
-// 
-//     // declare buffer
-//     uint8_t* buffer;
-//     buffer = new uint8_t[superframes*iNumAACFrames*transform_length];
-//     std::cout << "buffer length:\t" << superframes*iNumAACFrames*transform_length << std::endl;
-// 
-//     // read data as a block:
-//     //pcm_in.read ((char*)buffer,length);
-//     pcm_in.read ((char*)buffer,superframes*iNumAACFrames*transform_length);
-//     pcm_in.close();
+
     
     /* init input and output buffers *************************************/
 	int iInputBlockSize = superframes *iNumAACFrames*transform_length; // integer number of super transmission frames
@@ -167,9 +125,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	int iOutputBlockSize = iNumDecodedBitsMSC * superframes;
 	pvecInputData->Init(iInputBlockSize);
 	pvecOutputData->Init(iOutputBlockSize);
-    std::cout << "iInputBlockSize:\t" << iInputBlockSize << std::endl;
-    std::cout << "iOutputBlockSize:\t" << iOutputBlockSize << std::endl;
-
 
 	/* fill buffers with data */
 	for(int i = 0; i<iInputBlockSize; i++)
@@ -227,7 +182,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 			CVector < unsigned char >vecsTmpData(lMaxBytesEncOut);
 			int bytesEncoded = faacEncEncode(encHandle, (int32_t*) &vecsEncInData[0], lNumSampEncIn, &vecsTmpData[0], lMaxBytesEncOut);
-            //std::cout << "bytesEncoded:\t" << bytesEncoded << std::endl;
             
 			if (bytesEncoded > 0)
 			{
@@ -308,7 +262,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         }
 
         /* append zeros until the end of the audio super frame */
-        //std::cout << "bits_written:\t" << bits_written << std::endl;
         (*pvecOutputData).Enqueue(0, 5826 - bits_written);
 	}
     
@@ -318,25 +271,12 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     aac = mxGetPr(plhs[0]);
     int p = 0;
     
+    /* assign output *****************************************************/
     // copy output to mex matrix (columnwise)
     for(int i = 0; i<n_stf*bits_stf; i++)
     {
         aac[i] = (*pvecOutputData)[i]; // Use linear indexing.  [x*dimy+y] instead of [x][y]
     }
-
-//     
-//     for(int x = 0; x<n_stf; x++) // rows, correspond to super transmission frames
-//     {
-//         for(int y = 0; y<bits_stf; y++) // columns, correspond to sample positions
-//         {
-//             aac[x*bits_stf+y] = (*pvecOutputData)[x*bits_stf + y];
-//             
-//             if(x==0 && y < 200)
-//             {
-//                 std::cout << aac[x*bits_stf+y] << "\t" << ++p << std::endl;
-//             }
-//         }
-//     }
     
     /* assign rest of output *********************************************/
     plhs[1] = mxCreateDoubleScalar(n_stf);

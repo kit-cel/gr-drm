@@ -1,7 +1,5 @@
 function [raw_pcm_stream fs] = drm_read_wav(filename)
 % read wav file and truncate it, if needed. '.wav' may be omitted.
-% wav file sampling frequency must be 12 kHz. output is also written to
-% binary file.
 
 % read wav file
 [samples fs] = wavread(filename, 'native');
@@ -17,11 +15,5 @@ end
 
 % truncate samples to an integer multiple of transform length
 raw_pcm_stream = samples(1: n*transf_length);
-
-% write raw PCM stream to binary file
-fid = fopen('raw_pcm.dat', 'w', 'native');
-fwrite(fid, raw_pcm_stream, 'uint8', 'native');
-% NOTE: uint8 typecast truncates the values!
-% samples > 255 become 255, samples < 0 become 0!
 
 end

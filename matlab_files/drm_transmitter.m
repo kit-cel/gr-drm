@@ -1,26 +1,20 @@
-%% DRM transmitter
-
-% disable clear for unit_tests and receiver
-% clear all
-% clc
+%%%%%%%%%%%%%%%%%%%%%
+%% DRM transmitter %%
+%%%%%%%%%%%%%%%%%%%%%
 
 %% calculate global variables; for the list of assumptions see drm_global_variables.m
 run drm_global_variables
 
 %% create MSC stream
 filename = 'ifeelgood_24khz.wav'; 
-[raw_pcm_stream fs] = drm_read_wav(filename);
-[aac_data n_stf] = faac_wrapper(fs, filename, length(raw_pcm_stream), raw_pcm_stream);
-% C++ application has to be executed in order to convert the PCM stream
-% into a AAC stream
-% [msc_data n_stf] = drm_read_faac_file++(); % this reads one super audio frame
+[raw_pcm_stream fs] = drm_read_wav(filename); % produce raw PCM samples
+[aac_data n_stf] = faac_wrapper(fs, length(raw_pcm_stream), raw_pcm_stream); % encode PCM data with FAAC
 
 %% create SDC and FAC streams
 fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
 sdc_stream = drm_generate_sdc(SDC); % SDC block to be sent with every super transmission frame
 
-%% preallocate memory for output, calculate number of frames
-% complex baseband output preallocation
+%% preallocate memory for output
 complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
 %% iterate as long there is data in the aac file, then stop
@@ -105,12 +99,3 @@ rf = exp(2i*pi*12000*t); % carrier
 baseband_mono_rf = real(rf .* transpose(baseband_mono)); % mix and take real part
 filename = 'transmitter_out.wav';
 wavwrite(baseband_mono_rf, fs, N, filename);
-
-%% clear data
-%clear msc_stream sdc_stream fac_stream
-%clear msc_stream_scrambled sdc_stream_scrambled fac_stream_scrambled
-%clear msc_stream_partitioned sdc_stream_partitioned fac_stream_partitioned
-%clear msc_stream_encoded sdc_stream_encoded fac_stream_encoded
-%clear msc_stream_interleaved sdc_stream_interleaved fac_stream_interleaved
-%clear msc_stream_mapped
-%clear msc_stream_map_interl sdc_stream_mapped fac_stream_mapped
