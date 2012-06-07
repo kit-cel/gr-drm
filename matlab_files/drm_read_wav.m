@@ -21,5 +21,7 @@ raw_pcm_stream = samples(1: n*transf_length);
 % write raw PCM stream to binary file
 fid = fopen('raw_pcm.dat', 'w', 'native');
 fwrite(fid, raw_pcm_stream, 'uint8', 'native');
+% NOTE: uint8 typecast truncates the values!
+% samples > 255 become 255, samples < 0 become 0!
 
 end

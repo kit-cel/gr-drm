@@ -10,7 +10,7 @@ run drm_global_variables
 %% create MSC stream
 filename = 'ifeelgood_24khz.wav'; 
 [raw_pcm_stream fs] = drm_read_wav(filename);
-[aac_data n_stf] = faac_wrapper(fs, filename);
+[aac_data n_stf] = faac_wrapper(fs, filename, length(raw_pcm_stream), raw_pcm_stream);
 % C++ application has to be executed in order to convert the PCM stream
 % into a AAC stream
 % [msc_data n_stf] = drm_read_faac_file++(); % this reads one super audio frame
@@ -27,7 +27,7 @@ complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    msc_stream = aac_data(:, n);
+    msc_stream = aac_data(:, n); % columns correspond to super transmission frames
     msc_stream = transpose(reshape(msc_stream, 5826, 3));
     
     %% energy dispersal
