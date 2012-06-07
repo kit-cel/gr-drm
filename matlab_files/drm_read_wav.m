@@ -1,10 +1,10 @@
-function [raw_pcm_stream] = drm_read_wav(filename)
+function [raw_pcm_stream fs] = drm_read_wav(filename)
 % read wav file and truncate it, if needed. '.wav' may be omitted.
 % wav file sampling frequency must be 12 kHz. output is also written to
 % binary file.
 
 % read wav file
-samples = wavread(filename, 'native');
+[samples fs] = wavread(filename, 'native');
 samples = samples(:, 1); % take only one channel if it's stereo
 
 % reshape vector

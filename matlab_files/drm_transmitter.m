@@ -9,12 +9,11 @@ run drm_global_variables
 
 %% create MSC stream
 filename = 'ifeelgood_24khz.wav'; 
-fs = 24000; % sampling frequency TODO: get this information from drm_read_wav
-raw_pcm_stream = drm_read_wav(filename);
+[raw_pcm_stream fs] = drm_read_wav(filename);
 [aac_data n_stf] = faac_wrapper(fs, filename);
 % C++ application has to be executed in order to convert the PCM stream
 % into a AAC stream
-% [msc_data n_stf] = drm_read_faac_file(); % this reads one super audio frame
+% [msc_data n_stf] = drm_read_faac_file++(); % this reads one super audio frame
 
 %% create SDC and FAC streams
 fac_stream = drm_generate_fac(FAC); % first, intermediate and last FAC block
@@ -28,7 +27,7 @@ complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
-    msc_stream = aac_data(n, :);
+    msc_stream = aac_data(:, n);
     msc_stream = transpose(reshape(msc_stream, 5826, 3));
     
     %% energy dispersal

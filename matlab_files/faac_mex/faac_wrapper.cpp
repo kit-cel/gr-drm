@@ -7,7 +7,7 @@
  *
  * It is assumed that there is no text message included and EEP is used.
  * 3 transmission frames per super transmission frame are assumed.
- * Output is a matrix with 3*n_stf rows and 960 columns.
+ * Output is a matrix with n_stf rows and 3*iNumDecodedBitsMSC columns.
  * 
  * Keep in mind:
  * <> Use 0-based indexing as always in aac or aac++
@@ -73,6 +73,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     
     // output variables
     int n_stf; // number of super transmission frames
+    double* aac;
     
     // other variables
     int iNumAACFrames;
@@ -297,18 +298,29 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     
     /* reshape output to n_stf * [ bits_per_tranmission_superframe ] *****/
     int bits_stf = 3 * iNumDecodedBitsMSC;
-    plhs[0] = mxCreateDoubleMatrix(n_stf, bits_stf, mxREAL);
-    double* aac;
+    plhs[0] = mxCreateDoubleMatrix(bits_stf, n_stf, mxREAL);
     aac = mxGetPr(plhs[0]);
+    int p = 0;
     
-    // Use linear indexing.  [x*dimy+y] instead of [x][y]
-    for(int x = 0; x<n_stf; x++) // rows, correspond to samples in a frame
+    // copy output to mex matrix (columnwise)
+    for(int i = 0; i<n_stf*bits_stf; i++)
     {
-        for(int y = 0; y<bits_stf; y++) // columns, correspond to frames
-        {
-            aac[x*bits_stf+y] = (*pvecOutputData)[x*bits_stf + y];
-        }
+        aac[i] = (*pvecOutputData)[i]; // Use linear indexing.  [x*dimy+y] instead of [x][y]
     }
+
+//     
+//     for(int x = 0; x<n_stf; x++) // rows, correspond to super transmission frames
+//     {
+//         for(int y = 0; y<bits_stf; y++) // columns, correspond to sample positions
+//         {
+//             aac[x*bits_stf+y] = (*pvecOutputData)[x*bits_stf + y];
+//             
+//             if(x==0 && y < 200)
+//             {
+//                 std::cout << aac[x*bits_stf+y] << "\t" << ++p << std::endl;
+//             }
+//         }
+//     }
     
     /* assign rest of output *********************************************/
     plhs[1] = mxCreateDoubleScalar(n_stf);
