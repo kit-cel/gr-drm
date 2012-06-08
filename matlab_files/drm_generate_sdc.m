@@ -25,9 +25,9 @@ type_0(29:40) = [0 0 1 0 1 1 0 1 1 0 0 0]; % data length for part B FIXME (decim
 % type 1 - Label data entity
 
 % header
-n_bytes_1 = 7;
+n_bytes_1 = 18;
 type_1 = zeros(1, n_bytes_1 * 8);
-type_1(1:7) = [0 0 0 0 1 0 1]; % length of body
+type_1(1:7) = [0 0 1 0 0 0 0]; % length of body
 type_1(8) = 0; % version flag (no meaning, shall be set to zero)
 type_1(9:12) = [0 0 0 1]; % type of data entity
 
@@ -35,9 +35,22 @@ type_1(9:12) = [0 0 0 1]; % type of data entity
 type_1(13:14) = [0 0]; % Short ID (relates it to the Service ID given in the FAC)
 type_1(15:16) = [0 0]; % rfu
 % label (UTF-8 coded grDRM)
-type_1(17:56) = [0 1 1 0 0 1 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0 1 0 0 ...
-                 0 1 0 1 0 0 1 0 0 1 0 0 1 1 0 1]; 
-
+type_1(17:144) = [0 1 0 0 0 0 1 1 ... C
+                 0 1 0 0 0 1 0 1 ... E
+                 0 1 0 0 1 1 0 0 ... L 
+                 0 0 1 0 0 0 0 0 ... <whitespace>
+                 0 1 0 0 0 1 1 1 ... G
+                 0 1 1 0 1 1 1 0 ... n
+                 0 1 1 1 0 1 0 1 ... u
+                 0 1 0 1 0 0 1 0 ... R
+                 0 1 1 0 0 0 0 1 ... a
+                 0 1 1 0 0 1 0 0 ... d
+                 0 1 1 0 1 0 0 1 ... i
+                 0 1 1 0 1 1 1 1 ... o
+                 0 0 1 0 0 0 0 0 ... <whitespace>
+                 0 1 0 0 0 1 0 0 ... D
+                 0 1 0 1 0 0 1 0 ... R
+                 0 1 0 0 1 1 0 1];%  M
 % type 9 - Audio information data entity
 
 % header
