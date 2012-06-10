@@ -16,8 +16,8 @@ run drm_transmitter
 
 n_stf = size(complex_baseband, 1); % number of super transmission frames
 msc_data = zeros(n_stf, MSC.M_TF*MSC.L_MUX); % always M_TF multiplex frames per row
-sdc_data = zeros(1, SDC.L_SDC);
-fac_data = zeros(1, FAC.L_FAC);
+sdc_data = zeros(1, SDC.L_SDC); % gets overwritten in each iteration
+fac_data = zeros(3, FAC.L_FAC); % gets overwritten in each iteration
 
 for n = 1 : n_stf
     %% OFDM Demod
@@ -45,8 +45,16 @@ for n = 1 : n_stf
     fac_stream_decoded = drm_mlc_decoder(fac_stream_encoded, 'FAC', FAC, OFDM);   
     
     %% Departitioning
+    msc_stream_depart = drm_mlc_departitioning(msc_stream_decoded, MSC);
+    sdc_stream_depart = sdc_stream_decoded; % nothing to do here
+    fac_stream_depart = fac_stream_decoded; % nothing to do here
 
     %% Unscrambling
-
-    %% Output (append to previous output)
+    sdc_data = drm_scrambler(sdc_stream_depart);
+    for i = 1 : MSC.M_TF
+        fac_data(i,:) = drm_scrambler(fac_stream_depart(i,:));
+        msc_data(n, (i-1)*MSC.L_MUX+1 : i*MSC.L_MUX) = drm_scrambler(msc_stream_depart{i});
+    end
+    
+    %% Source decoding
 end

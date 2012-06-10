@@ -92,6 +92,7 @@ baseband_mono = zeros(n_stf* OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard), 1);
 for i = 1:n_stf
     baseband_mono((i-1)* OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard) + 1 : i * OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard)) = complex_baseband(i, :);
 end
+
 fs = 48000; % wav file sampling rate in Hz
 N = 16; % number of bits for wavwrite
 t = 0:1/fs:n_stf*1.2 - 1/fs;
