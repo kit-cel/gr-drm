@@ -22,11 +22,11 @@ OFDM = struct('K_min', K_min, 'K_max', K_max, 'k_off', k_off, ...
 
 name = 'MSC';
 
-M_TF = 3;
-N_MUX = 2337;
-N_SFU = 7011;
-N_SFA = 7013;
-N_L = N_SFA - N_SFU;
+M_TF = 3; % number of multiplex/transmission frames per super transmission frame
+N_MUX = 2337; % cells per multiplex frame
+N_SFU = 7011; % useful cells
+N_SFA = 7013; % all cells
+N_L = N_SFA - N_SFU; % cell loss
 L_A = 0; % number of bytes in higher protected part A (EEP -> 0)
 
 % Overall Code Rate R_all = 0.62 

@@ -12,18 +12,18 @@ int main()
 {
 	std::cout << "entering test routine...\n";
 
-	unsigned short rm = 0;
-	unsigned short so = 0;
+	config cfg;
+	cfg.init();
 
 	ofdm_params ofdm;
-	ofdm.init(rm, so);
+	ofdm.init(&cfg);
 
 	msc_params msc;
-	msc.init(rm, so);
+	msc.init(&cfg);
 	sdc_params sdc;
-	sdc.init(rm, so);
+	sdc.init(&cfg);
 	fac_params fac;
-	fac.init(rm, so);
+	fac.init(&cfg);
 
 	std::cout << "exiting test routine...\n";
 	return 0;
