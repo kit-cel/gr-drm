@@ -12,16 +12,23 @@ int main()
 {
 	std::cout << "entering test routine...\n";
 
-	config cfg;
+	/* init tables */
+	tables tab;
+
+	/* init user defined configuration (currently hardcoded)*/
+	config cfg(&tab);
 	cfg.init();
 
+	/* init transmission parameters matching the user defined configuration */
 	ofdm_params ofdm;
 	ofdm.init(&cfg);
 
 	msc_params msc;
 	msc.init(&cfg);
+
 	sdc_params sdc;
 	sdc.init(&cfg);
+
 	fac_params fac;
 	fac.init(&cfg);
 

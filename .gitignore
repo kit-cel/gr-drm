@@ -1,7 +1,7 @@
 github.txt
-*.m~
-transmitter_out.wav
 *~
 *.o
-ifeelgood_24khz.wav
 *.mexa64
+*.wav
+*.dat
+*.bin
