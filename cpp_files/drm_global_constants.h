@@ -18,9 +18,11 @@
 #define L_FAC_DRMPLUS		116 // number of FAC bits in DRM+
 
 #define NUM_FREQ_PILOTS		3 // only for RM A-D, no freq pilots in DRM+
+
 #define RMA_NUM_TIME_PIL	21
 #define RMB_NUM_TIME_PIL	19
 #define RMC_NUM_TIME_PIL	19
 #define RMD_NUM_TIME_PIL	21
 #define RME_NUM_TIME_PIL	21
+
 #endif /* DRM_GLOBAL_CONSTANTS_H_ */

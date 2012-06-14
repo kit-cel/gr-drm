@@ -8,6 +8,8 @@
 #ifndef DRM_TABLES_H_
 #define DRM_TABLES_H_
 
+#include "drm_global_constants.h"
+
 class tables
 {
 	/* FAC positions. The two numbers denote {symbol no, carrier no} */

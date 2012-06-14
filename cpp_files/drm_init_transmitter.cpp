@@ -5,7 +5,8 @@
  *      Author: felixwunsch
  */
 
-#include "drm_init_params.h"
+#include "drm_params.h"
+
 #include <iostream>
 
 int main()
@@ -16,8 +17,8 @@ int main()
 	tables tab;
 
 	/* init user defined configuration (currently hardcoded)*/
-	config cfg(&tab);
-	cfg.init();
+	config cfg;
+	cfg.init(&tab);
 
 	/* init transmission parameters matching the user defined configuration */
 	ofdm_params ofdm;

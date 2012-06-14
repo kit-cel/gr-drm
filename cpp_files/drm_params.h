@@ -21,47 +21,14 @@
 
 #include "drm_global_constants.h"
 #include "drm_tables.h"
+#include "drm_config.h"
 #include <iostream>
-
-/* class holding the initial (user defined) parameters from which the others are derived */
-class config
-{
-	unsigned short d_RM; // robustness mode (0-4 correspond to A-E)
-	unsigned short d_SO; // spectrum occupancy (0-5)
-	bool d_UEP; // 0: EEP, 1: UEP
-	bool d_text; // 0: text message not used, 1: text message used
-	unsigned short d_msc_mapping; // 0: 16-QAM SM, 1: 64-QAM HMsym, 2: 64-QAM HMmix
-	unsigned short d_sdc_mapping; // 0: 4-QAM, 1: 16-QAM
-	bool d_long_interl; // 0: short interleaving, 1: long interleaving
-
-	tables* ptr_tables; // pointer to tables needed for init
-
-public:
-	/* accessor methods */
-	unsigned short RM();
-	unsigned short SO();
-	bool UEP();
-	bool text();
-	unsigned short msc_mapping();
-	unsigned short sdc_mapping();
-	bool long_interl();
-
-	config(tables* ptr)
-	{
-		ptr_tables = ptr;
-	};
-	~config(){};
-
-	void init();
-};
 
 /* classes holding the derived parameters and init routines (where parameters are calculated)*/
 class global_params
 {
-	config* p_tables; // pointer to tables needed for init
-
 public:
-	virtual void init(config* config) = 0;
+	virtual void init(config* cfg) = 0;
 
 	global_params(){};
 	virtual ~global_params(){};
@@ -101,11 +68,15 @@ public:
 
 class control_chan_params : public global_params
 {
-public:
+protected:
 	unsigned int d_L;
 	unsigned int d_N;
 
-	float d_coderate;
+	float d_coderate; // TODO: fill in code rate stuff
+
+public:
+	unsigned int L();
+	unsigned int N();
 
 	control_chan_params(){};
 	virtual ~control_chan_params(){};
@@ -131,13 +102,22 @@ public:
 
 class msc_params : public global_params
 {
-public:
 	unsigned int d_L_MUX;
 	unsigned int d_L_1;
 	unsigned int d_L_2;
 	unsigned int d_N_MUX;
 	unsigned int d_N_1;
 	unsigned int d_N_2;
+
+	//TODO: fill in code rate stuff
+
+public:
+	unsigned int L_MUX();
+	unsigned int L_1();
+	unsigned int L_2();
+	unsigned int N_MUX();
+	unsigned int N_1();
+	unsigned int N_2();
 
 	msc_params(){};
 	virtual ~msc_params(){};

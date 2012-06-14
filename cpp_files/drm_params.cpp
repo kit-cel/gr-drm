@@ -5,65 +5,7 @@
  *      Author: felixwunsch
  */
 
-#include "drm_init_params.h"
-
-/* config implementation */
-void
-config::init()
-{
-	std::cout << "init cfg\n";
-
-	/* user defined parameters */
-	d_RM = 1; // B
-	d_SO = 3; // 10 kHz
-	d_UEP = false; // EEP
-	d_text = false; // no text message included
-	d_long_interl = false; // short interleaving (400ms)
-	d_msc_mapping = 0; // 16-QAM SM
-	d_sdc_mapping = 0; // 4-QAM
-}
-
-unsigned short
-config::RM()
-{
-	return d_RM;
-}
-
-unsigned short
-config::SO()
-{
-	return d_SO;
-}
-
-bool
-config::UEP()
-{
-	return d_UEP;
-}
-
-bool
-config::text()
-{
-	return d_text;
-}
-
-bool
-config::long_interl()
-{
-	return d_long_interl;
-}
-
-unsigned short
-config::msc_mapping()
-{
-	return d_msc_mapping;
-}
-
-unsigned short
-config::sdc_mapping()
-{
-	return d_sdc_mapping;
-}
+#include "drm_params.h"
 
 /* OFDM params implementation */
 void
@@ -167,23 +109,64 @@ msc_params::init(config* cfg)
 	std::cout << "init msc\n";
 }
 
+unsigned int
+msc_params::L_MUX()
+{
+	return d_L_MUX;
+}
+
+unsigned int
+msc_params::L_1()
+{
+	return d_L_1;
+}
+
+unsigned int
+msc_params::N_MUX()
+{
+	return d_N_MUX;
+}
+
+unsigned int
+msc_params::N_1()
+{
+	return d_N_1;
+}
+
+unsigned int
+msc_params::N_2()
+{
+	return d_N_2;
+}
+
+/* Control channel implementation */
+unsigned int
+control_chan_params::L()
+{
+	return d_L;
+}
+
+unsigned int
+control_chan_params::N()
+{
+	return d_N;
+}
+
 /* SDC channel implementation */
 void
 sdc_params::init(config* cfg)
 {
 	std::cout << "init sdc\n";
-	if(cfg->RM() == 4) // see DRM standard 7.2.1.2
-	{
-		// RM E
-//		d_N = ;
-//		d_L = ;
-	}
-	else
-	{
-		// RM A-D
-//		d_N = ;
-//		d_L = ;
-	}
+
+	// see DRM standard 7.2.1.3
+	unsigned int tab_N_SDC[5][6] = {{167, 190, 359, 405, 754, 846},
+								    {130, 150, 282, 322, 588, 662},
+									{  0,   0,   0, 288,   0, 607},
+									{  0,   0,   0, 152,   0, 332},
+									{936,   0,   0,   0,   0,   0}};
+
+	d_N = tab_N_SDC[cfg->RM()][cfg->SO()];
+
 }
 
 /* FAC channel implementation */
