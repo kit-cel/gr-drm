@@ -36,7 +36,23 @@ class tables
 
 	/* Gain reference cells */
 
+	/* AFS reference cells */
 
+	/* QAM mapping */
+	float d_QAM64SM[8][2];
+	float d_QAM64HMsym[8][2];
+	float d_QAM64HMmix[8][2];
+	float d_QAM16[4][2];
+	float d_QAM4[2][2];
+
+public:
+	/* accessor methods */
+
+	/* init routine */
+	void init();
+
+	tables(){};
+	~tables(){};
 
 };
 

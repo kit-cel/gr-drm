@@ -11,7 +11,7 @@
 
 int main()
 {
-	std::cout << "entering test routine...\n";
+	std::cout << "entering init routine...\n";
 
 	/* init tables */
 	tables tab;
@@ -33,7 +33,7 @@ int main()
 	fac_params fac;
 	fac.init(&cfg);
 
-	std::cout << "exiting test routine...\n";
+	std::cout << "exiting init routine...\n";
 	return 0;
 }
 

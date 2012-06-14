@@ -167,6 +167,27 @@ sdc_params::init(config* cfg)
 
 	d_N = tab_N_SDC[cfg->RM()][cfg->SO()];
 
+	//see DRM standard Annex J
+	unsigned int tab_L_SDC[2*NUM_RM][NUM_SO] = {{321, 366, 705, 798, 1494, 1680},
+												{161, 184, 353, 399, 748, 840},
+												{246, 288, 552, 630, 1164, 1311},
+												{124, 144, 276, 316, 582, 656},
+												{0, 0, 0, 584, 0, 1200},
+											    {0, 0, 0, 282, 0, 601},
+											    {0, 0, 0, 291, 0, 651},
+											    {0, 0, 0, 146, 0, 326},
+											    {930, 0, 0, 0, 0, 0},
+											    {465, 0, 0, 0, 0, 0}};
+
+
+	if(cfg->RM() < 4) // RM A-D
+	{
+		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_mapping()][cfg->SO()];
+	}
+	else // RM E
+	{
+		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_coderate()][cfg->SO()];
+	}
 }
 
 /* FAC channel implementation */
