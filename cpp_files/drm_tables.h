@@ -9,9 +9,13 @@
 #define DRM_TABLES_H_
 
 #include "drm_global_constants.h"
+#include <boost/multi_array.hpp>
 
 class tables
 {
+	// FIXME: find a way to access the tables flexibly, then make them private.
+	public:
+
 	/* FAC positions. The two numbers denote {symbol no, carrier no} */
 	int d_FAC_A[N_FAC_DRM][2];
 	int d_FAC_B[N_FAC_DRM][2];
@@ -35,8 +39,10 @@ class tables
 	int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
 
 	/* Gain reference cells */
+	//TODO: add gain reference cells
 
 	/* AFS reference cells */
+	//TODO: add AFS reference cells
 
 	/* QAM mapping */
 	float d_QAM64SM[8][2];
@@ -45,11 +51,11 @@ class tables
 	float d_QAM16[4][2];
 	float d_QAM4[2][2];
 
-public:
-	/* accessor methods */
+	/* puncturing patterns */
+	//TODO: add puncturing patterns
 
 	/* init routine */
-	void init();
+	void init(); // this could be done in the constructor...
 
 	tables(){};
 	~tables(){};

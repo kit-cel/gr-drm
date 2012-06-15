@@ -10,6 +10,124 @@
 void
 tables::init()
 {
+	/* frequency reference cells [carrier index][phase_index(0,k)]
+	 * corresponds to 750 Hz, 2250 Hz and 3000 Hz */
+	int d_freq_A[NUM_FREQ_PILOTS][2] = {
+		{18, 205},
+		{54, 836},
+		{72, 215}};
+
+	int d_freq_B[NUM_FREQ_PILOTS][2] = {
+		{16, 331},
+		{48, 651},
+		{64, 555}};
+
+	int d_freq_C[NUM_FREQ_PILOTS][2] = {
+		{11, 214},
+		{33, 392},
+		{44, 242}};
+
+	int d_freq_D[NUM_FREQ_PILOTS][2] = {
+		{7,	788},
+		{21, 1014},
+		{28, 332}};
+
+	//TODO: define RM E freq reference cells
+
+	/* time reference cells [carrier index][phase_index(0,k)]
+	 * only in the first symbol of each transmission frame */
+	int d_time_A[RMA_NUM_TIME_PIL][2] = {
+		{17, 973},
+		{18, 205},
+		{19, 717},
+		{21, 264},
+		{28, 357},
+		{29, 357},
+		{32, 952},
+		{33, 440},
+		{39, 856},
+		{40, 88},
+		{41, 88},
+		{53, 68},
+		{54, 836},
+		{55, 836},
+		{56, 836},
+		{60, 1008},
+		{61, 1008},
+		{63, 752},
+		{71, 215},
+		{72, 215},
+		{73, 727}};
+
+	int d_time_B[RMB_NUM_TIME_PIL][2] = {
+		{14, 304},
+		{16, 331},
+		{18, 108},
+		{20, 620},
+		{24, 192},
+		{26, 704},
+		{32, 44},
+		{36, 432},
+		{42, 588},
+		{44, 844},
+		{48, 651},
+		{49, 651},
+		{50, 651},
+		{54, 460},
+		{56, 460},
+		{62, 944},
+		{64, 555},
+		{66, 940},
+		{68, 428}};
+
+	int d_time_C[RMC_NUM_TIME_PIL][2] = {
+		{8, 722},
+		{10, 466},
+		{11, 214},
+		{12, 214},
+		{14, 479},
+		{16, 516},
+		{18, 260},
+		{22, 577},
+		{24, 662},
+		{28, 3},
+		{30, 771},
+		{32, 392},
+		{33, 392},
+		{36, 37},
+		{38, 37},
+		{42, 474},
+		{44, 242},
+		{45, 242},
+		{46, 754}};
+
+	int d_time_D[RMD_NUM_TIME_PIL][2] = {
+		{5, 636},
+		{6, 124},
+		{7, 788},
+		{8, 788},
+		{9, 200},
+		{11, 688},
+		{12, 152},
+		{14, 920},
+		{15, 920},
+		{17, 644},
+		{18, 388},
+		{20, 652},
+		{21, 1014},
+		{23, 176},
+		{24, 176},
+		{26, 752},
+		{27, 496},
+		{28, 332},
+		{29, 432},
+		{30, 964},
+		{32, 452}};
+
+	// TODO: define RM E Time reference cells
+
+	/* Gain reference cells */
+
 	/* FAC positions. The two numbers denote {symbol no, carrier no} */
 	int d_FAC_A[N_FAC_DRM][2] = {
 			{2, 26}, {2, 46}, {2, 66}, {2, 86},
@@ -79,10 +197,13 @@ tables::init()
 			{21, 9}, {21, 18}, {21, 27}, {21, 36},
 			{22, 10}, {22, 19}, {22, 37}};
 
-	//int d_FAC_E[N_FAC_DRMPLUS][2] = ... // TODO: define values
+	//int d_FAC_E[N_FAC_DRMPLUS][2] = ... // TODO: define RM E FAC positions
 
+	/* QAM mapping
+	 * Input bits are collected in bytes separately for imaginary and real part.
+	 * The order is: [i_0, i_1, i_2] and [q_0, q_1, q_2] -> {i, q}
+	 * All entries are normalized according to the DRM-standard */
 
-	/* QAM mapping */
 	float d_QAM64SM[8][2] = {
 		{ 1.0801234497f,  1.0801234497f},
 		{-0.1543033499f, -0.1543033499f},

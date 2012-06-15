@@ -152,6 +152,24 @@ control_chan_params::N()
 	return d_N;
 }
 
+float
+control_chan_params::R_0()
+{
+	return d_R_0;
+}
+
+unsigned short
+control_chan_params::R_0_enum()
+{
+	return d_R_0_enum;
+}
+
+unsigned short
+control_chan_params::R_0_denom()
+{
+	return d_R_0_denom;
+}
+
 /* SDC channel implementation */
 void
 sdc_params::init(config* cfg)
@@ -183,11 +201,63 @@ sdc_params::init(config* cfg)
 	if(cfg->RM() < 4) // RM A-D
 	{
 		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_mapping()][cfg->SO()];
+		switch(cfg->sdc_mapping())
+		{
+		case 0: // 16-QAM, R_all = 0.5
+			d_R_0 = 1/2;
+			d_R_0_enum = 1;
+			d_R_0_denom = 3;
+			d_R_1 = 2/3;
+			d_R_1_enum = 2;
+			d_R_1_denom = 3;
+			break;
+		case 1: // 4-QAM
+			d_R_0 = 1/2;
+			d_R_0_enum = 1;
+			d_R_0_denom = 2;
+			break;
+		default: // error checking is done before
+			break;
+
+		}
 	}
 	else // RM E
 	{
-		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_coderate()][cfg->SO()];
+		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_prot_level()][cfg->SO()];
+		switch(cfg->sdc_prot_level())
+		{
+		case 0:
+			d_R_0 = 1/2;
+			d_R_0_enum = 1;
+			d_R_0_denom = 2;
+			break;
+		case 1:
+			d_R_0 = 1/4;
+			d_R_0_enum = 1;
+			d_R_0_denom = 4;
+			break;
+		default:
+			break;
+		}
 	}
+}
+
+float
+sdc_params::R_1()
+{
+	return d_R_1;
+}
+
+unsigned short
+sdc_params::R_1_enum()
+{
+	return d_R_1_enum;
+}
+
+unsigned short
+sdc_params::R_1_denom()
+{
+	return d_R_1_denom;
 }
 
 /* FAC channel implementation */
@@ -196,16 +266,22 @@ fac_params::init(config* cfg)
 {
 	std::cout << "init fac\n";
 
-	if(cfg->RM() == 4) // see DRM standard 7.2.1.2
+	if(cfg->RM() == 4) // see DRM standard 7.2.1.2 & Table 74/75
 	{
 		// RM E
 		d_N = N_FAC_DRMPLUS;
 		d_L = L_FAC_DRMPLUS;
+		d_R_0 = 1/4;
+		d_R_0_enum = 1;
+		d_R_0_denom = 4;
 	}
 	else
 	{
 		// RM A-D
 		d_N = N_FAC_DRM;
 		d_L = L_FAC_DRM;
+		d_R_0 = 3/5;
+		d_R_0_enum = 3;
+		d_R_0_denom = 5;
 	}
 }

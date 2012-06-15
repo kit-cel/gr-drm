@@ -69,14 +69,19 @@ public:
 class control_chan_params : public global_params
 {
 protected:
-	unsigned int d_L;
-	unsigned int d_N;
+	unsigned int d_L; // length in bits
+	unsigned int d_N; // number of QAM symbols
 
-	float d_coderate; // TODO: fill in code rate stuff
+	float d_R_0; // coderate R_0
+	unsigned short d_R_0_enum; // enumerator of R_0
+	unsigned short d_R_0_denom; // denominator of R_0
 
 public:
 	unsigned int L();
 	unsigned int N();
+	float R_0();
+	unsigned short R_0_enum();
+	unsigned short R_0_denom();
 
 	control_chan_params(){};
 	virtual ~control_chan_params(){};
@@ -84,7 +89,15 @@ public:
 
 class sdc_params : public control_chan_params
 {
+	float d_R_1; // coderate R_1
+	unsigned short d_R_1_enum; // enumerator of R_1
+	unsigned short d_R_1_denom; // denominator of R_1
+
 public:
+	float R_1();
+	unsigned short R_1_enum();
+	unsigned short R_1_denom();
+
 	sdc_params(){};
 	virtual ~sdc_params(){};
 
