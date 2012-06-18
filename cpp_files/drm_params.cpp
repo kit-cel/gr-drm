@@ -6,8 +6,23 @@
  */
 
 #include "drm_params.h"
+#include <cmath>
 
 /* OFDM params implementation */
+ofdm_params::ofdm_params()
+{
+	d_nfft = 0;
+	d_n_cp = 0;
+	d_cp_ratio_enum = 0;
+	d_cp_ratio_denom = 0;
+	d_K_min = 0;
+	d_K_max = 0;
+	d_n_unused = 0;
+	d_N_S = 0;
+	d_M_TF = 0;
+	d_fs_soundcard = 0;
+}
+
 void
 ofdm_params::init(config* cfg)
 {
@@ -103,10 +118,202 @@ ofdm_params::fs_soundcard()
 }
 
 /* MSC channel implementation */
+msc_params::msc_params()
+{
+	d_L_MUX = 0;
+	d_L_1 = 0;
+	d_L_2 = 0;
+	d_L_VSPP = 0;
+	d_N_MUX = 0;
+	d_N_1 = 0;
+	d_N_2 = 0;
+	d_MSC_prot_1 = 0;
+	d_MSC_prot_2 = 0;
+	d_R_0_enum_1 = 0;
+	d_R_0_denom_1 = 0;
+	d_R_1_enum_1 = 0;
+	d_R_1_denom_1 = 0;
+	d_R_2_enum_1 = 0;
+	d_R_2_denom_1 = 0;
+	d_R_Ylcm_1 = 0;
+	d_R_0_enum_2 = 0;
+	d_R_0_denom_2 = 0;
+	d_R_1_enum_2 = 0;
+	d_R_1_denom_2 = 0;
+	d_R_2_enum_2 = 0;
+	d_R_2_denom_2 = 0;
+	d_R_Ylcm_2 = 0;
+}
+
 void
 msc_params::init(config* cfg)
 {
 	std::cout << "init msc\n";
+
+	/* define tables with coderates (see tables 64-70 in the DRM standard) */
+	unsigned short tab_4_E[4][2] = {{1,4},{1,3},{2,5},{1,2}};
+	unsigned short tab_16_ABCD[2][5] = {{1, 3, 2, 3, 3},
+										{1, 2, 3, 4, 4}};
+
+	unsigned short tab_16_E[4][5] = {{1, 6, 1, 2, 6},
+									 {1, 4, 4, 7, 28},
+									 {1, 3, 2, 3, 3},
+									 {1, 2, 3, 4, 4}};
+
+	unsigned short tab_64_SM[4][7] = {{1, 4, 1, 2, 3, 4, 4}, // These code rates are also used for the imaginary part of HMmix (SPP)
+									  {1, 3, 2, 3, 4, 5, 15},
+								      {1, 2, 3, 4, 7, 8, 8},
+									  {2, 3, 4, 5, 8, 9, 45}};
+
+	unsigned short tab_64_HMsym_SPP[4][5] = {{3, 10, 3, 5, 10}, // Also used for real part of HMmix (SPP)
+											 {4, 11, 8, 11, 11},
+											 {4, 7, 7, 8, 56},
+											 {2, 3, 8, 9, 9}};
+
+	unsigned short tab_64_HMsym_VSPP[4][2] = {{1, 2}, {4, 7}, {3, 5}, {2, 3}}; // Also used for real part of HMmix (VSPP)
+
+	unsigned short tab_64_HMmix_SPP[4][11] = {{1, 4, 3, 10, 1, 2, 3, 5, 3, 4, 20},
+			{1, 3, 4, 11, 2, 3, 8, 11, 4, 5, 165},
+			{1, 2, 4, 7, 3, 4, 7, 8, 7, 8, 56},
+			{2, 3, 2, 3, 4, 5, 8, 9, 8, 9, 45}};
+
+
+	/* Assign code rates */
+
+	if(cfg->msc_mapping() > 2) // Hierarchical mapping
+	{
+		std::cout << "Hierarchical mapping is not yet implemented...\n";
+	}
+	else // Symmetrical mapping
+	{
+		/* set code rates according to protection level(s) */
+		if(cfg->RM() < 4) // RM A-D
+		{
+			switch(cfg->msc_mapping())
+			{
+			case 1: // 16-QAM
+				if(cfg->UEP())
+				{
+					d_R_0_enum_1 = tab_16_ABCD[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = tab_16_ABCD[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = tab_16_ABCD[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = tab_16_ABCD[cfg->msc_prot_level_1()][3];
+					d_R_Ylcm_1 = tab_16_ABCD[cfg->msc_prot_level_1()][4];
+				}
+
+				d_R_0_enum_2 = tab_16_ABCD[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = tab_16_ABCD[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = tab_16_ABCD[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = tab_16_ABCD[cfg->msc_prot_level_2()][3];
+				d_R_Ylcm_2 = tab_16_ABCD[cfg->msc_prot_level_2()][4];
+				break;
+
+			case 2: // 64-QAM SM
+				if(cfg->UEP())
+				{
+					d_R_0_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][3];
+					d_R_2_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][4];
+					d_R_2_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][5];
+					d_R_Ylcm_1 = tab_64_SM[cfg->msc_prot_level_1()][6];
+				}
+
+				d_R_0_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][3];
+				d_R_2_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][4];
+				d_R_2_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][5];
+				d_R_Ylcm_2 = tab_64_SM[cfg->msc_prot_level_2()][6];
+				break;
+
+			default:
+				std::cout << "Undefined state (RM A-D)! Check configuration!\n";
+				break;
+			}
+		}
+		else // RM E
+		{
+			switch(cfg->msc_mapping())
+			{
+			case 0: // 4-QAM
+				d_R_0_enum_2 = tab_4_E[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = tab_4_E[cfg->msc_prot_level_2()][1];
+				break;
+
+			case 1: // 16-QAM
+				if(cfg->UEP())
+				{
+					d_R_0_enum_1 = tab_16_E[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = tab_16_E[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = tab_16_E[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = tab_16_E[cfg->msc_prot_level_1()][3];
+					d_R_Ylcm_1 = tab_16_E[cfg->msc_prot_level_1()][4];
+				}
+
+				d_R_0_enum_2 = tab_16_E[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = tab_16_E[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = tab_16_E[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = tab_16_E[cfg->msc_prot_level_2()][3];
+				d_R_Ylcm_2 = tab_16_E[cfg->msc_prot_level_2()][4];
+				break;
+
+			default:
+				std::cout << "Undefined state (RM E)! Check configuration!\n";
+				break;
+			}
+		}
+	}
+
+	/* calculate and define code-rate-dependant variables */
+	/* NOTE: There is no need to make a difference between UEP and EEP as the values automatically
+	 * 'default' to EEP if the number of bytes in the higher protected part
+	 * is defined as zero. */
+
+	if(cfg->msc_mapping() < 3) // Symmetrical mapping (SM)
+	{
+		calc_N1_SM_HMsym(cfg);
+		// TODO: calc rest of the variables
+	}
+	else if(cfg->msc_mapping() == 3) // Hierarchical symmetrical mapping (HMsym)
+	{
+		std::cout << "not yet implemented...\n"; // TODO: implement code rate assignment for hierarchical mapping
+	}
+	else // HMmix
+	{
+		std::cout << "not yet implemented...\n";
+	}
+}
+
+void
+msc_params::calc_N1_SM_HMsym(config* cfg)
+{
+	/* define P_max and sum */
+	unsigned short P_max = 0; // number of levels in the MLC encoder, depends on mapping
+	float sum = 0; // sum of code rates as in the formula on p. 112
+	if(cfg->msc_mapping() == 0)
+	{
+		P_max = 1; // 4-QAM
+		//sum = this->R_0_enum_1() / float(this->R_0_denom_1());
+	}
+	else if(cfg->msc_mapping() == 1)
+	{
+		P_max = 2; // 16-QAM
+		//sum = this->R_0_enum_1() / float(this->R_0_denom_1()) +
+			  this->R_1_enum_1() / float(this->R_1_denom_1());
+	}
+	else if(cfg->msc_mapping() > 1)
+	{
+		P_max = 3; // 64-QAM
+		//sum = this->R_0_enum_1() / float(this->R_0_denom_1()) +
+			  this->R_1_enum_1() / float(this->R_1_denom_1()) +
+			  this->R_2_enum_1() / float(this->R_2_denom_1());
+	}
+
+	//d_N_1 = ceil((8 * cfg->n_bytes_A()) / 2);
+
 }
 
 unsigned int
@@ -119,6 +326,18 @@ unsigned int
 msc_params::L_1()
 {
 	return d_L_1;
+}
+
+unsigned int
+msc_params::L_2()
+{
+	return d_L_2;
+}
+
+unsigned int
+msc_params::L_VSPP()
+{
+	return d_L_VSPP;
 }
 
 unsigned int
@@ -139,7 +358,112 @@ msc_params::N_2()
 	return d_N_2;
 }
 
+unsigned short
+msc_params::MSC_prot_1()
+{
+	return d_MSC_prot_1;
+}
+
+unsigned short
+msc_params::MSC_prot_2()
+{
+	return d_MSC_prot_2;
+}
+
+unsigned short
+msc_params::R_0_enum_1()
+{
+	return d_R_0_enum_1;
+}
+
+unsigned short
+msc_params::R_0_denom_1()
+{
+	return d_R_0_denom_1;
+}
+
+unsigned short
+msc_params::R_1_enum_1()
+{
+	return d_R_1_enum_1;
+}
+
+unsigned short
+msc_params::R_1_denom_1()
+{
+	return d_R_1_denom_1;
+}
+
+unsigned short
+msc_params::R_2_enum_1()
+{
+	return d_R_2_enum_1;
+}
+
+unsigned short
+msc_params::R_2_denom_1()
+{
+	return d_R_2_denom_1;
+}
+
+unsigned short
+msc_params::R_Ylcm_1()
+{
+	return d_R_Ylcm_1;
+}
+
+unsigned short
+msc_params::R_0_enum_2()
+{
+	return d_R_0_enum_2;
+}
+
+unsigned short
+msc_params::R_0_denom_2()
+{
+	return d_R_0_denom_2;
+}
+
+unsigned short
+msc_params::R_1_enum_2()
+{
+	return d_R_1_enum_2;
+}
+
+unsigned short
+msc_params::R_1_denom_2()
+{
+	return d_R_1_denom_2;
+}
+
+unsigned short
+msc_params::R_2_enum_2()
+{
+	return d_R_2_enum_2;
+}
+
+unsigned short
+msc_params::R_2_denom_2()
+{
+	return d_R_2_denom_2;
+}
+
+unsigned short
+msc_params::R_Ylcm_2()
+{
+	return d_R_Ylcm_2;
+}
+
 /* Control channel implementation */
+control_chan_params::control_chan_params()
+{
+	d_L = 0;
+	d_N = 0;
+	d_R_0 = 0;
+	d_R_0_enum = 0;
+	d_R_0_denom = 0;
+}
+
 unsigned int
 control_chan_params::L()
 {
@@ -171,6 +495,13 @@ control_chan_params::R_0_denom()
 }
 
 /* SDC channel implementation */
+sdc_params::sdc_params()
+{
+	d_R_1 = 0;
+	d_R_1_enum = 0;
+	d_R_1_denom = 0;
+}
+
 void
 sdc_params::init(config* cfg)
 {
@@ -201,10 +532,10 @@ sdc_params::init(config* cfg)
 	if(cfg->RM() < 4) // RM A-D
 	{
 		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_mapping()][cfg->SO()];
-		switch(cfg->sdc_mapping())
+		switch(cfg->sdc_mapping()) // FIXME: SDC prot level index should be the same as in the standard
 		{
 		case 0: // 16-QAM, R_all = 0.5
-			d_R_0 = 1/2;
+			d_R_0 = float(1/2);
 			d_R_0_enum = 1;
 			d_R_0_denom = 3;
 			d_R_1 = 2/3;
@@ -212,9 +543,9 @@ sdc_params::init(config* cfg)
 			d_R_1_denom = 3;
 			break;
 		case 1: // 4-QAM
-			d_R_0 = 1/2;
 			d_R_0_enum = 1;
 			d_R_0_denom = 2;
+			d_R_0 = d_R_0_enum/float(d_R_0_denom); // typecast necessary to get a rational value
 			break;
 		default: // error checking is done before
 			break;
@@ -271,17 +602,17 @@ fac_params::init(config* cfg)
 		// RM E
 		d_N = N_FAC_DRMPLUS;
 		d_L = L_FAC_DRMPLUS;
-		d_R_0 = 1/4;
 		d_R_0_enum = 1;
 		d_R_0_denom = 4;
+		d_R_0 = d_R_0_enum/float(d_R_0_denom);
 	}
 	else
 	{
 		// RM A-D
 		d_N = N_FAC_DRM;
 		d_L = L_FAC_DRM;
-		d_R_0 = 3/5;
 		d_R_0_enum = 3;
 		d_R_0_denom = 5;
+		d_R_0 = d_R_0_enum/float(d_R_0_denom);
 	}
 }

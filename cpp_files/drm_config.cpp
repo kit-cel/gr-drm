@@ -1,6 +1,22 @@
 #include "drm_config.h"
 
 /* config implementation */
+config::config()
+{
+	d_RM = 0;
+	d_SO = 0;
+	d_UEP = 0;
+	d_n_bytes_A = 0;
+	d_text = 0;
+	d_long_interl =	0;
+    d_msc_mapping = 0;
+    d_msc_prot_level_1 = 0;
+	d_msc_prot_level_2 = 0;
+	d_sdc_mapping = 0;
+	d_sdc_prot_level = 0;
+	d_ptables = NULL;
+}
+
 void
 config::init(tables* ptr_tables)
 {
@@ -12,7 +28,9 @@ config::init(tables* ptr_tables)
 	d_UEP = false; // EEP
 	d_text = false; // no text message included
 	d_long_interl = false; // short interleaving (400ms)
-	d_msc_mapping = 0; // 16-QAM SM
+	d_msc_mapping = 1; // 16-QAM SM
+	d_msc_prot_level_1 = 0; // not used because UEP==0
+	d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
 
@@ -44,7 +62,7 @@ config::check_arguments()
 		std::cout << "SO out of range!\n";
 		valid = false;
 	}
-	if (d_msc_mapping < 0 || d_msc_mapping > 2)
+	if (d_msc_mapping < 0 || d_msc_mapping > 4)
 	{
 		std::cout << "MSC mapping out of range!\n";
 		valid = false;
@@ -76,7 +94,7 @@ config::check_arguments()
 		std::cout << "Invalid SDC protection level (only for RM E, otherwise set it to zero)!\n";
 		valid = false;
 	}
-	if (d_msc_mapping > 1 && d_sdc_mapping == 0)
+	if (d_msc_mapping > 2 && d_sdc_mapping == 0)
 	{
 		std::cout << "If hierarchical mapping is used, SDC has to use 4-QAM!\n";
 		valid = false;
@@ -103,6 +121,12 @@ config::UEP()
 	return d_UEP;
 }
 
+unsigned int
+config::n_bytes_A()
+{
+	return d_n_bytes_A;
+}
+
 bool
 config::text()
 {
@@ -119,6 +143,18 @@ unsigned short
 config::msc_mapping()
 {
 	return d_msc_mapping;
+}
+
+unsigned short
+config::msc_prot_level_1()
+{
+	return d_msc_prot_level_1;
+}
+
+unsigned short
+config::msc_prot_level_2()
+{
+	return d_msc_prot_level_2;
 }
 
 unsigned short

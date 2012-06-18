@@ -60,7 +60,7 @@ public:
 	unsigned short M_TF();
 	unsigned int fs_soundcard();
 
-	ofdm_params(){};
+	ofdm_params();
 	virtual ~ofdm_params(){};
 
 	void init(config* cfg);
@@ -72,7 +72,7 @@ protected:
 	unsigned int d_L; // length in bits
 	unsigned int d_N; // number of QAM symbols
 
-	float d_R_0; // coderate R_0
+	float d_R_0; // coderate R_0 TODO: is this value necessary?
 	unsigned short d_R_0_enum; // enumerator of R_0
 	unsigned short d_R_0_denom; // denominator of R_0
 
@@ -83,7 +83,7 @@ public:
 	unsigned short R_0_enum();
 	unsigned short R_0_denom();
 
-	control_chan_params(){};
+	control_chan_params();
 	virtual ~control_chan_params(){};
 };
 
@@ -98,7 +98,7 @@ public:
 	unsigned short R_1_enum();
 	unsigned short R_1_denom();
 
-	sdc_params(){};
+	sdc_params();
 	virtual ~sdc_params(){};
 
 	void init(config* cfg);
@@ -115,24 +115,62 @@ public:
 
 class msc_params : public global_params
 {
-	unsigned int d_L_MUX;
-	unsigned int d_L_1;
-	unsigned int d_L_2;
-	unsigned int d_N_MUX;
-	unsigned int d_N_1;
-	unsigned int d_N_2;
+	/* NOTE: so far, only SM is implemented! TODO: implement hierarchical mapping */
+	unsigned int d_L_MUX; // number of bits per multiplex frame
+	unsigned int d_L_1; // higher protected bits
+	unsigned int d_L_2; // lower protected bits
+	unsigned int d_L_VSPP; // very strongly protected bits
+	unsigned int d_N_MUX; // number of QAM cells per multiplex frame
+	unsigned int d_N_1; // higher protected cells
+	unsigned int d_N_2; // lower protected cells
 
-	//TODO: fill in code rate stuff
+	unsigned short d_MSC_prot_1; // MSC protection level for higher protected part (see 7.1 and tables 64-70 in the standard)
+	unsigned short d_MSC_prot_2; // protection level for lower protected part
+
+	unsigned short d_R_0_enum_1;
+	unsigned short d_R_0_denom_1;
+	unsigned short d_R_1_enum_1;
+	unsigned short d_R_1_denom_1;
+	unsigned short d_R_2_enum_1;
+	unsigned short d_R_2_denom_1;
+	unsigned short d_R_Ylcm_1;
+	unsigned short d_R_0_enum_2;
+	unsigned short d_R_0_denom_2;
+	unsigned short d_R_1_enum_2;
+	unsigned short d_R_1_denom_2;
+	unsigned short d_R_2_enum_2;
+	unsigned short d_R_2_denom_2;
+	unsigned short d_R_Ylcm_2;
 
 public:
 	unsigned int L_MUX();
 	unsigned int L_1();
 	unsigned int L_2();
+	unsigned int L_VSPP();
 	unsigned int N_MUX();
 	unsigned int N_1();
 	unsigned int N_2();
 
-	msc_params(){};
+	unsigned short MSC_prot_1();
+	unsigned short MSC_prot_2();
+	unsigned short R_0_enum_1();
+	unsigned short R_0_denom_1();
+	unsigned short R_1_enum_1();
+	unsigned short R_1_denom_1();
+	unsigned short R_2_enum_1();
+	unsigned short R_2_denom_1();
+	unsigned short R_Ylcm_1();
+	unsigned short R_0_enum_2();
+	unsigned short R_0_denom_2();
+	unsigned short R_1_enum_2();
+	unsigned short R_1_denom_2();
+	unsigned short R_2_enum_2();
+	unsigned short R_2_denom_2();
+	unsigned short R_Ylcm_2();
+
+	void calc_N1_SM_HMsym(config* cfg);
+
+	msc_params();
 	virtual ~msc_params(){};
 
 	void init(config* cfg);
