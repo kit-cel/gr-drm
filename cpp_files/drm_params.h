@@ -168,13 +168,12 @@ public:
 	unsigned short R_2_denom_2();
 	unsigned short R_Ylcm_2();
 
-	void calc_N1_SM_HMsym(config* cfg);
+	void calc_vars_SM(config* cfg);
 
 	msc_params();
 	virtual ~msc_params(){};
 
 	void init(config* cfg);
 };
-
 
 #endif /* DRM_INIT_PARAMS_H_ */

@@ -150,34 +150,6 @@ msc_params::init(config* cfg)
 {
 	std::cout << "init msc\n";
 
-	/* define tables with coderates (see tables 64-70 in the DRM standard) */
-	unsigned short tab_4_E[4][2] = {{1,4},{1,3},{2,5},{1,2}};
-	unsigned short tab_16_ABCD[2][5] = {{1, 3, 2, 3, 3},
-										{1, 2, 3, 4, 4}};
-
-	unsigned short tab_16_E[4][5] = {{1, 6, 1, 2, 6},
-									 {1, 4, 4, 7, 28},
-									 {1, 3, 2, 3, 3},
-									 {1, 2, 3, 4, 4}};
-
-	unsigned short tab_64_SM[4][7] = {{1, 4, 1, 2, 3, 4, 4}, // These code rates are also used for the imaginary part of HMmix (SPP)
-									  {1, 3, 2, 3, 4, 5, 15},
-								      {1, 2, 3, 4, 7, 8, 8},
-									  {2, 3, 4, 5, 8, 9, 45}};
-
-	unsigned short tab_64_HMsym_SPP[4][5] = {{3, 10, 3, 5, 10}, // Also used for real part of HMmix (SPP)
-											 {4, 11, 8, 11, 11},
-											 {4, 7, 7, 8, 56},
-											 {2, 3, 8, 9, 9}};
-
-	unsigned short tab_64_HMsym_VSPP[4][2] = {{1, 2}, {4, 7}, {3, 5}, {2, 3}}; // Also used for real part of HMmix (VSPP)
-
-	unsigned short tab_64_HMmix_SPP[4][11] = {{1, 4, 3, 10, 1, 2, 3, 5, 3, 4, 20},
-			{1, 3, 4, 11, 2, 3, 8, 11, 4, 5, 165},
-			{1, 2, 4, 7, 3, 4, 7, 8, 7, 8, 56},
-			{2, 3, 2, 3, 4, 5, 8, 9, 8, 9, 45}};
-
-
 	/* Assign code rates */
 
 	if(cfg->msc_mapping() > 2) // Hierarchical mapping
@@ -194,39 +166,39 @@ msc_params::init(config* cfg)
 			case 1: // 16-QAM
 				if(cfg->UEP())
 				{
-					d_R_0_enum_1 = tab_16_ABCD[cfg->msc_prot_level_1()][0];
-					d_R_0_denom_1 = tab_16_ABCD[cfg->msc_prot_level_1()][1];
-					d_R_1_enum_1 = tab_16_ABCD[cfg->msc_prot_level_1()][2];
-					d_R_1_denom_1 = tab_16_ABCD[cfg->msc_prot_level_1()][3];
-					d_R_Ylcm_1 = tab_16_ABCD[cfg->msc_prot_level_1()][4];
+					d_R_0_enum_1 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_1()][3];
+					d_R_Ylcm_1 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_1()][4];
 				}
 
-				d_R_0_enum_2 = tab_16_ABCD[cfg->msc_prot_level_2()][0];
-				d_R_0_denom_2 = tab_16_ABCD[cfg->msc_prot_level_2()][1];
-				d_R_1_enum_2 = tab_16_ABCD[cfg->msc_prot_level_2()][2];
-				d_R_1_denom_2 = tab_16_ABCD[cfg->msc_prot_level_2()][3];
-				d_R_Ylcm_2 = tab_16_ABCD[cfg->msc_prot_level_2()][4];
+				d_R_0_enum_2 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_2()][3];
+				d_R_Ylcm_2 = cfg->ptables()->d_MSC_16_ABCD[cfg->msc_prot_level_2()][4];
 				break;
 
 			case 2: // 64-QAM SM
 				if(cfg->UEP())
 				{
-					d_R_0_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][0];
-					d_R_0_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][1];
-					d_R_1_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][2];
-					d_R_1_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][3];
-					d_R_2_enum_1 = tab_64_SM[cfg->msc_prot_level_1()][4];
-					d_R_2_denom_1 = tab_64_SM[cfg->msc_prot_level_1()][5];
-					d_R_Ylcm_1 = tab_64_SM[cfg->msc_prot_level_1()][6];
+					d_R_0_enum_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][3];
+					d_R_2_enum_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][4];
+					d_R_2_denom_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][5];
+					d_R_Ylcm_1 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_1()][6];
 				}
 
-				d_R_0_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][0];
-				d_R_0_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][1];
-				d_R_1_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][2];
-				d_R_1_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][3];
-				d_R_2_enum_2 = tab_64_SM[cfg->msc_prot_level_2()][4];
-				d_R_2_denom_2 = tab_64_SM[cfg->msc_prot_level_2()][5];
-				d_R_Ylcm_2 = tab_64_SM[cfg->msc_prot_level_2()][6];
+				d_R_0_enum_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][3];
+				d_R_2_enum_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][4];
+				d_R_2_denom_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][5];
+				d_R_Ylcm_2 = cfg->ptables()->d_MSC_64_SM[cfg->msc_prot_level_2()][6];
 				break;
 
 			default:
@@ -239,25 +211,25 @@ msc_params::init(config* cfg)
 			switch(cfg->msc_mapping())
 			{
 			case 0: // 4-QAM
-				d_R_0_enum_2 = tab_4_E[cfg->msc_prot_level_2()][0];
-				d_R_0_denom_2 = tab_4_E[cfg->msc_prot_level_2()][1];
+				d_R_0_enum_2 = cfg->ptables()->d_MSC_CR_4[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = cfg->ptables()->d_MSC_CR_4[cfg->msc_prot_level_2()][1];
 				break;
 
 			case 1: // 16-QAM
 				if(cfg->UEP())
 				{
-					d_R_0_enum_1 = tab_16_E[cfg->msc_prot_level_1()][0];
-					d_R_0_denom_1 = tab_16_E[cfg->msc_prot_level_1()][1];
-					d_R_1_enum_1 = tab_16_E[cfg->msc_prot_level_1()][2];
-					d_R_1_denom_1 = tab_16_E[cfg->msc_prot_level_1()][3];
-					d_R_Ylcm_1 = tab_16_E[cfg->msc_prot_level_1()][4];
+					d_R_0_enum_1 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_1()][0];
+					d_R_0_denom_1 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_1()][1];
+					d_R_1_enum_1 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_1()][2];
+					d_R_1_denom_1 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_1()][3];
+					d_R_Ylcm_1 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_1()][4];
 				}
 
-				d_R_0_enum_2 = tab_16_E[cfg->msc_prot_level_2()][0];
-				d_R_0_denom_2 = tab_16_E[cfg->msc_prot_level_2()][1];
-				d_R_1_enum_2 = tab_16_E[cfg->msc_prot_level_2()][2];
-				d_R_1_denom_2 = tab_16_E[cfg->msc_prot_level_2()][3];
-				d_R_Ylcm_2 = tab_16_E[cfg->msc_prot_level_2()][4];
+				d_R_0_enum_2 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_2()][0];
+				d_R_0_denom_2 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_2()][1];
+				d_R_1_enum_2 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_2()][2];
+				d_R_1_denom_2 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_2()][3];
+				d_R_Ylcm_2 = cfg->ptables()->d_MSC_16_E[cfg->msc_prot_level_2()][4];
 				break;
 
 			default:
@@ -274,7 +246,7 @@ msc_params::init(config* cfg)
 
 	if(cfg->msc_mapping() < 3) // Symmetrical mapping (SM)
 	{
-		calc_N1_SM_HMsym(cfg);
+		calc_vars_SM(cfg);
 		// TODO: calc rest of the variables
 	}
 	else if(cfg->msc_mapping() == 3) // Hierarchical symmetrical mapping (HMsym)
@@ -288,32 +260,71 @@ msc_params::init(config* cfg)
 }
 
 void
-msc_params::calc_N1_SM_HMsym(config* cfg)
+msc_params::calc_vars_SM(config* cfg)
 {
 	/* define P_max and sum */
 	unsigned short P_max = 0; // number of levels in the MLC encoder, depends on mapping
-	float sum = 0; // sum of code rates as in the formula on p. 112
+	float sum = 0; // sum of code rates (higher protected part) as in the formula on p. 112
 	if(cfg->msc_mapping() == 0)
 	{
 		P_max = 1; // 4-QAM
-		//sum = this->R_0_enum_1() / float(this->R_0_denom_1());
+		if(cfg->UEP())
+		{
+			sum = d_R_0_enum_1 / float(d_R_0_denom_1);
+		}
 	}
 	else if(cfg->msc_mapping() == 1)
 	{
 		P_max = 2; // 16-QAM
-		//sum = this->R_0_enum_1() / float(this->R_0_denom_1()) +
-			  this->R_1_enum_1() / float(this->R_1_denom_1());
+		if(cfg->UEP())
+		{
+			sum = d_R_0_enum_1 / float(d_R_0_denom_1) +
+				  d_R_1_enum_1 / float(d_R_1_denom_1);
+		}
 	}
 	else if(cfg->msc_mapping() > 1)
 	{
 		P_max = 3; // 64-QAM
-		//sum = this->R_0_enum_1() / float(this->R_0_denom_1()) +
-			  this->R_1_enum_1() / float(this->R_1_denom_1()) +
-			  this->R_2_enum_1() / float(this->R_2_denom_1());
+		if(cfg->UEP())
+		{
+			sum = d_R_0_enum_1 / float(d_R_0_denom_1) +
+				  d_R_1_enum_1 / float(d_R_1_denom_1) +
+				  d_R_2_enum_1 / float(d_R_2_denom_1);
+		}
 	}
 
-	//d_N_1 = ceil((8 * cfg->n_bytes_A()) / 2);
+	d_N_MUX = cfg->ptables()->d_MSC_N_MUX[cfg->RM()][cfg->SO()];
+	d_N_1 = ceil((8 * cfg->n_bytes_A()) / (2 * d_R_Ylcm_1 * sum)) * d_R_Ylcm_1;
+	d_N_2 = d_N_MUX - d_N_1;
 
+	if(d_N_2 < 20 | d_N_1 > d_N_MUX - 20)
+	{
+		std::cout << "N_2 or N_1 out of bounds!\n";
+	}
+
+
+	d_L_VSPP = 0; // no hierarchical mapping is used
+	d_L_1 = 2 * d_N_1 * sum;
+	switch(P_max)
+	{
+	case 1:
+		d_L_2 = d_R_0_enum_2 * floor((2*d_N_2 - 12) / d_R_0_denom_2);
+		break;
+	case 2:
+		d_L_2 = d_R_0_enum_2 * floor((2*d_N_2 - 12) / d_R_0_denom_2) +
+				d_R_1_enum_2 * floor((2*d_N_2 - 12) / d_R_1_denom_2);
+		break;
+	case 3:
+		d_L_2 = d_R_0_enum_2 * floor((2*d_N_2 - 12) / d_R_0_denom_2) +
+				d_R_1_enum_2 * floor((2*d_N_2 - 12) / d_R_1_denom_2) +
+				d_R_2_enum_2 * floor((2*d_N_2 - 12) / d_R_2_denom_2);
+		break;
+	default:
+		std::cout << "P_max invalid!\n";
+		break;
+	}
+
+	d_L_MUX = d_L_1 + d_L_2;
 }
 
 unsigned int

@@ -35,6 +35,7 @@ public:
 	unsigned short sdc_mapping();
 	unsigned short sdc_prot_level();
 	bool long_interl();
+	tables* ptables();
 
 	config();
 	~config(){};

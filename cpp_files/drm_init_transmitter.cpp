@@ -13,8 +13,6 @@ int main()
 {
 	std::cout << "entering init routine...\n";
 
-	// TODO: initialize class members to zero to make error identification easier.
-
 	/* init tables */
 	tables tab;
 
