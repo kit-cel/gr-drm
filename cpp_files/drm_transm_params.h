@@ -26,7 +26,7 @@ public:
 	sdc_params* sdc();
 	fac_params* fac();
 
-	void init(config* c, ofdm_params* o, msc_params* m, sdc_params* s, fac_params* f);
+	void init();
 
 	transm_params();
 	~transm_params(){};
