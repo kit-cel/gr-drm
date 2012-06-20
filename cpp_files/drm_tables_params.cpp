@@ -17,7 +17,8 @@ const unsigned int tables::d_MSC_N_MUX[5][6] = { // row: RM, col: SO
 		{0, 0, 0, 1226, 0, 2606},
 		{7460, 0, 0, 0, 0}};
 
-/* Code rates */
+/* Code rates
+ * SM: {R_0_enum, R_0_denom, R_1_enum, ..., R_Ylcm} */
 const unsigned short tables::d_MSC_CR_4[4][2] = {{1,4},{1,3},{2,5},{1,2}};
 const unsigned short tables::d_MSC_16_ABCD[2][5] = {
 		{1, 3, 2, 3, 3},

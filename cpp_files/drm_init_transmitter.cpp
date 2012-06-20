@@ -1,11 +1,12 @@
 /*
- * main_test.cpp
+ * drm_init_transmitter.cpp
  *
  *  Created on: 11.06.2012
  *      Author: felixwunsch
  */
 
 #include "drm_params.h"
+#include "drm_transm_params.h"
 
 #include <iostream>
 
@@ -32,6 +33,9 @@ int main()
 
 	fac_params fac;
 	fac.init(&cfg);
+
+	transm_params transm;
+	transm.init(&cfg, &ofdm, &msc, &sdc, &fac);
 
 	std::cout << "exiting init routine...\n";
 	return 0;

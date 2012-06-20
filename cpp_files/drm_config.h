@@ -15,7 +15,7 @@ class config
 	bool d_text; // 0: text message not used, 1: text message used
 	unsigned short d_msc_mapping; // 0: 4-QAM SM (only RM E), 1: 16-QAM SM, 2: 64-QAM SM, 3: 64-QAM HMsym, 4: 64-QAM HMmix
 	unsigned short d_msc_prot_level_1; // Protection level for higher protected part (if UEP is used)
-	unsigned short d_msc_prot_level_2; // Protection level for lower protected part (or if EEP is used)
+	unsigned short d_msc_prot_level_2; // Protection level for lower protected part (or for EEP)
 	unsigned short d_sdc_mapping; // 1: 4-QAM, 0: 16-QAM
 	unsigned short d_sdc_prot_level; // (only for RM E) 0: 0.5, 1: 0.25
 	bool d_long_interl; // 0: short interleaving, 1: long interleaving
@@ -41,7 +41,7 @@ public:
 	~config(){};
 
 	void init(tables* ptr_tables); // set member variables
-	bool check_arguments(); // some range and plausability checks
+	bool check_arguments(); // some range and plausibility checks
 };
 
 #endif

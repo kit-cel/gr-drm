@@ -8,6 +8,8 @@
 #include "drm_params.h"
 #include <cmath>
 
+// TODO: maybe divide this up into drm_params_ofdm/msc/fac/sdc.cpp
+
 /* OFDM params implementation */
 ofdm_params::ofdm_params()
 {
@@ -297,7 +299,7 @@ msc_params::calc_vars_SM(config* cfg)
 	d_N_1 = ceil((8 * cfg->n_bytes_A()) / (2 * d_R_Ylcm_1 * sum)) * d_R_Ylcm_1;
 	d_N_2 = d_N_MUX - d_N_1;
 
-	if(d_N_2 < 20 | d_N_1 > d_N_MUX - 20)
+	if((d_N_2 < 20) || (d_N_1 > d_N_MUX - 20))
 	{
 		std::cout << "N_2 or N_1 out of bounds!\n";
 	}
