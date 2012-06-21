@@ -23,6 +23,7 @@
 
 #include <drm_api.h>
 #include <gr_block.h>
+#include "drm_transm_params.h"
 
 class drm_source_encoder_sb;
 typedef boost::shared_ptr<drm_source_encoder_sb> drm_source_encoder_sb_sptr;
