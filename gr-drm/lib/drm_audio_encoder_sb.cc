@@ -40,8 +40,30 @@ const short MAX_OUT = 1;
 drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 	: gr_block ("audio_encoder_sb",
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
-		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (char)))
+		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char)))
 {
+	//switch(tp->cfg()->audio_samp_rate())
+	unsigned int audio_samp_hardcoded = 24000; // FIXME: hard coded
+	switch(audio_samp_hardcoded)
+	{
+	case 12000:
+		d_n_aac_frames = 5;
+		d_time_aac_superframe = 80;
+		d_n_header_bytes = 6;
+		break;
+	case 24000:
+		d_n_aac_frames= 10;
+		d_time_aac_superframe = 40;
+		d_n_header_bytes = 14;
+		break;
+	default:
+		std::cout << "Unsupported audio sample rate!\n";
+		break;
+	}
+
+	d_transform_length = 960; // see DRM standard
+	d_n_channels = 1; // mono
+	d_L_MUX_MSC = 5826; // RM B, SO 3 FIXME: hard coded
 }
 
 

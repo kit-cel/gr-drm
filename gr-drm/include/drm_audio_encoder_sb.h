@@ -40,6 +40,15 @@ class DRM_API drm_audio_encoder_sb : public gr_block
 
 	drm_audio_encoder_sb (transm_params* tp);
 
+	/* member variables */
+	int d_n_aac_frames; // number of AAC frames per super audio frame
+	int d_time_aac_superframe; // in ms
+	int d_n_header_bytes; // number of header bytes
+	int d_transform_length; // number of time samples per conversion step
+	unsigned int d_n_channels; // number of channels (mono/stereo/...)
+	unsigned long d_n_samples_in; // number of input samples (set by encoder)
+	unsigned long d_n_max_bytes_out; // max number of bytes (encoder output, set by encoder)
+	unsigned int d_L_MUX_MSC; // number of decoded bits MSC
  public:
 	~drm_audio_encoder_sb ();
 
