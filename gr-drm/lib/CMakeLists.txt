@@ -20,7 +20,7 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-add_library(gnuradio-drm SHARED drm_source_encoder_sb.cc )
+add_library(gnuradio-drm SHARED drm_audio_encoder_sb.cc )
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES})
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 
@@ -43,3 +43,6 @@ set(GR_TEST_TARGET_DEPS gnuradio-drm)
 #turn each test cpp file into an executable with an int main() function
 add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
+add_executable(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb.cc)
+target_link_libraries(qa_drm_audio_encoder_sb gnuradio-drm ${Boost_LIBRARIES})
+GR_ADD_TEST(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb)

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>source_encoder_sb</name>
-  <key>drm_source_encoder_sb</key>
+  <name>audio_encoder_sb</name>
+  <key>drm_audio_encoder_sb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.source_encoder_sb(tp)</make>
+  <make>drm.audio_encoder_sb(tp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

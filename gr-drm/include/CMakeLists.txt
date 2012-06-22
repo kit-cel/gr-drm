@@ -22,5 +22,5 @@
 ########################################################################
 install(FILES
     drm_api.h
-    drm_source_encoder_sb.h DESTINATION include/drm
+    drm_audio_encoder_sb.h DESTINATION include/drm
 )
