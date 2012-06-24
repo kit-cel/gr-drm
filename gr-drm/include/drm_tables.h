@@ -9,7 +9,6 @@
 #define DRM_TABLES_H_
 
 #include "drm_global_constants.h"
-#include <boost/multi_array.hpp>
 
 class tables
 {
