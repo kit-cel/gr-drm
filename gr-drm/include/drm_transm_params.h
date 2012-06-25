@@ -26,8 +26,6 @@ public:
 	sdc_params sdc();
 	fac_params fac();
 
-	void init();
-
 	transm_params();
 	~transm_params(){};
 };

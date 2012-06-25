@@ -11,16 +11,6 @@
 
 transm_params::transm_params()
 {
-	d_cfg = NULL;
-	d_ofdm = NULL;
-	d_msc = NULL;
-	d_sdc = NULL;
-	d_fac = NULL;
-}
-
-void
-transm_params::init()
-{
 	/* init tables */
 	tables* t = new tables;
 
