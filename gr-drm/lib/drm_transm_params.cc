@@ -49,32 +49,32 @@ transm_params::init()
 	d_fac = f;
 }
 
-config*
+config
 transm_params::cfg()
 {
-	return d_cfg;
+	return *d_cfg;
 }
 
-ofdm_params*
+ofdm_params
 transm_params::ofdm()
 {
-	return d_ofdm;
+	return *d_ofdm;
 }
 
-msc_params*
+msc_params
 transm_params::msc()
 {
-	return d_msc;
+	return *d_msc;
 }
 
-sdc_params*
+sdc_params
 transm_params::sdc()
 {
-	return d_sdc;
+	return *d_sdc;
 }
 
-fac_params*
+fac_params
 transm_params::fac()
 {
-	return d_fac;
+	return *d_fac;
 }

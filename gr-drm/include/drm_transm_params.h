@@ -20,11 +20,11 @@ class transm_params
 	fac_params* d_fac;
 
 public:
-	config* cfg();
-	ofdm_params* ofdm();
-	msc_params* msc();
-	sdc_params* sdc();
-	fac_params* fac();
+	config cfg();
+	ofdm_params ofdm();
+	msc_params msc();
+	sdc_params sdc();
+	fac_params fac();
 
 	void init();
 
