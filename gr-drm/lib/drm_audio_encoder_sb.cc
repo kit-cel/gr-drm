@@ -43,7 +43,7 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char)))
 {
 	//switch(tp->cfg()->audio_samp_rate())
-	unsigned int audio_samp_hardcoded = 24000; // FIXME: hard coded
+	unsigned int audio_samp_hardcoded = 24000; // FIXME: audio sample rate hard coded, add to config
 	switch(audio_samp_hardcoded)
 	{
 	case 12000:
@@ -63,7 +63,7 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 
 	d_transform_length = 960; // see DRM standard
 	d_n_channels = 1; // mono
-	d_L_MUX_MSC = 5826; // RM B, SO 3 FIXME: hard coded
+	d_L_MUX_MSC = (tp->msc()).L_MUX();
 }
 
 
@@ -78,14 +78,35 @@ drm_audio_encoder_sb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
-  const gr_int16 *in = (const gr_int16 *) input_items[0];
-  char *out = (char *) output_items[0];
+	const gr_int16 *in = (const gr_int16 *) input_items[0];
+	unsigned char *out = (unsigned char *) output_items[0];
+  
+	// open encoder
+	faacEncHandle encHandle;
+	encHandle = faacEncOpen(24000, d_n_channels, &d_n_samples_in, &d_n_max_bytes_out);     // FIXME: remove hardcoded value
+	std::cout << "samples in:\t" << d_n_samples_in << "\t max_bytes_out:\t" << d_n_max_bytes_out << std::endl;
+	if(encHandle == NULL)
+	{
+		std::cout << "FAAC encoder instance could not be opened. Exit.\n";
+	}
+	
+	// init output buffer to zero (as defined in the DRM standard)
+	for(int i = 0; i < d_L_MUX_MSC; i++)
+	{
+		out[i] = 0;
+	}
+	
+	// configure encoder
 
-  // Tell runtime system how many input items we consumed on
-  // each input stream.
-  consume_each (noutput_items);
+	// actual encoding
 
-  // Tell runtime system how many output items we produced.
-  return noutput_items;
+	// write to output buffer
+
+	// Tell runtime system how many input items we consumed on
+	// each input stream.
+	consume_each (noutput_items);
+
+	// Tell runtime system how many output items we produced.
+	return noutput_items;
 }
 

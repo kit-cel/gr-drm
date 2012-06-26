@@ -24,6 +24,8 @@
 #include <drm_api.h>
 #include <gr_block.h>
 #include "drm_transm_params.h"
+#include <faac.h>
+#include <iostream>
 
 class drm_audio_encoder_sb;
 typedef boost::shared_ptr<drm_audio_encoder_sb> drm_audio_encoder_sb_sptr;
@@ -53,10 +55,10 @@ class DRM_API drm_audio_encoder_sb : public gr_block
 	~drm_audio_encoder_sb ();
 
 
-  int general_work (int noutput_items,
-		    gr_vector_int &ninput_items,
-		    gr_vector_const_void_star &input_items,
-		    gr_vector_void_star &output_items);
+    int general_work (int noutput_items,
+		gr_vector_int &ninput_items,
+		gr_vector_const_void_star &input_items,
+		gr_vector_void_star &output_items);
 };
 
 #endif /* INCLUDED_DRM_AUDIO_ENCODER_SB_H */
