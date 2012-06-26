@@ -41,6 +41,12 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
     add_definitions(-fvisibility=hidden)
 endif()
 
+# Find FAAC
+find_package(Faac REQUIRED)
+if(NOT Faac_FOUND)
+	message(FATAL_ERROR "FAAC required to compile drm")
+endif()
+
 ########################################################################
 # Find boost
 ########################################################################
@@ -101,12 +107,14 @@ include_directories(
     ${Boost_INCLUDE_DIRS}
     ${GRUEL_INCLUDE_DIRS}
     ${GNURADIO_CORE_INCLUDE_DIRS}
+    ${Faac_INCLUDE_DIRS}
 )
 
 link_directories(
     ${Boost_LIBRARY_DIRS}
     ${GRUEL_LIBRARY_DIRS}
     ${GNURADIO_CORE_LIBRARY_DIRS}
+    ${Faac_LIBRARY_DIRS}
 )
 
 # Set component parameters
