@@ -10,8 +10,12 @@
 
 %{
 #include "drm_audio_encoder_sb.h"
+#include "drm_scrambler_bb.h"
 %}
 
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_sb);
 %include "drm_audio_encoder_sb.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,scrambler_bb);
+%include "drm_scrambler_bb.h"

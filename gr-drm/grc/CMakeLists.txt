@@ -18,5 +18,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    drm_audio_encoder_sb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_audio_encoder_sb.xml
+    drm_scrambler_bb.xml DESTINATION share/gnuradio/grc/blocks
 )
