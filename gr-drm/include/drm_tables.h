@@ -24,7 +24,7 @@ class tables
 	static const int d_FAC_B[N_FAC_DRM][2];
 	static const int d_FAC_C[N_FAC_DRM][2];
 	static const int d_FAC_D[N_FAC_DRM][2];
-	static const int d_FAC_E[N_FAC_DRMPLUS][2]; // TODO: define values
+	//static const int d_FAC_E[N_FAC_DRMPLUS][2]; // TODO: define values
 
 	/* Frequency pilot positions and phases (normalized to 1024)
 	 * The two colums denote {carrier index, phase index} */
@@ -39,7 +39,7 @@ class tables
 	static const int d_time_B[RMB_NUM_TIME_PIL][2];
 	static const int d_time_C[RMC_NUM_TIME_PIL][2];
 	static const int d_time_D[RMD_NUM_TIME_PIL][2];
-	static const int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
+	//static const int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
 
 	/* Gain reference cells */
 	//TODO: add gain reference cells
