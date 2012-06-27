@@ -67,19 +67,19 @@ drm_scrambler_bb::work (int noutput_items,
 	
 	const unsigned int n_reset = block_len();
 	
-	int nitems_per_block = output_signature()->sizeof_stream_item(0)/sizeof(unsigned char);
+	//int nitems_per_block = output_signature()->sizeof_stream_item(0)/sizeof(unsigned char);
 	//std::cout << "nitems_per_block:\t" << nitems_per_block << std::endl;
 	//std::cout << "n_reset:\t" << n_reset << std::endl;
 	//std::cout << "noutput_items:\t" << noutput_items << std::endl;
 
-	// Generate PRBS of length block_len (G(x) = x^9 + x^5 + 1)
-	unsigned char prbs[n_reset]; // Pseudo random bit sequence array
-	unsigned char lfsr[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1}; // inital state: all ones
-	unsigned char lfsr_prev[9]; // holds previous shift register state while shifting
-	unsigned char next_bit;
-	
 	for(int j = 0; j < noutput_items; j++)
 	{
+		// Generate PRBS of length block_len (G(x) = x^9 + x^5 + 1)
+		unsigned char prbs[n_reset]; // Pseudo random bit sequence array
+		unsigned char lfsr[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1}; // inital state: all ones
+		unsigned char lfsr_prev[9]; // holds previous shift register state while shifting
+		unsigned char next_bit;
+	
 		for(int i = 0; i < n_reset; i++)
 		{
 			// calculate new leading bit and save it to prbs
