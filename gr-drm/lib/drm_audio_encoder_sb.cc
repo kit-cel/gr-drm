@@ -1,4 +1,5 @@
 /* -*- c++ -*- */
+/* TODO: add Dream copyright notice!
 /* 
  * Copyright 2012 CEL KIT.
  * 
@@ -42,9 +43,8 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
-	//switch(tp->cfg()->audio_samp_rate())
-	unsigned int audio_samp_hardcoded = 24000; // FIXME: audio sample rate hard coded, add to config
-	switch(audio_samp_hardcoded)
+	d_tp = tp;
+	switch(tp->cfg().audio_samp_rate())
 	{
 	case 12000:
 		d_n_aac_frames = 5;
@@ -56,6 +56,9 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 		d_time_aac_superframe = 40;
 		d_n_header_bytes = 14;
 		break;
+	case 48000:
+		std::cout << "RM E not yet supported!\n";
+		break;
 	default:
 		std::cout << "Unsupported audio sample rate!\n";
 		break;
@@ -64,6 +67,15 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 	d_transform_length = 960; // see DRM standard
 	d_n_channels = 1; // mono
 	d_L_MUX_MSC = (tp->msc()).L_MUX();
+	
+	// open encoder
+	d_encHandle = faacEncOpen(d_tp->cfg().audio_samp_rate(), d_n_channels, &d_n_samples_in, &d_n_max_bytes_out);
+	std::cout << "samples in:\t" << d_n_samples_in << "\t max_bytes_out:\t" << d_n_max_bytes_out << std::endl;
+	
+	if(d_encHandle == NULL)
+	{
+		std::cout << "FAAC encoder instance could not be opened. Exit.\n";
+	}
 }
 
 
@@ -80,33 +92,62 @@ drm_audio_encoder_sb::general_work (int noutput_items,
 {
 	gr_int16 *in = (gr_int16 *) input_items[0];
 	unsigned char *out = (unsigned char *) output_items[0];
+	unsigned int n_in = (unsigned int) ninput_items[0];
   
-	// open encoder
-	faacEncHandle encHandle;
-	encHandle = faacEncOpen(24000, d_n_channels, &d_n_samples_in, &d_n_max_bytes_out);     // FIXME: remove hardcoded value
-	std::cout << "samples in:\t" << d_n_samples_in << "\t max_bytes_out:\t" << d_n_max_bytes_out << std::endl;
-	if(encHandle == NULL)
-	{
-		std::cout << "FAAC encoder instance could not be opened. Exit.\n";
-	}
+	std::cout << "noutput_items:\t" << noutput_items << "\tninput_items:\t" << n_in << std::endl;
+	
+	int n_transm_frames;
 	
 	// init output buffer to zero (as defined in the DRM standard)
-	for(int i = 0; i < d_L_MUX_MSC; i++)
+	for(int i = 0; i < n_in; i++) // truncate to whole super transmission frames
 	{
-		out[i] = 0;
+		//out[i] = 0;
 	}
 	
 	// configure encoder
+	int sizeof_byte = 8;
+	int iTotNumBitsForUsage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
+	int iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte;
+	
+	if(d_tp->cfg().text())
+	{
+		iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte - 4; // last 4 bytes are used for text messaging
+	}
+	else
+	{
+		iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte;
+	}
+	
+	int iTotAudFraSizeBits = iTotNumBitsForUsage; // no text message included!
+
+	int iAudioPayloadLen = iTotAudFraSizeBits / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
+	const int iActEncOutBytes = (int) (iAudioPayloadLen / d_n_aac_frames);
+	int iBitRate = (int) (( iActEncOutBytes * sizeof_byte) / d_time_aac_superframe * 1000);
+    
+    /* set encoder configuration */
+	faacEncConfigurationPtr CurEncFormat;
+	CurEncFormat = faacEncGetCurrentConfiguration(d_encHandle);
+	CurEncFormat->inputFormat = FAAC_INPUT_16BIT;
+	CurEncFormat->useTns = 1;
+	CurEncFormat->aacObjectType = LOW;
+	CurEncFormat->mpegVersion = MPEG4;
+	CurEncFormat->outputFormat = 0;	/* (0 = Raw; 1 = ADTS) */
+	CurEncFormat->bitRate = iBitRate;
+	CurEncFormat->bandWidth = 0;	/* Let the encoder choose the bandwidth */
+	faacEncSetConfiguration(d_encHandle, CurEncFormat);
 
 	// actual encoding
-
+	for(int i = 0; i < n_in; i++)
+	{	
+		
+		
 	// write to output buffer
 
 	// Tell runtime system how many input items we consumed on
 	// each input stream.
-	consume_each (noutput_items);
-
+	consume_each (d_n_samples_in);
+	}
 	// Tell runtime system how many output items we produced.
-	return noutput_items;
+	return n_in; // number of samples that came in
 }
 

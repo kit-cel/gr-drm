@@ -34,7 +34,7 @@ DRM_API drm_audio_encoder_sb_sptr drm_make_audio_encoder_sb (transm_params* tp);
 
 /*!
  * \brief Audio source encoder using FAAC to produce AAC stream (LC, mono)
- *
+ * Input: PCM stream (short ints), output: bit vector (unpacked, unsigned chars)
  */
 class DRM_API drm_audio_encoder_sb : public gr_block
 {
@@ -51,6 +51,9 @@ class DRM_API drm_audio_encoder_sb : public gr_block
 	unsigned long d_n_samples_in; // number of input samples (set by encoder)
 	unsigned long d_n_max_bytes_out; // max number of bytes (encoder output, set by encoder)
 	unsigned int d_L_MUX_MSC; // number of decoded bits MSC
+	
+	faacEncHandle d_encHandle;
+	transm_params* d_tp; // transmission params (holding config/msc/... values)
  public:
 	~drm_audio_encoder_sb ();
 
