@@ -23,28 +23,30 @@
 
 #include <drm_api.h>
 #include <gr_sync_block.h>
+#include <iostream>
 
 class drm_scrambler_bb;
 typedef boost::shared_ptr<drm_scrambler_bb> drm_scrambler_bb_sptr;
 
-DRM_API drm_scrambler_bb_sptr drm_make_scrambler_bb (unsigned int reset_length);
+DRM_API drm_scrambler_bb_sptr 
+drm_make_scrambler_bb (unsigned int block_len);
 
 /*!
  * \brief Scrambles the input sequence according to the following polynomial:
- * G(x) = x^9 + x^5 + 1. The scrambler gets reset after reset_length samples.
+ * G(x) = x^9 + x^5 + 1. The scrambler gets reset after block_len samples.
  */
 class DRM_API drm_scrambler_bb : public gr_sync_block
 {
-	unsigned int d_reset_length; // number of bits after which scrambler is reset. FIXME: only works for sequences of length reset_length!!
+	unsigned int d_block_len;
 	
-	friend DRM_API drm_scrambler_bb_sptr drm_make_scrambler_bb (unsigned int reset_length);
+	friend DRM_API drm_scrambler_bb_sptr drm_make_scrambler_bb (unsigned int block_len);
 
-	drm_scrambler_bb (unsigned int reset_length);
+	drm_scrambler_bb (unsigned int block_len);
 
  public:
 	~drm_scrambler_bb ();
 	
-	unsigned int reset_length();
+	unsigned int block_len();
 
 	int work (int noutput_items,
 		gr_vector_const_void_star &input_items,

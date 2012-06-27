@@ -4,15 +4,15 @@
   <key>drm_scrambler_bb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.scrambler_bb($reset_length)</make>
+  <make>drm.scrambler_bb($block_len)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>reset_length</name>
-    <key>reset_length</key>
+    <name>block_len</name>
+    <key>block_len</key>
     <type>int</type>
   </param>
 
@@ -24,7 +24,7 @@
   <sink>
     <name>in</name>
     <type>byte</type>
-    <vlen>gr.sizeof_char</vlen>
+    <vlen>$block_len</vlen>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -35,6 +35,6 @@
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>gr.sizeof_char</vlen>
+    <vlen>$block_len</vlen>
   </source>
 </block>

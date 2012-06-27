@@ -27,9 +27,9 @@
 
 
 drm_scrambler_bb_sptr
-drm_make_scrambler_bb (unsigned int reset_length)
+drm_make_scrambler_bb (unsigned int block_len)
 {
-	return drm_scrambler_bb_sptr (new drm_scrambler_bb (reset_length));
+	return drm_scrambler_bb_sptr (new drm_scrambler_bb (block_len));
 }
 
 const short MIN_IN = 1;
@@ -37,12 +37,13 @@ const short MAX_IN = 1;
 const short MIN_OUT = 1;
 const short MAX_OUT = 1;
 
-drm_scrambler_bb::drm_scrambler_bb (unsigned int reset_length)
+drm_scrambler_bb::drm_scrambler_bb (unsigned int block_len)
 	: gr_sync_block ("scrambler_bb",
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char)),
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char)))
+		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len),
+		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len)),
+	d_block_len(block_len)
 {
-	d_reset_length = reset_length;
+	d_block_len = block_len;
 }
 
 
@@ -51,9 +52,9 @@ drm_scrambler_bb::~drm_scrambler_bb ()
 }
 
 unsigned int
-drm_scrambler_bb::reset_length()
+drm_scrambler_bb::block_len()
 {
-	return d_reset_length;
+	return d_block_len;
 }
 
 int
@@ -61,45 +62,53 @@ drm_scrambler_bb::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {
-	const unsigned char *in = (const  unsigned char*) input_items[0];
+	unsigned char *in = (unsigned char*) input_items[0];
 	unsigned char *out = (unsigned char*) output_items[0];
 	
-	const unsigned int n_reset = reset_length();
+	const unsigned int n_reset = block_len();
+	
+	int nitems_per_block = output_signature()->sizeof_stream_item(0)/sizeof(unsigned char);
+	//std::cout << "nitems_per_block:\t" << nitems_per_block << std::endl;
+	//std::cout << "n_reset:\t" << n_reset << std::endl;
+	//std::cout << "noutput_items:\t" << noutput_items << std::endl;
 
-	// Generate PRBS of length reset_length (G(x) = x^9 + x^5 + 1)
+	// Generate PRBS of length block_len (G(x) = x^9 + x^5 + 1)
 	unsigned char prbs[n_reset]; // Pseudo random bit sequence array
 	unsigned char lfsr[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1}; // inital state: all ones
 	unsigned char lfsr_prev[9]; // holds previous shift register state while shifting
 	unsigned char next_bit;
 	
-	for(int i = 0; i < n_reset; i++)
+	for(int j = 0; j < noutput_items; j++)
 	{
-		// calculate new leading bit and save it to prbs
-		next_bit = (lfsr[4] + lfsr[8]) % 2; // this bit is going to be appended at the beginning
-		prbs[i] = next_bit;
-		
-		// save current state, then shift
-		
-		// save
-		for(int k = 0; k < 9; k++)
+		for(int i = 0; i < n_reset; i++)
 		{
-			lfsr_prev[k] = lfsr[k];
-		}
+			// calculate new leading bit and save it to prbs
+			next_bit = (lfsr[4] + lfsr[8]) % 2; // this bit is going to be appended at the beginning
+			prbs[i] = next_bit;
 		
-		// shift
-		for(int k = 1; k < 9; k++)
-		{
-			lfsr[k] = lfsr_prev[k-1];
-		}
+			// save current state, then shift
 		
-		// append next prbs bit
-		lfsr[0] = next_bit;
-	}
+			// save
+			for(int k = 0; k < 9; k++)
+			{
+				lfsr_prev[k] = lfsr[k];
+			}
+		
+			// shift
+			for(int k = 1; k < 9; k++)
+			{
+				lfsr[k] = lfsr_prev[k-1];
+			}
+		
+			// append next prbs bit
+			lfsr[0] = next_bit;
+		}
 
-	// Calculate output sequence by XORing input and prbs
-	for(int i = 0; i < n_reset; i++)
-	{
-		out[i] = (in[i] + prbs[i]) % 2;
+		// Calculate output sequence by XORing input and prbs
+		for(int i = 0; i < n_reset; i++)
+		{
+			*out++ = (*in++ + prbs[i]) % 2;
+		}
 	}
 	
 	// Tell runtime system how many output items we produced.
