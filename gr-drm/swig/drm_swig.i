@@ -10,7 +10,7 @@
 
 %{
 #include "drm_audio_encoder_sb.h"
-#include "drm_scrambler_bb.h"
+#include "drm_scrambler_vbvb.h"
 /*#include "drm_global_constants.h"
 #include "drm_tables.h"
 #include "drm_config.h"
@@ -34,5 +34,5 @@ private:
     drm_audio_encoder_sb (transm_params* tp);
 };
 
-GR_SWIG_BLOCK_MAGIC(drm,scrambler_bb);
-%include "drm_scrambler_bb.h"
+GR_SWIG_BLOCK_MAGIC(drm,scrambler_vbvb);
+%include "drm_scrambler_vbvb.h"

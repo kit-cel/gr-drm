@@ -22,7 +22,7 @@ bpy	#!/usr/bin/env python
 from gnuradio import gr, gr_unittest
 import drm_swig
 
-class qa_scrambler_bb (gr_unittest.TestCase):
+class qa_scrambler_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
