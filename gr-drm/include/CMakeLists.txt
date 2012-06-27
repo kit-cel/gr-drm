@@ -23,5 +23,10 @@
 install(FILES
     drm_api.h
     drm_audio_encoder_sb.h
-    drm_scrambler_bb.h DESTINATION include/drm
+    drm_scrambler_bb.h
+    drm_global_constants.h
+    drm_tables.h
+    drm_config.h
+    drm_params.h
+    drm_transm_params.h DESTINATION include/drm
 )
