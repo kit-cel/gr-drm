@@ -40,7 +40,7 @@ const short MAX_OUT = 1;
 drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 	: gr_block ("audio_encoder_sb",
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
-		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char)))
+		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
 	//switch(tp->cfg()->audio_samp_rate())
 	unsigned int audio_samp_hardcoded = 24000; // FIXME: audio sample rate hard coded, add to config
@@ -78,7 +78,7 @@ drm_audio_encoder_sb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
-	const gr_int16 *in = (const gr_int16 *) input_items[0];
+	gr_int16 *in = (gr_int16 *) input_items[0];
 	unsigned char *out = (unsigned char *) output_items[0];
   
 	// open encoder

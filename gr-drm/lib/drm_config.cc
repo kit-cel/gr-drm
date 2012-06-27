@@ -14,6 +14,7 @@ config::config()
 	d_msc_prot_level_2 = 0;
 	d_sdc_mapping = 0;
 	d_sdc_prot_level = 0;
+	d_audio_samp_rate = 0;
 	d_ptables = NULL;
 }
 
@@ -39,6 +40,7 @@ config::init(tables* ptr_tables)
 	d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
+	d_audio_samp_rate = 24000; // 24 kHz audio
 
 	/* pointer to tables needed for init */
 	d_ptables = ptr_tables;
@@ -103,6 +105,21 @@ config::check_arguments()
 	if (d_msc_mapping > 2 && d_sdc_mapping == 0)
 	{
 		std::cout << "If hierarchical mapping is used, SDC has to use 4-QAM!\n";
+		valid = false;
+	}
+	if(!(d_audio_samp_rate == 12000 || d_audio_samp_rate == 24000 || d_audio_samp_rate == 48000))
+	{
+		std::cout << "Invalid audio sample rate!\n";
+		valid = false;
+	}
+	if(d_RM < 4 && d_audio_samp_rate > 24000)
+	{
+		std::cout << "48 kHz sample rate is only valid for RM E!\n";
+		valid = false;
+	}
+	if(d_RM == 4 && d_audio_samp_rate < 24000)
+	{
+		std::cout << "12 kHz sample rate is only valid for RM A-E!\n";
 		valid = false;
 	}
 
@@ -173,6 +190,12 @@ unsigned short
 config::sdc_prot_level()
 {
 	return d_sdc_prot_level;
+}
+
+unsigned int
+config::audio_samp_rate()
+{
+	return d_audio_samp_rate;
 }
 
 tables*
