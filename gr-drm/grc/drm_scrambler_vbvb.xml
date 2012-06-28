@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<block>
+  <name>DRM Scrambler</name>
+  <key>drm_scrambler_vbvb</key>
+  <category>drm</category>
+  <import>import drm</import>
+  <make>drm.scrambler_vbvb($block_len)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>block_len</name>
+    <key>block_len</key>
+    <type>int</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+    <vlen>$block_len</vlen>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>byte</type>
+    <vlen>$block_len</vlen>
+  </source>
+</block>
