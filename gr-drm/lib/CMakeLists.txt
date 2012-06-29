@@ -22,7 +22,7 @@ include(GrPlatform) #define LIB_SUFFIX
 
 add_library(gnuradio-drm SHARED drm_audio_encoder_sb.cc drm_scrambler_vbvb.cc 
 			drm_tables_mapping.cc drm_tables_params.cc drm_config.cc 
-			drm_params.cc drm_transm_params.cc)
+			drm_params.cc drm_transm_params.cc drm_vec_demux_vbvb.cc drm_generate_sdc.cc)
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES} ${Faac_LIBRARIES})
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 

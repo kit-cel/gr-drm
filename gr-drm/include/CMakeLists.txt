@@ -28,5 +28,7 @@ install(FILES
     drm_tables.h
     drm_config.h
     drm_params.h
-    drm_transm_params.h DESTINATION include/drm
+    drm_transm_params.h
+    drm_vec_demux_vbvb.h
+    drm_generate_sdc.h DESTINATION include/drm
 )

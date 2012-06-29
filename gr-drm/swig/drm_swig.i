@@ -11,18 +11,9 @@
 %{
 #include "drm_audio_encoder_sb.h"
 #include "drm_scrambler_vbvb.h"
-/*#include "drm_global_constants.h"
-#include "drm_tables.h"
-#include "drm_config.h"
-#include "drm_params.h"
-#include "drm_transm_params.h"*/
+#include "drm_vec_demux_vbvb.h"
+#include "drm_generate_sdc.h"
 %}
-
-/*%include "drm_global_constants.h"
-%include "drm_tables.h"
-%include "drm_config.h"
-%include "drm_params.h"
-%include "drm_transm_params.h"*/
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_sb);
 
@@ -36,3 +27,10 @@ private:
 
 GR_SWIG_BLOCK_MAGIC(drm,scrambler_vbvb);
 %include "drm_scrambler_vbvb.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,vec_demux_vbvb);
+%include "drm_vec_demux_vbvb.h"
+
+
+GR_SWIG_BLOCK_MAGIC(drm,generate_sdc);
+%include "drm_generate_sdc.h"
