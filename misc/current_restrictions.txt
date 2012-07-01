@@ -1,0 +1,8 @@
+### Gnu Radio DRM Transmitter ###
+
+CURRENT RESTRICTIONS: (July 1 2012)
+
+- DRM+ only prepared, not functional
+- Hierarchical mapping only prepared, not functional
+- no multiple services supported, only 1 audio stream allowed
+- reconfiguration not supported

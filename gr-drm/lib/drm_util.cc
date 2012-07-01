@@ -1,7 +1,7 @@
 #include "drm_util.h"
 #include <iostream>
 
-void enqueue_bits(char* &ptr, unsigned int len, char arr[])
+void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 {
 	for(unsigned int i = 0; i<len; i++)
 	{

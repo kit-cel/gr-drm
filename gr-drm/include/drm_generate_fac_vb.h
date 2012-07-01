@@ -39,6 +39,7 @@ class DRM_API drm_generate_fac_vb : public gr_sync_block
 {
 	transm_params* d_tp;
 	unsigned char* d_data;
+	unsigned short d_tf_ctr; // transmission frame counter
 
 	friend DRM_API drm_generate_fac_vb_sptr drm_make_generate_fac_vb (transm_params* tp);
 
@@ -47,7 +48,9 @@ class DRM_API drm_generate_fac_vb : public gr_sync_block
  public:
 	~drm_generate_fac_vb ();
 
-	unsigned char* init_data(); //  set FAC bitstream according to config parameters
+	unsigned char* init_data(); //  set FAC bitstream according to config parameters (see DRM standard chapter 6.3)
+	
+	void increment_tf_ctr(); // increments tf_ctr and takes account of wraparound;
 	
 	int work (int noutput_items,
 		gr_vector_const_void_star &input_items,
