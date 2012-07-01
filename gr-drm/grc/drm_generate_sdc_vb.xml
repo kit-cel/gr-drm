@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
   <name>DRM Generate SDC</name>
-  <key>drm_generate_sdc</key>
+  <key>drm_generate_sdc_vb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.generate_sdc($tp)</make>
+  <make>drm.generate_sdc_vb($tp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

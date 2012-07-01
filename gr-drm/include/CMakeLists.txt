@@ -30,6 +30,6 @@ install(FILES
     drm_params.h
     drm_transm_params.h
     drm_vec_demux_vbvb.h
-    drm_generate_sdc.h
+    drm_generate_sdc_vb.h
     drm_generate_fac_vb.h DESTINATION include/drm
 )

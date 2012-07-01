@@ -21,6 +21,6 @@ install(FILES
     drm_audio_encoder_sb.xml
     drm_scrambler_vbvb.xml
     drm_vec_demux_vbvb.xml
-    drm_generate_sdc.xml
+    drm_generate_sdc_vb.xml
     drm_generate_fac_vb.xml DESTINATION share/gnuradio/grc/blocks
 )

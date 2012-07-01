@@ -18,32 +18,33 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DRM_GENERATE_SDC_H
-#define INCLUDED_DRM_GENERATE_SDC_H
+#ifndef INCLUDED_drm_generate_sdc_vb_H
+#define INCLUDED_drm_generate_sdc_vb_H
 
 #include <drm_api.h>
 #include <gr_sync_block.h>
 #include "drm_transm_params.h"
 
-class drm_generate_sdc;
-typedef boost::shared_ptr<drm_generate_sdc> drm_generate_sdc_sptr;
+class drm_generate_sdc_vb;
+typedef boost::shared_ptr<drm_generate_sdc_vb> drm_generate_sdc_vb_sptr;
 
-DRM_API drm_generate_sdc_sptr drm_make_generate_sdc (transm_params* tp);
+DRM_API drm_generate_sdc_vb_sptr 
+drm_make_generate_sdc_vb (transm_params* tp);
 
 /*!
  * \brief Generates the Service Description Channel (SDC) data.
  *
  */
-class DRM_API drm_generate_sdc : public gr_sync_block
+class DRM_API drm_generate_sdc_vb : public gr_sync_block
 {
 	transm_params* d_tp;
 	
-	friend DRM_API drm_generate_sdc_sptr drm_make_generate_sdc (transm_params* tp);
+	friend DRM_API drm_generate_sdc_vb_sptr drm_make_generate_sdc_vb (transm_params* tp);
 
-	drm_generate_sdc (transm_params* tp);
+	drm_generate_sdc_vb (transm_params* tp);
 
  public:
-	~drm_generate_sdc ();
+	~drm_generate_sdc_vb ();
 
 
 	int work (int noutput_items,
@@ -51,5 +52,5 @@ class DRM_API drm_generate_sdc : public gr_sync_block
 		gr_vector_void_star &output_items);
 };
 
-#endif /* INCLUDED_DRM_GENERATE_SDC_H */
+#endif /* INCLUDED_drm_generate_sdc_vb_H */
 
