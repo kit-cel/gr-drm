@@ -39,6 +39,7 @@ drm_generate_fac_vb::drm_generate_fac_vb (transm_params* tp)
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * tp->fac().L() ))
 {
 	d_tp = tp;
+	d_data = init_data(); // set FAC bitstream
 }
 
 
@@ -46,6 +47,27 @@ drm_generate_fac_vb::~drm_generate_fac_vb ()
 {
 }
 
+unsigned char*
+drm_generate_fac_vb::init_data()
+{
+	/* allocate storage for the FAC bits */
+	const unsigned int fac_length = d_tp->fac().L();
+	unsigned char* fac_data = new unsigned char[fac_length];
+	
+	/* set vector to zero as unused data shall be set to zero (see DRM standard) */
+	for( unsigned int i = 0; i < fac_length; i++)
+	{
+		*fac_data++ = 0;
+	}
+		
+	/* Channel parameters */
+	
+	
+	/* Service parameters */
+	
+	
+	return fac_data;
+}
 
 int
 drm_generate_fac_vb::work (int noutput_items,
@@ -53,17 +75,6 @@ drm_generate_fac_vb::work (int noutput_items,
 			gr_vector_void_star &output_items)
 {
 	unsigned char *out = (unsigned char *) output_items[0];
-	unsigned char *out_start = out; // pointer to the beginning of output buffer
-
-	// Set the data to zero (as defined in the DRM standard) because not all bits might be used
-	for( int i = 0; i < noutput_items; i++)
-	{
-		for( int j = 0; j < d_tp->fac().L(); j++)
-		{
-			*out++ = 0;
-		}
-	}
-	out = out_start; // reset pointer to the beginning
 
 	// Tell runtime system how many output items we produced.
 	return noutput_items;
