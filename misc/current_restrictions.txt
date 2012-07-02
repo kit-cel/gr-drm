@@ -1,10 +1,13 @@
 ### Gnu Radio DRM Transmitter ###
 
-CURRENT RESTRICTIONS: (July 1 2012)
+CURRENT RESTRICTIONS: (last updated July 2 2012)
 
 - DRM+ only prepared, not functional
+	- correct FAC init missing
+	- AFS reference cells missing
 - Hierarchical mapping only prepared, not functional
 - no multiple services supported, only 1 audio stream allowed
+	- therefore no FAC repetition patterns implemented
 - reconfiguration not supported
 - no audio CA supported
 - language is set to German, programme type to 'Science'

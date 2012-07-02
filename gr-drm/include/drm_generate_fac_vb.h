@@ -48,7 +48,7 @@ class DRM_API drm_generate_fac_vb : public gr_sync_block
  public:
 	~drm_generate_fac_vb ();
 
-	unsigned char* init_data(); //  set FAC bitstream according to config parameters (see DRM standard chapter 6.3)
+	void init_data(unsigned char* data); //  set FAC bitstream according to config parameters (see DRM standard chapter 6.3)
 	
 	void increment_tf_ctr(); // increments tf_ctr and takes account of wraparound;
 	

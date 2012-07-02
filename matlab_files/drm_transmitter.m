@@ -17,7 +17,7 @@ sdc_stream = drm_generate_sdc(SDC); % SDC block to be sent with every super tran
 %% preallocate memory for output
 complex_baseband = zeros(n_stf, OFDM.M_TF*OFDM.N_S*(OFDM.nfft + OFDM.nguard));
 
-%% iterate as long there is data in the aac file, then stop
+%% iterate as long as there is data in the aac file, then stop
 
 for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames

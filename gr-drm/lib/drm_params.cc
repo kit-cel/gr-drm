@@ -28,7 +28,7 @@ ofdm_params::ofdm_params()
 void
 ofdm_params::init(config* cfg)
 {
-	std::cout << "init ofdm\n";// TODO: define values for RM E (DRM+)
+	// TODO: define values for RM E (DRM+)
 
 	/* define tables to take the values for the current configuration from */
 	unsigned int tab_nfft[NUM_RM] = {1152, 1024, 704, 448, 0}; //  taken from Dream FIXME: missing value for E
@@ -150,8 +150,6 @@ msc_params::msc_params()
 void
 msc_params::init(config* cfg)
 {
-	std::cout << "init msc\n";
-
 	/* Assign code rates */
 
 	if(cfg->msc_mapping() > 2) // Hierarchical mapping
@@ -518,8 +516,6 @@ sdc_params::sdc_params()
 void
 sdc_params::init(config* cfg)
 {
-	std::cout << "init sdc\n";
-
 	// see DRM standard 7.2.1.3
 	unsigned int tab_N_SDC[5][6] = {{167, 190, 359, 405, 754, 846},
 								    {130, 150, 282, 322, 588, 662},
@@ -608,8 +604,6 @@ sdc_params::R_1_denom()
 void
 fac_params::init(config* cfg)
 {
-	std::cout << "init fac\n";
-
 	if(cfg->RM() == 4) // see DRM standard 7.2.1.2 & Table 74/75
 	{
 		// RM E

@@ -47,22 +47,13 @@ drm_generate_fac_vb::~drm_generate_fac_vb ()
 {
 }
 
-unsigned char*
-drm_generate_fac_vb::init_data()
+void
+drm_generate_fac_vb::init_data(unsigned char* data)
 {
-	std::cout << "entering init_data()" << std::endl;
-	/* allocate storage for the FAC bits */
-	const unsigned int fac_length = d_tp->fac().L();
-	unsigned char* data = new unsigned char[fac_length]; // TODO: call delete[]!
-	unsigned char* start_data = data;
+	unsigned char* data_start = data; // pointer to the beginning of the FAC data
 	
 	/* set vector to zero as unused data shall be set to zero (see DRM standard) */
-	for( unsigned int i = 0; i < fac_length; i++)
-	{
-		*data++ = 0;
-	}
-	
-	data = start_data; //  reset pointer to the beginning
+	memset(data, 0, d_tp->fac().L());
 	
 	/* Channel parameters */
 	
@@ -112,7 +103,7 @@ drm_generate_fac_vb::init_data()
 	// Spectrum Occupancy
 	if(d_tp->cfg().RM() < 4)
 	{
-		switch(d_tp->cfg().RM())
+		switch(d_tp->cfg().SO())
 		{
 			case 0: // A
 				enqueue_bits(data, 3, (unsigned char[]) {0,0,0});
@@ -239,6 +230,8 @@ drm_generate_fac_vb::init_data()
 	
 	// rfu
 	enqueue_bits(data, 1, (unsigned char[]) {0});
+	
+	unsigned char* serv_params_start = data; //  marker for the start of the service parameters
 
 	/* Service parameters */
 	// Service identifier (arbitrarily chosen)
@@ -267,8 +260,14 @@ drm_generate_fac_vb::init_data()
 	// rfa
 	enqueue_bits(data, 6, (unsigned char[]) {0,0,0,0,0,0});
 	
-	std::cout << "returning from init_data()" << std::endl;
-	return start_data;
+	/* if RM E is chosen, two sets of service params are transmitted FIXME: here, it is just a copy of the first set */
+	if(d_tp->cfg().RM() == 4)
+	{
+		memcpy(data, serv_params_start, data - serv_params_start); // copy the part between data and serv_params_start
+	}
+	
+	/* enqueue CRC */
+	enqueue_crc(data_start, d_tp->cfg().RM(), 8); //  The channel type is implicitly detected by the choice of the polynomial
 }
 
 void
@@ -282,20 +281,17 @@ int
 drm_generate_fac_vb::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
-{
-	std::cout << "noutput_items: " << noutput_items << "\t output_items.size(): " << output_items.size() << std::endl;
-	for(int i = 0; i < noutput_items; i++)
-	{
-		unsigned char* fac_data = init_data();
-		std::cout << "copying data" << std::endl;
-		memcpy( (void*) output_items[i], (void*) fac_data, (size_t) sizeof(char) * d_tp->fac().L() );
-		std::cout << "delete data" << std::endl;
-		delete[] fac_data;
-		std::cout << "increment counter" << std::endl << std::endl;
-		increment_tf_ctr();
-	}
+{	
+	const unsigned int fac_length = d_tp->fac().L();
+	unsigned char* data = new unsigned char[fac_length];
+	
+	init_data(data);
+	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * d_tp->fac().L() );
+	increment_tf_ctr();
+	
+	delete[] data;
 
 	// Tell runtime system how many output items we produced.
-	return noutput_items;
+	return 1;
 }
 
