@@ -1,4 +1,4 @@
-bpy	#!/usr/bin/env python
+#!/usr/bin/env python
 # 
 # Copyright 2012 <+YOU OR YOUR COMPANY+>.
 # 
@@ -32,7 +32,9 @@ class qa_scrambler_vbvb (gr_unittest.TestCase):
 
     def test_001_t (self):
         # set up fg
+        self.tb.run ()
         # check data
+
 
 if __name__ == '__main__':
     gr_unittest.main ()
