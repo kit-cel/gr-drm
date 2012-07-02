@@ -21,8 +21,6 @@ config::config()
 void
 config::init(tables* ptr_tables)
 {
-	std::cout << "init cfg\n";
-
 	/* user defined parameters */
 	d_RM = 1; // B
 	//d_RM = 3;
