@@ -6,3 +6,5 @@ CURRENT RESTRICTIONS: (July 1 2012)
 - Hierarchical mapping only prepared, not functional
 - no multiple services supported, only 1 audio stream allowed
 - reconfiguration not supported
+- no audio CA supported
+- language is set to German, programme type to 'Science'

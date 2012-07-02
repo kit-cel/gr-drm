@@ -50,22 +50,25 @@ drm_generate_fac_vb::~drm_generate_fac_vb ()
 unsigned char*
 drm_generate_fac_vb::init_data()
 {
+	std::cout << "entering init_data()" << std::endl;
 	/* allocate storage for the FAC bits */
 	const unsigned int fac_length = d_tp->fac().L();
 	unsigned char* data = new unsigned char[fac_length]; // TODO: call delete[]!
-	unsigned char* start_data;
+	unsigned char* start_data = data;
 	
 	/* set vector to zero as unused data shall be set to zero (see DRM standard) */
 	for( unsigned int i = 0; i < fac_length; i++)
 	{
 		*data++ = 0;
 	}
-		
+	
+	data = start_data; //  reset pointer to the beginning
+	
 	/* Channel parameters */
 	
 	// Base/Enhancement Flag
-	enqueue_bits(data, 1, (unsigned char[]) {1}); // Base layer, decodable by all DRM receivers
-	
+	enqueue_bits(data, 1, (unsigned char[]) {0}); // Base layer, decodable by all DRM receivers
+
 	// Identity Flag (currently no AFS is supported, SDC AFS flag is set valid)
 	switch(d_tf_ctr)
 	{
@@ -80,13 +83,13 @@ drm_generate_fac_vb::init_data()
 			{
 				enqueue_bits(data, 2, (unsigned char[]) {1,0});
 			}
-			if(d_tp->ofdm().M_TF() == 4) // RM E
+			else if(d_tp->ofdm().M_TF() == 4) // RM E
 			{
 				enqueue_bits(data, 2, (unsigned char[]) {0,1});
 			}
 			else
 			{
-				std::cout << "Invalid M_TF value!\n";
+				std::cout << "Invalid M_TF value: " << d_tp->ofdm().M_TF() << std::endl;
 			}
 			break;
 		case 3:
@@ -211,7 +214,7 @@ drm_generate_fac_vb::init_data()
 		}
 	}
 	
-	// Number of services TODO: add support for multiple services
+	// Number of services
 	enqueue_bits(data, 4, (unsigned char[]) {0,1,0,0});
 	
 	// Reconfiguration index (3 bit field)
@@ -236,10 +239,35 @@ drm_generate_fac_vb::init_data()
 	
 	// rfu
 	enqueue_bits(data, 1, (unsigned char[]) {0});
-	
+
 	/* Service parameters */
+	// Service identifier (arbitrarily chosen)
+	enqueue_bits(data, 24, (unsigned char[]) {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0,
+                     						  0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1});
+                     						  
+    // Short ID
+    enqueue_bits(data, 2, (unsigned char[]) {0, 0}); // arbitrarily chosen, has to match the one in the SDC
 	
-		
+	// Audio CA (conditional access) indication
+	enqueue_bits(data, 1, (unsigned char[]) {0}); // no CA indication
+	
+	// Language
+	enqueue_bits(data, 4, (unsigned char[]) {0,1,1,1}); // German
+	
+	// Audio/Data flag
+	enqueue_bits(data, 1, (unsigned char[]) {0}); // Audio
+	
+	// Service descriptor (5 bit field, depends on Audio/Data flag)
+	// NOTE: a binary 31 indicates a test transmission that is skipped by standard receivers
+	enqueue_bits(data, 5, (unsigned char[]) {0,1,0,0,0}); // Science
+	
+	// Data CA indication
+	enqueue_bits(data, 1, (unsigned char[]) {0}); // no CA system used / no data present
+	
+	// rfa
+	enqueue_bits(data, 6, (unsigned char[]) {0,0,0,0,0,0});
+	
+	std::cout << "returning from init_data()" << std::endl;
 	return start_data;
 }
 
@@ -255,9 +283,17 @@ drm_generate_fac_vb::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {
-	unsigned char* fac_data = init_data();
-	
-	unsigned char *out = (unsigned char *) output_items[0];
+	std::cout << "noutput_items: " << noutput_items << "\t output_items.size(): " << output_items.size() << std::endl;
+	for(int i = 0; i < noutput_items; i++)
+	{
+		unsigned char* fac_data = init_data();
+		std::cout << "copying data" << std::endl;
+		memcpy( (void*) output_items[i], (void*) fac_data, (size_t) sizeof(char) * d_tp->fac().L() );
+		std::cout << "delete data" << std::endl;
+		delete[] fac_data;
+		std::cout << "increment counter" << std::endl << std::endl;
+		increment_tf_ctr();
+	}
 
 	// Tell runtime system how many output items we produced.
 	return noutput_items;

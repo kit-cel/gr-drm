@@ -12,6 +12,7 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 		else
 		{
 			*ptr++ = arr[i];
+			//std::cout << " wrote " << (int) *(ptr-1) << " previously wrote " << (int) *(ptr-2) << std::endl;
 		}
 	}
 }
