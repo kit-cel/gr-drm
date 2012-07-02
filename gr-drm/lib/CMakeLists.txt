@@ -38,13 +38,13 @@ install(TARGETS gnuradio-drm
 ########################################################################
 # Build and register unit test
 ########################################################################
-find_package(Boost COMPONENTS unit_test_framework)
+#find_package(Boost COMPONENTS unit_test_framework)
 
-include(GrTest)
-set(GR_TEST_TARGET_DEPS gnuradio-drm)
+#include(GrTest)
+#set(GR_TEST_TARGET_DEPS gnuradio-drm)
 #turn each test cpp file into an executable with an int main() function
-add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
+#add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
-add_executable(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb.cc)
-target_link_libraries(qa_drm_audio_encoder_sb gnuradio-drm ${Boost_LIBRARIES})
-GR_ADD_TEST(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb)
+#add_executable(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb.cc)
+#target_link_libraries(qa_drm_audio_encoder_sb gnuradio-drm ${Boost_LIBRARIES})
+#GR_ADD_TEST(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb)
