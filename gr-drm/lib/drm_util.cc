@@ -17,6 +17,28 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 	}
 }
 
+void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
+{
+	if(sizeof(val) <= sizeof(unsigned int) && val <= std::pow(2,len)-1)
+	{
+		unsigned char bits[sizeof(unsigned int)*8];
+		unsigned int mask = 0x1;
+		for(unsigned int i = 0; i < sizeof(bits); i++)
+		{
+			bits[i] = val & mask;
+			val >>= 1; // this ends up LSb first
+		}
+		for(unsigned int i = 0; i < len; i++)
+		{
+			*ptr++ = bits[len-i-1]; // invert order to MSb first
+		}
+	}
+	else
+	{
+		std::cout << "Value cannot be converted because it is too large!\n";
+	}
+}
+
 void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned short ord)
 {
 	unsigned int len; // length of input bitstream
@@ -28,7 +50,7 @@ void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned sho
 	memset(shift_reg_prev, 0, ord); // just for debugging purposes
 	switch(ord)
 	{
-		case 8: // G(x) = x^8 + x^4 + x^3 + x^2 + 1			
+		case 8: // FAC: G(x) = x^8 + x^4 + x^3 + x^2 + 1			
 			if(rob_mode < 4) // standard DRM
 			{
 				len = 64; // 20 bits of channel parameters + 44 bits of service parameters

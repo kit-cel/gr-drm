@@ -56,9 +56,10 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	 * The data entities are consist of a header and a body
 	 * header format: length of body (7 bits), version flag (1 bit), data entity type (4 bits) */
 	
-	/* Multiplex description data entity - type - */
+	/* Multiplex description data entity - type 0 */
 	
 	// header
+	
 	
 }
 

@@ -28,6 +28,11 @@ class qa_generate_sdc_vb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.tp = drm_init.transm_params()
+        self.src = drm.generate_sdc_vb(self.tp)
+        self.head = gr.head(self.tp.sdc().L(), 1)
+        self.snk = gr.vector_sink_b(self.tp.sdc().L())
+        self.tb.connect(self.src, self.head, self.snk)
 
     def tearDown (self):
         self.tb = None
