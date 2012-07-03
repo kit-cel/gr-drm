@@ -266,7 +266,7 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 		memcpy(data, serv_params_start, data - serv_params_start); // copy the part between data and serv_params_start
 	}
 	
-	/* enqueue CRC */
+	/* enqueue CRC word */
 	enqueue_crc(data_start, d_tp->cfg().RM(), 8); //  The channel type is implicitly detected by the choice of the polynomial
 }
 

@@ -50,7 +50,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	memset(data, 0, d_tp->sdc().L());
 	
 	/* AFS index */
-	enqueue_bits(data, 4, (unsigned char[]) {0,0,0,1});
+	enqueue_bits_dec(data, 4, 1); // number of super transmission frames to the next identical SDC block
 	
 	/* data field 
 	 * The data entities consist of a header and a body
@@ -79,7 +79,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	enqueue_bits_dec(data, 4, 1); // data entity type
 	
 	// body
-	enqueue_bits(data, 2, (unsigned char[]) {0,0}); // Short ID (denotes a service)
+	enqueue_bits_dec(data, 2, 0); // Short ID (denotes the service concerned)
 	enqueue_bits_dec(data, 2, 0); // rfu
 	unsigned char text[128] = { 0, 1, 0, 0, 0, 0, 1, 1, // C
 							   0, 1, 0, 0, 0, 1, 0, 1, // E
@@ -114,6 +114,48 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	
 	
 	/* Audio information data entity - type 9 */
+	
+	// header
+	enqueue_bits_dec(data, 7, 2); // length of body
+	enqueue_bits_dec(data, 1, 0); // reconfiguration flag (current)
+	enqueue_bits_dec(data, 4, 9); // data entity type
+	
+	// body
+	enqueue_bits_dec(data, 2, 0); // short ID (for the service concerned)
+	enqueue_bits_dec(data, 2, 0); // stream ID (for the stream that carries the service concerned)
+	enqueue_bits_dec(data, 2, 0); // audio coding (AAC)
+	enqueue_bits_dec(data, 1, 0); // SBR flag (no SBR used)
+	enqueue_bits_dec(data, 2, 0); // audio mode (mono)
+	switch(d_tp->cfg().audio_samp_rate()) // audio sample rate
+	{
+		case 8000:
+			enqueue_bits_dec(data, 3, 0);
+			break;
+		case 12000:
+			enqueue_bits_dec(data, 3, 1);
+			break;
+		case 16000:
+			enqueue_bits_dec(data, 3, 2);
+			break;
+		case 24000:
+			enqueue_bits_dec(data, 3, 3);
+			break;	
+		case 48000:
+			enqueue_bits_dec(data, 3, 5);
+			break;
+		default:
+			std::cout << "Invalid audio sample rate!\n";
+			break;
+	
+	}
+	enqueue_bits_dec(data, 1, 0); // text flag (no text message carried)
+	enqueue_bits_dec(data, 1, 0); // enhancement flag (no enhancement available)
+	enqueue_bits_dec(data, 5, 0); // coder field (no MPEG surround)
+	enqueue_bits_dec(data, 1, 0); // rfa
+	
+	
+	/* enqueue CRC word */
+	//enqueue_crc(data_start, d_tp->cfg().RM(), 16); THIS SEGFAULTS ATM!!
 					   
 }
 

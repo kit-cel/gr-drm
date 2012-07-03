@@ -73,6 +73,13 @@ void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned sho
 				shift_reg[0] = shift_reg_prev[1];				
 			}
 			break;
+			
+		case 16: // SDC: G(x) = x^16 + x^12 + x^5 + 1
+			// TODO: add a table with the lenght of the SDC data field to tables
+			// TODO: calc crc
+			
+			break;
+			
 		default:
 			std::cout << "Invalid order of CRC polynomial!\n";
 			break;

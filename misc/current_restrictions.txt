@@ -6,7 +6,7 @@ CURRENT RESTRICTIONS: (last updated July 2 2012)
 	- correct FAC init missing
 	- AFS reference cells missing
 - Hierarchical mapping only prepared, not functional
-- no multiple services supported, only 1 audio stream allowed
+- no multiple services supported, only 1 audio stream (AAC mono, no SBR, no MPEG surround) allowed
 	- therefore no FAC repetition patterns implemented
 - reconfiguration not supported
 - no audio CA supported
