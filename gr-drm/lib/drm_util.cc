@@ -19,17 +19,7 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 
 void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned short ord)
 {
-	// FIXME: make len assignment conditional to ord as it denotes the channel type
-	unsigned int len;
-	if(rob_mode < 4) // standard DRM
-	{
-		len = 64; // 20 bits of channel parameters + 44 bits of service parameters
-	}
-	else // DRM+
-	{
-		len = 112; // 20 bits  + 2 * 44 bits + 4 bits (zeros, only for CRC calculation) 
-	}
-	
+	unsigned int len; // length of input bitstream
 	unsigned char shift_reg[ord]; // shift register of length ord
 	unsigned char shift_reg_prev[ord]; // state of register before last shift
 	unsigned char next_lsb; // the bit that results out of XORing the MSb with the input
@@ -38,7 +28,15 @@ void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned sho
 	memset(shift_reg_prev, 0, ord); // just for debugging purposes
 	switch(ord)
 	{
-		case 8: // G(x) = x^8 + x^4 + x^3 + x^2 + 1
+		case 8: // G(x) = x^8 + x^4 + x^3 + x^2 + 1			
+			if(rob_mode < 4) // standard DRM
+			{
+				len = 64; // 20 bits of channel parameters + 44 bits of service parameters
+			}
+			else // DRM+
+			{
+				len = 112; // 20 bits  + 2 * 44 bits + 4 bits (zeros, only for CRC calculation) 
+			}
 			for(int i = 0; i < len; i++)
 			{
 				memcpy(shift_reg_prev, shift_reg, ord);						
