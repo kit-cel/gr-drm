@@ -19,7 +19,7 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 
 void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 {
-	if(sizeof(val) <= sizeof(unsigned int) && val <= std::pow(2,len)-1)
+	if(sizeof(val) <= sizeof(unsigned int) && (val <= std::pow(2,len)-1 || (val == 0 && len > 0)))
 	{
 		unsigned char bits[sizeof(unsigned int)*8];
 		unsigned int mask = 0x1;

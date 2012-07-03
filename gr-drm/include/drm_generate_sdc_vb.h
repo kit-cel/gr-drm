@@ -23,6 +23,7 @@
 
 #include <drm_api.h>
 #include <gr_sync_block.h>
+#include <cmath>
 #include "drm_transm_params.h"
 #include "drm_util.h"
 

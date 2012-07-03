@@ -40,6 +40,7 @@ class qa_generate_sdc_vb (gr_unittest.TestCase):
     def test_001_t (self):
         # set up fg
         self.tb.run ()
+        print self.snk.data()
         # check data
 
 

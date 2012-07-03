@@ -12,3 +12,4 @@ CURRENT RESTRICTIONS: (last updated July 2 2012)
 - no audio CA supported
 - language is set to German, programme type to 'Science'
 - no multiple SDC blocks supported
+- a fixed set of SDC data entities is transmitted (type 0,1,8,9)

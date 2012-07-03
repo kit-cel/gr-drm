@@ -53,14 +53,68 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	enqueue_bits(data, 4, (unsigned char[]) {0,0,0,1});
 	
 	/* data field 
-	 * The data entities are consist of a header and a body
+	 * The data entities consist of a header and a body
 	 * header format: length of body (7 bits), version flag (1 bit), data entity type (4 bits) */
+	
 	
 	/* Multiplex description data entity - type 0 */
 	
 	// header
+	enqueue_bits_dec(data, 7, /*n_services*/ 1 * 3); // length of body (3 times the number of services)
+	enqueue_bits_dec(data, 1, 0); // reconfiguration flag (current, as reconfiguration is not supported)
+	enqueue_bits_dec(data, 4, 0); // data entity type
+	
+	// body (do this for each service...)
+	enqueue_bits_dec(data, 2, d_tp->cfg().msc_prot_level_1()); // if EEP is used, this shall be set to zero (implicitly fulfilled)
+	enqueue_bits_dec(data, 2, d_tp->cfg().msc_prot_level_2());
+	enqueue_bits_dec(data, 12, d_tp->cfg().n_bytes_A());
+	enqueue_bits_dec(data, 12, std::floor(d_tp->msc().L_MUX() / 8));
 	
 	
+	/* Label data entity - type 1 */
+	
+	// header
+	enqueue_bits_dec(data, 7, /*number of utf-8 characters*/ 16); // Maximum number of bytes
+	enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
+	enqueue_bits_dec(data, 4, 1); // data entity type
+	
+	// body
+	enqueue_bits(data, 2, (unsigned char[]) {0,0}); // Short ID (denotes a service)
+	enqueue_bits_dec(data, 2, 0); // rfu
+	unsigned char text[128] = { 0, 1, 0, 0, 0, 0, 1, 1, // C
+							   0, 1, 0, 0, 0, 1, 0, 1, // E
+							   0, 1, 0, 0, 1, 1, 0, 0, // L 
+							   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
+							   0, 1, 0, 0, 0, 1, 1, 1, // G
+							   0, 1, 1, 0, 1, 1, 1, 0, // n
+							   0, 1, 1, 1, 0, 1, 0, 1, // u
+							   0, 1, 0, 1, 0, 0, 1, 0, // R
+							   0, 1, 1, 0, 0, 0, 0, 1, // a
+							   0, 1, 1, 0, 0, 1, 0, 0, // d
+							   0, 1, 1, 0, 1, 0, 0, 1, // i
+							   0, 1, 1, 0, 1, 1, 1, 1, // o
+							   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
+							   0, 1, 0, 0, 0, 1, 0, 0, // D
+							   0, 1, 0, 1, 0, 0, 1, 0, // R
+							   0, 1, 0, 0, 1, 1, 0, 1  // M
+							   };
+	enqueue_bits(data, 128, text);
+	
+	
+	/* Time and date information data entity - type 8 */
+	
+	// header
+	enqueue_bits_dec(data, 7, 3); // No local time offset is transmitted
+	enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
+	enqueue_bits_dec(data, 4, 8); // data entity type
+	
+	// body
+	enqueue_bits_dec(data, 17, 55110); // arbitrary date in Modified Julian Date format
+	enqueue_bits_dec(data, 11, 0); // hours and minutes
+	
+	
+	/* Audio information data entity - type 9 */
+					   
 }
 
 drm_generate_sdc_vb::~drm_generate_sdc_vb ()
