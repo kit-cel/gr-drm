@@ -20,18 +20,20 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_swig, drm_init
+#import drm_swig as drm
+import drm
+import drm_init
 
 class qa_generate_fac_vb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.tp = drm_init.transm_params()
-        #self.src = drm_swig.generate_fac(self.tp)
-        self.head = gr.head(self.tp.fac().L(), 1)
-        self.snk = gr.vector_sink_b()
+        self.src = drm.generate_fac_vb(self.tp)
+        self.head = gr.head(self.tp.fac().L(), 3)
+        self.snk = gr.vector_sink_b(self.tp.fac().L())
         
-        #self.connect(self.src, self.head, self.snk)
+        self.tb.connect(self.src, self.head, self.snk)
 
     def tearDown (self):
         self.tb = None
@@ -39,7 +41,19 @@ class qa_generate_fac_vb (gr_unittest.TestCase):
     def test_001_t (self):
         # set up fg
         self.tb.run ()
+        res = self.snk.data()
+        # three consecutive FAC blocks
+        ref = (0,1,1,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, \
+				0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,0,0,0,1,1,1,0,0,0,0,1, \
+				1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,1, \
+				0,0,1,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, \
+				0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,0,0,0,1,1,1,0,0,0,0,1, \
+				1,0,0,0,0,0,0,0,1,1,0,1,1,0,1,1, \
+				0,1,0,0,0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1, \
+				0,0,1,0,0,0,1,1,0,1,0,0,0,1,0,1,0,0,0,0,1,1,1,0,0,0,0,1, \
+				1,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0)
         # check data
+        self.assertTupleEqual(res, ref)
 
 
 if __name__ == '__main__':

@@ -11,3 +11,4 @@ CURRENT RESTRICTIONS: (last updated July 2 2012)
 - reconfiguration not supported
 - no audio CA supported
 - language is set to German, programme type to 'Science'
+- no multiple SDC blocks supported

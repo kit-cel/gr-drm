@@ -24,6 +24,7 @@
 #include <drm_api.h>
 #include <gr_sync_block.h>
 #include "drm_transm_params.h"
+#include "drm_util.h"
 
 class drm_generate_sdc_vb;
 typedef boost::shared_ptr<drm_generate_sdc_vb> drm_generate_sdc_vb_sptr;
@@ -45,7 +46,8 @@ class DRM_API drm_generate_sdc_vb : public gr_sync_block
 
  public:
 	~drm_generate_sdc_vb ();
-
+	
+	void init_data(unsigned char* data); // set SDC bitstream according to config parameters (see DRM standard chapter 6.4)
 
 	int work (int noutput_items,
 		gr_vector_const_void_star &input_items,

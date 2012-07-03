@@ -23,17 +23,12 @@ config::init(tables* ptr_tables)
 {
 	/* user defined parameters */
 	d_RM = 1; // B
-	//d_RM = 3;
 	d_SO = 3; // 10 kHz
-	//d_SO = 5;
 	d_UEP = false; // EEP
-	//d_UEP = true;
 	d_n_bytes_A = 0; // EEP
-	//d_n_bytes_A = 100;
 	d_text = false; // no text message included
 	d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = 1; // 16-QAM SM
-	//d_msc_mapping = 2;
 	d_msc_prot_level_1 = 0; // not used because UEP==0
 	d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_sdc_mapping = 1; // 4-QAM

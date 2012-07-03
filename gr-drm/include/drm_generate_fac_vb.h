@@ -38,7 +38,6 @@ DRM_API drm_generate_fac_vb_sptr drm_make_generate_fac_vb (transm_params* tp);
 class DRM_API drm_generate_fac_vb : public gr_sync_block
 {
 	transm_params* d_tp;
-	unsigned char* d_data;
 	unsigned short d_tf_ctr; // transmission frame counter
 
 	friend DRM_API drm_generate_fac_vb_sptr drm_make_generate_fac_vb (transm_params* tp);

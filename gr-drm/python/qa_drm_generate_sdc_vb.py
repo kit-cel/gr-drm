@@ -20,7 +20,9 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_swig
+import drm
+import drm_init
+#import drm_swig
 
 class qa_generate_sdc_vb (gr_unittest.TestCase):
 

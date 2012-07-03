@@ -41,6 +41,26 @@ drm_generate_sdc_vb::drm_generate_sdc_vb (transm_params* tp)
 	d_tp = tp;
 }
 
+void
+drm_generate_sdc_vb::init_data(unsigned char* data)
+{
+	unsigned char* data_start = data; // pointer to the beginning of the SDC data
+	
+	/* set vector to zero as unused data shall be set to zero (see DRM standard) */
+	memset(data, 0, d_tp->sdc().L());
+	
+	/* AFS index */
+	enqueue_bits(data, 4, (unsigned char[]) {0,0,0,1});
+	
+	/* data field 
+	 * The data entities are consist of a header and a body
+	 * header format: length of body (7 bits), version flag (1 bit), data entity type (4 bits) */
+	
+	/* Multiplex description data entity - type - */
+	
+	// header
+	
+}
 
 drm_generate_sdc_vb::~drm_generate_sdc_vb ()
 {
@@ -52,20 +72,14 @@ drm_generate_sdc_vb::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {
-	unsigned char *out = (unsigned char *) output_items[0];
-	unsigned char *out_start = out; // pointer to the beginning of output buffer
+	const unsigned int sdc_length = d_tp->sdc().L();
+	unsigned char* data = new unsigned char[sdc_length];
 	
-	// Set the data to zero (as defined in the DRM standard) because not all bits might be used
-	for( int i = 0; i < noutput_items; i++)
-	{
-		for( int j = 0; j < d_tp->sdc().L(); j++)
-		{
-			*out++ = 0;
-		}
-	}
-	out = out_start; // reset pointer to the beginning
+	init_data(data);
+	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * sdc_length );
+	delete[] data;
 		
 	// Tell runtime system how many output items we produced.
-	return noutput_items;
+	return 1;
 }
 

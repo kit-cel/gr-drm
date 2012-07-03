@@ -19,6 +19,7 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 
 void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned short ord)
 {
+	// FIXME: make len assignment conditional to ord as it denotes the channel type
 	unsigned int len;
 	if(rob_mode < 4) // standard DRM
 	{

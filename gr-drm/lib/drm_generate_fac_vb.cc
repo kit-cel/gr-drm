@@ -60,11 +60,11 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	// Base/Enhancement Flag
 	enqueue_bits(data, 1, (unsigned char[]) {0}); // Base layer, decodable by all DRM receivers
 
-	// Identity Flag (currently no AFS is supported, SDC AFS flag is set valid)
+	// Identity Flag (currently no AFS is supported, SDC AFS flag is set invalid)
 	switch(d_tf_ctr)
 	{
 		case 0:
-			enqueue_bits(data, 2, (unsigned char[]) {0,0});
+			enqueue_bits(data, 2, (unsigned char[]) {1,1});
 			break;
 		case 1:
 			enqueue_bits(data, 2, (unsigned char[]) {0,1});
@@ -252,7 +252,7 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	
 	// Service descriptor (5 bit field, depends on Audio/Data flag)
 	// NOTE: a binary 31 indicates a test transmission that is skipped by standard receivers
-	enqueue_bits(data, 5, (unsigned char[]) {0,1,0,0,0}); // Science
+	enqueue_bits(data, 5, (unsigned char[]) {0,0,0,1,1}); // Science
 	
 	// Data CA indication
 	enqueue_bits(data, 1, (unsigned char[]) {0}); // no CA system used / no data present
@@ -286,7 +286,7 @@ drm_generate_fac_vb::work (int noutput_items,
 	unsigned char* data = new unsigned char[fac_length];
 	
 	init_data(data);
-	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * d_tp->fac().L() );
+	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * fac_length );
 	increment_tf_ctr();
 	
 	delete[] data;
