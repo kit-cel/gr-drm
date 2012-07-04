@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Vector Demux</name>
-  <key>drm_vec_demux_vbvb</key>
+  <name>DRM Partitioning</name>
+  <key>drm_partitioning_vbvb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.vec_demux_vbvb($vlen_in, $n_out, $vlen_out)</make>
+  <make>drm.partitioning_vbvb($vlen_in, $vlen_out)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -16,18 +16,12 @@
     <type>int</type>
   </param>
   <param>
-    <name>Number of output ports</name>
-    <key>n_out</key>
-    <type>int</type>
-  </param>
-  <param>
     <name>Output vector lengths</name>
     <key>vlen_out</key>
+    <value>(3,3,3)</value>
     <type>int_vector</type>
   </param>
-  <check>$vlen_in &gt; 0</check>
-  <check>$n_out &gt; 1</check>
-  <check>$n_out == len($vlen_out)</check>
+
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -47,6 +41,7 @@
   <source>
     <name>out</name>
     <type>byte</type>
-    <nports>$n_out</nports>
+    <vlen>$vlen_out</vlen>
+    <nports>len(vlen_out)</nports>
   </source>
 </block>

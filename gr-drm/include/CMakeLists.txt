@@ -29,8 +29,8 @@ install(FILES
     drm_config.h
     drm_params.h
     drm_transm_params.h
-    drm_vec_demux_vbvb.h
     drm_generate_sdc_vb.h
     drm_generate_fac_vb.h 
-    drm_util.h DESTINATION include/drm
+    drm_util.h
+    drm_partitioning_vbvb.h DESTINATION include/drm
 )
