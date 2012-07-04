@@ -39,8 +39,9 @@ void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 	}
 }
 
-void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned short ord)
+void enqueue_crc(unsigned char* ptr, transm_params* tp, const unsigned short ord) //  see DRM standard, annex D
 {
+	unsigned short rob_mode = tp->cfg().RM();
 	unsigned int len; // length of input bitstream
 	unsigned char shift_reg[ord]; // shift register of length ord
 	unsigned char shift_reg_prev[ord]; // state of register before last shift
@@ -75,8 +76,25 @@ void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned sho
 			break;
 			
 		case 16: // SDC: G(x) = x^16 + x^12 + x^5 + 1
-			// TODO: add a table with the lenght of the SDC data field to tables
-			// TODO: calc crc
+			len = tp->sdc().n_bytes_datafield() * 8 + 8; // SDC is calculated over data field + AFS index coded in an 8bit field (4 MSbs are 0)
+			for(int i = 0; i < len; i++)
+			{
+				memcpy(shift_reg_prev, shift_reg, ord);
+				if(i<4)
+				{
+					next_lsb = ( 0 + shift_reg_prev[0] ) % 2; // first 4 values are 0
+				}
+				else
+				{				
+					next_lsb = ( ptr[i-4] + shift_reg_prev[0] ) % 2;
+				}
+				shift_reg[15] = next_lsb;
+				for(int j = 11; j<15; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				shift_reg[10] = ( shift_reg_prev[11] + next_lsb ) % 2;
+				for(int j = 4; j<10; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				shift_reg[3] = ( shift_reg_prev[4] + next_lsb ) % 2;
+				for(int j = 0; j<3; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+			}
 			
 			break;
 			
@@ -89,6 +107,13 @@ void enqueue_crc(unsigned char* ptr, unsigned short rob_mode, const unsigned sho
 	for(unsigned int i = 0; i < ord; i++)
 	{
 		crc_word[i] = ( shift_reg[i] + 1 ) % 2; // CRC word shall be inverted prior to transmission
-		ptr[i + len] = crc_word[i]; // append CRC word
+		if(ord == 8)
+		{
+			ptr[i + len] = crc_word[i]; // append CRC word to FAC
+		}
+		else if(ord ==16)
+		{
+			ptr[i + len - 4] = crc_word[i]; // append CRC word to SDC (subtract 4 leading zeros that were added for CRC calulation
+		}
 	}
 }

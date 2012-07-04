@@ -544,6 +544,7 @@ sdc_params::init(config* cfg)
 		switch(cfg->sdc_mapping()) // FIXME: SDC prot level index should be the same as in the standard
 		{
 		case 0: // 16-QAM, R_all = 0.5
+			d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_0[cfg->RM()][cfg->SO()];
 			d_R_0 = float(1/2);
 			d_R_0_enum = 1;
 			d_R_0_denom = 3;
@@ -552,6 +553,7 @@ sdc_params::init(config* cfg)
 			d_R_1_denom = 3;
 			break;
 		case 1: // 4-QAM
+		d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_1[cfg->RM()][cfg->SO()];
 			d_R_0_enum = 1;
 			d_R_0_denom = 2;
 			d_R_0 = d_R_0_enum/float(d_R_0_denom); // typecast necessary to get a rational value
@@ -567,11 +569,13 @@ sdc_params::init(config* cfg)
 		switch(cfg->sdc_prot_level())
 		{
 		case 0:
+			d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_0[cfg->RM()][cfg->SO()];
 			d_R_0 = 1/2;
 			d_R_0_enum = 1;
 			d_R_0_denom = 2;
 			break;
 		case 1:
+			d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_1[cfg->RM()][cfg->SO()];
 			d_R_0 = 1/4;
 			d_R_0_enum = 1;
 			d_R_0_denom = 4;
@@ -598,6 +602,12 @@ unsigned short
 sdc_params::R_1_denom()
 {
 	return d_R_1_denom;
+}
+
+unsigned int
+sdc_params::n_bytes_datafield()
+{
+	return d_n_bytes_datafield;
 }
 
 /* FAC channel implementation */

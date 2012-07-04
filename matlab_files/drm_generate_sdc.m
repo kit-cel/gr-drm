@@ -88,7 +88,7 @@ type_8(30:40) = zeros(1, 11); % hours and minutes
 
 %% Append data entities
 
-sdc_data = [AFS type_9 type_0  type_1 type_8   ];
+sdc_data = [AFS type_0 type_1 type_8 type_9    ];
 % zeropadding
 sdc = [sdc_data zeros(1, SDC.L_SDC - length(sdc_data) - 16)];
 

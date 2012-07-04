@@ -267,7 +267,7 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	}
 	
 	/* enqueue CRC word */
-	enqueue_crc(data_start, d_tp->cfg().RM(), 8); //  The channel type is implicitly detected by the choice of the polynomial
+	enqueue_crc(data_start, d_tp, 8); //  The channel type is implicitly detected by the choice of the polynomial
 }
 
 void

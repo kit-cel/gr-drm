@@ -65,7 +65,7 @@ class tables
 	 ****************************************************************/
 
 	/* MSC */
-	static const unsigned int d_MSC_N_MUX[5][6];
+	static const unsigned int d_MSC_N_MUX[5][6]; // row: RM, col: SO
 	static const unsigned short d_MSC_CR_4[4][2];
 	static const unsigned short d_MSC_16_ABCD[2][5];
 	static const unsigned short d_MSC_16_E[4][5];
@@ -73,6 +73,10 @@ class tables
 	static const unsigned short d_MSC_64_HMsym_SPP[4][5];
 	static const unsigned short d_MSC_64_HMsym_VSPP[4][2];
 	static const unsigned short d_MSC_64_HMmix_SPP[4][11];
+	
+	/* SDC */
+	static const unsigned int d_SDC_datafield_0[5][6]; // row: RM, col: SO
+	static const unsigned int d_SDC_datafield_1[5][6];
 
 	tables(){};
 	~tables(){};

@@ -92,11 +92,13 @@ class sdc_params : public control_chan_params
 	float d_R_1; // coderate R_1
 	unsigned short d_R_1_enum; // enumerator of R_1
 	unsigned short d_R_1_denom; // denominator of R_1
+	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
 
 public:
 	float R_1();
 	unsigned short R_1_enum();
 	unsigned short R_1_denom();
+	unsigned int n_bytes_datafield();
 
 	sdc_params();
 	virtual ~sdc_params(){};

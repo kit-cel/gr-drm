@@ -155,7 +155,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	
 	
 	/* enqueue CRC word */
-	//enqueue_crc(data_start, d_tp->cfg().RM(), 16); THIS SEGFAULTS ATM!!
+	enqueue_crc(data_start, d_tp, 16);
 					   
 }
 
