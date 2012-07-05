@@ -96,6 +96,7 @@ class sdc_params : public control_chan_params
 	unsigned short d_R_1_denom; // denominator of R_1
 	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
 	std::vector< int > d_M; // indexes needed for partitioning
+	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 
 public:
 	float R_1();
@@ -103,6 +104,7 @@ public:
 	unsigned short R_1_denom();
 	unsigned int n_bytes_datafield();
 	std::vector< int > M();
+	unsigned short n_levels_mlc();
 
 	sdc_params();
 	virtual ~sdc_params(){};
@@ -133,14 +135,14 @@ class msc_params : public global_params
 	unsigned short d_MSC_prot_1; // MSC protection level for higher protected part (see 7.1 and tables 64-70 in the standard)
 	unsigned short d_MSC_prot_2; // protection level for lower protected part
 
-	unsigned short d_R_0_enum_1;
-	unsigned short d_R_0_denom_1;
+	unsigned short d_R_0_enum_1; // enumerator of R0 for the higher protected part
+	unsigned short d_R_0_denom_1; // denominator of ...
 	unsigned short d_R_1_enum_1;
 	unsigned short d_R_1_denom_1;
 	unsigned short d_R_2_enum_1;
 	unsigned short d_R_2_denom_1;
 	unsigned short d_R_Ylcm_1;
-	unsigned short d_R_0_enum_2;
+	unsigned short d_R_0_enum_2; // enumerator of R0 for the lower protected part
 	unsigned short d_R_0_denom_2;
 	unsigned short d_R_1_enum_2;
 	unsigned short d_R_1_denom_2;
@@ -148,6 +150,7 @@ class msc_params : public global_params
 	unsigned short d_R_2_denom_2;
 	unsigned short d_R_Ylcm_2;
 	std::vector< int > d_M; // indexes needed for partitioning
+	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 
 public:
 	unsigned int L_MUX();
@@ -175,6 +178,7 @@ public:
 	unsigned short R_2_denom_2();
 	unsigned short R_Ylcm_2();
 	std::vector< int > M();
+	unsigned short n_levels_mlc();
 	
 	void calc_vars_SM(config* cfg);
 

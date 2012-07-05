@@ -145,6 +145,7 @@ msc_params::msc_params()
 	d_R_2_enum_2 = 0;
 	d_R_2_denom_2 = 0;
 	d_R_Ylcm_2 = 0;
+	d_n_levels_mlc = 0;
 }
 
 void
@@ -240,7 +241,7 @@ msc_params::init(config* cfg)
 	}
 
 	/* calculate and define code-rate-dependant variables */
-	/* NOTE: There is no need to make a difference between UEP and EEP as the values automatically
+	/* NOTE: There is no need to make a difference here between UEP and EEP as most of the values automatically
 	 * 'default' to EEP if the number of bytes in the higher protected part
 	 * is defined as zero. */
 
@@ -251,11 +252,17 @@ msc_params::init(config* cfg)
 	}
 	else if(cfg->msc_mapping() == 3) // Hierarchical symmetrical mapping (HMsym)
 	{
+		d_n_levels_mlc = 3;
 		std::cout << "not yet implemented...\n"; // TODO: implement code rate assignment for hierarchical mapping
 	}
-	else // HMmix
+	else if(cfg->msc_mapping() == 4) // HMmix
 	{
+		d_n_levels_mlc = 6;
 		std::cout << "not yet implemented...\n";
+	}
+	else
+	{
+		std::cout << "Invalid MSC mapping number!\n";
 	}
 }
 
@@ -292,6 +299,9 @@ msc_params::calc_vars_SM(config* cfg)
 				  d_R_2_enum_1 / float(d_R_2_denom_1);
 		}
 	}
+	
+	/* set number of levels in the encoder */
+	d_n_levels_mlc = P_max;
 
 	/* set number of QAM cells */
 	d_N_MUX = cfg->ptables()->d_MSC_N_MUX[cfg->RM()][cfg->SO()];
@@ -519,6 +529,12 @@ msc_params::M()
 	return d_M;
 }
 
+unsigned short
+msc_params::n_levels_mlc()
+{
+	return d_n_levels_mlc;
+}
+
 /* Control channel implementation */
 control_chan_params::control_chan_params()
 {
@@ -644,15 +660,17 @@ sdc_params::init(config* cfg)
 		}
 	}
 	
-	/* set indexes for partitioning */ // FIXME: add if statement for EEP/UEP, else FPE!
+	/* set indexes for partitioning and number of levels in the coding process */
 	
 	if(P_max >= 1) // 4-QAM
 	{
+		d_n_levels_mlc = 1;
 		int M_02 = d_R_0_enum * std::floor( (2*d_N - 12) / d_R_0_denom );
 		d_M.push_back(M_02);
 	}
 	if(P_max >= 2) // 16-QAM
 	{
+		d_n_levels_mlc = 2;
 		int M_12 = d_R_1_enum * std::floor( (2*d_N - 12) / d_R_1_denom );
 		d_M.push_back(M_12);
 	}
@@ -680,6 +698,12 @@ std::vector< int >
 sdc_params::M()
 {
 	return d_M;
+}
+
+unsigned short
+sdc_params::n_levels_mlc()
+{
+	return d_n_levels_mlc;
 }
 
 unsigned int

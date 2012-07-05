@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Partitioning</name>
-  <key>drm_partitioning_vbvb</key>
+  <name>DRM Partitioning 4-QAM</name>
+  <key>drm_partitioning_4_vbvb</key>
   <category>drm</category>
   <import>import drm</import>
   <make>drm.partitioning_vbvb($vlen_in, $vlen_out)</make>
@@ -18,7 +18,12 @@
   <param>
     <name>Output vector lengths</name>
     <key>vlen_out</key>
-    <type>int_vector</type>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Length of output</name>
+    <key>vlen1</key>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -38,9 +43,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
+    <name>out1</name>
     <type>byte</type>
-    <vlen>$vlen_out</vlen>
-    <nports>len(vlen_out)</nports>
+    <vlen>$vlen1</vlen>
   </source>
 </block>
