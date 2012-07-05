@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Partitioning 4-QAM</name>
+  <name>DRM Partitioning 4-QAM EEP</name>
   <key>drm_partitioning_4_vbvb</key>
   <category>drm</category>
   <import>import drm</import>

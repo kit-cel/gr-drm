@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Partitioning 16-QAM EEP</name>
-  <key>drm_partitioning_16_vbvb</key>
+  <name>DRM Partitioning 64-QAM SM EEP</name>
+  <key>drm_partitioning_64sm_vbvb</key>
   <category>drm</category>
   <import>import drm</import>
   <make>drm.partitioning_vbvb($vlen_in, $vlen_out)</make>
@@ -30,6 +30,11 @@
     <key>vlen2</key>
     <type>int</type>
   </param>
+  <param>
+    <name>Length of third output</name>
+    <key>vlen3</key>
+    <type>int</type>
+  </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
@@ -56,5 +61,10 @@
     <name>out2</name>
     <type>byte</type>
     <vlen>$vlen2</vlen>
+  </source>
+  <source>
+    <name>out3</name>
+    <type>byte</type>
+    <vlen>$vlen3</vlen>
   </source>
 </block>
