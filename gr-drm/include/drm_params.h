@@ -23,6 +23,8 @@
 #include "drm_tables.h"
 #include "drm_config.h"
 #include <iostream>
+#include <vector>
+#include <cmath>
 
 /* classes holding the derived parameters and init routines (where parameters are calculated)*/
 class global_params
@@ -93,12 +95,14 @@ class sdc_params : public control_chan_params
 	unsigned short d_R_1_enum; // enumerator of R_1
 	unsigned short d_R_1_denom; // denominator of R_1
 	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
+	std::vector< int > d_M; // indexes needed for partitioning
 
 public:
 	float R_1();
 	unsigned short R_1_enum();
 	unsigned short R_1_denom();
 	unsigned int n_bytes_datafield();
+	std::vector< int > M();
 
 	sdc_params();
 	virtual ~sdc_params(){};
@@ -143,6 +147,7 @@ class msc_params : public global_params
 	unsigned short d_R_2_enum_2;
 	unsigned short d_R_2_denom_2;
 	unsigned short d_R_Ylcm_2;
+	std::vector< int > d_M; // indexes needed for partitioning
 
 public:
 	unsigned int L_MUX();
@@ -169,7 +174,8 @@ public:
 	unsigned short R_2_enum_2();
 	unsigned short R_2_denom_2();
 	unsigned short R_Ylcm_2();
-
+	std::vector< int > M();
+	
 	void calc_vars_SM(config* cfg);
 
 	msc_params();

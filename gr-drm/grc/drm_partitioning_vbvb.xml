@@ -18,7 +18,6 @@
   <param>
     <name>Output vector lengths</name>
     <key>vlen_out</key>
-    <value>(3,3,3)</value>
     <type>int_vector</type>
   </param>
 

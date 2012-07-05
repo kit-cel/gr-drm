@@ -293,6 +293,7 @@ msc_params::calc_vars_SM(config* cfg)
 		}
 	}
 
+	/* set number of QAM cells */
 	d_N_MUX = cfg->ptables()->d_MSC_N_MUX[cfg->RM()][cfg->SO()];
 	d_N_1 = ceil((8 * cfg->n_bytes_A()) / (2 * d_R_Ylcm_1 * sum)) * d_R_Ylcm_1;
 	d_N_2 = d_N_MUX - d_N_1;
@@ -302,7 +303,7 @@ msc_params::calc_vars_SM(config* cfg)
 		std::cout << "N_2 or N_1 out of bounds!\n";
 	}
 
-
+	/* set number of bits */
 	d_L_VSPP = 0; // no hierarchical mapping is used
 	d_L_1 = 2 * d_N_1 * sum;
 	switch(P_max)
@@ -325,6 +326,54 @@ msc_params::calc_vars_SM(config* cfg)
 	}
 
 	d_L_MUX = d_L_1 + d_L_2;
+	
+	/* set indexes for partitioning */
+	std::cout << "P_Max:\t" << P_max << std::endl; // FIXME: add if statement for EEP/UEP, else FPE!
+	if(P_max >= 1) // 4-QAM
+	{
+		std::cout << "first clause" <<  "\t" << d_R_0_denom_1 << d_R_0_denom_2 << std::endl;
+		if(cfg->UEP())
+		{
+			int M_01 = 2 * d_N_1 * d_R_0_enum_1 / d_R_0_denom_1;
+			d_M.push_back(M_01);
+		}
+		else
+		{
+			int M_01 = 0;
+		}
+		int M_02 = d_R_0_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_0_denom_2 );
+		d_M.push_back(M_02);
+	}
+	if(P_max >= 2) // 16-QAM
+	{
+		std::cout << "second clause" << std::endl;
+		if(cfg->UEP())
+		{
+			int M_11 = 2 * d_N_1 * d_R_1_enum_1 / d_R_1_denom_1;
+			d_M.push_back(M_11);
+		}
+		else
+		{
+			int M_11 = 0;
+		}
+		int M_12 = d_R_1_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_1_denom_2 );
+		d_M.push_back(M_12);
+	}
+	if(P_max >= 3) // 64-QAM
+	{
+		std::cout << "third clause" << std::endl;
+		if(cfg->UEP())
+		{
+			int M_21 = 2 * d_N_1 * d_R_2_enum_1 / d_R_2_denom_1;
+			d_M.push_back(M_21);
+		}
+		else
+		{
+			int M_21 = 0;
+		}
+		int M_22 = d_R_2_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_2_denom_2 );
+		d_M.push_back(M_22);
+	}	
 }
 
 unsigned int
@@ -465,6 +514,12 @@ msc_params::R_Ylcm_2()
 	return d_R_Ylcm_2;
 }
 
+std::vector< int >
+msc_params::M()
+{
+	return d_M;
+}
+
 /* Control channel implementation */
 control_chan_params::control_chan_params()
 {
@@ -538,12 +593,15 @@ sdc_params::init(config* cfg)
 											    {465, 0, 0, 0, 0, 0}};
 
 
+	/* set code rates */
+	int P_max = 0;
 	if(cfg->RM() < 4) // RM A-D
 	{
-		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_mapping()][cfg->SO()];
+		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_mapping()][cfg->SO()];		
 		switch(cfg->sdc_mapping()) // FIXME: SDC prot level index should be the same as in the standard
 		{
 		case 0: // 16-QAM, R_all = 0.5
+			P_max = 2;
 			d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_0[cfg->RM()][cfg->SO()];
 			d_R_0 = float(1/2);
 			d_R_0_enum = 1;
@@ -553,7 +611,8 @@ sdc_params::init(config* cfg)
 			d_R_1_denom = 3;
 			break;
 		case 1: // 4-QAM
-		d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_1[cfg->RM()][cfg->SO()];
+			P_max = 1;
+			d_n_bytes_datafield = cfg->ptables()->d_SDC_datafield_1[cfg->RM()][cfg->SO()];
 			d_R_0_enum = 1;
 			d_R_0_denom = 2;
 			d_R_0 = d_R_0_enum/float(d_R_0_denom); // typecast necessary to get a rational value
@@ -563,9 +622,10 @@ sdc_params::init(config* cfg)
 
 		}
 	}
-	else // RM E
+	else // RM E (always 4-QAM)
 	{
 		d_L = tab_L_SDC[2*cfg->RM() + cfg->sdc_prot_level()][cfg->SO()];
+		P_max = 1;
 		switch(cfg->sdc_prot_level())
 		{
 		case 0:
@@ -583,6 +643,19 @@ sdc_params::init(config* cfg)
 		default:
 			break;
 		}
+	}
+	
+	/* set indexes for partitioning */ // FIXME: add if statement for EEP/UEP, else FPE!
+	
+	if(P_max >= 1) // 4-QAM
+	{
+		int M_02 = d_R_0_enum * std::floor( (2*d_N - 12) / d_R_0_denom );
+		d_M.push_back(M_02);
+	}
+	if(P_max >= 2) // 16-QAM
+	{
+		int M_12 = d_R_1_enum * std::floor( (2*d_N - 12) / d_R_1_denom );
+		d_M.push_back(M_12);
 	}
 }
 
@@ -602,6 +675,12 @@ unsigned short
 sdc_params::R_1_denom()
 {
 	return d_R_1_denom;
+}
+
+std::vector< int >
+sdc_params::M()
+{
+	return d_M;
 }
 
 unsigned int
