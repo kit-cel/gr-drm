@@ -345,11 +345,6 @@ msc_params::calc_vars_SM(config* cfg)
 			int M_01 = 2 * d_N_1 * d_R_0_enum_1 / d_R_0_denom_1;
 			d_M.push_back(M_01);
 		}
-		else
-		{
-			int M_01 = 0;
-			d_M.push_back(M_01);
-		}
 		int M_02 = d_R_0_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_0_denom_2 );
 		d_M.push_back(M_02);
 	}
@@ -360,11 +355,6 @@ msc_params::calc_vars_SM(config* cfg)
 			int M_11 = 2 * d_N_1 * d_R_1_enum_1 / d_R_1_denom_1;
 			d_M.push_back(M_11);
 		}
-		else
-		{
-			int M_11 = 0;
-			d_M.push_back(M_11);
-		}
 		int M_12 = d_R_1_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_1_denom_2 );
 		d_M.push_back(M_12);
 	}
@@ -373,11 +363,6 @@ msc_params::calc_vars_SM(config* cfg)
 		if(cfg->UEP())
 		{
 			int M_21 = 2 * d_N_1 * d_R_2_enum_1 / d_R_2_denom_1;
-			d_M.push_back(M_21);
-		}
-		else
-		{
-			int M_21 = 0;
 			d_M.push_back(M_21);
 		}
 		int M_22 = d_R_2_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_2_denom_2 );

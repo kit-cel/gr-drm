@@ -27,7 +27,7 @@
 class drm_partitioning_vbvb;
 typedef boost::shared_ptr<drm_partitioning_vbvb> drm_partitioning_vbvb_sptr;
 
-DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen_in, const std::vector<int> vlen_out);
+DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out);
 
 /*!
  * \brief Performs departitioning (demultiplexing) of the input vector
@@ -35,9 +35,9 @@ DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen
  */
 class DRM_API drm_partitioning_vbvb : public gr_sync_block
 {
-	friend DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen_in, const std::vector<int> vlen_out);
+	friend DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out);
 
-	drm_partitioning_vbvb (unsigned int vlen_in, const std::vector<int> vlen_out);
+	drm_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out);
 	
 	unsigned int d_n_out; // number of output ports
 	std::vector<int> d_vlen_out; // vector with output vector lengths

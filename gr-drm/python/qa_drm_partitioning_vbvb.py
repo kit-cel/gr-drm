@@ -49,6 +49,7 @@ class qa_partitioning_vbvb (gr_unittest.TestCase):
         res1 = self.snk1.data()
         res2 = self.snk2.data()
         res3 = self.snk3.data()
+        print res1, res2, res3
         # check data
         ref1 = (1,2,1,2)
         ref2 = (3,4,5,3,4,5)

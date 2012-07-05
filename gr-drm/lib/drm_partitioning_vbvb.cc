@@ -27,13 +27,13 @@
 
 
 drm_partitioning_vbvb_sptr
-drm_make_partitioning_vbvb (unsigned int vlen_in, const std::vector<int> vlen_out)
+drm_make_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out)
 {
 	return drm_partitioning_vbvb_sptr (new drm_partitioning_vbvb (vlen_in, vlen_out));
 }
 
 
-drm_partitioning_vbvb::drm_partitioning_vbvb (unsigned int vlen_in, const std::vector<int> vlen_out)
+drm_partitioning_vbvb::drm_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out)
 	: gr_sync_block ("partitioning_vbvb",
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_in),
 		gr_make_io_signaturev (vlen_out.size(), vlen_out.size(), vlen_out))
