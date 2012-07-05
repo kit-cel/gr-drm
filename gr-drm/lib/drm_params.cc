@@ -343,31 +343,49 @@ msc_params::calc_vars_SM(config* cfg)
 		if(cfg->UEP())
 		{
 			int M_01 = 2 * d_N_1 * d_R_0_enum_1 / d_R_0_denom_1;
-			d_M.push_back(M_01);
+			d_M_index.push_back(M_01);
+		}
+		else
+		{
+			d_M_index.push_back(0); // in case of EEP set the index for the higher protected part to 0
 		}
 		int M_02 = d_R_0_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_0_denom_2 );
-		d_M.push_back(M_02);
+		d_M_index.push_back(M_02);
 	}
 	if(P_max >= 2) // 16-QAM
 	{
 		if(cfg->UEP())
 		{
 			int M_11 = 2 * d_N_1 * d_R_1_enum_1 / d_R_1_denom_1;
-			d_M.push_back(M_11);
+			d_M_index.push_back(M_11);
+		}
+		else
+		{
+			d_M_index.push_back(0); // in case of EEP set the index for the higher protected part to 0
 		}
 		int M_12 = d_R_1_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_1_denom_2 );
-		d_M.push_back(M_12);
+		d_M_index.push_back(M_12);
 	}
 	if(P_max >= 3) // 64-QAM
 	{	
 		if(cfg->UEP())
 		{
 			int M_21 = 2 * d_N_1 * d_R_2_enum_1 / d_R_2_denom_1;
-			d_M.push_back(M_21);
+			d_M_index.push_back(M_21);
+		}
+		else
+		{
+			d_M_index.push_back(0); // in case of EEP set the index for the higher protected part to 0
 		}
 		int M_22 = d_R_2_enum_2 * std::floor( (2*d_N_2 - 12) / d_R_2_denom_2 );
-		d_M.push_back(M_22);
+		d_M_index.push_back(M_22);
 	}	
+	
+	/* set total number of bits per level in the encoder */
+	for(int i = 0; i < d_M_index.size(); i+=2)
+	{
+		d_M_total.push_back(d_M_index[i] + d_M_index[i+1]);
+	}
 }
 
 unsigned int
@@ -509,9 +527,15 @@ msc_params::R_Ylcm_2()
 }
 
 std::vector< int >
-msc_params::M()
+msc_params::M_index()
 {
-	return d_M;
+	return d_M_index;
+}
+
+std::vector< int >
+msc_params::M_total()
+{
+	return d_M_total;
 }
 
 unsigned short
@@ -651,14 +675,15 @@ sdc_params::init(config* cfg)
 	{
 		d_n_levels_mlc = 1;
 		int M_02 = d_R_0_enum * std::floor( (2*d_N - 12) / d_R_0_denom );
-		d_M.push_back(M_02);
+		d_M_index.push_back(M_02);
 	}
 	if(P_max >= 2) // 16-QAM
 	{
 		d_n_levels_mlc = 2;
 		int M_12 = d_R_1_enum * std::floor( (2*d_N - 12) / d_R_1_denom );
-		d_M.push_back(M_12);
+		d_M_index.push_back(M_12);
 	}
+	d_M_total = d_M_index; // in SDC mode, there is only SM and EEP -> identical with M_index
 }
 
 float
@@ -680,9 +705,15 @@ sdc_params::R_1_denom()
 }
 
 std::vector< int >
-sdc_params::M()
+sdc_params::M_index()
 {
-	return d_M;
+	return d_M_index;
+}
+
+std::vector< int >
+sdc_params::M_total()
+{
+	return d_M_total;
 }
 
 unsigned short

@@ -95,7 +95,8 @@ class sdc_params : public control_chan_params
 	unsigned short d_R_1_enum; // enumerator of R_1
 	unsigned short d_R_1_denom; // denominator of R_1
 	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
-	std::vector< int > d_M; // indexes needed for partitioning
+	std::vector< int > d_M_index; // indexes needed for partitioning
+	std::vector< int > d_M_total; // total number of samples per coding level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 
 public:
@@ -103,7 +104,8 @@ public:
 	unsigned short R_1_enum();
 	unsigned short R_1_denom();
 	unsigned int n_bytes_datafield();
-	std::vector< int > M();
+	std::vector< int > M_index();
+	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
 
 	sdc_params();
@@ -149,7 +151,8 @@ class msc_params : public global_params
 	unsigned short d_R_2_enum_2;
 	unsigned short d_R_2_denom_2;
 	unsigned short d_R_Ylcm_2;
-	std::vector< int > d_M; // indexes needed for partitioning
+	std::vector< int > d_M_index; // indexes needed for partitioning
+	std::vector< int > d_M_total; // total number of bits on each encoder level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 
 public:
@@ -177,7 +180,8 @@ public:
 	unsigned short R_2_enum_2();
 	unsigned short R_2_denom_2();
 	unsigned short R_Ylcm_2();
-	std::vector< int > M();
+	std::vector< int > M_index();
+	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
 	
 	void calc_vars_SM(config* cfg);
