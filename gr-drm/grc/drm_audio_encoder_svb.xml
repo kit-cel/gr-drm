@@ -4,7 +4,7 @@
   <key>drm_audio_encoder_svb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.audio_encoder_sb($tp)</make>
+  <make>drm.audio_encoder_svb($tp)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
