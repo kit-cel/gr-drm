@@ -41,7 +41,7 @@ include(GrTest)
 
 set(GR_TEST_TARGET_DEPS gnuradio-drm)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
-GR_ADD_TEST(qa_audio_encoder_sb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_audio_encoder_sb.py)
+GR_ADD_TEST(qa_audio_encoder_svb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_audio_encoder_svb.py)
 GR_ADD_TEST(qa_scrambler_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_scrambler_vbvb.py)
 GR_ADD_TEST(qa_generate_sdc_vb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_generate_sdc_vb.py)
 GR_ADD_TEST(qa_generate_fac_vb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_generate_fac_vb.py)

@@ -22,7 +22,7 @@
 from gnuradio import gr, gr_unittest
 import drm_swig
 
-class qa_audio_encoder_sb (gr_unittest.TestCase):
+class qa_audio_encoder_svb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()

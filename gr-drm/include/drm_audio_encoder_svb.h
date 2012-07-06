@@ -18,8 +18,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DRM_AUDIO_ENCODER_SB_H
-#define INCLUDED_DRM_AUDIO_ENCODER_SB_H
+#ifndef INCLUDED_DRM_AUDIO_ENCODER_SVB_H
+#define INCLUDED_DRM_AUDIO_ENCODER_SVB_H
 
 #include <drm_api.h>
 #include <gr_block.h>
@@ -27,20 +27,20 @@
 #include <faac.h>
 #include <iostream>
 
-class drm_audio_encoder_sb;
-typedef boost::shared_ptr<drm_audio_encoder_sb> drm_audio_encoder_sb_sptr;
+class drm_audio_encoder_svb;
+typedef boost::shared_ptr<drm_audio_encoder_svb> drm_audio_encoder_svb_sptr;
 
-DRM_API drm_audio_encoder_sb_sptr drm_make_audio_encoder_sb (transm_params* tp);
+DRM_API drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp);
 
 /*!
  * \brief Audio source encoder using FAAC to produce AAC stream (LC, mono)
  * Input: PCM stream (short ints), output: bit vector (unpacked, unsigned chars)
  */
-class DRM_API drm_audio_encoder_sb : public gr_block
+class DRM_API drm_audio_encoder_svb : public gr_block
 {
-	friend DRM_API drm_audio_encoder_sb_sptr drm_make_audio_encoder_sb (transm_params* tp);
+	friend DRM_API drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp);
 
-	drm_audio_encoder_sb (transm_params* tp);
+	drm_audio_encoder_svb (transm_params* tp);
 
 	/* member variables */
 	int d_n_aac_frames; // number of AAC frames per super audio frame
@@ -55,7 +55,7 @@ class DRM_API drm_audio_encoder_sb : public gr_block
 	faacEncHandle d_encHandle;
 	transm_params* d_tp; // transmission params (holding config/msc/... values)
  public:
-	~drm_audio_encoder_sb ();
+	~drm_audio_encoder_svb ();
 
 
     int general_work (int noutput_items,
@@ -64,5 +64,5 @@ class DRM_API drm_audio_encoder_sb : public gr_block
 		gr_vector_void_star &output_items);
 };
 
-#endif /* INCLUDED_DRM_AUDIO_ENCODER_SB_H */
+#endif /* INCLUDED_DRM_AUDIO_encoder_svb_H */
 

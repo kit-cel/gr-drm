@@ -22,7 +22,7 @@
 ########################################################################
 install(FILES
     drm_api.h
-    drm_audio_encoder_sb.h
+    drm_audio_encoder_svb.h
     drm_scrambler_vbvb.h
     drm_global_constants.h
     drm_tables.h

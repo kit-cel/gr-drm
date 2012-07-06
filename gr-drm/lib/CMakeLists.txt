@@ -19,7 +19,7 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-add_library(gnuradio-drm SHARED drm_audio_encoder_sb.cc drm_scrambler_vbvb.cc 
+add_library(gnuradio-drm SHARED drm_audio_encoder_svb.cc drm_scrambler_vbvb.cc 
 			drm_tables_mapping.cc drm_tables_params.cc drm_config.cc drm_util.cc
 			drm_params.cc drm_transm_params.cc drm_generate_sdc_vb.cc drm_generate_fac_vb.cc drm_partitioning_vbvb.cc)
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES} ${Faac_LIBRARIES})
@@ -44,6 +44,6 @@ install(TARGETS gnuradio-drm
 #turn each test cpp file into an executable with an int main() function
 #add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
-#add_executable(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb.cc)
-#target_link_libraries(qa_drm_audio_encoder_sb gnuradio-drm ${Boost_LIBRARIES})
-#GR_ADD_TEST(qa_drm_audio_encoder_sb qa_drm_audio_encoder_sb)
+#add_executable(qa_drm_audio_encoder_svb qa_drm_audio_encoder_svb.cc)
+#target_link_libraries(qa_drm_audio_encoder_svb gnuradio-drm ${Boost_LIBRARIES})
+#GR_ADD_TEST(qa_drm_audio_encoder_svb qa_drm_audio_encoder_svb)

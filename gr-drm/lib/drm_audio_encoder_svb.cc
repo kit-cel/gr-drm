@@ -24,13 +24,13 @@
 #endif
 
 #include <gr_io_signature.h>
-#include <drm_audio_encoder_sb.h>
+#include <drm_audio_encoder_svb.h>
 
 
-drm_audio_encoder_sb_sptr
-drm_make_audio_encoder_sb (transm_params* tp)
+drm_audio_encoder_svb_sptr
+drm_make_audio_encoder_svb (transm_params* tp)
 {
-	return drm_audio_encoder_sb_sptr (new drm_audio_encoder_sb (tp));
+	return drm_audio_encoder_svb_sptr (new drm_audio_encoder_svb (tp));
 }
 
 const short MIN_IN = 1; // only mono input
@@ -38,8 +38,8 @@ const short MAX_IN = 1;
 const short MIN_OUT = 1; // only mono output
 const short MAX_OUT = 1;
 
-drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
-	: gr_block ("audio_encoder_sb",
+drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
+	: gr_block ("audio_encoder_svb",
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
@@ -111,13 +111,13 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 }
 
 
-drm_audio_encoder_sb::~drm_audio_encoder_sb ()
+drm_audio_encoder_svb::~drm_audio_encoder_svb ()
 {
 }
 
 
 int
-drm_audio_encoder_sb::general_work (int noutput_items,
+drm_audio_encoder_svb::general_work (int noutput_items,
 			       gr_vector_int &ninput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)

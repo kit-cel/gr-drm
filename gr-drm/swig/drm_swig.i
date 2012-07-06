@@ -9,21 +9,21 @@
 
 
 %{
-#include "drm_audio_encoder_sb.h"
+#include "drm_audio_encoder_svb.h"
 #include "drm_scrambler_vbvb.h"
 #include "drm_generate_sdc_vb.h"
 #include "drm_generate_fac_vb.h"
 #include "drm_partitioning_vbvb.h"
 %}
 
-GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_sb);
+GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
 
-drm_audio_encoder_sb_sptr drm_make_audio_encoder_sb (transm_params* tp);
+drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp);
   
-class drm_audio_encoder_sb : public gr_block
+class drm_audio_encoder_svb : public gr_block
 {
 private:
-    drm_audio_encoder_sb (transm_params* tp);
+    drm_audio_encoder_svb (transm_params* tp);
 };
 
 GR_SWIG_BLOCK_MAGIC(drm,scrambler_vbvb);
