@@ -4,7 +4,7 @@
 # Title: DRM Transmitter
 # Author: Felix Wunsch
 # Description: EEP, SM (16/4), AAC mono, RM B, SO 3
-# Generated: Fri Jul  6 16:38:48 2012
+# Generated: Fri Jul  6 16:49:42 2012
 ##################################################
 
 from gnuradio import eng_notation
@@ -32,10 +32,13 @@ class drm_transmitter(gr.top_block):
 		# Blocks
 		##################################################
 		self.gr_wavfile_source_0 = gr.wavfile_source("/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/ifeelgood_24khz.wav", False)
-		self.gr_vector_sink_x_2 = gr.vector_sink_b(M_MSC[1])
-		self.gr_vector_sink_x_1 = gr.vector_sink_b(M_MSC[0] )
-		self.gr_vector_sink_x_0_0 = gr.vector_sink_b(tp.fac().L())
-		self.gr_vector_sink_x_0 = gr.vector_sink_b(tp.sdc().L())
+		self.gr_throttle_0_1 = gr.throttle(gr.sizeof_char*tp.msc().L_MUX(), tp.msc().L_MUX() * 3 / 1.2)
+		self.gr_throttle_0_0 = gr.throttle(gr.sizeof_char*tp.sdc().L(), tp.sdc().L() / 1.2)
+		self.gr_throttle_0 = gr.throttle(gr.sizeof_char*tp.fac().L(), tp.fac().L()/0.4)
+		self.gr_null_sink_0_2 = gr.null_sink(gr.sizeof_char*M_MSC[1])
+		self.gr_null_sink_0_1 = gr.null_sink(gr.sizeof_char*tp.sdc().L())
+		self.gr_null_sink_0_0 = gr.null_sink(gr.sizeof_char*tp.fac().L())
+		self.gr_null_sink_0 = gr.null_sink(gr.sizeof_char*M_MSC[0])
 		self.gr_float_to_short_0 = gr.float_to_short()
 		self.drm_scrambler_vbvb_0_1 = drm.scrambler_vbvb(tp.fac().L())
 		self.drm_scrambler_vbvb_0_0 = drm.scrambler_vbvb(tp.msc().L_MUX())
@@ -50,18 +53,21 @@ class drm_transmitter(gr.top_block):
 		##################################################
 		# Connections
 		##################################################
-		self.connect((self.drm_partitioning_16_vbvb_0, 0), (self.gr_vector_sink_x_1, 0))
-		self.connect((self.drm_partitioning_16_vbvb_0, 1), (self.gr_vector_sink_x_2, 0))
 		self.connect((self.gr_wavfile_source_0, 0), (self.gr_float_to_short_0, 0))
-		self.connect((self.drm_scrambler_vbvb_0_0, 0), (self.drm_partitioning_16_vbvb_0, 0))
-		self.connect((self.drm_partitioning_4_vbvb_0, 0), (self.gr_vector_sink_x_0, 0))
-		self.connect((self.drm_scrambler_vbvb_0, 0), (self.drm_partitioning_4_vbvb_0, 0))
-		self.connect((self.drm_generate_sdc_vb_0, 0), (self.drm_scrambler_vbvb_0, 0))
-		self.connect((self.drm_generate_fac_vb_0, 0), (self.drm_scrambler_vbvb_0_1, 0))
-		self.connect((self.drm_scrambler_vbvb_0_1, 0), (self.drm_partitioning_4_vbvb_0_0, 0))
-		self.connect((self.drm_partitioning_4_vbvb_0_0, 0), (self.gr_vector_sink_x_0_0, 0))
 		self.connect((self.gr_float_to_short_0, 0), (self.drm_audio_encoder_svb_0, 0))
-		self.connect((self.drm_audio_encoder_svb_0, 0), (self.drm_scrambler_vbvb_0_0, 0))
+		self.connect((self.drm_partitioning_4_vbvb_0_0, 0), (self.gr_null_sink_0_0, 0))
+		self.connect((self.drm_partitioning_4_vbvb_0, 0), (self.gr_null_sink_0_1, 0))
+		self.connect((self.drm_partitioning_16_vbvb_0, 1), (self.gr_null_sink_0_2, 0))
+		self.connect((self.drm_partitioning_16_vbvb_0, 0), (self.gr_null_sink_0, 0))
+		self.connect((self.drm_scrambler_vbvb_0_1, 0), (self.drm_partitioning_4_vbvb_0_0, 0))
+		self.connect((self.drm_scrambler_vbvb_0, 0), (self.drm_partitioning_4_vbvb_0, 0))
+		self.connect((self.drm_scrambler_vbvb_0_0, 0), (self.drm_partitioning_16_vbvb_0, 0))
+		self.connect((self.drm_audio_encoder_svb_0, 0), (self.gr_throttle_0_1, 0))
+		self.connect((self.gr_throttle_0_1, 0), (self.drm_scrambler_vbvb_0_0, 0))
+		self.connect((self.gr_throttle_0_0, 0), (self.drm_scrambler_vbvb_0, 0))
+		self.connect((self.drm_generate_sdc_vb_0, 0), (self.gr_throttle_0_0, 0))
+		self.connect((self.drm_generate_fac_vb_0, 0), (self.gr_throttle_0, 0))
+		self.connect((self.gr_throttle_0, 0), (self.drm_scrambler_vbvb_0_1, 0))
 
 	def get_tp(self):
 		return self.tp
