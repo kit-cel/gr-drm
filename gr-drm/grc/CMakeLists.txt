@@ -17,7 +17,7 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 install(FILES
-    drm_audio_encoder_sb.xml
+    drm_audio_encoder_svb.xml
     drm_scrambler_vbvb.xml
     drm_generate_sdc_vb.xml
     drm_generate_fac_vb.xml

@@ -4,7 +4,7 @@
 # Title: DRM Transmitter
 # Author: Felix Wunsch
 # Description: EEP, SM (16/4), AAC mono, RM B, SO 3
-# Generated: Fri Jul  6 16:35:45 2012
+# Generated: Fri Jul  6 16:38:48 2012
 ##################################################
 
 from gnuradio import eng_notation
@@ -45,7 +45,7 @@ class drm_transmitter(gr.top_block):
 		self.drm_partitioning_16_vbvb_0 = drm.partitioning_vbvb(tp.msc().L_MUX(), tp.msc().M_total())
 		self.drm_generate_sdc_vb_0 = drm.generate_sdc_vb(tp)
 		self.drm_generate_fac_vb_0 = drm.generate_fac_vb(tp)
-		self.drm_audio_encoder_svb_0 = drm.audio_encoder_sb(tp)
+		self.drm_audio_encoder_svb_0 = drm.audio_encoder_svb(tp)
 
 		##################################################
 		# Connections
