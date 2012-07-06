@@ -76,33 +76,6 @@ drm_audio_encoder_sb::drm_audio_encoder_sb (transm_params* tp)
 	{
 		std::cout << "FAAC encoder instance could not be opened. Exit.\n";
 	}
-}
-
-
-drm_audio_encoder_sb::~drm_audio_encoder_sb ()
-{
-}
-
-
-int
-drm_audio_encoder_sb::general_work (int noutput_items,
-			       gr_vector_int &ninput_items,
-			       gr_vector_const_void_star &input_items,
-			       gr_vector_void_star &output_items)
-{
-	gr_int16 *in = (gr_int16 *) input_items[0];
-	unsigned char *out = (unsigned char *) output_items[0];
-	unsigned int n_in = (unsigned int) ninput_items[0];
-  
-	std::cout << "noutput_items:\t" << noutput_items << "\tninput_items:\t" << n_in << std::endl;
-	
-	int n_transm_frames;
-	
-	// init output buffer to zero (as defined in the DRM standard)
-	for(int i = 0; i < n_in; i++) // truncate to whole super transmission frames
-	{
-		//out[i] = 0;
-	}
 	
 	// configure encoder
 	int sizeof_byte = 8;
@@ -127,7 +100,7 @@ drm_audio_encoder_sb::general_work (int noutput_items,
     /* set encoder configuration */
 	faacEncConfigurationPtr CurEncFormat;
 	CurEncFormat = faacEncGetCurrentConfiguration(d_encHandle);
-	CurEncFormat->inputFormat = FAAC_INPUT_16BIT;
+	CurEncFormat->inputFormat = FAAC_INPUT_16BIT; // TODO: check if float can be used here directly
 	CurEncFormat->useTns = 1;
 	CurEncFormat->aacObjectType = LOW;
 	CurEncFormat->mpegVersion = MPEG4;
@@ -135,19 +108,39 @@ drm_audio_encoder_sb::general_work (int noutput_items,
 	CurEncFormat->bitRate = iBitRate;
 	CurEncFormat->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, CurEncFormat);
+}
+
+
+drm_audio_encoder_sb::~drm_audio_encoder_sb ()
+{
+}
+
+
+int
+drm_audio_encoder_sb::general_work (int noutput_items,
+			       gr_vector_int &ninput_items,
+			       gr_vector_const_void_star &input_items,
+			       gr_vector_void_star &output_items)
+{
+	gr_int16 *in = (gr_int16 *) input_items[0];
+	unsigned char *out = (unsigned char *) output_items[0];
+	unsigned int n_in = (unsigned int) ninput_items[0];
+	
+	// init output buffer to zero (as defined in the DRM standard)
+	for(int i = 0; i < n_in; i++) // truncate to whole super transmission frames
+	{
+		out[i] = i;
+	}
 
 	// actual encoding
-	for(int i = 0; i < n_in; i++)
-	{	
-		
 		
 	// write to output buffer
-
+	
 	// Tell runtime system how many input items we consumed on
 	// each input stream.
-	consume_each (d_n_samples_in);
-	}
+	consume_each (d_n_samples_in * d_n_aac_frames);
 	// Tell runtime system how many output items we produced.
-	return n_in; // number of samples that came in
+	return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
+	// TODO: process multiple vector per call to general_work()
 }
 

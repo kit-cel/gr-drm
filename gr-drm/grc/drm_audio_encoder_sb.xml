@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <block>
   <name>DRM Audio Encoder</name>
-  <key>drm_audio_encoder_sb</key>
+  <key>drm_audio_encoder_svb</key>
   <category>drm</category>
   <import>import drm</import>
   <make>drm.audio_encoder_sb($tp)</make>
@@ -15,13 +15,11 @@
     <key>tp</key>
     <type>raw</type>
   </param>
-  
   <param>
-    <name>block_len_out</name>
-    <key>block_len_out</key>
+    <name>Output vector length</name>
+    <key>len_out</key>
     <type>int</type>
   </param>
-  
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -41,6 +39,6 @@
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>block_len_out</vlen>
+    <vlen>$len_out</vlen>
   </source>
 </block>

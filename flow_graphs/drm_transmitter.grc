@@ -1,269 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Fri Jul  6 10:45:44 2012</timestamp>
-  <block>
-    <key>options</key>
-    <param>
-      <key>id</key>
-      <value>top_block</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value></value>
-    </param>
-    <param>
-      <key>author</key>
-      <value></value>
-    </param>
-    <param>
-      <key>description</key>
-      <value></value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>1280, 1024</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>no_gui</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>Custom</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>prompt</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(9, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_generate_fac_vb</key>
-    <param>
-      <key>id</key>
-      <value>drm_generate_fac_vb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(15, 456)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_vbvb_0_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(729, 456)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_partitioning_4_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_partitioning_4_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>M_SDC</value>
-    </param>
-    <param>
-      <key>vlen1</key>
-      <value>M_SDC[0]</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(922, 353)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(729, 369)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_generate_sdc_vb</key>
-    <param>
-      <key>id</key>
-      <value>drm_generate_sdc_vb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(17, 369)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_partitioning_4_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_partitioning_4_vbvb_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>vlen1</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(919, 440)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_vector_sink_x</key>
-    <param>
-      <key>id</key>
-      <value>gr_vector_sink_x_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1202, 457)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_vector_sink_x</key>
-    <param>
-      <key>id</key>
-      <value>gr_vector_sink_x_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1201, 369)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
+  <timestamp>Fri Jul  6 14:06:32 2012</timestamp>
   <block>
     <key>import</key>
     <param>
@@ -357,103 +94,30 @@
     </param>
   </block>
   <block>
-    <key>variable</key>
+    <key>gr_wavfile_source</key>
     <param>
       <key>id</key>
-      <value>samp_rate</value>
+      <value>gr_wavfile_source_0</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>value</key>
-      <value>32000</value>
+      <key>file</key>
+      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/ifeelgood_24khz.wav</value>
     </param>
     <param>
-      <key>_coordinate</key>
-      <value>(9, 92)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_audio_encoder_sb</key>
-    <param>
-      <key>id</key>
-      <value>drm_audio_encoder_sb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
+      <key>repeat</key>
       <value>False</value>
     </param>
     <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>block_len_out</key>
-      <value>tp.msc().L_MUX()</value>
+      <key>nchan</key>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(468, 258)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_vector_sink_x</key>
-    <param>
-      <key>id</key>
-      <value>gr_vector_sink_x_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>M_MSC[0] </value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1200, 235)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_vector_sink_x</key>
-    <param>
-      <key>id</key>
-      <value>gr_vector_sink_x_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>M_MSC[1]</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1200, 283)</value>
+      <value>(15, 258)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -468,7 +132,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>vlen_in</key>
@@ -496,6 +160,79 @@
     </param>
   </block>
   <block>
+    <key>gr_vector_sink_x</key>
+    <param>
+      <key>id</key>
+      <value>gr_vector_sink_x_2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>M_MSC[1]</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1200, 283)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_vector_sink_x</key>
+    <param>
+      <key>id</key>
+      <value>gr_vector_sink_x_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>M_MSC[0] </value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1200, 235)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_float_to_short</key>
+    <param>
+      <key>id</key>
+      <value>gr_float_to_short_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(261, 270)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>drm_scrambler_vbvb</key>
     <param>
       <key>id</key>
@@ -503,7 +240,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>block_len</key>
@@ -519,18 +256,26 @@
     </param>
   </block>
   <block>
-    <key>gr_float_to_short</key>
+    <key>drm_audio_encoder_svb</key>
     <param>
       <key>id</key>
-      <value>gr_float_to_short_0</value>
+      <value>drm_audio_encoder_svb_0</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>len_out</key>
+      <value>tp.msc().L_MUX()</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(261, 270)</value>
+      <value>(462, 258)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -538,30 +283,285 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_source</key>
+    <key>drm_partitioning_4_vbvb</key>
     <param>
       <key>id</key>
-      <value>gr_wavfile_source_0</value>
+      <value>drm_partitioning_4_vbvb_0</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
-      <key>file</key>
-      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/ifeelgood_24khz.wav</value>
+      <key>vlen_in</key>
+      <value>tp.sdc().L()</value>
     </param>
     <param>
-      <key>repeat</key>
-      <value>False</value>
+      <key>vlen_out</key>
+      <value>M_SDC</value>
     </param>
     <param>
-      <key>nchan</key>
-      <value>1</value>
+      <key>vlen1</key>
+      <value>M_SDC[0]</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(15, 258)</value>
+      <value>(922, 353)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_vbvb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(729, 369)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_generate_sdc_vb</key>
+    <param>
+      <key>id</key>
+      <value>drm_generate_sdc_vb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(17, 369)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_vector_sink_x</key>
+    <param>
+      <key>id</key>
+      <value>gr_vector_sink_x_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1201, 369)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_generate_fac_vb</key>
+    <param>
+      <key>id</key>
+      <value>drm_generate_fac_vb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(15, 456)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_vector_sink_x</key>
+    <param>
+      <key>id</key>
+      <value>gr_vector_sink_x_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1202, 457)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_vbvb_0_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(729, 456)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_partitioning_4_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_partitioning_4_vbvb_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.fac().M_total()</value>
+    </param>
+    <param>
+      <key>vlen1</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(919, 440)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>options</key>
+    <param>
+      <key>id</key>
+      <value>drm_transmitter</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>DRM Transmitter</value>
+    </param>
+    <param>
+      <key>author</key>
+      <value>Felix Wunsch</value>
+    </param>
+    <param>
+      <key>description</key>
+      <value>EEP, SM (16/4), AAC mono, RM B, SO 3</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>1280, 1024</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>no_gui</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>Custom</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>prompt</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(9, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>32000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(9, 139)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -569,62 +569,8 @@
     </param>
   </block>
   <connection>
-    <source_block_id>drm_partitioning_4_vbvb_0</source_block_id>
-    <sink_block_id>gr_vector_sink_x_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_generate_fac_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_scrambler_vbvb_0</source_block_id>
-    <sink_block_id>drm_partitioning_4_vbvb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
-    <sink_block_id>drm_partitioning_4_vbvb_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_generate_sdc_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_partitioning_4_vbvb_0_0</source_block_id>
-    <sink_block_id>gr_vector_sink_x_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
-    <sink_block_id>drm_partitioning_16_vbvb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_audio_encoder_sb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>gr_float_to_short_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>gr_wavfile_source_0</source_block_id>
-    <sink_block_id>gr_float_to_short_0</sink_block_id>
+    <source_block_id>drm_partitioning_16_vbvb_0</source_block_id>
+    <sink_block_id>gr_vector_sink_x_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -635,8 +581,62 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_partitioning_16_vbvb_0</source_block_id>
-    <sink_block_id>gr_vector_sink_x_1</sink_block_id>
+    <source_block_id>gr_wavfile_source_0</source_block_id>
+    <sink_block_id>gr_float_to_short_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
+    <sink_block_id>drm_partitioning_16_vbvb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>gr_float_to_short_0</source_block_id>
+    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_audio_encoder_svb_0</source_block_id>
+    <sink_block_id>drm_scrambler_vbvb_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_partitioning_4_vbvb_0</source_block_id>
+    <sink_block_id>gr_vector_sink_x_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_vbvb_0</source_block_id>
+    <sink_block_id>drm_partitioning_4_vbvb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_generate_sdc_vb_0</source_block_id>
+    <sink_block_id>drm_scrambler_vbvb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_generate_fac_vb_0</source_block_id>
+    <sink_block_id>drm_scrambler_vbvb_0_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
+    <sink_block_id>drm_partitioning_4_vbvb_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_partitioning_4_vbvb_0_0</source_block_id>
+    <sink_block_id>gr_vector_sink_x_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

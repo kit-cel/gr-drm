@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 ##################################################
 # Gnuradio Python Flow Graph
-# Title: DRM Transmitter Flow Graph
+# Title: DRM Transmitter
 # Author: Felix Wunsch
-# Generated: Fri Jul  6 11:01:17 2012
+# Description: EEP, SM (16/4), AAC mono, RM B, SO 3
+# Generated: Fri Jul  6 14:06:33 2012
 ##################################################
 
 from gnuradio import eng_notation
@@ -17,7 +18,7 @@ import drm_init
 class drm_transmitter(gr.top_block):
 
 	def __init__(self):
-		gr.top_block.__init__(self, "DRM Transmitter Flow Graph")
+		gr.top_block.__init__(self, "DRM Transmitter")
 
 		##################################################
 		# Variables
@@ -30,23 +31,36 @@ class drm_transmitter(gr.top_block):
 		##################################################
 		# Blocks
 		##################################################
+		self.gr_wavfile_source_0 = gr.wavfile_source("/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/ifeelgood_24khz.wav", False)
+		self.gr_vector_sink_x_2 = gr.vector_sink_b(M_MSC[1])
+		self.gr_vector_sink_x_1 = gr.vector_sink_b(M_MSC[0] )
 		self.gr_vector_sink_x_0_0 = gr.vector_sink_b(tp.fac().L())
 		self.gr_vector_sink_x_0 = gr.vector_sink_b(tp.sdc().L())
+		self.gr_float_to_short_0 = gr.float_to_short()
 		self.drm_scrambler_vbvb_0_1 = drm.scrambler_vbvb(tp.fac().L())
+		self.drm_scrambler_vbvb_0_0 = drm.scrambler_vbvb(tp.msc().L_MUX())
 		self.drm_scrambler_vbvb_0 = drm.scrambler_vbvb(tp.sdc().L())
 		self.drm_partitioning_4_vbvb_0_0 = drm.partitioning_vbvb(tp.fac().L(), tp.fac().M_total())
 		self.drm_partitioning_4_vbvb_0 = drm.partitioning_vbvb(tp.sdc().L(), M_SDC)
+		self.drm_partitioning_16_vbvb_0 = drm.partitioning_vbvb(tp.msc().L_MUX(), tp.msc().M_total())
 		self.drm_generate_sdc_vb_0 = drm.generate_sdc_vb(tp)
 		self.drm_generate_fac_vb_0 = drm.generate_fac_vb(tp)
+		self.drm_audio_encoder_svb_0 = drm.audio_encoder_sb(tp)
 
 		##################################################
 		# Connections
 		##################################################
+		self.connect((self.drm_partitioning_16_vbvb_0, 0), (self.gr_vector_sink_x_1, 0))
+		self.connect((self.drm_partitioning_16_vbvb_0, 1), (self.gr_vector_sink_x_2, 0))
+		self.connect((self.gr_wavfile_source_0, 0), (self.gr_float_to_short_0, 0))
+		self.connect((self.drm_scrambler_vbvb_0_0, 0), (self.drm_partitioning_16_vbvb_0, 0))
+		self.connect((self.gr_float_to_short_0, 0), (self.drm_audio_encoder_svb_0, 0))
+		self.connect((self.drm_audio_encoder_svb_0, 0), (self.drm_scrambler_vbvb_0_0, 0))
 		self.connect((self.drm_partitioning_4_vbvb_0, 0), (self.gr_vector_sink_x_0, 0))
-		self.connect((self.drm_generate_fac_vb_0, 0), (self.drm_scrambler_vbvb_0_1, 0))
 		self.connect((self.drm_scrambler_vbvb_0, 0), (self.drm_partitioning_4_vbvb_0, 0))
-		self.connect((self.drm_scrambler_vbvb_0_1, 0), (self.drm_partitioning_4_vbvb_0_0, 0))
 		self.connect((self.drm_generate_sdc_vb_0, 0), (self.drm_scrambler_vbvb_0, 0))
+		self.connect((self.drm_generate_fac_vb_0, 0), (self.drm_scrambler_vbvb_0_1, 0))
+		self.connect((self.drm_scrambler_vbvb_0_1, 0), (self.drm_partitioning_4_vbvb_0_0, 0))
 		self.connect((self.drm_partitioning_4_vbvb_0_0, 0), (self.gr_vector_sink_x_0_0, 0))
 
 	def get_tp(self):
