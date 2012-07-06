@@ -23,7 +23,7 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type>int_vector</type>
+    <type>byte</type>
     <vlen>$block_len</vlen>
   </sink>
 
@@ -34,7 +34,7 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type>int_vector</type>
+    <type>byte</type>
     <vlen>$block_len</vlen>
   </source>
 </block>

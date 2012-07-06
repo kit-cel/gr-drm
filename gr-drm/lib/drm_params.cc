@@ -584,6 +584,12 @@ control_chan_params::R_0_denom()
 	return d_R_0_denom;
 }
 
+std::vector< int >
+control_chan_params::M_total()
+{
+	return d_M_total;
+}
+
 /* SDC channel implementation */
 sdc_params::sdc_params()
 {
@@ -710,12 +716,6 @@ sdc_params::M_index()
 	return d_M_index;
 }
 
-std::vector< int >
-sdc_params::M_total()
-{
-	return d_M_total;
-}
-
 unsigned short
 sdc_params::n_levels_mlc()
 {
@@ -750,4 +750,6 @@ fac_params::init(config* cfg)
 		d_R_0_denom = 5;
 		d_R_0 = d_R_0_enum/float(d_R_0_denom);
 	}
+	
+	d_M_total.push_back(d_L); // this is needed as the partitioner expects an std::vector<>
 }

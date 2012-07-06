@@ -77,6 +77,7 @@ protected:
 	float d_R_0; // coderate R_0 TODO: is this value necessary?
 	unsigned short d_R_0_enum; // enumerator of R_0
 	unsigned short d_R_0_denom; // denominator of R_0
+	std::vector< int > d_M_total; // total number of samples per coding level
 
 public:
 	unsigned int L();
@@ -84,7 +85,8 @@ public:
 	float R_0();
 	unsigned short R_0_enum();
 	unsigned short R_0_denom();
-
+	std::vector< int > M_total();
+	
 	control_chan_params();
 	virtual ~control_chan_params(){};
 };
@@ -96,7 +98,6 @@ class sdc_params : public control_chan_params
 	unsigned short d_R_1_denom; // denominator of R_1
 	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
 	std::vector< int > d_M_index; // indexes needed for partitioning
-	std::vector< int > d_M_total; // total number of samples per coding level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 
 public:
@@ -105,7 +106,6 @@ public:
 	unsigned short R_1_denom();
 	unsigned int n_bytes_datafield();
 	std::vector< int > M_index();
-	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
 
 	sdc_params();
