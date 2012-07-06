@@ -20,12 +20,21 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_swig
+import drm_init
+import drm
+#import drm_swig
 
 class qa_audio_encoder_svb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.tp = drm_init.transm_params()
+        self.audio_enc = drm.audio_encoder_svb(self.tp)
+        self.src = gr.null_source(2)
+        self.head = gr.head(2,  9600*10)
+        self.snk = gr.vector_sink_b(self.tp.msc().L_MUX())
+        
+        self.tb.connect(self.src, self.head, self.audio_enc, self.snk)
 
     def tearDown (self):
         self.tb = None
