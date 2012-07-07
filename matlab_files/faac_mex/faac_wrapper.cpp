@@ -10,7 +10,7 @@
  * Output is a matrix with n_stf rows and 3*iNumDecodedBitsMSC columns.
  * 
  * Keep in mind:
- * <> Use 0-based indexing as always in aac or aac++
+ * <> Use 0-based indexing as always in c or c++
  * <> Indexing is column-based as in Matlab (not row-based as in C)
  * <> Use linear indexing.  [x*dimy+y] instead of [x][y]
  *

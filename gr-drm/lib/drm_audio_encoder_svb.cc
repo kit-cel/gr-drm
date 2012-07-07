@@ -78,35 +78,35 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	
 	// configure encoder
 	int sizeof_byte = 8;
-	int iTotNumBitsForUsage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
-	int iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte;
+	int n_bits_usage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
+	int n_bytes_usage = n_bits_usage / sizeof_byte;
 	
 	if(d_tp->cfg().text())
 	{
-		iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte - 4; // last 4 bytes are used for text messaging
+		n_bytes_usage = n_bits_usage / sizeof_byte - 4; // last 4 bytes are used for text messaging
 	}
 	else
 	{
-		iTotNumBytesForUsage = iTotNumBitsForUsage / sizeof_byte;
+		n_bytes_usage = n_bits_usage / sizeof_byte;
 	}
 	
-	int iTotAudFraSizeBits = iTotNumBitsForUsage; // no text message included!
+	int n_bits_audio_frame = n_bits_usage; // no text message included!
 
-	int iAudioPayloadLen = iTotAudFraSizeBits / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
-	const int iActEncOutBytes = (int) (iAudioPayloadLen / d_n_aac_frames);
-	int iBitRate = (int) (( iActEncOutBytes * sizeof_byte) / d_time_aac_superframe * 1000);
+	d_n_bytes_audio_payload = n_bits_audio_frame / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
+	const int n_bytes_act_enc = (int) (d_n_bytes_audio_payload / d_n_aac_frames);
+	int bit_rate = (int) (( n_bytes_act_enc * sizeof_byte) / d_time_aac_superframe * 1000);
     
     /* set encoder configuration */
-	faacEncConfigurationPtr CurEncFormat;
-	CurEncFormat = faacEncGetCurrentConfiguration(d_encHandle);
-	CurEncFormat->inputFormat = FAAC_INPUT_16BIT; // TODO: check if float can be used here directly
-	CurEncFormat->useTns = 1;
-	CurEncFormat->aacObjectType = LOW;
-	CurEncFormat->mpegVersion = MPEG4;
-	CurEncFormat->outputFormat = 0;	/* (0 = Raw; 1 = ADTS) */
-	CurEncFormat->bitRate = iBitRate;
-	CurEncFormat->bandWidth = 0;	/* Let the encoder choose the bandwidth */
-	faacEncSetConfiguration(d_encHandle, CurEncFormat);
+	faacEncConfigurationPtr cur_enc_format;
+	cur_enc_format = faacEncGetCurrentConfiguration(d_encHandle);
+	cur_enc_format->inputFormat = FAAC_INPUT_16BIT; // TODO: check if float can be used here directly
+	cur_enc_format->useTns = 1;
+	cur_enc_format->aacObjectType = LOW;
+	cur_enc_format->mpegVersion = MPEG4;
+	cur_enc_format->outputFormat = 0;	/* (0 = Raw; 1 = ADTS) */
+	cur_enc_format->bitRate = bit_rate;
+	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
+	faacEncSetConfiguration(d_encHandle, cur_enc_format);
 }
 
 
@@ -165,9 +165,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 			/* Encoder is in initialization phase, reset CRC and length */
 			crc_bits[j] = 0;
 			frame_length[j] = 0;
-		}
-		
-		
+		}		
 	}
 	
 	/* make AAC data DRM compliant */
@@ -192,10 +190,45 @@ drm_audio_encoder_svb::general_work (int noutput_items,
     }
 
     /* Higher protected part */
-    int cur_num_bytes = 0;
-    int d_n_bytes_higher_prot = 0; // EEP FIXME: add UEP support here!!
+    int cur_n_bytes = 0;
+    
+    /* Calculate number of bytes for higher protected blocks */
+    const int n_audio_high_prot = d_tp->cfg().n_bytes_A();
+	int n_bytes_higher_prot = (n_audio_high_prot - d_n_header_bytes -
+									d_n_aac_frames /* CRC bytes */ ) / d_n_aac_frames;
 
-	// write to output buffer
+	for (int j = 0; j < d_n_aac_frames; j++)
+	{
+		/* Data */
+		for (int i = 0; i < n_bytes_higher_prot; i++)
+		{
+			/* Check if enough data is available, set data to 0 if not */
+			if (i < frame_length[j])
+				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
+			else
+				enqueue_bits(out, 8, 0);
+
+			cur_n_bytes++;
+		}
+
+		/* CRCs */
+		enqueue_bits_dec(out, 8, crc_bits[j]);
+	}
+
+	/* Lower protected part */
+	for (int j = 0; j < d_n_aac_frames; j++)
+	{
+		for (int i = n_bytes_higher_prot; i < frame_length[j]; i++)
+		{
+			/* If encoder produced too many bits, we have to drop them */
+			if (cur_n_bytes < d_n_bytes_audio_payload)
+				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
+
+			cur_n_bytes++;
+		}
+	}
+
+	// TODO: add text message support here!
 
 	delete[] audio_frame_start;
 	

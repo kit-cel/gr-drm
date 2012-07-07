@@ -50,6 +50,7 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	unsigned int d_n_channels; // number of channels (mono/stereo/...)
 	unsigned long d_n_samples_in; // number of input samples per conversion step (transform length, set by encoder)
 	unsigned long d_n_max_bytes_out; // max number of bytes (encoder output, set by encoder)
+	int d_n_bytes_audio_payload; // number of bytes of audio payload
 	unsigned int d_L_MUX_MSC; // number of decoded bits MSC
 	
 	faacEncHandle d_encHandle;
