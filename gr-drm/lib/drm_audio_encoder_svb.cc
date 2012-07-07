@@ -196,6 +196,10 @@ drm_audio_encoder_svb::general_work (int noutput_items,
     const int n_audio_high_prot = d_tp->cfg().n_bytes_A();
 	int n_bytes_higher_prot = (n_audio_high_prot - d_n_header_bytes -
 									d_n_aac_frames /* CRC bytes */ ) / d_n_aac_frames;
+	if (n_bytes_higher_prot < 0)
+	{
+				n_bytes_higher_prot = 0;
+	}
 
 	for (int j = 0; j < d_n_aac_frames; j++)
 	{
@@ -204,15 +208,21 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 		{
 			/* Check if enough data is available, set data to 0 if not */
 			if (i < frame_length[j])
+			{
 				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
+			}
 			else
-				enqueue_bits(out, 8, 0);
-
+			{
+				enqueue_bits_dec(out, 8, 0);
+			}
+			
 			cur_n_bytes++;
+			bits_written += 8;
 		}
 
 		/* CRCs */
 		enqueue_bits_dec(out, 8, crc_bits[j]);
+		bits_written += 8;
 	}
 
 	/* Lower protected part */
@@ -222,9 +232,11 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 		{
 			/* If encoder produced too many bits, we have to drop them */
 			if (cur_n_bytes < d_n_bytes_audio_payload)
+			{
 				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
-
-			cur_n_bytes++;
+				bits_written += 8;
+			}		
+			cur_n_bytes++;			
 		}
 	}
 
