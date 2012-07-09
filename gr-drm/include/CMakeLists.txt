@@ -32,5 +32,6 @@ install(FILES
     drm_generate_sdc_vb.h
     drm_generate_fac_vb.h 
     drm_util.h
-    drm_partitioning_vbvb.h DESTINATION include/drm
+    drm_partitioning_vbvb.h
+    drm_punct_vbvb.h DESTINATION include/drm
 )

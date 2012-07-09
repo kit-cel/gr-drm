@@ -31,7 +31,7 @@ DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen
 
 /*!
  * \brief Performs departitioning (demultiplexing) of the input vector
- * The sum of output lengths has to equal the input length!
+ * At the moment, only EEP is supported.
  */
 class DRM_API drm_partitioning_vbvb : public gr_sync_block
 {

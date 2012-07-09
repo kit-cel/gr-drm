@@ -4,7 +4,7 @@
 # Title: DRM Transmitter
 # Author: Felix Wunsch
 # Description: EEP, SM (16/4), AAC mono, RM B, SO 3
-# Generated: Fri Jul  6 16:49:42 2012
+# Generated: Mon Jul  9 19:21:30 2012
 ##################################################
 
 from gnuradio import eng_notation
@@ -39,6 +39,7 @@ class drm_transmitter(gr.top_block):
 		self.gr_null_sink_0_1 = gr.null_sink(gr.sizeof_char*tp.sdc().L())
 		self.gr_null_sink_0_0 = gr.null_sink(gr.sizeof_char*tp.fac().L())
 		self.gr_null_sink_0 = gr.null_sink(gr.sizeof_char*M_MSC[0])
+		self.gr_multiply_const_vxx_0 = gr.multiply_const_vff((32767, ))
 		self.gr_float_to_short_0 = gr.float_to_short()
 		self.drm_scrambler_vbvb_0_1 = drm.scrambler_vbvb(tp.fac().L())
 		self.drm_scrambler_vbvb_0_0 = drm.scrambler_vbvb(tp.msc().L_MUX())
@@ -53,7 +54,6 @@ class drm_transmitter(gr.top_block):
 		##################################################
 		# Connections
 		##################################################
-		self.connect((self.gr_wavfile_source_0, 0), (self.gr_float_to_short_0, 0))
 		self.connect((self.gr_float_to_short_0, 0), (self.drm_audio_encoder_svb_0, 0))
 		self.connect((self.drm_partitioning_4_vbvb_0_0, 0), (self.gr_null_sink_0_0, 0))
 		self.connect((self.drm_partitioning_4_vbvb_0, 0), (self.gr_null_sink_0_1, 0))
@@ -68,6 +68,8 @@ class drm_transmitter(gr.top_block):
 		self.connect((self.drm_generate_sdc_vb_0, 0), (self.gr_throttle_0_0, 0))
 		self.connect((self.drm_generate_fac_vb_0, 0), (self.gr_throttle_0, 0))
 		self.connect((self.gr_throttle_0, 0), (self.drm_scrambler_vbvb_0_1, 0))
+		self.connect((self.gr_multiply_const_vxx_0, 0), (self.gr_float_to_short_0, 0))
+		self.connect((self.gr_wavfile_source_0, 0), (self.gr_multiply_const_vxx_0, 0))
 
 	def get_tp(self):
 		return self.tp
