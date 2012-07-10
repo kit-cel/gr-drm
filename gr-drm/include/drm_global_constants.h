@@ -25,4 +25,6 @@
 #define RMD_NUM_TIME_PIL	21
 #define RME_NUM_TIME_PIL	21
 
+#define DENOM_MOTHER_CODE	 6 // denominator for mother code rate (1/6) used for channel encoding
+
 #endif /* DRM_GLOBAL_CONSTANTS_H_ */
