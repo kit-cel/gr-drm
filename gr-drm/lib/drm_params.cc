@@ -544,6 +544,18 @@ msc_params::n_levels_mlc()
 	return d_n_levels_mlc;
 }
 
+std::vector< unsigned char >
+msc_params::punct_pat()
+{
+	return d_punct_pat;
+}
+
+std::vector< unsigned char >
+msc_params::punct_pat_tail()
+{
+	return d_punct_pat_tail;
+}
+
 /* Control channel implementation */
 control_chan_params::control_chan_params()
 {
@@ -588,6 +600,18 @@ std::vector< int >
 control_chan_params::M_total()
 {
 	return d_M_total;
+}
+
+std::vector< unsigned char >
+control_chan_params::punct_pat()
+{
+	return d_punct_pat;
+}
+
+std::vector< unsigned char >
+control_chan_params::punct_pat_tail()
+{
+	return d_punct_pat_tail;
 }
 
 /* SDC channel implementation */

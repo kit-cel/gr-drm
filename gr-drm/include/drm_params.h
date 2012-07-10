@@ -78,6 +78,8 @@ protected:
 	unsigned short d_R_0_enum; // enumerator of R_0
 	unsigned short d_R_0_denom; // denominator of R_0
 	std::vector< int > d_M_total; // total number of samples per coding level
+	std::vector< unsigned char > d_punct_pat; // puncturing pattern (for the first part)
+	std::vector< unsigned char > d_punct_pat_tail; // puncturing pattern for the tailbits
 
 public:
 	unsigned int L();
@@ -86,6 +88,8 @@ public:
 	unsigned short R_0_enum();
 	unsigned short R_0_denom();
 	std::vector< int > M_total();
+	std::vector< unsigned char > punct_pat();
+	std::vector< unsigned char > punct_pat_tail();
 	
 	control_chan_params();
 	virtual ~control_chan_params(){};
@@ -154,6 +158,9 @@ class msc_params : public global_params
 	std::vector< int > d_M_index; // indexes needed for partitioning
 	std::vector< int > d_M_total; // total number of bits on each encoder level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
+	std::vector< unsigned char > d_punct_pat; // puncturing pattern (for the first part)
+	std::vector< unsigned char > d_punct_pat_tail; // puncturing pattern for the tailbits
+	
 
 public:
 	unsigned int L_MUX();
@@ -183,6 +190,8 @@ public:
 	std::vector< int > M_index();
 	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
+	std::vector< unsigned char > punct_pat();
+	std::vector< unsigned char > punct_pat_tail();
 	
 	void calc_vars_SM(config* cfg);
 

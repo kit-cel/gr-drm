@@ -58,8 +58,13 @@ class tables
 	 *************** Puncturing patterns ****************************
 	 ****************************************************************/
 
-	//TODO: add puncturing patterns
-
+	static const unsigned char d_PP1[LEN_PP];
+	static const unsigned char d_PP2[LEN_PP];
+	static const unsigned char d_PP3[LEN_PP];
+	static const unsigned char d_PP4[LEN_PP];
+	static const unsigned char d_PP5[LEN_PP];
+	static const unsigned char d_PP6[LEN_PP];
+	
 	/****************************************************************
 	 ********* OFDM/MSC/SDC/FAC parameters **************************
 	 ****************************************************************/

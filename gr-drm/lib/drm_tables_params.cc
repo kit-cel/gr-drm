@@ -7,6 +7,15 @@
 
 #include "drm_tables.h"
 
+/* Puncturing patterns */
+
+const unsigned char tables::d_PP1[LEN_PP] = {1,0,0,0,0,0}; // '1's denote bits to be kept, '0's bits to be dropped
+const unsigned char tables::d_PP2[LEN_PP] = {1,1,0,0,0,0};
+const unsigned char tables::d_PP3[LEN_PP] = {1,0,1,0,0,0};
+const unsigned char tables::d_PP4[LEN_PP] = {1,1,1,0,0,0};
+const unsigned char tables::d_PP5[LEN_PP] = {1,1,1,1,0,0};
+const unsigned char tables::d_PP6[LEN_PP] = {1,1,1,1,1,1};
+
 /* MSC */
 
 /* QAM cell related tables */
