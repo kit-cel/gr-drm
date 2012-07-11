@@ -25,7 +25,6 @@
 #define RMD_NUM_TIME_PIL	21
 #define RME_NUM_TIME_PIL	21
 
-#define LEN_PP				 6 // lenght of puncturing patterns
 #define DENOM_MOTHER_CODE	 6 // denominator for mother code rate (1/6) used for channel encoding
 #define N_TAILBITS			36 // number of tailbits (of mother code)
 

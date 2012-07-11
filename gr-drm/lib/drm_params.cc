@@ -724,31 +724,6 @@ sdc_params::init(config* cfg)
 		}
 	}
 	
-	/* set puncturing patterns */
-	tables* t = cfg->ptables();
-	
-	// R_0
-	if(d_R_0_enum == 1 && d_R_0_denom == 3) // R_0 = 1/3
-	{
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP4, LEN_PP);
-	}
-	else if(d_R_0_enum == 1 && d_R_0_denom == 2) // R_0 = 1/2
-	{
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
-	}
-	else if(d_R_0_enum == 1 && d_R_0_denom == 4) // R_0 = 1/4
-	{
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP5, LEN_PP);
-	}
-	else
-	{
-		std::cout << "Invalid SDC R_0!\n";
-	}
-	
-	// R_1 (only one code rate possible -> 2/3)	
-	enqueue_array_to_vector(&d_punct_pat_1, t->d_PP2, LEN_PP);
-	enqueue_array_to_vector(&d_punct_pat_1, t->d_PP1, LEN_PP);
-	
 	/* set indexes for partitioning and number of levels in the coding process */
 	
 	if(P_max >= 1) // 4-QAM
@@ -839,24 +814,4 @@ fac_params::init(config* cfg)
 	}
 	
 	d_M_total.push_back(d_L); // this is needed as the partitioner expects an std::vector<>
-	
-	/* set puncturing patterns */
-	tables* t = cfg->ptables();
-	if(d_R_0_enum == 1 && d_R_0_denom == 4) // R_0 = 1/4
-	{		
-		// punct_pat_0
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP5, LEN_PP);
-	}
-	else if(d_R_0_enum == 3 && d_R_0_denom == 5) // R_0 = 3/5
-	{
-		// punct_pat_0
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP1, LEN_PP);
-		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
-	}
-	else
-	{
-		std::cout << "undefined FAC code rate!\n";
-	}
-	d_punct_pat_tail_0 = d_punct_pat_0; // no special tail-biting for FAC	
 }

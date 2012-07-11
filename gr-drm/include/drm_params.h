@@ -68,7 +68,14 @@ public:
 	void init(config* cfg);
 };
 
-class control_chan_params : public global_params
+class channel_params : public global_params
+{
+public:
+	channel_params(){};
+	virtual ~channel_params(){};
+};
+
+class control_chan_params : public channel_params
 {
 protected:
 	unsigned int d_L; // length in bits
@@ -135,7 +142,7 @@ public:
 	void init(config* cfg);
 };
 
-class msc_params : public global_params
+class msc_params : public channel_params
 {
 	/* NOTE: so far, only SM is implemented! TODO: implement hierarchical mapping */
 	unsigned int d_L_MUX; // number of bits per multiplex frame

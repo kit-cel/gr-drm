@@ -54,16 +54,28 @@ class tables
 	static const float d_QAM16[4][2];
 	static const float d_QAM4[2][2];
 
+
 	/****************************************************************
 	 *************** Puncturing patterns ****************************
 	 ****************************************************************/
 
-	static const unsigned char d_PP1[LEN_PP];
-	static const unsigned char d_PP2[LEN_PP];
-	static const unsigned char d_PP3[LEN_PP];
-	static const unsigned char d_PP4[LEN_PP];
-	static const unsigned char d_PP5[LEN_PP];
-	static const unsigned char d_PP6[LEN_PP];
+	static const unsigned char d_PP_1_6[6];
+	static const unsigned char d_PP_1_4[6];
+	static const unsigned char d_PP_3_10[18];
+	static const unsigned char d_PP_1_3[6];
+	static const unsigned char d_PP_4_11[24];
+	static const unsigned char d_PP_2_5[12];
+	static const unsigned char d_PP_1_2[6];
+	static const unsigned char d_PP_4_7[24];
+	static const unsigned char d_PP_3_5[18];
+	static const unsigned char d_PP_2_3[12];
+	static const unsigned char d_PP_8_11[48];
+	static const unsigned char d_PP_3_4[18];
+	static const unsigned char d_PP_4_5[24];
+	static const unsigned char d_PP_7_8[42];
+	static const unsigned char d_PP_8_9[48];
+	static const unsigned char d_PP_tail[12][N_TAILBITS]; // the row index equals the index r_p (see p. 123 in the DRM standard)
+	
 	
 	/****************************************************************
 	 ********* OFDM/MSC/SDC/FAC parameters **************************
