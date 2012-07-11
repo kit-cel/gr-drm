@@ -70,7 +70,13 @@ public:
 
 class channel_params : public global_params
 {
+	std::vector< int > d_r_p; // index for tailbit puncturing pattern
+	
 public:
+	std::vector< int > r_p();
+	
+	int calc_r_p(int N, int RY_p_);
+	void set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t ); // TODO: find a way to intelligently assign the puncturing patterns
 	channel_params(){};
 	virtual ~channel_params(){};
 };

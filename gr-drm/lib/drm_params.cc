@@ -120,6 +120,90 @@ ofdm_params::fs_soundcard()
 	return d_fs_soundcard;
 }
 
+/* channel_params implementation */
+int
+channel_params::calc_r_p(int N, int RY_p)
+{
+	return (2*N - 12) - RY_p * std::floor((2 * N - 12) / RY_p);
+}
+
+void
+channel_params::set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t )
+{
+	// simply test for all possible code rates
+	if(e == 1 && d == 6) // 1/6
+	{
+		pp->assign(t->d_PP_1_6, t->d_PP_1_6 + 6);
+	}
+	else if(e == 1 && d == 4) // 1/4
+	{
+		pp->assign(t->d_PP_1_4, t->d_PP_1_4 + 6);
+	}
+	else if(e == 3 && d == 10) // 3/10
+	{
+		pp->assign(t->d_PP_3_10, t->d_PP_3_10 + 18);
+	}
+	else if(e == 1 && d == 3) // 1/3
+	{
+		pp->assign(t->d_PP_1_3, t->d_PP_1_3 + 6);
+	}
+	else if(e == 4 && d == 11) // 4/11
+	{
+		pp->assign(t->d_PP_4_11, t->d_PP_4_11 + 24);
+	}
+	else if(e == 2 && d == 5) // 2/5
+	{
+		pp->assign(t->d_PP_2_5, t->d_PP_2_5 + 12);
+	}
+	else if(e == 1 && d == 2) // 1/2
+	{
+		pp->assign(t->d_PP_1_2, t->d_PP_1_2 + 6);
+	}
+	else if(e == 4 && d == 7) // 4/7
+	{
+		pp->assign(t->d_PP_4_7, t->d_PP_4_7 + 24);
+	}
+	else if(e == 3 && d == 5) // 3/5
+	{
+		pp->assign(t->d_PP_3_5, t->d_PP_3_5 + 18);
+	}
+	else if(e == 2 && d == 3) // 2/3
+	{
+		pp->assign(t->d_PP_2_3, t->d_PP_2_3 + 12);
+	}
+	else if(e == 8 && d == 11) // 8/11
+	{
+		pp->assign(t->d_PP_8_11, t->d_PP_8_11 + 48);
+	}
+	else if(e == 3 && d == 4) // 3/4
+	{
+		pp->assign(t->d_PP_3_4, t->d_PP_3_4 + 18);
+	}
+	else if(e == 4 && d == 5) // 4/5
+	{
+		pp->assign(t->d_PP_4_5, t->d_PP_4_5 + 24);
+	}
+	else if(e == 7 && d == 8) // 7/8
+	{
+		pp->assign(t->d_PP_7_8, t->d_PP_7_8 + 42);
+	}
+	else if(e == 8 && d == 9) // 8/9
+	{
+		pp->assign(t->d_PP_8_9, t->d_PP_8_9 + 48);
+	}
+	else
+	{
+		std::cout << "Invalid code rate for puncturing pattern assignment!\n";
+	}
+	
+}
+
+std::vector< int >
+channel_params::r_p()
+{
+	return d_r_p;
+}
+
 /* MSC channel implementation */
 msc_params::msc_params()
 {
