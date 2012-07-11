@@ -1,7 +1,8 @@
 #include "drm_util.h"
 #include <iostream>
 
-void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
+void 
+enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 {
 	for(unsigned int i = 0; i<len; i++)
 	{
@@ -17,7 +18,8 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 	}
 }
 
-void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
+void 
+enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 {
 	if(sizeof(val) <= sizeof(unsigned int) && (val <= std::pow(2,len)-1 || (val == 0 && len > 0)))
 	{
@@ -39,7 +41,8 @@ void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 	}
 }
 
-void enqueue_crc(unsigned char* ptr, transm_params* tp, const unsigned short ord) //  see DRM standard, annex D
+void 
+enqueue_crc(unsigned char* ptr, transm_params* tp, const unsigned short ord) //  see DRM standard, annex D
 {
 	unsigned short rob_mode = tp->cfg().RM();
 	unsigned int len; // length of input bitstream
@@ -115,5 +118,14 @@ void enqueue_crc(unsigned char* ptr, transm_params* tp, const unsigned short ord
 		{
 			ptr[i + len - 4] = crc_word[i]; // append CRC word to SDC (subtract 4 leading zeros that were added for CRC calulation
 		}
+	}
+}
+
+void 
+enqueue_array_to_vector(std::vector< unsigned char >* vec, const unsigned char* arr, int len)
+{
+	for(int i = 0; i < len; i++)
+	{
+		vec->push_back(arr[i]);
 	}
 }

@@ -16,8 +16,8 @@
  *  				thought to be changeable during transmission.
  */
 
-#ifndef DRM_INIT_PARAMS_H_
-#define DRM_INIT_PARAMS_H_
+#ifndef _DRM_PARAMS_H_
+#define _DRM_PARAMS_H_
 
 #include "drm_global_constants.h"
 #include "drm_tables.h"
@@ -78,8 +78,9 @@ protected:
 	unsigned short d_R_0_enum; // enumerator of R_0
 	unsigned short d_R_0_denom; // denominator of R_0
 	std::vector< int > d_M_total; // total number of samples per coding level
-	std::vector< unsigned char > d_punct_pat; // puncturing pattern (for the first part)
-	std::vector< unsigned char > d_punct_pat_tail; // puncturing pattern for the tailbits
+	
+	std::vector< unsigned char > d_punct_pat_0; // puncturing pattern (R_0)
+	std::vector< unsigned char > d_punct_pat_tail_0; // puncturing pattern for the tailbits (R_0)
 
 public:
 	unsigned int L();
@@ -88,8 +89,9 @@ public:
 	unsigned short R_0_enum();
 	unsigned short R_0_denom();
 	std::vector< int > M_total();
-	std::vector< unsigned char > punct_pat();
-	std::vector< unsigned char > punct_pat_tail();
+	
+	std::vector< unsigned char > punct_pat_0();
+	std::vector< unsigned char > punct_pat_tail_0();
 	
 	control_chan_params();
 	virtual ~control_chan_params(){};
@@ -103,6 +105,9 @@ class sdc_params : public control_chan_params
 	unsigned int d_n_bytes_datafield; // number of bytes in the SDC data field
 	std::vector< int > d_M_index; // indexes needed for partitioning
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
+	
+	std::vector< unsigned char > d_punct_pat_1; // puncturing pattern (R_1)
+	std::vector< unsigned char > d_punct_pat_tail_1; // puncturing pattern for the tailbits (R_1)
 
 public:
 	float R_1();
@@ -111,6 +116,9 @@ public:
 	unsigned int n_bytes_datafield();
 	std::vector< int > M_index();
 	unsigned short n_levels_mlc();
+	
+	std::vector< unsigned char > punct_pat_1();
+	std::vector< unsigned char > punct_pat_tail_1();
 
 	sdc_params();
 	virtual ~sdc_params(){};
@@ -158,8 +166,13 @@ class msc_params : public global_params
 	std::vector< int > d_M_index; // indexes needed for partitioning
 	std::vector< int > d_M_total; // total number of bits on each encoder level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
-	std::vector< unsigned char > d_punct_pat; // puncturing pattern (for the first part)
-	std::vector< unsigned char > d_punct_pat_tail; // puncturing pattern for the tailbits
+	
+	std::vector< unsigned char > d_punct_pat_0; // puncturing pattern (R_0)
+	std::vector< unsigned char > d_punct_pat_tail_0; // puncturing pattern for the tailbits (R_0)
+	std::vector< unsigned char > d_punct_pat_1; // puncturing pattern (R_1)
+	std::vector< unsigned char > d_punct_pat_tail_1; // puncturing pattern for the tailbits (R_1)
+	std::vector< unsigned char > d_punct_pat_2; // puncturing pattern (R_2)
+	std::vector< unsigned char > d_punct_pat_tail_2; // puncturing pattern for the tailbits (R_2)
 	
 
 public:
@@ -190,8 +203,12 @@ public:
 	std::vector< int > M_index();
 	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
-	std::vector< unsigned char > punct_pat();
-	std::vector< unsigned char > punct_pat_tail();
+	std::vector< unsigned char > punct_pat_0();
+	std::vector< unsigned char > punct_pat_tail_0();
+	std::vector< unsigned char > punct_pat_1();
+	std::vector< unsigned char > punct_pat_tail_1();
+	std::vector< unsigned char > punct_pat_2();
+	std::vector< unsigned char > punct_pat_tail_2();
 	
 	void calc_vars_SM(config* cfg);
 

@@ -6,6 +6,7 @@
  */
 
 #include "drm_params.h"
+#include "drm_util.h"
 #include <cmath>
 
 // TODO: maybe divide this up into drm_params_ofdm/msc/fac/sdc.cpp
@@ -545,15 +546,39 @@ msc_params::n_levels_mlc()
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat()
+msc_params::punct_pat_0()
 {
-	return d_punct_pat;
+	return d_punct_pat_0;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_tail()
+msc_params::punct_pat_tail_0()
 {
-	return d_punct_pat_tail;
+	return d_punct_pat_tail_0;
+}
+
+std::vector< unsigned char >
+msc_params::punct_pat_1()
+{
+	return d_punct_pat_1;
+}
+
+std::vector< unsigned char >
+msc_params::punct_pat_tail_1()
+{
+	return d_punct_pat_tail_1;
+}
+
+std::vector< unsigned char >
+msc_params::punct_pat_2()
+{
+	return d_punct_pat_2;
+}
+
+std::vector< unsigned char >
+msc_params::punct_pat_tail_2()
+{
+	return d_punct_pat_tail_2;
 }
 
 /* Control channel implementation */
@@ -603,15 +628,15 @@ control_chan_params::M_total()
 }
 
 std::vector< unsigned char >
-control_chan_params::punct_pat()
+control_chan_params::punct_pat_0()
 {
-	return d_punct_pat;
+	return d_punct_pat_0;
 }
 
 std::vector< unsigned char >
-control_chan_params::punct_pat_tail()
+control_chan_params::punct_pat_tail_0()
 {
-	return d_punct_pat_tail;
+	return d_punct_pat_tail_0;
 }
 
 /* SDC channel implementation */
@@ -699,6 +724,31 @@ sdc_params::init(config* cfg)
 		}
 	}
 	
+	/* set puncturing patterns */
+	tables* t = cfg->ptables();
+	
+	// R_0
+	if(d_R_0_enum == 1 && d_R_0_denom == 3) // R_0 = 1/3
+	{
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP4, LEN_PP);
+	}
+	else if(d_R_0_enum == 1 && d_R_0_denom == 2) // R_0 = 1/2
+	{
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
+	}
+	else if(d_R_0_enum == 1 && d_R_0_denom == 4) // R_0 = 1/4
+	{
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP5, LEN_PP);
+	}
+	else
+	{
+		std::cout << "Invalid SDC R_0!\n";
+	}
+	
+	// R_1 (only one code rate possible -> 2/3)	
+	enqueue_array_to_vector(&d_punct_pat_1, t->d_PP2, LEN_PP);
+	enqueue_array_to_vector(&d_punct_pat_1, t->d_PP1, LEN_PP);
+	
 	/* set indexes for partitioning and number of levels in the coding process */
 	
 	if(P_max >= 1) // 4-QAM
@@ -752,10 +802,23 @@ sdc_params::n_bytes_datafield()
 	return d_n_bytes_datafield;
 }
 
+std::vector< unsigned char >
+sdc_params::punct_pat_1()
+{
+	return d_punct_pat_1;
+}
+
+std::vector< unsigned char >
+sdc_params::punct_pat_tail_1()
+{
+	return d_punct_pat_tail_1;
+}
+
 /* FAC channel implementation */
 void
 fac_params::init(config* cfg)
 {
+	/* set d_N, d_L and code rate */
 	if(cfg->RM() == 4) // see DRM standard 7.2.1.2 & Table 74/75
 	{
 		// RM E
@@ -776,4 +839,24 @@ fac_params::init(config* cfg)
 	}
 	
 	d_M_total.push_back(d_L); // this is needed as the partitioner expects an std::vector<>
+	
+	/* set puncturing patterns */
+	tables* t = cfg->ptables();
+	if(d_R_0_enum == 1 && d_R_0_denom == 4) // R_0 = 1/4
+	{		
+		// punct_pat_0
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP5, LEN_PP);
+	}
+	else if(d_R_0_enum == 3 && d_R_0_denom == 5) // R_0 = 3/5
+	{
+		// punct_pat_0
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP1, LEN_PP);
+		enqueue_array_to_vector(&d_punct_pat_0, t->d_PP2, LEN_PP);
+	}
+	else
+	{
+		std::cout << "undefined FAC code rate!\n";
+	}
+	d_punct_pat_tail_0 = d_punct_pat_0; // no special tail-biting for FAC	
 }
