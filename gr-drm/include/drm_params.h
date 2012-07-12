@@ -76,7 +76,8 @@ public:
 	std::vector< int > r_p();
 	
 	int calc_r_p(int N, int RY_p_);
-	void set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t ); // TODO: find a way to intelligently assign the puncturing patterns
+	void set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t );
+	void set_punct_pat_tail( std::vector< unsigned char >* pp, int r_p, tables* t );
 	channel_params(){};
 	virtual ~channel_params(){};
 };
@@ -180,12 +181,13 @@ class msc_params : public channel_params
 	std::vector< int > d_M_total; // total number of bits on each encoder level
 	unsigned short d_n_levels_mlc; // number of levels in the multi level coding process
 	
-	std::vector< unsigned char > d_punct_pat_0; // puncturing pattern (R_0)
-	std::vector< unsigned char > d_punct_pat_tail_0; // puncturing pattern for the tailbits (R_0)
-	std::vector< unsigned char > d_punct_pat_1; // puncturing pattern (R_1)
-	std::vector< unsigned char > d_punct_pat_tail_1; // puncturing pattern for the tailbits (R_1)
-	std::vector< unsigned char > d_punct_pat_2; // puncturing pattern (R_2)
-	std::vector< unsigned char > d_punct_pat_tail_2; // puncturing pattern for the tailbits (R_2)
+	// TODO: add patterns for UEP (suffix _1)
+	std::vector< unsigned char > d_punct_pat_0_2; // puncturing pattern (R_0)
+	std::vector< unsigned char > d_punct_pat_tail_0_2; // puncturing pattern for the tailbits (R_0)
+	std::vector< unsigned char > d_punct_pat_1_2; // puncturing pattern (R_1)
+	std::vector< unsigned char > d_punct_pat_tail_1_2; // puncturing pattern for the tailbits (R_1)
+	std::vector< unsigned char > d_punct_pat_2_2; // puncturing pattern (R_2)
+	std::vector< unsigned char > d_punct_pat_tail_2_2; // puncturing pattern for the tailbits (R_2)
 	
 
 public:
@@ -216,12 +218,12 @@ public:
 	std::vector< int > M_index();
 	std::vector< int > M_total();
 	unsigned short n_levels_mlc();
-	std::vector< unsigned char > punct_pat_0();
-	std::vector< unsigned char > punct_pat_tail_0();
-	std::vector< unsigned char > punct_pat_1();
-	std::vector< unsigned char > punct_pat_tail_1();
-	std::vector< unsigned char > punct_pat_2();
-	std::vector< unsigned char > punct_pat_tail_2();
+	std::vector< unsigned char > punct_pat_0_2();
+	std::vector< unsigned char > punct_pat_tail_0_2();
+	std::vector< unsigned char > punct_pat_1_2();
+	std::vector< unsigned char > punct_pat_tail_1_2();
+	std::vector< unsigned char > punct_pat_2_2();
+	std::vector< unsigned char > punct_pat_tail_2_2();
 	
 	void calc_vars_SM(config* cfg);
 

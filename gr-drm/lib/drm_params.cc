@@ -124,14 +124,25 @@ ofdm_params::fs_soundcard()
 int
 channel_params::calc_r_p(int N, int RY_p)
 {
-	return (2*N - 12) - RY_p * std::floor((2 * N - 12) / RY_p);
+	if(RY_p > 0)
+	{
+		return (2*N - 12) - RY_p * std::floor((2 * N - 12) / RY_p);
+	}
+	else
+	{
+		return 12; //  this handles unused code rates -> punct_pat_tail_x gets set to zero
+	}
 }
 
 void
 channel_params::set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t )
 {
-	// simply test for all possible code rates
-	if(e == 1 && d == 6) // 1/6
+	// simply test for all possible code rates (start with 0/0 -> not used)
+	if(e == 0 && d == 0)
+	{
+		pp->push_back(0);
+	}
+	else if(e == 1 && d == 6) // 1/6
 	{
 		pp->assign(t->d_PP_1_6, t->d_PP_1_6 + 6);
 	}
@@ -194,8 +205,23 @@ channel_params::set_punct_pat( std::vector< unsigned char >* pp, int e, int d, t
 	else
 	{
 		std::cout << "Invalid code rate for puncturing pattern assignment!\n";
+	}	
+}
+
+void
+channel_params::set_punct_pat_tail(std::vector< unsigned char >* pp, int r_p, tables* t)
+{
+	if(r_p < 0 || r_p > 12)
+	{
+		std::cout << "Invalid tail bit puncturing pattern index!\n";
 	}
-	
+	else
+	{
+		for( int i = 0; i < 36;  i++ )
+		{
+			pp->push_back(t->d_PP_tail[r_p][i]);
+		}
+	}
 }
 
 std::vector< int >
@@ -347,7 +373,7 @@ msc_params::init(config* cfg)
 	}
 	else
 	{
-		std::cout << "Invalid MSC mapping number!\n";
+		std::cout << "Invalid MSC mapping index!\n";
 	}
 }
 
@@ -420,7 +446,16 @@ msc_params::calc_vars_SM(config* cfg)
 		break;
 	}
 
-	d_L_MUX = d_L_1 + d_L_2;
+	d_L_MUX = d_L_1 + d_L_2;	
+	
+	/* set puncturing patterns */
+	tables* t = cfg->ptables();
+	set_punct_pat(&d_punct_pat_0_2, d_R_0_enum_2, d_R_0_denom_2, t);
+	set_punct_pat_tail(&d_punct_pat_tail_0_2, calc_r_p(d_N_2, d_R_0_denom_2), t);
+	set_punct_pat(&d_punct_pat_1_2, d_R_1_enum_2, d_R_1_denom_2, t);
+	set_punct_pat_tail(&d_punct_pat_tail_1_2, calc_r_p(d_N_2, d_R_1_denom_2), t);
+	set_punct_pat(&d_punct_pat_2_2, d_R_2_enum_2, d_R_2_denom_2, t);
+	set_punct_pat_tail(&d_punct_pat_tail_2_2, calc_r_p(d_N_2, d_R_2_denom_2), t);
 	
 	/* set indexes for partitioning */
 	if(P_max >= 1) // 4-QAM
@@ -630,39 +665,39 @@ msc_params::n_levels_mlc()
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_0()
+msc_params::punct_pat_0_2()
 {
-	return d_punct_pat_0;
+	return d_punct_pat_0_2;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_tail_0()
+msc_params::punct_pat_tail_0_2()
 {
-	return d_punct_pat_tail_0;
+	return d_punct_pat_tail_0_2;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_1()
+msc_params::punct_pat_1_2()
 {
-	return d_punct_pat_1;
+	return d_punct_pat_1_2;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_tail_1()
+msc_params::punct_pat_tail_1_2()
 {
-	return d_punct_pat_tail_1;
+	return d_punct_pat_tail_1_2;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_2()
+msc_params::punct_pat_2_2()
 {
-	return d_punct_pat_2;
+	return d_punct_pat_2_2;
 }
 
 std::vector< unsigned char >
-msc_params::punct_pat_tail_2()
+msc_params::punct_pat_tail_2_2()
 {
-	return d_punct_pat_tail_2;
+	return d_punct_pat_tail_2_2;
 }
 
 /* Control channel implementation */
@@ -808,6 +843,13 @@ sdc_params::init(config* cfg)
 		}
 	}
 	
+	/* set puncturing patterns */
+	tables* t = cfg->ptables();
+	set_punct_pat(&d_punct_pat_0, d_R_0_enum, d_R_0_denom, t);
+	set_punct_pat_tail(&d_punct_pat_tail_0, calc_r_p(d_N, d_R_0_denom), t);
+	set_punct_pat(&d_punct_pat_1, d_R_1_enum, d_R_1_denom, t);
+	set_punct_pat_tail(&d_punct_pat_tail_1, calc_r_p(d_N, d_R_1_denom), t);
+	
 	/* set indexes for partitioning and number of levels in the coding process */
 	
 	if(P_max >= 1) // 4-QAM
@@ -886,6 +928,7 @@ fac_params::init(config* cfg)
 		d_R_0_enum = 1;
 		d_R_0_denom = 4;
 		d_R_0 = d_R_0_enum/float(d_R_0_denom);
+		set_punct_pat(&d_punct_pat_0, d_R_0_enum, d_R_0_denom, cfg->ptables());
 	}
 	else
 	{
@@ -898,4 +941,11 @@ fac_params::init(config* cfg)
 	}
 	
 	d_M_total.push_back(d_L); // this is needed as the partitioner expects an std::vector<>
+	
+	/* set puncturing patterns */
+	tables* t = cfg->ptables();
+	set_punct_pat(&d_punct_pat_0, d_R_0_enum, d_R_0_denom, t);
+	d_punct_pat_tail_0 = d_punct_pat_0; //  no special tailbit treatment for FAC
+	
+	
 }

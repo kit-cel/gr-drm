@@ -74,7 +74,7 @@ class tables
 	static const unsigned char d_PP_4_5[24];
 	static const unsigned char d_PP_7_8[42];
 	static const unsigned char d_PP_8_9[48];
-	static const unsigned char d_PP_tail[12][N_TAILBITS]; // the row index equals the index r_p (see p. 123 in the DRM standard)
+	static const unsigned char d_PP_tail[13][N_TAILBITS]; // the row index equals the index r_p (see p. 123 in the DRM standard)
 	
 	
 	/****************************************************************
