@@ -27,17 +27,21 @@
 
 
 drm_punct_vbvb_sptr
-drm_make_punct_vbvb (std::vector<int> punct_pat_1, std::vector<int> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
+drm_make_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
 {
 	return drm_punct_vbvb_sptr (new drm_punct_vbvb (punct_pat_1, punct_pat_2, vlen_in, vlen_out, num_tailbits));
 }
 
 
-drm_punct_vbvb::drm_punct_vbvb (std::vector<int> punct_pat_1, std::vector<int> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
+drm_punct_vbvb::drm_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
 	: gr_block ("punct_vbvb",
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_in),
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_out))
 {
+	d_vlen_in = vlen_in;
+	d_pp1 = punct_pat_1;
+	d_pp2 = punct_pat_2;
+	d_n_tail = num_tailbits;
 }
 
 
@@ -52,8 +56,33 @@ drm_punct_vbvb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
-  const float *in = (const float *) input_items[0];
-  float *out = (float *) output_items[0];
+  for(int i = 0; i < noutput_items; i++)
+  {
+      unsigned char *in = (unsigned char *) input_items[i];
+      unsigned char *out = (unsigned char *) output_items[i];
+      
+      int bit_ctr = 0;
+      
+      for( int j = 0; j < d_vlen_in; j++)
+      {
+          if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
+          {
+          	  if(d_pp1[j % d_pp1.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+          	  {
+          	  	  out[bit_ctr] = in[j];
+          	  	  bit_ctr++;
+          	  }
+          }
+          else // tail bit puncturing
+          {
+          	  if(d_pp2[j % d_pp2.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+          	  {
+          	  	  out[bit_ctr] = in[j];
+          	  	  bit_ctr++;
+          	  }
+          }
+      }
+  }
 
   // Tell runtime system how many input items we consumed on
   // each input stream.

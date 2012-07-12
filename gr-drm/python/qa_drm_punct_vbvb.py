@@ -20,12 +20,21 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_swig
+import drm
+import drm_init
+#import drm_swig
 
 class qa_punct_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.src = gr.vector_source_b((1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0), False, 16)
+        pp1 = (1,1,0,0,1,1)
+        pp2 = (1,1,1,0)
+        self.punct = drm.punct_vbvb(pp1, pp2, 16, 11, 4)
+        self.snk = gr.vector_sink_b(11)
+        
+        self.tb.connect(self.src, self.punct, self.snk)
 
     def tearDown (self):
         self.tb = None
@@ -34,6 +43,8 @@ class qa_punct_vbvb (gr_unittest.TestCase):
         # set up fg
         self.tb.run ()
         # check data
+        res = self.snk.data()
+        self.assertTupleEqual(res, (1,0,1,1,0,0,1,1,1,0,1))
 
 
 if __name__ == '__main__':
