@@ -56,13 +56,11 @@ drm_punct_vbvb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
+  unsigned char *in = (unsigned char *) input_items[0];
+  unsigned char *out = (unsigned char *) output_items[0];
+  int bit_ctr = 0;
   for(int i = 0; i < noutput_items; i++)
-  {
-      unsigned char *in = (unsigned char *) input_items[i];
-      unsigned char *out = (unsigned char *) output_items[i];
-      
-      int bit_ctr = 0;
-      
+  {       
       for( int j = 0; j < d_vlen_in; j++)
       {
           if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
