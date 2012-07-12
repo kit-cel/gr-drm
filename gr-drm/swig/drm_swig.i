@@ -15,6 +15,7 @@
 #include "drm_generate_fac_vb.h"
 #include "drm_partitioning_vbvb.h"
 #include "drm_punct_vbvb.h"
+#include "drm_add_tailbits_vbvb.h"
 %}
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
@@ -40,3 +41,6 @@ GR_SWIG_BLOCK_MAGIC(drm,partitioning_vbvb);
 
 GR_SWIG_BLOCK_MAGIC(drm,punct_vbvb);
 %include "drm_punct_vbvb.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,add_tailbits_vbvb);
+%include "drm_add_tailbits_vbvb.h"

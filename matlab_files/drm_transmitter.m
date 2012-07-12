@@ -6,7 +6,8 @@
 run drm_global_variables
 
 %% create MSC stream
-filename = 'ifeelgood_24khz.wav'; 
+%filename = 'ifeelgood_24khz.wav'; 
+filename = 'scooby.wav';
 [raw_pcm_stream fs] = drm_read_wav(filename); % produce raw PCM samples
 [aac_data n_stf] = faac_wrapper(fs, length(raw_pcm_stream), raw_pcm_stream); % encode PCM data with FAAC
 

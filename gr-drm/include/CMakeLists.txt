@@ -33,5 +33,6 @@ install(FILES
     drm_generate_fac_vb.h 
     drm_util.h
     drm_partitioning_vbvb.h
-    drm_punct_vbvb.h DESTINATION include/drm
+    drm_punct_vbvb.h
+    drm_add_tailbits_vbvb.h DESTINATION include/drm
 )
