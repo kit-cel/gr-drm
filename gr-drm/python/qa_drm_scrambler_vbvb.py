@@ -29,7 +29,7 @@ class qa_scrambler_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0), 0, 16)
+        self.src = gr.vector_source_b((0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0), 0, 16)
         self.scrambler = drm.scrambler_vbvb(16)
         self.snk = gr.vector_sink_b(16)
         self.tb.connect(self.src, self.scrambler, self.snk)
@@ -41,7 +41,7 @@ class qa_scrambler_vbvb (gr_unittest.TestCase):
         # set up fg
         self.tb.run ()
         res = self.snk.data()
-        ref = (0,0,0,0,0,1,1,1,1,0,1,1,1,1,1,0)
+        ref = (0,0,0,0,0,0,1,1,1,0,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,1,1,1,1,0,0)
         # check data
         self.assertTupleEqual(res, ref)
 
