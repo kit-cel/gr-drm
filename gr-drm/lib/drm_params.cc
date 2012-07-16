@@ -231,9 +231,69 @@ channel_params::set_punct_pat_tail(std::vector< unsigned char >* pp, int r_p, ta
 }
 
 void
-channel_params::calc_interl_seq(std::vector< int >* seq, int x_in, int t)
+channel_params::set_interl_seq(std::vector< int >* seq, int x_in, int mod_order, int index)
 {
-	// TODO: implement sequence generation
+	// for details please see the DRM standard chapter 7.3.3
+	
+	/* range checking */
+	if( !( mod_order == 2 || mod_order == 4 || mod_order == 6) )
+	{
+		std::cout << "Invalid modulation order!\n";
+	}
+	if( !(index == 0 || index == 1 || index == 2) )
+	{
+		std::cout << "Invalid index!\n";
+	}
+	
+	/* determine t, s and q */
+	int t = 0;
+	int s = 0;
+	int q = 0;
+	
+	switch(index)
+	{
+		case 0:
+			if(mod_order == 2) // 4-QAM
+			{
+				t = 21;
+			}
+			else //  has to be 16-QAM
+			{
+				t = 13;
+			}
+			break;
+		case 1:
+			if(mod_order == 4) // 16-QAM
+			{
+				t = 21;
+			}
+			else // has to be 64-QAM
+			{
+				t = 13;
+			}
+			break;
+		case 2: // 64-QAM
+			t = 21;
+			break;
+		default:
+			// this can't happen as value checking is already done.
+			break;
+	}
+	
+	s = std::pow( 2, std::ceil( std::log(x_in) / std::log(2) ) );
+	q = s/4 - 1;
+	
+	/* sequence generation */
+	seq->push_back(0);
+	
+	for( int i = 1; i < x_in; i++)
+	{
+		seq->push_back( ( t * seq->at(i-1) + q ) % s );
+		while(seq->at(i) >= x_in)
+		{
+			seq->at(i) = ( t * seq->at(i) + q ) % s;
+		}
+	}			
 }
 
 std::vector< int >
@@ -248,10 +308,22 @@ channel_params::mod_order()
 	return d_mod_order;
 }
 
-std::vector< int >
-channel_params::bit_interl_seq_0()
+void
+channel_params::set_mod_order(int order)
 {
-	return d_bit_interl_seq_0;
+	d_mod_order = order;
+}
+
+std::vector< int >
+channel_params::bit_interl_seq_0_1()
+{
+	return d_bit_interl_seq_0_1;
+}
+
+std::vector< int >
+channel_params::bit_interl_seq_0_2()
+{
+	return d_bit_interl_seq_0_2;
 }
 
 /* MSC channel implementation */
@@ -375,24 +447,29 @@ msc_params::init(config* cfg)
 		}
 	}
 
-	/* calculate and define code-rate-dependant variables */
+	/* calculate and define code-rate-dependant variables and bit interleaving sequences */
 	/* NOTE: There is no need to make a difference here between UEP and EEP as most of the values automatically
 	 * 'default' to EEP if the number of bytes in the higher protected part
 	 * is defined as zero. */
 
 	if(cfg->msc_mapping() < 3) // Symmetrical mapping (SM)
 	{
+		// interleaving sequences are defined inside calc_vars_SM
 		calc_vars_SM(cfg);
 		// TODO: calc rest of the variables
 	}
 	else if(cfg->msc_mapping() == 3) // Hierarchical symmetrical mapping (HMsym)
 	{
 		d_n_levels_mlc = 3;
+		set_mod_order( 6 );
+		
 		std::cout << "not yet implemented...\n"; // TODO: implement code rate assignment for hierarchical mapping
 	}
 	else if(cfg->msc_mapping() == 4) // HMmix
 	{
 		d_n_levels_mlc = 6;
+		set_mod_order( 6 );
+		
 		std::cout << "not yet implemented...\n";
 	}
 	else
@@ -404,7 +481,7 @@ msc_params::init(config* cfg)
 void
 msc_params::calc_vars_SM(config* cfg)
 {
-	/* define P_max and sum */
+	/* define P_max, modulation order and sum of code rates */
 	unsigned short P_max = 0; // number of levels in the MLC encoder, depends on mapping
 	float sum = 0; // sum of code rates (higher protected part) as in the formula on p. 112
 	if(cfg->msc_mapping() == 0)
@@ -434,6 +511,9 @@ msc_params::calc_vars_SM(config* cfg)
 				  d_R_2_enum_1 / float(d_R_2_denom_1);
 		}
 	}
+	
+	/* set modulation order */
+	set_mod_order(P_max * 2);
 	
 	/* set number of levels in the encoder */
 	d_n_levels_mlc = P_max;
@@ -480,6 +560,44 @@ msc_params::calc_vars_SM(config* cfg)
 	set_punct_pat_tail(&d_punct_pat_tail_1_2, calc_r_p(d_N_2, d_R_1_denom_2), t);
 	set_punct_pat(&d_punct_pat_2_2, d_R_2_enum_2, d_R_2_denom_2, t);
 	set_punct_pat_tail(&d_punct_pat_tail_2_2, calc_r_p(d_N_2, d_R_2_denom_2), t);
+	
+	/* set interleaving sequences */
+	switch(P_max)
+	{
+		case 1: // 4-QAM, RM E
+			// TODO: call set_interl_seq for DRM+
+			break;
+		case 2: // 16-QAM
+			if(cfg->UEP())
+			{
+				set_interl_seq(&d_bit_interl_seq_0_1, 2*d_N_1, d_mod_order, 0); // the different parts shall not overlap (see 7.3.1.1 in the standard)
+				set_interl_seq(&d_bit_interl_seq_0_2, 2*d_N_2, d_mod_order, 0);
+				set_interl_seq(&d_bit_interl_seq_1_1, 2*d_N_1, d_mod_order, 1); 
+				set_interl_seq(&d_bit_interl_seq_1_2, 2*d_N_2, d_mod_order, 1);
+			}
+			else
+			{
+				set_interl_seq(&d_bit_interl_seq_0_2, 2*d_N_MUX, d_mod_order, 0);
+				set_interl_seq(&d_bit_interl_seq_1_2, 2*d_N_MUX, d_mod_order, 1);
+			}
+			break;
+		case 3: // 64-QAM
+			if(cfg->UEP())
+			{
+				set_interl_seq(&d_bit_interl_seq_1_1, 2*d_N_1, d_mod_order, 1); // the different parts shall not overlap (see 7.3.1.1 in the standard)
+				set_interl_seq(&d_bit_interl_seq_1_2, 2*d_N_2, d_mod_order, 1);
+				set_interl_seq(&d_bit_interl_seq_2_1, 2*d_N_1, d_mod_order, 2); 
+				set_interl_seq(&d_bit_interl_seq_2_2, 2*d_N_2, d_mod_order, 2);
+			}
+			else
+			{
+				set_interl_seq(&d_bit_interl_seq_1_2, 2*d_N_MUX, d_mod_order, 1);
+				set_interl_seq(&d_bit_interl_seq_2_2, 2*d_N_MUX, d_mod_order, 2);
+			}
+			break;
+		default:
+			break;
+	}		
 	
 	/* set indexes for partitioning */
 	if(P_max >= 1) // 4-QAM
@@ -731,15 +849,27 @@ msc_params::cell_interl_seq()
 }
 
 std::vector< int >
-msc_params::bit_interl_seq_1()
+msc_params::bit_interl_seq_1_1()
 {
-	return d_bit_interl_seq_1;
+	return d_bit_interl_seq_1_1;
 }
 
 std::vector< int >
-msc_params::bit_interl_seq_2()
+msc_params::bit_interl_seq_1_2()
 {
-	return d_bit_interl_seq_2;
+	return d_bit_interl_seq_1_2;
+}
+
+std::vector< int >
+msc_params::bit_interl_seq_2_1()
+{
+	return d_bit_interl_seq_2_1;
+}
+
+std::vector< int >
+msc_params::bit_interl_seq_2_2()
+{
+	return d_bit_interl_seq_2_2;
 }
 
 /* Control channel implementation */
@@ -833,7 +963,7 @@ sdc_params::init(config* cfg)
 											    {465, 0, 0, 0, 0, 0}};
 
 
-	/* set code rates */
+	/* set code rates and modulation order */
 	int P_max = 0;
 	if(cfg->RM() < 4) // RM A-D
 	{
@@ -885,12 +1015,29 @@ sdc_params::init(config* cfg)
 		}
 	}
 	
+	/* set modulation order */
+	set_mod_order( P_max * 2 );
+	
 	/* set puncturing patterns */
 	tables* t = cfg->ptables();
 	set_punct_pat(&d_punct_pat_0, d_R_0_enum, d_R_0_denom, t);
 	set_punct_pat_tail(&d_punct_pat_tail_0, calc_r_p(d_N, d_R_0_denom), t);
 	set_punct_pat(&d_punct_pat_1, d_R_1_enum, d_R_1_denom, t);
 	set_punct_pat_tail(&d_punct_pat_tail_1, calc_r_p(d_N, d_R_1_denom), t);
+	
+	/* set interleaving sequences */
+	switch(P_max)
+	{
+		case 1:
+			set_interl_seq(&d_bit_interl_seq_0_2, 2 * d_N, d_mod_order, 0);
+			break;
+		case 2:
+			set_interl_seq(&d_bit_interl_seq_0_2, 2 * d_N, d_mod_order, 0);
+			set_interl_seq(&d_bit_interl_seq_1_2, 2 * d_N, d_mod_order, 1);
+			break;
+		default:
+			break;
+	}
 	
 	/* set indexes for partitioning and number of levels in the coding process */
 	
@@ -958,16 +1105,23 @@ sdc_params::punct_pat_tail_1()
 }
 
 std::vector< int > 
-sdc_params::bit_interl_seq_1()
+sdc_params::bit_interl_seq_1_1()
 {
-	return d_bit_interl_seq_1;
+	return d_bit_interl_seq_1_1;
+}
+
+std::vector< int > 
+sdc_params::bit_interl_seq_1_2()
+{
+	return d_bit_interl_seq_1_2;
 }
 
 /* FAC channel implementation */
 void
 fac_params::init(config* cfg)
 {
-	/* set d_N, d_L and code rate */
+	/* set d_N, d_L, modulation order and code rate */
+	set_mod_order( 2 );
 	if(cfg->RM() == 4) // see DRM standard 7.2.1.2 & Table 74/75
 	{
 		// RM E
@@ -994,6 +1148,9 @@ fac_params::init(config* cfg)
 	tables* t = cfg->ptables();
 	set_punct_pat(&d_punct_pat_0, d_R_0_enum, d_R_0_denom, t);
 	d_punct_pat_tail_0 = d_punct_pat_0; //  no special tailbit treatment for FAC
+	
+	/* set interleaving sequence */
+	set_interl_seq(&d_bit_interl_seq_0_2, 2 * d_N, d_mod_order, 0);
 	
 	
 }
