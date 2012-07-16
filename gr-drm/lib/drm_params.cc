@@ -121,6 +121,12 @@ ofdm_params::fs_soundcard()
 }
 
 /* channel_params implementation */
+
+channel_params::channel_params()
+{
+	d_mod_order = 0;
+}
+
 int
 channel_params::calc_r_p(int N, int RY_p)
 {
@@ -224,10 +230,28 @@ channel_params::set_punct_pat_tail(std::vector< unsigned char >* pp, int r_p, ta
 	}
 }
 
+void
+channel_params::calc_interl_seq(std::vector< int >* seq, int x_in, int t)
+{
+	// TODO: implement sequence generation
+}
+
 std::vector< int >
 channel_params::r_p()
 {
 	return d_r_p;
+}
+
+int
+channel_params::mod_order()
+{
+	return d_mod_order;
+}
+
+std::vector< int >
+channel_params::bit_interl_seq_0()
+{
+	return d_bit_interl_seq_0;
 }
 
 /* MSC channel implementation */
@@ -700,6 +724,24 @@ msc_params::punct_pat_tail_2_2()
 	return d_punct_pat_tail_2_2;
 }
 
+std::vector< int >
+msc_params::cell_interl_seq()
+{
+	return d_cell_interl_seq;
+}
+
+std::vector< int >
+msc_params::bit_interl_seq_1()
+{
+	return d_bit_interl_seq_1;
+}
+
+std::vector< int >
+msc_params::bit_interl_seq_2()
+{
+	return d_bit_interl_seq_2;
+}
+
 /* Control channel implementation */
 control_chan_params::control_chan_params()
 {
@@ -913,6 +955,12 @@ std::vector< unsigned char >
 sdc_params::punct_pat_tail_1()
 {
 	return d_punct_pat_tail_1;
+}
+
+std::vector< int > 
+sdc_params::bit_interl_seq_1()
+{
+	return d_bit_interl_seq_1;
 }
 
 /* FAC channel implementation */

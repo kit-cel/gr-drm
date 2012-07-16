@@ -25,5 +25,6 @@ install(FILES
     drm_partitioning_16_vbvb.xml 
     drm_partitioning_64sm_vbvb.xml
     drm_punct_vbvb.xml
-    drm_add_tailbits_vbvb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_add_tailbits_vbvb.xml
+    drm_interleaver_vbvb.xml DESTINATION share/gnuradio/grc/blocks
 )

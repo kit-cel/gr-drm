@@ -71,6 +71,10 @@ public:
 class channel_params : public global_params
 {
 	std::vector< int > d_r_p; // index for tailbit puncturing pattern
+	int d_mod_order; // modulation order (e.g. 2 for 4-QAM, 4 for 16-QAM)
+	std::vector< int > d_bit_interl_seq_0; // bit interleaving sequence for interleaver with index 0 (see DRM standard, chapter 7.3.3)
+	std::vector< int > d_bit_interl_seq_1;
+	std::vector< int > d_bit_interl_seq_2;
 	
 public:
 	std::vector< int > r_p();
@@ -78,7 +82,10 @@ public:
 	int calc_r_p(int N, int RY_p_);
 	void set_punct_pat( std::vector< unsigned char >* pp, int e, int d, tables* t );
 	void set_punct_pat_tail( std::vector< unsigned char >* pp, int r_p, tables* t );
-	channel_params(){};
+	void calc_interl_seq( std::vector< int >* seq, int x_in, int t); // calculates the interleaver sequence (same algorithm applies for bit and cell interleaving)
+	int mod_order();
+	std::vector< int > bit_interl_seq_0();
+	channel_params();
 	virtual ~channel_params(){};
 };
 
@@ -122,6 +129,8 @@ class sdc_params : public control_chan_params
 	
 	std::vector< unsigned char > d_punct_pat_1; // puncturing pattern (R_1)
 	std::vector< unsigned char > d_punct_pat_tail_1; // puncturing pattern for the tailbits (R_1)
+	
+	std::vector< int > d_bit_interl_seq_1; // bit interleaver sequence for interleaver with index 1
 
 public:
 	float R_1();
@@ -133,6 +142,8 @@ public:
 	
 	std::vector< unsigned char > punct_pat_1();
 	std::vector< unsigned char > punct_pat_tail_1();
+	
+	std::vector< int > bit_interl_seq_1();
 
 	sdc_params();
 	virtual ~sdc_params(){};
@@ -189,6 +200,10 @@ class msc_params : public channel_params
 	std::vector< unsigned char > d_punct_pat_2_2; // puncturing pattern (R_2)
 	std::vector< unsigned char > d_punct_pat_tail_2_2; // puncturing pattern for the tailbits (R_2)
 	
+	std::vector< int > d_bit_interl_seq_1; // sequence for interleaver 1
+	std::vector< int > d_bit_interl_seq_2; // ... interleaver 2
+	std::vector< int > d_cell_interl_seq; // Cell (symbols) interleaving sequence
+	
 
 public:
 	unsigned int L_MUX();
@@ -224,6 +239,10 @@ public:
 	std::vector< unsigned char > punct_pat_tail_1_2();
 	std::vector< unsigned char > punct_pat_2_2();
 	std::vector< unsigned char > punct_pat_tail_2_2();
+	
+	std::vector< int > bit_interl_seq_1();
+	std::vector< int > bit_interl_seq_2();
+	std::vector< int > cell_interl_seq();
 	
 	void calc_vars_SM(config* cfg);
 

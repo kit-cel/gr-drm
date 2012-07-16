@@ -48,3 +48,4 @@ GR_ADD_TEST(qa_generate_fac_vb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/
 GR_ADD_TEST(qa_partitioning_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_partitioning_vbvb.py)
 GR_ADD_TEST(qa_punct_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_punct_vbvb.py)
 GR_ADD_TEST(qa_add_tailbits_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_add_tailbits_vbvb.py)
+GR_ADD_TEST(qa_interleaver_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_interleaver_vbvb.py)
