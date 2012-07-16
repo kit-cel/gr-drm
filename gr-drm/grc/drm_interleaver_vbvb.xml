@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <block>
-  <name>interleaver_vbvb</name>
+  <name>DRM Interleaver</name>
   <key>drm_interleaver_vbvb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.interleaver_vbvb(interl_seq)</make>
+  <make>drm.interleaver_vbvb($interl_seq)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Interleaver sequence</name>
+    <key>interl_seq</key>
+    <type>int_vector</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -23,7 +23,8 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type><!-- e.g. int, real, complex, byte, short, xxx_vector, ...--></type>
+    <type>byte</type>
+    <vlen>len($interl_seq)</vlen>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -33,6 +34,7 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type><!-- e.g. int, real, complex, byte, short, xxx_vector, ...--></type>
+    <type>byte</type>
+    <vlen>len($interl_seq)</vlen>
   </source>
 </block>
