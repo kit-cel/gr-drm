@@ -17,6 +17,7 @@
 #include "drm_punct_vbvb.h"
 #include "drm_add_tailbits_vbvb.h"
 #include "drm_interleaver_vbvb.h"
+#include "drm_qam_map_vbvb.h"
 %}
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
@@ -48,3 +49,6 @@ GR_SWIG_BLOCK_MAGIC(drm,add_tailbits_vbvb);
 
 GR_SWIG_BLOCK_MAGIC(drm,interleaver_vbvb);
 %include "drm_interleaver_vbvb.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,qam_map_vbvb);
+%include "drm_qam_map_vbvb.h"

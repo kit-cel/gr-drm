@@ -35,5 +35,6 @@ install(FILES
     drm_partitioning_vbvb.h
     drm_punct_vbvb.h
     drm_add_tailbits_vbvb.h
-    drm_interleaver_vbvb.h DESTINATION include/drm
+    drm_interleaver_vbvb.h
+    drm_qam_map_vbvb.h DESTINATION include/drm
 )
