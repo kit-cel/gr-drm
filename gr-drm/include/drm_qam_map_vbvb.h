@@ -23,23 +23,25 @@
 
 #include <drm_api.h>
 #include <gr_sync_block.h>
+#include <iostream>
 
 class drm_qam_map_vbvb;
 typedef boost::shared_ptr<drm_qam_map_vbvb> drm_qam_map_vbvb_sptr;
 
-DRM_API drm_qam_map_vbvb_sptr drm_make_qam_map_vbvb (const float* map_table, int bits_per_symbol, int vlen_out, int n_inputs);
+DRM_API drm_qam_map_vbvb_sptr drm_make_qam_map_vbvb (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs);
 
 /*!
  * \brief General QAM mapping. Input is a matrix with bits_per_symbol (indexing through decimal interpretation of the bits) rows and 2 columns (I/Q).
+ * Works only for symmetrical signal constellations.
  *
  */
 class DRM_API drm_qam_map_vbvb : public gr_sync_block
 {
-	friend DRM_API drm_qam_map_vbvb_sptr drm_make_qam_map_vbvb (const float* map_table, int bits_per_symbol, int vlen_out, int n_inputs);
+	friend DRM_API drm_qam_map_vbvb_sptr drm_make_qam_map_vbvb (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs);
 
-	drm_qam_map_vbvb (const float* map_table, int bits_per_symbol, int vlen_out, int n_inputs);
+	drm_qam_map_vbvb (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs);
 	
-	const float* d_map_table;
+	float d_map_table[8][2]; // this table always has the maximum size, but only the relevant fields will be filled
 	int d_bits_per_symbol;
 	int d_vlen_out;
 	int d_n_inputs;
