@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='ASCII'?>
+<block>
+  <name>DRM MLC 4-QAM</name>
+  <key>drm_mlc_4qam_vbvb</key>
+  <category>drm</category>
+  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvb.py")</import>
+  <make>drm_mlc_4qam_vbvb(
+	vlen_in=$vlen_in,
+	vlen_out=$vlen_out,
+	n_tailbits=$n_tailbits,
+	denom_mother_code_rate=$denom_mother_code_rate,
+	gen_poly=$gen_poly,
+	N=$N,
+	bits_per_symbol=$bits_per_symbol,
+	pp=$pp,
+	pp_tail=$pp_tail,
+	interl_seq=$interl_seq,
+	map_tab=$map_tab,
+)</make>
+  <callback>set_vlen_in($vlen_in)</callback>
+  <callback>set_vlen_out($vlen_out)</callback>
+  <callback>set_n_tailbits($n_tailbits)</callback>
+  <callback>set_denom_mother_code_rate($denom_mother_code_rate)</callback>
+  <callback>set_gen_poly($gen_poly)</callback>
+  <callback>set_N($N)</callback>
+  <callback>set_bits_per_symbol($bits_per_symbol)</callback>
+  <callback>set_pp($pp)</callback>
+  <callback>set_pp_tail($pp_tail)</callback>
+  <callback>set_interl_seq($interl_seq)</callback>
+  <callback>set_map_tab($map_tab)</callback>
+  <param>
+    <name>Input vector length</name>
+    <key>vlen_in</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>output vector length</name>
+    <key>vlen_out</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>n_tailbits</name>
+    <key>n_tailbits</key>
+    <value>6</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>denom_mother_code_rate</name>
+    <key>denom_mother_code_rate</key>
+    <value>6</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Generator polynomial (dec)</name>
+    <key>gen_poly</key>
+    <value>(91, 121, 101, 91, 121, 101)</value>
+    <type>int_vector</type>
+  </param>
+  <param>
+    <name>Number of QAM cells</name>
+    <key>N</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Bits per symbol</name>
+    <key>bits_per_symbol</key>
+    <value>0</value>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Puncturing pattern</name>
+    <key>pp</key>
+    <value>0</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Tail bit puncturing pattern</name>
+    <key>pp_tail</key>
+    <value>0</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Interleaver sequence</name>
+    <key>interl_seq</key>
+    <value>range(2)</value>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Mapping table</name>
+    <key>map_tab</key>
+    <value>0</value>
+    <type>raw</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+    <vlen>$vlen_in</vlen>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+    <vlen>$vlen_out</vlen>
+  </source>
+  <doc>Felix Wunsch
+performs multilevelcoding (4-QAM)
+/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvb.py</doc>
+</block>
