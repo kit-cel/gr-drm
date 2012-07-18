@@ -234,13 +234,14 @@ void
 channel_params::set_interl_seq(std::vector< int >* seq, int x_in, int mod_order, int index)
 {
 	// for details please see the DRM standard chapter 7.3.3
+	// special treatment for cell interleaver -> index 3, mod_order 0
 	
 	/* range checking */
-	if( !( mod_order == 2 || mod_order == 4 || mod_order == 6) )
+	if( !( mod_order == 0 || mod_order == 2 || mod_order == 4 || mod_order == 6) )
 	{
 		std::cout << "Invalid modulation order!\n";
 	}
-	if( !(index == 0 || index == 1 || index == 2) )
+	if( !(index == 0 || index == 1 || index == 2 || index == 3) )
 	{
 		std::cout << "Invalid index!\n";
 	}
@@ -274,6 +275,9 @@ channel_params::set_interl_seq(std::vector< int >* seq, int x_in, int mod_order,
 			break;
 		case 2: // 64-QAM
 			t = 21;
+			break;
+		case 3: // Cell interleaving
+			t = 5;
 			break;
 		default:
 			// this can't happen as value checking is already done.
@@ -476,6 +480,9 @@ msc_params::init(config* cfg)
 	{
 		std::cout << "Invalid MSC mapping index!\n";
 	}
+	
+	/* set cell interleaver sequence */
+	set_interl_seq(&d_cell_interl_seq, d_N_MUX, 0, 3);
 }
 
 void
