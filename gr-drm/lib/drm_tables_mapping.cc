@@ -124,6 +124,79 @@ const int tables::d_time_D[RMD_NUM_TIME_PIL][2] = {
 // TODO: define RM E Time reference cells
 
 /* Gain reference cells */
+const int tables::d_gain_boost[NUM_RM][NUM_SO * 4] = {
+		{2,6,98,102,  2,6,110,114,  -102,-98,98,102,  -114,-110,110,114,  -98,-94,310,314,  -110,-106,346,350},
+		{1,3,89,91,  1,3,101,103,  -91,-89,89,91,  -103,-101,101,103,  -87,-85,277,279,  -99,-97,309,311},
+		{0,0,0,0,  0,0,0,0,  0,0,0,0,  -69,-67,67,69,  0,0,0,0,  -67,-65,211,213},
+		{0,0,0,0,  0,0,0,0,  0,0,0,0,  -44,-43,43,44,  0,0,0,0,  -43,-42,134,135},
+		{-106,-102,102,106,  0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,0}};
+		
+void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, int k_min, int k_max)
+{
+	// for calculation details see DRM standard chapter 8.4.4
+	
+	/* carrier indices */
+	std::vector< int > k_tmp; // this vector is used for calculation and for pushing to d_gain_pos.
+	int c1, c2, c3, c4; //  constants needed for index calculation
+	int p_min;
+	switch(rob_mode) //  determine constants
+	{
+		case 1: // A
+			c1 = 2;
+			c2 = 4;
+			c3 = 5;
+			c4 = 20;
+			break;
+		case 2: // B
+			c1 = 1;
+			c2 = 2;
+			c3 = 3;
+			c4 = 6;
+			break;
+		case 3: // C
+			c1 = 1;
+			c2 = 2;
+			c3 = 2;
+			c4 = 4;
+			break;
+		case 4: // D
+			c1 = 1;
+			c2 = 1;
+			c3 = 3;
+			c4 = 3;
+			break;
+		case 5: // E
+			c1 = 2;
+			c2 = 4;
+			c3 = 4;
+			c4 = 16;
+			break;
+		default:
+			break;
+	}
+	
+	p_min = (k_min - c1 -c2 * c3) / c4 - 1; // calculate the lowest index that reaches all valid values for k
+	// FIXME: this obviously calculates wrong indices!
+	int cur_k;
+	for(int s = 0; s < n_sym; s++) // the pattern has a shorter periodicity than s but s is an integer multiple of the pattern length
+	{
+		k_tmp.clear();
+	
+		for(int p = p_min; p < -p_min; p++)
+		{
+			cur_k = c1 + c2 * (s % c3) + c4 * p; //  actual calculation
+			
+			if(cur_k <= k_max && cur_k >= k_min) // keep value if it's a valid index
+			{
+				k_tmp.push_back(cur_k);
+				std::cout << cur_k << ",";
+			}
+		}
+		std::cout << std::endl;
+		
+		d_gain_pos.push_back(k_tmp);
+	}
+}
 
 /* FAC positions. The two numbers denote {symbol no, carrier no} */
 const int tables::d_FAC_A[N_FAC_DRM][2] = {

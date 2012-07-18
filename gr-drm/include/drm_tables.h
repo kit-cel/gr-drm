@@ -9,6 +9,8 @@
 #define DRM_TABLES_H_
 
 #include "drm_global_constants.h"
+#include <vector>
+#include <iostream>
 
 class tables
 {
@@ -42,7 +44,10 @@ class tables
 	//static const int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
 
 	/* Gain reference cells */
-	//TODO: add gain reference cells
+	std::vector< std::vector< int > > d_gain_pos; // carrier numbers
+	std::vector< std::vector< int > > d_gain_phase; // gain reference cell phases
+	static const int d_gain_boost[NUM_RM][NUM_SO * 4]; // 4 indices per RM/SO
+	void calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, int k_min, int k_max); // this function is NOT called in init as RM is defined in config and N_S in ofdm_params!
 
 	/* AFS reference cells */
 	//TODO: add AFS reference cells
@@ -82,7 +87,7 @@ class tables
 	 ****************************************************************/
 
 	/* MSC */
-	static const unsigned int d_MSC_N_MUX[5][6]; // row: RM, col: SO
+	static const unsigned int d_MSC_N_MUX[NUM_RM][NUM_SO]; // row: RM, col: SO
 	static const unsigned short d_MSC_CR_4[4][2];
 	static const unsigned short d_MSC_16_ABCD[2][5];
 	static const unsigned short d_MSC_16_E[4][5];
@@ -92,8 +97,8 @@ class tables
 	static const unsigned short d_MSC_64_HMmix_SPP[4][11];
 	
 	/* SDC */
-	static const unsigned int d_SDC_datafield_0[5][6]; // row: RM, col: SO
-	static const unsigned int d_SDC_datafield_1[5][6];
+	static const unsigned int d_SDC_datafield_0[NUM_RM][NUM_SO]; // row: RM, col: SO
+	static const unsigned int d_SDC_datafield_1[NUM_RM][NUM_SO];
 
 	tables(){};
 	~tables(){};

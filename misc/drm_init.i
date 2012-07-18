@@ -13,6 +13,7 @@
 
 %template(IntVector) std::vector<int>;
 %template(UCharVector) std::vector<unsigned char>;
+%template(VecIntVector) std::vector< std::vector<int> >;
 
 %include "drm_global_constants.h"
 %include "drm_tables.h"

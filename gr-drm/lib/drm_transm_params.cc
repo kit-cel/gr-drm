@@ -30,6 +30,8 @@ transm_params::transm_params()
 
 	fac_params* f = new fac_params;
 	f->init(c);
+	
+	t->calc_gain_cell_params(c->RM(), o->N_S(), o->K_min(), o->K_max());
 
 	/* set member variables (pointers to param instances) */
 	d_cfg = c;
