@@ -147,6 +147,8 @@ const int tables::d_gain_Z_A[5][3] = {
 };
 const int tables::d_gain_Q_A = 36;
 
+#define GAIN_B_W_ROW	3
+#define GAIN_B_W_COL	5
 const int tables::d_gain_W_B[3][5] = {
 	{512,   0, 512,   0, 512},
 	{0,   512,   0, 512,   0},
@@ -275,10 +277,12 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 			k0 = 2;
 			break;
 		case 1: // B
+		{
 			x = 2;
 			y = 3;
 			k0 = 1;
 			break;
+		}
 		case 2: // C
 			x = 2;
 			y = 2;
@@ -309,12 +313,33 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 			if(rob_mode < 4) // DRM30
 			{
 				// use formula for DRM30
-				v_tmp.push_back(v);
-				
+				switch(rob_mode)
+				{
+					case 0: // A
+						v = ( 4*d_gain_Z_A[n][m] + p*d_gain_W_A[n][m] + (int) std::pow(p,2) * (1 + s) * d_gain_Q_A ) % 1024;
+						break;
+					case 1: // B
+						v = ( 4*d_gain_Z_B[n][m] + p*d_gain_W_B[n][m] + (int) std::pow(p,2) * (1 + s) * d_gain_Q_B ) % 1024;						
+						break;
+					case 2: // B
+						v = ( 4*d_gain_Z_C[n][m] + p*d_gain_W_C[n][m] + (int) std::pow(p,2) * (1 + s) * d_gain_Q_C ) % 1024;
+						break;
+					case 3: // B
+						v = ( 4*d_gain_Z_D[n][m] + p*d_gain_W_D[n][m] + (int) std::pow(p,2) * (1 + s) * d_gain_Q_D ) % 1024;
+						break;
+					default:
+						break;
+				}
+				if(v<0) // wrap around
+				{
+					v = 1024+v;
+				}
+				v_tmp.push_back(v);		
 			}
 			else
 			{
 				// use formula for DRM+
+				v = ( (int) std::pow(p,2) * d_gain_R_E[n][m] + p * d_gain_Z_E[n][m] + d_gain_Q_E[n][m] ) % 1024;
 				v_tmp.push_back(v);
 			}
 		}
