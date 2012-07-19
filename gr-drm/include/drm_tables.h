@@ -10,7 +10,7 @@
 
 #include "drm_global_constants.h"
 #include <vector>
-#include <iostream>
+#include <cmath>
 
 class tables
 {
@@ -44,6 +44,22 @@ class tables
 	//static const int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
 
 	/* Gain reference cells */
+	static const int d_gain_W_A[5][3];
+	static const int d_gain_Z_A[5][3];
+	static const int d_gain_Q_A;
+	static const int d_gain_W_B[3][5];
+	static const int d_gain_Z_B[3][5];
+	static const int d_gain_Q_B;
+	static const int d_gain_W_C[2][10];
+	static const int d_gain_Z_C[2][10];
+	static const int d_gain_Q_C;
+	static const int d_gain_W_D[3][8];
+	static const int d_gain_Z_D[3][8];
+	static const int d_gain_Q_D;
+	static const int d_gain_R_E[4][10];
+	static const int d_gain_Z_E[4][10];
+	static const int d_gain_Q_E[4][10];
+	
 	std::vector< std::vector< int > > d_gain_pos; // carrier numbers
 	std::vector< std::vector< int > > d_gain_phase; // gain reference cell phases
 	static const int d_gain_boost[NUM_RM][NUM_SO * 4]; // 4 indices per RM/SO

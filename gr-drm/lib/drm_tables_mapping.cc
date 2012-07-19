@@ -131,6 +131,75 @@ const int tables::d_gain_boost[NUM_RM][NUM_SO * 4] = {
 		{0,0,0,0,  0,0,0,0,  0,0,0,0,  -44,-43,43,44,  0,0,0,0,  -43,-42,134,135},
 		{-106,-102,102,106,  0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,0,  0,0,0,0}};
 		
+const int tables::d_gain_W_A[5][3] = {
+	{228, 341, 455},
+	{455, 569, 683},
+	{683, 796, 910},
+	{910,   0, 114},
+	{114, 228, 341}
+};
+const int tables::d_gain_Z_A[5][3] = {
+	{0,    81, 248},
+	{18,  106, 106},
+	{122, 116,  31},
+	{129, 129,  39},
+	{33,   32, 111}
+};
+const int tables::d_gain_Q_A = 36;
+
+const int tables::d_gain_W_B[3][5] = {
+	{512,   0, 512,   0, 512},
+	{0,   512,   0, 512,   0},
+	{512,   0, 512,   0, 512}
+};
+const int tables::d_gain_Z_B[3][5] = {
+	{0,    57, 164,  64,  12},
+	{168, 255, 161, 106, 118},
+	{25,  232, 132, 233,  38}
+};
+const int tables::d_gain_Q_B = 12;
+
+const int tables::d_gain_W_C[2][10] = {
+	{465, 372, 279, 186,  93,   0, 931, 838, 745, 652},
+	{931, 838, 745, 652, 559, 465, 372, 279, 186,  93}
+};
+const int tables::d_gain_Z_C[2][10] = {
+	{0,    76, 29,  76,   9, 190, 161, 248,  33, 108},
+	{179, 178, 83, 253, 127, 105, 101, 198, 250, 145}
+};
+const int tables::d_gain_Q_C = 12;
+
+const int tables::d_gain_W_D[3][8] = {
+	{366, 439, 512, 585, 658, 731, 805, 878},
+	{731, 805, 878, 951,   0,  73, 146, 219},
+	{73,  146, 219, 293, 366, 439, 512, 585}
+};
+const int tables::d_gain_Z_D[3][8] = {
+	{0,   240,  17,  60, 220,  38, 151, 101},
+	{110,   7,  78,  82, 175, 150, 106,  25},
+	{165,   7, 252, 124, 253, 177, 197, 142}
+};
+const int tables::d_gain_Q_D = 14;
+
+const int tables::d_gain_R_E[4][10] = {
+	{  39, 118, 197, 276, 354, 433,  39, 118, 197, 276},
+	{  37, 183, 402,  37, 183, 402,  37, 183, 402,  37},
+	{ 110, 329, 475, 110, 329, 475, 110, 329, 475, 110},
+	{  79, 158, 236, 315, 394, 473,  79, 158, 236, 315}
+};
+const int tables::d_gain_Z_E[4][10] = {
+	{ 473, 394, 315, 236, 158,  79,   0,   0,   0,   0},
+	{ 183, 914, 402,  37, 475, 841, 768, 768, 987, 183},
+	{ 549, 622, 475, 110,  37, 622, 256, 768, 329, 549},
+	{  79, 158, 236, 315, 394, 473, 158, 315, 473, 630}
+};
+const int tables::d_gain_Q_E[4][10] = {
+	{ 329, 489, 894, 419, 607, 519,1020, 942, 817, 939},
+	{ 824,1023,  74, 319, 225, 207, 348, 422, 395,  92},
+	{ 959, 379,   7, 738, 500, 920, 440, 727, 263, 733},
+	{ 907, 946, 924,  91, 189, 133, 910, 804,1022, 433}
+};
+		
 void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, int k_min, int k_max)
 {
 	// for calculation details see DRM standard chapter 8.4.4
@@ -141,31 +210,31 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 	int p_min;
 	switch(rob_mode) //  determine constants
 	{
-		case 1: // A
+		case 0: // A
 			c1 = 2;
 			c2 = 4;
 			c3 = 5;
 			c4 = 20;
 			break;
-		case 2: // B
+		case 1: // B
 			c1 = 1;
 			c2 = 2;
 			c3 = 3;
 			c4 = 6;
 			break;
-		case 3: // C
+		case 2: // C
 			c1 = 1;
 			c2 = 2;
 			c3 = 2;
 			c4 = 4;
 			break;
-		case 4: // D
+		case 3: // D
 			c1 = 1;
 			c2 = 1;
 			c3 = 3;
 			c4 = 3;
 			break;
-		case 5: // E
+		case 4: // E
 			c1 = 2;
 			c2 = 4;
 			c3 = 4;
@@ -175,8 +244,7 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 			break;
 	}
 	
-	p_min = (k_min - c1 -c2 * c3) / c4 - 1; // calculate the lowest index that reaches all valid values for k
-	// FIXME: this obviously calculates wrong indices!
+	p_min = (k_min - c1 -c2 * c3) / c4 - 5; // calculate the lowest index that reaches all valid values for k
 	int cur_k;
 	for(int s = 0; s < n_sym; s++) // the pattern has a shorter periodicity than s but s is an integer multiple of the pattern length
 	{
@@ -189,12 +257,68 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 			if(cur_k <= k_max && cur_k >= k_min) // keep value if it's a valid index
 			{
 				k_tmp.push_back(cur_k);
-				std::cout << cur_k << ",";
 			}
 		}
-		std::cout << std::endl;
 		
 		d_gain_pos.push_back(k_tmp);
+	}
+	
+	/* cell phases (if the locations of gain cells coincide with other reference cells, the other phases take precedence) */
+	int x, y, k0; // constants needed for phase calculation
+	int n, m , p; // variables needed for phase calculation
+	std::vector< int > v_tmp; // this vector is used for phase calculation and for pushing to d_gain_phase.
+	switch(rob_mode)
+	{
+		case 0: // A
+			x = 4;
+			y = 5;
+			k0 = 2;
+			break;
+		case 1: // B
+			x = 2;
+			y = 3;
+			k0 = 1;
+			break;
+		case 2: // C
+			x = 2;
+			y = 2;
+			k0 = 1;
+			break;
+		case 3: // D
+			x = 1;
+			y = 3;
+			k0 = 1;
+			break;
+		case 4: // E
+			x = 4;
+			y = 4;
+			k0 = 2;
+			break;
+		default:
+			break;
+	}
+	int v; // phase index
+	for( int s = 0; s < n_sym; s++)
+	{
+		v_tmp.clear();
+		n = s % y;
+		m = std::floor( s/y );
+		for( int i = 0; i < (d_gain_pos[s]).size(); i++)
+		{
+			p = ((d_gain_pos[s])[i] - k0 - n*x) / (x * y);
+			if(rob_mode < 4) // DRM30
+			{
+				// use formula for DRM30
+				v_tmp.push_back(v);
+				
+			}
+			else
+			{
+				// use formula for DRM+
+				v_tmp.push_back(v);
+			}
+		}
+		d_gain_phase.push_back(v_tmp); // push indices for one symbol to d_gain_phase
 	}
 }
 
