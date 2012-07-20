@@ -36,5 +36,6 @@ install(FILES
     drm_punct_vbvb.h
     drm_add_tailbits_vbvb.h
     drm_interleaver_vbvb.h
-    drm_qam_map_vbvb.h DESTINATION include/drm
+    drm_qam_map_vbvb.h
+    drm_cell_mapping_vbvb.h DESTINATION include/drm
 )
