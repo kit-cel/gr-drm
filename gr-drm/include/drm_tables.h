@@ -11,6 +11,8 @@
 #include "drm_global_constants.h"
 #include <vector>
 #include <cmath>
+#include <complex>
+#include <fstream>
 
 class tables
 {
@@ -60,10 +62,10 @@ class tables
 	static const int d_gain_Z_E[4][10];
 	static const int d_gain_Q_E[4][10];
 	
-	std::vector< std::vector< int > > d_gain_pos; // carrier numbers
-	std::vector< std::vector< int > > d_gain_phase; // gain reference cell phases
+	std::vector< std::vector< int > > d_gain_pos;
+	std::vector< std::vector< std::complex<double> > > d_gain_cells; // gain cells
 	static const int d_gain_boost[NUM_RM][NUM_SO * 4]; // 4 indices per RM/SO
-	void calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, int k_min, int k_max); // this function is NOT called in init as RM is defined in config and N_S in ofdm_params!
+	void calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int n_sym, int k_min, int k_max); // this function is NOT called in init as RM is defined in config and N_S in ofdm_params!
 
 	/* AFS reference cells */
 	//TODO: add AFS reference cells

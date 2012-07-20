@@ -147,8 +147,6 @@ const int tables::d_gain_Z_A[5][3] = {
 };
 const int tables::d_gain_Q_A = 36;
 
-#define GAIN_B_W_ROW	3
-#define GAIN_B_W_COL	5
 const int tables::d_gain_W_B[3][5] = {
 	{512,   0, 512,   0, 512},
 	{0,   512,   0, 512,   0},
@@ -202,7 +200,7 @@ const int tables::d_gain_Q_E[4][10] = {
 	{ 907, 946, 924,  91, 189, 133, 910, 804,1022, 433}
 };
 		
-void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, int k_min, int k_max)
+void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int n_sym, int k_min, int k_max)
 {
 	// for calculation details see DRM standard chapter 8.4.4
 	
@@ -246,7 +244,7 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 			break;
 	}
 	
-	p_min = (k_min - c1 -c2 * c3) / c4 - 5; // calculate the lowest index that reaches all valid values for k
+	p_min = (k_min - c1 - c2 * c3) / c4 - 5; // calculate the lowest index that reaches all valid values for k
 	int cur_k;
 	for(int s = 0; s < n_sym; s++) // the pattern has a shorter periodicity than s but s is an integer multiple of the pattern length
 	{
@@ -266,6 +264,7 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 	}
 	
 	/* cell phases (if the locations of gain cells coincide with other reference cells, the other phases take precedence) */
+	std::vector< std::vector< int > > gain_phase_index;
 	int x, y, k0; // constants needed for phase calculation
 	int n, m , p; // variables needed for phase calculation
 	std::vector< int > v_tmp; // this vector is used for phase calculation and for pushing to d_gain_phase.
@@ -343,8 +342,40 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, unsigned int n_sym, 
 				v_tmp.push_back(v);
 			}
 		}
-		d_gain_phase.push_back(v_tmp); // push indices for one symbol to d_gain_phase
+		gain_phase_index.push_back(v_tmp); // push indices for one symbol to d_gain_phase
 	}
+	
+	/* calculate cell values */
+	// cell value is sqrt(2) * exp( j*2*pi*phase_index/1024 )
+	std::vector< std::complex<double> > gain_cells_tmp;
+	double boost = sqrt(2);
+	const double pi = M_PI;
+	std::complex<double> j(0,1); // imaginary unit
+	std::ofstream out;
+	out.open("gain_cells.txt");
+	for(int s = 0; s < n_sym; s++)
+	{
+		gain_cells_tmp.clear();
+		for(int n = 0; n < (d_gain_pos[s]).size(); n++)
+		{
+			if(d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so] || 
+			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 1] || 
+			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 2] ||
+			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 3])
+			{
+				gain_cells_tmp.push_back( boost * boost *( cos(2 * pi * gain_phase_index[s][n] / 1024) + j * sin(2 * pi * gain_phase_index[s][n] / 1024) ) );
+			}
+			else
+			{ 
+				gain_cells_tmp.push_back( boost * ( cos(2 * pi * gain_phase_index[s][n] / 1024) + j * sin(2 * pi * gain_phase_index[s][n] / 1024) ) );
+			}
+			out << gain_cells_tmp[n] << ",";
+		}
+		d_gain_cells.push_back(gain_cells_tmp); // push tmp vector to actual class member
+	}
+	
+	/* boost border cells */
+	
 }
 
 /* FAC positions. The two numbers denote {symbol no, carrier no} */
