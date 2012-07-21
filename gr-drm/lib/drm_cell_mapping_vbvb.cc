@@ -84,11 +84,12 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	// init log for debug purposes
 	std::ofstream log;
 	log.open("cell_mapping_log.txt");
-	
+	log << "beginning of cell mapping log" << std::endl;
+	log.flush();
 	// define offset value
 	int k_off = d_nfft/2 - 1; // this should shift the DC carrier to the correct position TODO: evaluate this!
 	
-	/* Map pilots */
+	/* Map pilots (see chapter 8.4 in the DRM standard for details) */
 	const std::complex<double> j(0,1); // imaginary unit
 	const double pi = M_PI;
 	const double boost = sqrt(2);
@@ -123,6 +124,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	}
 		
 	/* Frequency reference cells (not for RM E) */	
+	log << "FREQUENCY PILOTS" << std::endl;
 	if( d_tp->cfg().RM() != 4)
 	{
 		for(int s = 0; s < d_N; s++)
@@ -138,21 +140,43 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 				{
 					out[s*d_nfft + freq_pil[i][0] + k_off] = sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
 				}
+				log << "carrier " << freq_pil[i][0] << " ,symbol " << s << std::endl;
 			}
 		}
 	}
 	
 	/* Time reference cells (only in the first symbol of the transmission frame) */
+	log << std::endl << "TIME PILOTS" << std::endl;
 	for( int i = 0; i < time_rows; i++)
 	{
 		out[time_pil[i][0] + k_off] = sqrt(2) * ( cos(2 * pi * time_pil[i][1] / 1024 ) + j * sin( 2 * pi * time_pil[i][1] / 1024 ) );
+		log << "carrier " << time_pil[i][0] << std::endl;
 	}
 	
-	
 	/* Gain reference cells */
+	log << std::endl << "GAIN PILOTS" << std::endl;
+	for(int s = 0; s < d_N; s++)
+	{
+		for(int i = 0; i < d_tables->d_gain_pos[s].size(); i++)
+		{
+			if( (out[s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]).real() == 0 && // cell is empty, map gain reference cell to it
+				 (out[s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]).imag() == 0 )
+			{
+				out[s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] = d_tables->d_gain_cells[s][i];
+				log << "carrier " << d_tables->d_gain_pos[s][i] << " , symbol " << s << std::endl;
+			}
+			else // cell is already occupied, do not overwrite phase. check if the cell is an overboosted one and boost amplitude if so.
+			{
+				if( abs(out[s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) > 1.5 ) // normal boost is sqrt(2)
+				{
+					out[s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] *= sqrt(2);
+					log << "carrier " << d_tables->d_gain_pos[s][i] << " , symbol " << s << " PHASE KEPT" << std::endl;
+				}
+			}
+		}
+	}
 	
-	/* AFS reference cells (only RM E)
-	
+	/* AFS reference cells (only RM E) */
 	
 	/* Map FAC */
 	
