@@ -93,20 +93,30 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	const double pi = M_PI;
 	const double boost = sqrt(2);
 	
+	// copy mapping tables to access them flexibly
 	int freq_pil[3][2];
+	const int time_rows = d_time_rows; // this way we can instance an array with this variable	
+	int time_pil[time_rows][2];
 	switch(d_tp->cfg().RM())
 	{
 		case 0: // A
 			memcpy(freq_pil, d_tables->d_freq_A, 3*2*sizeof(int));
+			memcpy(time_pil, d_tables->d_time_A, RMA_NUM_TIME_PIL*2*sizeof(int));
 			break;
 		case 1: // B
 			memcpy(freq_pil, d_tables->d_freq_B, 3*2*sizeof(int));
+			memcpy(time_pil, d_tables->d_time_B, RMB_NUM_TIME_PIL*2*sizeof(int));
 			break;
 		case 2: // C
 			memcpy(freq_pil, d_tables->d_freq_C, 3*2*sizeof(int));
+			memcpy(time_pil, d_tables->d_time_C, RMC_NUM_TIME_PIL*2*sizeof(int));
 			break;
 		case 3: // D
 			memcpy(freq_pil, d_tables->d_freq_D, 3*2*sizeof(int));
+			memcpy(time_pil, d_tables->d_time_D, RMD_NUM_TIME_PIL*2*sizeof(int));
+			break;
+		case 4: //E
+			//memcpy(time_pil, d_tables->d_time_E, RME_NUM_TIME_PIL*2*sizeof(int));
 			break;
 		default:
 			break;
@@ -122,18 +132,23 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 				if( (freq_pil[i][0] == 7 || freq_pil[i][0] == 21) && (s%2 == 1) ) // special treatment for carriers 7 and 21 in RM D
 				{
 					// multiply with -1 for odd values of s
-					out[s*d_nfft + freq_pil[i][0] ] = -sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
+					out[s*d_nfft + freq_pil[i][0] + k_off] = -sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
 				}
 				else
 				{
-					out[s*d_nfft + freq_pil[i][0] ] = sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
+					out[s*d_nfft + freq_pil[i][0] + k_off] = sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
 				}
 			}
 		}
 	}
 	
-	/* Time reference cells */
-	const int time_rows = d_time_rows; // this way we can instance an array with this variable	
+	/* Time reference cells (only in the first symbol of the transmission frame) */
+	for( int i = 0; i < time_rows; i++)
+	{
+		out[time_pil[i][0] + k_off] = sqrt(2) * ( cos(2 * pi * time_pil[i][1] / 1024 ) + j * sin( 2 * pi * time_pil[i][1] / 1024 ) );
+	}
+	
+	
 	/* Gain reference cells */
 	
 	/* AFS reference cells (only RM E)
