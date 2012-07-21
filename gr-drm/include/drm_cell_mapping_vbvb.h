@@ -23,6 +23,9 @@
 
 #include <drm_api.h>
 #include <gr_sync_interpolator.h>
+#include <cmath>
+#include <complex>
+#include <fstream>
 #include "drm_transm_params.h"
 
 class drm_cell_mapping_vbvb;
@@ -41,6 +44,10 @@ class DRM_API drm_cell_mapping_vbvb : public gr_sync_interpolator
 	drm_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes);
 
 	transm_params* d_tp;
+	tables* d_tables;
+	int d_N;
+	int d_nfft;
+	int d_time_rows;
 	
  public:
 	~drm_cell_mapping_vbvb ();

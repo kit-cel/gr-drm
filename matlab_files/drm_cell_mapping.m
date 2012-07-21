@@ -25,6 +25,7 @@ for i = 1:nsym
             warning('cell is already occupied')
             disp(frame(freq_pos(k), i))
         end
+        frame(freq_pos(k), i)
     end
 end
 

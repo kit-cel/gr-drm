@@ -207,7 +207,7 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 	/* carrier indices */
 	std::vector< int > k_tmp; // this vector is used for calculation and for pushing to d_gain_pos.
 	int c1, c2, c3, c4; //  constants needed for index calculation
-	int p_min;
+	int p_min, p_max;
 	switch(rob_mode) //  determine constants
 	{
 		case 0: // A
@@ -244,13 +244,14 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 			break;
 	}
 	
-	p_min = (k_min - c1 - c2 * c3) / c4 - 5; // calculate the lowest index that reaches all valid values for k
+	p_min = (k_min - c1 - c2 * c3) / c4 - 5; // calculate p_min that ensures we reach k_min
+	p_max = (k_max - c1 - c2 * c3) / c4 + 5; // calculate p_max that ensures we reach k_max
 	int cur_k;
 	for(int s = 0; s < n_sym; s++) // the pattern has a shorter periodicity than s but s is an integer multiple of the pattern length
 	{
 		k_tmp.clear();
 	
-		for(int p = p_min; p < -p_min; p++)
+		for(int p = p_min; p < p_max; p++)
 		{
 			cur_k = c1 + c2 * (s % c3) + c4 * p; //  actual calculation
 			
@@ -358,24 +359,21 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 		gain_cells_tmp.clear();
 		for(int n = 0; n < (d_gain_pos[s]).size(); n++)
 		{
-			if(d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so] || 
+			if(d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so] || // check if cell shall be overboosted
 			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 1] || 
 			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 2] ||
 			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 3])
 			{
 				gain_cells_tmp.push_back( boost * boost *( cos(2 * pi * gain_phase_index[s][n] / 1024) + j * sin(2 * pi * gain_phase_index[s][n] / 1024) ) );
 			}
-			else
+			else // normal gain
 			{ 
 				gain_cells_tmp.push_back( boost * ( cos(2 * pi * gain_phase_index[s][n] / 1024) + j * sin(2 * pi * gain_phase_index[s][n] / 1024) ) );
 			}
 			out << gain_cells_tmp[n] << ",";
 		}
 		d_gain_cells.push_back(gain_cells_tmp); // push tmp vector to actual class member
-	}
-	
-	/* boost border cells */
-	
+	}	
 }
 
 /* FAC positions. The two numbers denote {symbol no, carrier no} */

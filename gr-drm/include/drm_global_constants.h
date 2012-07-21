@@ -27,6 +27,6 @@
 
 #define LEN_PP				 6 // lenght of puncturing patterns
 #define DENOM_MOTHER_CODE	 6 // denominator for mother code rate (1/6) used for channel encoding
-#define N_TAILBITS			36 // number of tailbits (of mother code)
+#define N_TAILBITS			36 // number of tailbits (of mother code) after channel encoding
 
 #endif /* DRM_GLOBAL_CONSTANTS_H_ */

@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
 <block>
-  <name>cell_mapping_vbvb</name>
-  <key>drm_cell_mapping_vbvb</key>
+  <name>DRM Cell mapping</name>
+  <key>cell_mapping_vbvb</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.cell_mapping_vbvb(tp)</make>
+  <make>drm.cell_mapping_vbvb($tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Transmit Params</name>
+    <key>tp</key>
+    <type>raw</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -22,8 +22,19 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <sink>
-    <name>in</name>
-    <type><!-- e.g. int, real, complex, byte, short, xxx_vector, ...--></type>
+    <name>MSC</name>
+    <type>complex</type>
+    <vlen>tp.msc().N_MUX() * tp.ofdm().M_TF()</vlen>
+  </sink>
+  <sink>
+    <name>SDC</name>
+    <type>complex</type>
+    <vlen>tp.sdc().N()</vlen>
+  </sink>
+  <sink>
+    <name>FAC</name>
+    <type>complex</type>
+    <vlen>tp.fac().N() * tp.ofdm().M_TF()</vlen>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -33,6 +44,7 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type><!-- e.g. int, real, complex, byte, short, xxx_vector, ...--></type>
+    <type>complex</type>
+    <vlen>tp.ofdm().nfft()</vlen>
   </source>
 </block>
