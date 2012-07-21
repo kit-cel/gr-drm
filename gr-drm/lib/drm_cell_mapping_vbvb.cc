@@ -36,7 +36,7 @@ drm_make_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes)
 drm_cell_mapping_vbvb::drm_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes)
 	: gr_sync_interpolator ("cell_mapping_vbvb",
 		gr_make_io_signaturev (3, 3, input_sizes),
-		gr_make_io_signature (1, 1, sizeof (gr_complex) * tp.ofdm().nfft()), tp.ofdm().N_S())
+		gr_make_io_signature (1, 1, sizeof (gr_complex) * tp->ofdm().nfft()), tp->ofdm().N_S())
 {
 	d_tp = tp;
 }
@@ -70,6 +70,6 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	
 
 	// Tell runtime system how many output items we produced.
-	return d_tp.ofdm().N_S();
+	return d_tp->ofdm().N_S();
 }
 

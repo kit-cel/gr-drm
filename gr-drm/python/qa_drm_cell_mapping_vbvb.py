@@ -20,7 +20,9 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_swig
+#import drm_swig
+import drm_init
+import drm
 
 class qa_cell_mapping_vbvb (gr_unittest.TestCase):
 
