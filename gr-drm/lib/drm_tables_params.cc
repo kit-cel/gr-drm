@@ -44,12 +44,19 @@ const unsigned char tables::d_PP_tail[13][N_TAILBITS] = {
 /* MSC */
 
 /* QAM cell related tables */
-const unsigned int tables::d_MSC_N_MUX[5][6] = { // row: RM, col: SO
+const unsigned int tables::d_MSC_N_MUX[NUM_RM][NUM_SO] = { // row: RM, col: SO
 		{1259, 1422, 2632, 2959, 5464, 6118},
 		{966, 1110, 2051, 2337, 4249, 4774},
 		{0, 0, 0, 1844, 0, 3867},
 		{0, 0, 0, 1226, 0, 2606},
 		{7460, 0, 0, 0, 0}};
+		
+const unsigned int tables::d_MSC_N_L[NUM_RM][NUM_SO] = {
+		{1,2,1,0,2,0},
+		{2,0,0,2,0,1},
+		{0,0,0,0,0,2},
+		{0,0,0,1,0,1},
+		{2,0,0,0,0,0}};
 
 /* Code rates
  * SM: {R_0_enum, R_0_denom, R_1_enum, ..., R_Ylcm} */

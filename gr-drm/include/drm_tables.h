@@ -106,6 +106,7 @@ class tables
 
 	/* MSC */
 	static const unsigned int d_MSC_N_MUX[NUM_RM][NUM_SO]; // row: RM, col: SO
+	static const unsigned int d_MSC_N_L[NUM_RM][NUM_SO]; // row: RM, col: SO
 	static const unsigned short d_MSC_CR_4[4][2];
 	static const unsigned short d_MSC_16_ABCD[2][5];
 	static const unsigned short d_MSC_16_E[4][5];
