@@ -92,6 +92,8 @@ drm_cell_mapping_vbvb::drm_cell_mapping_vbvb (transm_params* tp, std::vector< in
 		default:
 			break;
 	}
+	d_dummy_cells[0] = gr_complex(d_boost_coeff*1, d_boost_coeff*1); // a*(1+j1)
+	d_dummy_cells[1] = gr_complex(d_boost_coeff*1, -d_boost_coeff*1); // a*(1-j1)
 }
 
 
@@ -246,7 +248,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 		for( int i = 0; i < d_tp->fac().N(); i++)
 		{
 			out[tf*d_N*d_nfft + fac_pos[i][0]*d_nfft + fac_pos[i][1] + k_off] = fac_in[tf*d_tp->fac().N() + i];
-			log << "carrier: " << fac_pos[i][1] << " , symbol: " << fac_pos[i][0] << ", value: " << fac_in[tf*d_tp->fac().N() + i] << std::endl;
+			//log << "carrier: " << fac_pos[i][1] << " , symbol: " << fac_pos[i][0] << ", value: " << fac_in[tf*d_tp->fac().N() + i] << std::endl;
 		}
 	
 		/* Map SDC (only in the first transmission frame, omit DC carrier) */
@@ -256,14 +258,14 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 			int n = 0;
 			for( int s = 0; s < d_n_sdc_sym; s++)
 			{
-				for( int i = d_k_min; i < d_k_max; i++)
+				for( int i = d_k_min; i <= d_k_max; i++)
 				{		
 					if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0  
 						&& /* no unused carrier */ is_used_carrier(i) )
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = sdc_in[n];
 						n++; // increment SDC cell counter
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << std::endl;
+						//log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << std::endl;
 					}
 				}
 			}
@@ -278,22 +280,25 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	{
 		for( int s = 0; s < d_N; s++)
 		{
-			for( int i = d_k_min; i < d_k_max; i++)
+			for( int i = d_k_min; i <= d_k_max; i++)
 			{
 				if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0  
 						&& /* no unused carrier */ is_used_carrier(i) )
-				{
-					if(n > d_tp->msc().N_MUX() * d_M_TF - d_n_dummy_cells)
+				
+				{	log << "msc index: " << n << std::endl;
+					if(n < d_tp->msc().N_MUX() * d_M_TF)
 					{
+						
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = msc_in[n];
 						n++; // increment SDC cell counter
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << std::endl;
+						//log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << std::endl;
 					}
 					else // insert dummy cell
 					{
-						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = d_dummy_cells[d_tp->msc().N_MUX() * d_M_TF - n];
+						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = d_dummy_cells[n - d_tp->msc().N_MUX() * d_M_TF];
 						n++;
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << "DUMMY CELL" << std::endl;
+						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i]
+						<< " from " <<  d_dummy_cells[n - d_tp->msc().N_MUX() * d_M_TF] << " DUMMY CELL" << std::endl;
 					}
 				}
 			}
