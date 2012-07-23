@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Bit Interleaver</name>
-  <key>drm_interleaver_vbvb</key>
+  <name>DRM Cell Interleaver</name>
+  <key>drm_interleaver_vcvc</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.interleaver_vbvb($interl_seq)</make>
+  <make>drm.interleaver_vcvc($interl_seq)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
@@ -23,7 +23,7 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type>byte</type>
+    <type>complex</type>
     <vlen>len($interl_seq)</vlen>
   </sink>
 
@@ -34,7 +34,7 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>out</name>
-    <type>byte</type>
+    <type>complex</type>
     <vlen>len($interl_seq)</vlen>
   </source>
 </block>

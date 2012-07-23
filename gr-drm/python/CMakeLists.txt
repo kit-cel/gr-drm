@@ -51,3 +51,4 @@ GR_ADD_TEST(qa_add_tailbits_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR
 GR_ADD_TEST(qa_interleaver_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_interleaver_vbvb.py)
 GR_ADD_TEST(qa_qam_map_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_qam_map_vbvb.py)
 GR_ADD_TEST(qa_cell_mapping_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_cell_mapping_vbvb.py)
+GR_ADD_TEST(qa_interleaver_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_interleaver_vcvc.py)
