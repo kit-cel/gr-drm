@@ -109,10 +109,16 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	}
 	
 	int n_bits_audio_frame = n_bits_usage; // no text message included!
+	
+	init << "n_bits_audio_frame: " << n_bits_audio_frame << std::endl;
 
 	d_n_bytes_audio_payload = n_bits_audio_frame / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
 	const int n_bytes_act_enc = (int) (d_n_bytes_audio_payload / d_n_aac_frames);
 	int bit_rate = (int) (( n_bytes_act_enc * sizeof_byte) / d_time_aac_superframe * 1000);
+	
+	init << "n_bytes_audio_payload: " << d_n_bytes_audio_payload << std::endl;
+	init << "n_bytes_act_enc: " << n_bytes_act_enc << std::endl;
+	init << "bit rate: " << bit_rate << std::endl;
     
     /* set encoder configuration */
 	faacEncConfigurationPtr cur_enc_format;
@@ -125,6 +131,11 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bitRate = bit_rate;
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
+	
+	init << "useTns: " << cur_enc_format->useTns << std::endl;
+	init << "aacObjectType: " << cur_enc_format->aacObjectType << std::endl;
+	init << "mpegVersion: " << cur_enc_format->mpegVersion << std::endl;
+	init << "outputFormat: " << cur_enc_format->outputFormat << std::endl;
 	
 	init.close();
 	
@@ -142,6 +153,9 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
+	std::ofstream wlog;
+	wlog.open("aac_work_log.txt");
+	
 	gr_int16 *in = (gr_int16 *) input_items[0];
 	unsigned char *out = (unsigned char *) output_items[0];
 	unsigned int n_in = (unsigned int) ninput_items[0];
@@ -271,5 +285,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	// Tell runtime system how many output items we produced.
 	return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
 	// TODO: process multiple vectors per call to general_work()
+	
+	wlog.close();
 }
 
