@@ -25,6 +25,7 @@
 
 #include <gr_io_signature.h>
 #include <drm_audio_encoder_svb.h>
+#include <fstream>
 
 
 drm_audio_encoder_svb_sptr
@@ -43,6 +44,10 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
+	std::ofstream init;
+	init.open("aac_init_log.txt");
+	init << "FAAC ENCODER INIT LOG" << std::endl;
+	
 	d_tp = tp;
 	switch(tp->cfg().audio_samp_rate())
 	{
@@ -64,12 +69,22 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		break;
 	}
 
+	init << "n_aac_frames: " << d_n_aac_frames << std::endl;
+	init << "time per aac super frame: " << d_time_aac_superframe << std::endl;
+	init << "n_header_bytes: " << d_n_header_bytes << std::endl;
+	
 	d_n_channels = 1; // mono
 	d_L_MUX_MSC = (tp->msc()).L_MUX();
+	
+	init << "n_channels: " << d_n_channels << std::endl;
+	init << "L_MUX: " << d_L_MUX_MSC << std::endl;
 	
 	// open encoder
 	d_encHandle = faacEncOpen(d_tp->cfg().audio_samp_rate(), d_n_channels, &d_n_samples_in, &d_n_max_bytes_out);
 	std::cout << "samples in:\t" << d_n_samples_in << "\t max_bytes_out:\t" << d_n_max_bytes_out << std::endl;
+	
+	init << "samples in: " << d_n_samples_in << std::endl;
+	init << "max_bytes_out: " << d_n_max_bytes_out << std::endl;
 	
 	if(d_encHandle == NULL)
 	{
@@ -80,6 +95,9 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	int sizeof_byte = 8;
 	int n_bits_usage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
 	int n_bytes_usage = n_bits_usage / sizeof_byte;
+	
+	init << "n_bits_usage: " << n_bits_usage << std::endl;
+	init << "n_bytes_usage: " << n_bytes_usage << std::endl;
 	
 	if(d_tp->cfg().text())
 	{
@@ -107,6 +125,9 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bitRate = bit_rate;
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
+	
+	init.close();
+	
 }
 
 
