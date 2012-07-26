@@ -156,7 +156,8 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 			       gr_vector_void_star &output_items)
 {
 	std::ofstream wlog;
-	wlog.open("aac_work_log.txt");
+	wlog.open("aac_work_log.txt", std::ios::app);
+	wlog << std::endl;
 	
 	gr_int16 *in = (gr_int16 *) input_items[0];
 	unsigned char *out = (unsigned char *) output_items[0];
@@ -168,7 +169,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	// init temporary buffers
 	gr_int16 tmp_in[(const unsigned int) d_n_samples_in]; // tmp buffer input
 	unsigned char tmp_out[(const unsigned int) d_n_max_bytes_out]; // tmp buffer output
-	memset(tmp_out, 0, d_n_max_bytes_out); //  set output buffer to zero
+	memset(tmp_out, 0, d_n_max_bytes_out * sizeof(char)); //  set output buffer to zero
 	unsigned char crc_bits[(const unsigned int) d_n_aac_frames];
 	memset(crc_bits, 0, d_n_aac_frames);
 	unsigned int frame_length[(const unsigned int) d_n_aac_frames];
@@ -179,9 +180,18 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	// actual encoding
 	for(int j = 0; j < d_n_aac_frames; j++)
 	{			
-		wlog << "AAC frame number " << j << std::endl;
+		wlog << std::endl << "AAC frame number " << j << std::endl;
 		
+		memset(tmp_in, 0, d_n_samples_in * sizeof(gr_int16));
 		memcpy(tmp_in, in + j*d_n_samples_in, d_n_samples_in); // write input data to input tmp buffer	
+		
+		std::cout << "input data: ";
+		for(int i = 0; i < d_n_samples_in; i++)
+		{
+			wlog << (int) tmp_in[i] << " ";
+		}
+		std::cout << std::endl;
+		
 		in += d_n_samples_in; // set pointer to the next block of samples			
 		
 		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_in, d_n_samples_in, tmp_out, d_n_max_bytes_out);
@@ -193,7 +203,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 			/* Extract CRC */
 
 			crc_bits[j] = tmp_out[0];
-			wlog << "CRC bits: " << crc_bits[j] << std::endl;
+			wlog << "CRC bits: " << (int) crc_bits[j] << std::endl;
 
 			/* Extract actual data */
 			memcpy(audio_frame, tmp_out + 1, n_bytes_encoded - 1); // copy encoded aac data to audio_frame
