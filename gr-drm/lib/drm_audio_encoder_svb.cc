@@ -48,6 +48,8 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	init.open("aac_init_log.txt");
 	init << "FAAC ENCODER INIT LOG" << std::endl;
 	
+	d_log = fopen("aac_raw.bin", "a");
+	
 	d_tp = tp;
 	switch(tp->cfg().audio_samp_rate())
 	{
@@ -177,31 +179,43 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	// actual encoding
 	for(int j = 0; j < d_n_aac_frames; j++)
 	{			
+		wlog << "AAC frame number " << j << std::endl;
+		
 		memcpy(tmp_in, in + j*d_n_samples_in, d_n_samples_in); // write input data to input tmp buffer	
 		in += d_n_samples_in; // set pointer to the next block of samples			
 		
 		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_in, d_n_samples_in, tmp_out, d_n_max_bytes_out);
+		
+		wlog << "n_bytes_encoded: " << n_bytes_encoded << std::endl;
 		
 		if(n_bytes_encoded > 0)
 		{
 			/* Extract CRC */
 
 			crc_bits[j] = tmp_out[0];
+			wlog << "CRC bits: " << crc_bits[j] << std::endl;
 
 			/* Extract actual data */
 			memcpy(audio_frame, tmp_out + 1, n_bytes_encoded - 1); // copy encoded aac data to audio_frame
-			audio_frame += n_bytes_encoded - 1; // set pointer to the beginning of the next audio frame
+			
+			// write raw encoded data to file for debugging
+			fwrite((void*) audio_frame, sizeof(char), n_bytes_encoded -1, d_log);
+			
+			audio_frame += n_bytes_encoded - 1; // set pointer to the beginning of the next audio frame	
 			
 			/* Store block lengths for borders in AAC super-frame-header */
 			frame_length[j] = n_bytes_encoded - 1;
 		}
 		else
 		{
+			wlog << "encoder init, reset crc and length" << std::endl;
 			/* Encoder is in initialization phase, reset CRC and length */
 			crc_bits[j] = 0;
 			frame_length[j] = 0;
-		}		
+		}
 	}
+	
+	
 	
 	/* make AAC data DRM compliant */
 	

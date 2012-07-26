@@ -170,6 +170,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	veciFrameLength.Init(iNumAACFrames);
     
     /* actual encoding ***************************************************/
+    
+    // write raw encoded data to file for debugging
+	FILE* aac_raw;
+	aac_raw = fopen("aac_raw_ref.bin", "a");
+	
 	for(int n = 0; n<superframes; n++) // first run is mainly init (no output)
 	{
 		for (int j = 0; j < iNumAACFrames; j++)
@@ -190,8 +195,15 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 
 				/* Extract actual data */
 				for (int i = 0; i < bytesEncoded - 1 /* "-1" for CRC */ ; i++)
-					audio_frame[j][i] = vecsTmpData[i + 1];
-
+				{
+					audio_frame[j][i] = vecsTmpData[i + 1];	
+				}
+				
+				if(n<1)
+			    {
+			        fwrite((void*) &vecsTmpData[1], sizeof(char), bytesEncoded-1, aac_raw);
+			    }
+			    
 				/* Store block lengths for borders in AAC super-frame-header */
 				veciFrameLength[j] = bytesEncoded - 1;
 			}
@@ -202,6 +214,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 				veciFrameLength[j] = 0;
 			}
 		}
+		
+		
         
     /* make AAC data DRM compliant ***************************************/
         

@@ -55,6 +55,9 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	
 	faacEncHandle d_encHandle;
 	transm_params* d_tp; // transmission params (holding config/msc/... values)
+	
+	FILE* d_log;
+	
  public:
 	~drm_audio_encoder_svb ();
 
