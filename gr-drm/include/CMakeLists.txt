@@ -38,5 +38,6 @@ install(FILES
     drm_interleaver_vbvb.h
     drm_qam_map_vbvb.h
     drm_cell_mapping_vbvb.h
-    drm_interleaver_vcvc.h DESTINATION include/drm
+    drm_interleaver_vcvc.h
+    DESTINATION include/drm
 )

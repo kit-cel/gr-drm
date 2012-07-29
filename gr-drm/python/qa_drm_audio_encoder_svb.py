@@ -31,7 +31,7 @@ class qa_audio_encoder_svb (gr_unittest.TestCase):
         self.tp = drm_init.transm_params()
         self.audio_enc = drm.audio_encoder_svb(self.tp)
         self.src = gr.null_source(2)
-        self.head = gr.head(2,  9600*10)
+        self.head = gr.head(2,  960*10*3)
         self.snk = gr.vector_sink_b(self.tp.msc().L_MUX())
         
         self.tb.connect(self.src, self.head, self.audio_enc, self.snk)

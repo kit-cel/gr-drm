@@ -26,6 +26,7 @@
 #include <gr_io_signature.h>
 #include <drm_audio_encoder_svb.h>
 #include <fstream>
+#include <iostream>
 
 
 drm_audio_encoder_svb_sptr
@@ -44,11 +45,14 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
+	// set buffer pointers to NULL
+	d_in = NULL;
+	d_out = NULL;
+	
+	// define variables depending on input parameters
 	std::ofstream init;
 	init.open("aac_init_log.txt");
 	init << "FAAC ENCODER INIT LOG" << std::endl;
-	
-	d_log = fopen("aac_raw.bin", "a");
 	
 	d_tp = tp;
 	switch(tp->cfg().audio_samp_rate())
@@ -82,10 +86,9 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	init << "L_MUX: " << d_L_MUX_MSC << std::endl;
 	
 	// open encoder
-	d_encHandle = faacEncOpen(d_tp->cfg().audio_samp_rate(), d_n_channels, &d_n_samples_in, &d_n_max_bytes_out);
-	std::cout << "samples in:\t" << d_n_samples_in << "\t max_bytes_out:\t" << d_n_max_bytes_out << std::endl;
+	d_encHandle = faacEncOpen(d_tp->cfg().audio_samp_rate(), d_n_channels, &d_transform_length, &d_n_max_bytes_out);
 	
-	init << "samples in: " << d_n_samples_in << std::endl;
+	init << "samples in: " << d_transform_length << std::endl;
 	init << "max_bytes_out: " << d_n_max_bytes_out << std::endl;
 	
 	if(d_encHandle == NULL)
@@ -148,6 +151,15 @@ drm_audio_encoder_svb::~drm_audio_encoder_svb ()
 {
 }
 
+void
+drm_audio_encoder_svb::forecast(int noutput_items, gr_vector_int &ninput_items_required)
+{
+	unsigned ninputs = ninput_items_required.size ();
+    for (unsigned i = 0; i < ninputs; i++)
+    {
+        ninput_items_required[i] = d_n_aac_frames * d_transform_length;
+    }
+}
 
 int
 drm_audio_encoder_svb::general_work (int noutput_items,
@@ -155,161 +167,153 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
-	std::ofstream wlog;
-	wlog.open("aac_work_log.txt", std::ios::app);
-	wlog << std::endl;
+	/* return if there are not enough samples to produce 1 super audio frame */
+	if(ninput_items[0] < d_n_aac_frames * d_transform_length)
+	{
+		std::cout << "aac_encoder: not enough samples. got " << ninput_items[0] 
+		<< ", need " << d_n_aac_frames * d_transform_length << ". returning.\n";
+		return 0;
+	}
 	
-	gr_int16 *in = (gr_int16 *) input_items[0];
-	unsigned char *out = (unsigned char *) output_items[0];
-	unsigned int n_in = (unsigned int) ninput_items[0];
+	/* set pointers to input and output buffer */
+	d_in = (gr_int16*) input_items[0];
+	d_out = (unsigned char*) output_items[0];
+	unsigned char* out_start = d_out;
 	
-	// init output buffer to zero (as defined in the DRM standard)
-	memset(out, 0, n_in);
+	// set output buffer to zero (corresponds to zeropadding as defined in the DRM standard)
+	memset(d_out, 0, sizeof(char) * d_L_MUX_MSC);
 	
-	// init temporary buffers
-	gr_int16 tmp_in[(const unsigned int) d_n_samples_in]; // tmp buffer input
-	unsigned char tmp_out[(const unsigned int) d_n_max_bytes_out]; // tmp buffer output
-	memset(tmp_out, 0, d_n_max_bytes_out * sizeof(char)); //  set output buffer to zero
-	unsigned char crc_bits[(const unsigned int) d_n_aac_frames];
-	memset(crc_bits, 0, d_n_aac_frames);
-	unsigned int frame_length[(const unsigned int) d_n_aac_frames];
-	memset(frame_length, 0, d_n_aac_frames);
-	unsigned char* audio_frame = new unsigned char[(const unsigned int) d_n_aac_frames * d_n_max_bytes_out]; // this does not work with static init
-	unsigned char* audio_frame_start = audio_frame; // needed for delete[]
+	/* encode PCM stream and make it DRM compliant. write to output buffer (in make_drm_compliant()) */
+	// init AAC buffer
+	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out];
 	
-	// actual encoding
-	for(int j = 0; j < d_n_aac_frames; j++)
-	{			
-		wlog << std::endl << "AAC frame number " << j << std::endl;
+	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
+	
+	/* write aac_buffer to file ##WORKS## TESTED WITH 3 CONSECUTIVE SUPER AUDIO FRAMES WITH REAL DATA
+	std::ofstream aac_raw("aac_raw.dat", std::ios::app | std::ios::binary );
+	int sum = 0;
+	for(int i = 0; i < d_n_bytes_encoded.size(); i++)
+	{
+		std::cout << "n_bytes_encoded: " << d_n_bytes_encoded[i] << ", sum: " << sum + d_n_bytes_encoded[i] << std::endl;
+		aac_raw.write((char*) aac_buffer + sum, d_n_bytes_encoded[i]);	
+		sum += d_n_bytes_encoded[i];
+	}*/
 		
-		memset(tmp_in, 0, d_n_samples_in * sizeof(gr_int16));
-		memcpy(tmp_in, in + j*d_n_samples_in, d_n_samples_in); // write input data to input tmp buffer	
-		
-		std::cout << "input data: ";
-		for(int i = 0; i < d_n_samples_in; i++)
+	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
+	
+	/* write output buffer to file 
+	std::ofstream aac_formatted("aac_formatted.dat", std::ios::app | std::ios::binary);
+	aac_formatted.write((char*) out_start, 5826);*/
+	
+	/* Call consume each and return */
+	consume_each (d_transform_length * d_n_aac_frames);
+
+	return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
+}
+
+void
+drm_audio_encoder_svb::aac_encode(unsigned char* aac_buffer)
+{
+	// clear d_n_bytes_encoded
+	d_n_bytes_encoded.clear();
+	
+	// allocate tmp input buffers for PCM and AAC samples
+	gr_int16 tmp_pcm_buffer[(const unsigned long) d_transform_length]; // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
+	unsigned char tmp_aac_buffer[(const unsigned long) d_n_max_bytes_out];
+	
+	for (int j = 0; j < d_n_aac_frames; j++)
+	{
+		/* copy the part of the input data that is converted in this iteration */
+		for (unsigned long k = 0; k < d_transform_length; k++)
 		{
-			wlog << (int) tmp_in[i] << " ";
+			tmp_pcm_buffer[k] = d_in[j*d_transform_length + k];
 		}
-		std::cout << std::endl;
-		
-		in += d_n_samples_in; // set pointer to the next block of samples			
-		
-		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_in, d_n_samples_in, tmp_out, d_n_max_bytes_out);
-		
-		wlog << "n_bytes_encoded: " << n_bytes_encoded << std::endl;
-		
-		if(n_bytes_encoded > 0)
+
+		/* actual encoding */
+		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_pcm_buffer, d_transform_length, tmp_aac_buffer, d_n_max_bytes_out);
+        d_n_bytes_encoded.push_back(n_bytes_encoded);
+        memcpy(aac_buffer, tmp_aac_buffer, n_bytes_encoded * sizeof(char));
+        aac_buffer += n_bytes_encoded;
+	}
+}
+
+void
+drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
+{
+	/* init buffers for CRC, payload and frame lengths */
+	unsigned char crc_bits[(const int) d_n_aac_frames];
+	int frame_length[(const int) d_n_aac_frames];
+	unsigned char* frame_pos[(const int) d_n_aac_frames];
+	frame_pos[0] = aac_buffer;
+	
+	/* create header ( accumulated frame lengths | padding | CRC | audio ) */
+	
+	// calculate frame positions (pointer arithmetic!)
+	for(int i = 1; i < d_n_aac_frames; i++)
+	{
+		if(d_n_bytes_encoded[i] > 0)
 		{
-			/* Extract CRC */
-
-			crc_bits[j] = tmp_out[0];
-			wlog << "CRC bits: " << (int) crc_bits[j] << std::endl;
-
-			/* Extract actual data */
-			memcpy(audio_frame, tmp_out + 1, n_bytes_encoded - 1); // copy encoded aac data to audio_frame
-			
-			// write raw encoded data to file for debugging
-			fwrite((void*) audio_frame, sizeof(char), n_bytes_encoded -1, d_log);
-			
-			audio_frame += n_bytes_encoded - 1; // set pointer to the beginning of the next audio frame	
-			
-			/* Store block lengths for borders in AAC super-frame-header */
-			frame_length[j] = n_bytes_encoded - 1;
+			frame_pos[i] =  frame_pos[i-1] + d_n_bytes_encoded[i-1]; // CRC + data
 		}
 		else
 		{
-			wlog << "encoder init, reset crc and length" << std::endl;
-			/* Encoder is in initialization phase, reset CRC and length */
-			crc_bits[j] = 0;
-			frame_length[j] = 0;
+			frame_pos[i] =  frame_pos[i-1]; // no data was encoded in this step
 		}
 	}
 	
 	
-	
-	/* make AAC data DRM compliant */
-	
-	/* AAC super-frame header */
-	int bits_written = 0; // counter to determine the net length of the super frame
-    int acc_frame_length = 0;
-    for (int j = 0; j < d_n_aac_frames - 1; j++)
-    {
-        acc_frame_length += frame_length[j];
-
-        /* Frame border in bytes (12 bits) */
-        enqueue_bits_dec(out, 12, acc_frame_length);
-        bits_written += 12;
-    }
-
-    /* Byte-alignment (4 bits) in case of 10 audio frames */
-    if (d_n_aac_frames == 10)
-    {
-    	enqueue_bits_dec(out, 4, 0);
-        bits_written += 4;
-    }
-
-    /* Higher protected part */
-    int cur_n_bytes = 0;
-    
-    /* Calculate number of bytes for higher protected blocks */
-    const int n_audio_high_prot = d_tp->cfg().n_bytes_A();
-	int n_bytes_higher_prot = (n_audio_high_prot - d_n_header_bytes -
-									d_n_aac_frames /* CRC bytes */ ) / d_n_aac_frames;
-	if (n_bytes_higher_prot < 0)
+	// extract frame lengths and CRC
+	for(int i = 0; i < d_n_aac_frames; i++)
 	{
-				n_bytes_higher_prot = 0;
-	}
-
-	for (int j = 0; j < d_n_aac_frames; j++)
-	{
-		/* Data */
-		for (int i = 0; i < n_bytes_higher_prot; i++)
+		if(d_n_bytes_encoded[i] > 0)
 		{
-			/* Check if enough data is available, set data to 0 if not */
-			if (i < frame_length[j])
-			{
-				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
-			}
-			else
-			{
-				enqueue_bits_dec(out, 8, 0);
-			}
-			
-			cur_n_bytes++;
-			bits_written += 8;
+			crc_bits[i] = *(frame_pos[i]);
+			frame_length[i] = d_n_bytes_encoded[i] - 1; // -1 for CRC
 		}
-
-		/* CRCs */
-		enqueue_bits_dec(out, 8, crc_bits[j]);
-		bits_written += 8;
-	}
-
-	/* Lower protected part */
-	for (int j = 0; j < d_n_aac_frames; j++)
-	{
-		for (int i = n_bytes_higher_prot; i < frame_length[j]; i++)
+		else
 		{
-			/* If encoder produced too many bits, we have to drop them */
-			if (cur_n_bytes < d_n_bytes_audio_payload)
-			{
-				enqueue_bits_dec(out, 8, audio_frame[j*n_bytes_higher_prot + i]);
-				bits_written += 8;
-			}		
-			cur_n_bytes++;			
+			crc_bits[i] = 0;
+			frame_length[i] = 0;
 		}
 	}
-
-	// TODO: add text message support here!
-
-	delete[] audio_frame_start;
 	
-	// Tell runtime system how many input items we consumed on
-	// each input stream.
-	consume_each (d_n_samples_in * d_n_aac_frames);
-	// Tell runtime system how many output items we produced.
-	return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
-	// TODO: process multiple vectors per call to general_work()
+	// append accumulated frame lengths, i. e. the frame borders
+	unsigned int acc_frame_length = 0;
+	for(int i = 0; i < d_n_aac_frames - 1; i++)
+	{
+		acc_frame_length += frame_length[i];
+		enqueue_bits_dec(d_out, 12, acc_frame_length);
+	}
 	
-	wlog.close();
+	if(d_n_aac_frames == 10)
+	{
+		// add 4 padding bits for byte alignment
+		enqueue_bits_dec(d_out, 4, 0);
+	}
+	
+	// append CRC words
+	for(int i = 0; i < d_n_aac_frames; i++)
+	{
+		enqueue_bits_dec(d_out, 8, crc_bits[i]);
+	}
+	
+	/* append audio data (EEP is assumed -> no higher protected part) */
+	/* Higher protected part */
+    int cur_num_bytes = 0;
+    int n_higher_prot_bytes = 0; // EEP
+
+    /* Lower protected part */
+    for (int j = 0; j < d_n_aac_frames; j++)
+    {
+        for (int i = n_higher_prot_bytes; i < frame_length[j]; i++)
+        {
+            /* If encoder produced too many bits, we have to drop them */
+            if (cur_num_bytes < d_n_bytes_audio_payload){
+                enqueue_bits_dec(d_out, 8, *(frame_pos[j] + 1 + i));
+            }
+            cur_num_bytes++;
+        }
+    }
+	
 }
 

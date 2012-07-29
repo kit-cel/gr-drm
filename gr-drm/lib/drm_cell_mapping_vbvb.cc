@@ -134,7 +134,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	log << "beginning of cell mapping log" << std::endl;
 	log.flush();
 	// define offset value
-	int k_off = d_nfft/2 - 1; // this should shift the DC carrier to the correct position TODO: evaluate this!
+	int k_off = d_nfft/2   -1  ; // this should shift the DC carrier to the correct position TODO: evaluate this!
 	
 	// define some constants
 	const std::complex<double> j(0,1); // imaginary unit
@@ -294,7 +294,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 					{
 						
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = msc_in[n];
-						n++; // increment SDC cell counter
+						n++; // increment MSC cell counter
 						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << ", input: " << msc_in[n-1] << std::endl;
 					}
 					else // insert dummy cell
