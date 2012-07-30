@@ -352,8 +352,6 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 	double boost = sqrt(2);
 	const double pi = M_PI;
 	std::complex<double> j(0,1); // imaginary unit
-	std::ofstream out;
-	out.open("gain_cells.txt");
 	for(int s = 0; s < n_sym; s++)
 	{
 		gain_cells_tmp.clear();
@@ -370,7 +368,6 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 			{ 
 				gain_cells_tmp.push_back( boost * ( cos(2 * pi * gain_phase_index[s][n] / 1024) + j * sin(2 * pi * gain_phase_index[s][n] / 1024) ) );
 			}
-			out << gain_cells_tmp[n] << ",";
 		}
 		d_gain_cells.push_back(gain_cells_tmp); // push tmp vector to actual class member
 	}	

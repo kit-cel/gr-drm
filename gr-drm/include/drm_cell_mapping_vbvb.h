@@ -25,7 +25,6 @@
 #include <gr_sync_interpolator.h>
 #include <cmath>
 #include <complex>
-#include <fstream>
 #include "drm_transm_params.h"
 
 class drm_cell_mapping_vbvb;

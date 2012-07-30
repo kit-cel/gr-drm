@@ -25,8 +25,6 @@
 
 #include <gr_io_signature.h>
 #include <drm_audio_encoder_svb.h>
-#include <fstream>
-#include <iostream>
 
 
 drm_audio_encoder_svb_sptr
@@ -50,9 +48,6 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	d_out = NULL;
 	
 	// define variables depending on input parameters
-	std::ofstream init;
-	init.open("aac_init_log.txt");
-	init << "FAAC ENCODER INIT LOG" << std::endl;
 	
 	d_tp = tp;
 	switch(tp->cfg().audio_samp_rate())
@@ -75,22 +70,12 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		break;
 	}
 
-	init << "n_aac_frames: " << d_n_aac_frames << std::endl;
-	init << "time per aac super frame: " << d_time_aac_superframe << std::endl;
-	init << "n_header_bytes: " << d_n_header_bytes << std::endl;
-	
 	d_n_channels = 1; // mono
 	d_L_MUX_MSC = (tp->msc()).L_MUX();
-	
-	init << "n_channels: " << d_n_channels << std::endl;
-	init << "L_MUX: " << d_L_MUX_MSC << std::endl;
-	
+
 	// open encoder
 	d_encHandle = faacEncOpen(d_tp->cfg().audio_samp_rate(), d_n_channels, &d_transform_length, &d_n_max_bytes_out);
-	
-	init << "samples in: " << d_transform_length << std::endl;
-	init << "max_bytes_out: " << d_n_max_bytes_out << std::endl;
-	
+
 	if(d_encHandle == NULL)
 	{
 		std::cout << "FAAC encoder instance could not be opened. Exit.\n";
@@ -100,10 +85,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	int sizeof_byte = 8;
 	int n_bits_usage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
 	int n_bytes_usage = n_bits_usage / sizeof_byte;
-	
-	init << "n_bits_usage: " << n_bits_usage << std::endl;
-	init << "n_bytes_usage: " << n_bytes_usage << std::endl;
-	
+
 	if(d_tp->cfg().text())
 	{
 		n_bytes_usage = n_bits_usage / sizeof_byte - 4; // last 4 bytes are used for text messaging
@@ -114,17 +96,11 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	}
 	
 	int n_bits_audio_frame = n_bits_usage; // no text message included!
-	
-	init << "n_bits_audio_frame: " << n_bits_audio_frame << std::endl;
 
 	d_n_bytes_audio_payload = n_bits_audio_frame / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
 	const int n_bytes_act_enc = (int) (d_n_bytes_audio_payload / d_n_aac_frames);
 	int bit_rate = (int) (( n_bytes_act_enc * sizeof_byte) / d_time_aac_superframe * 1000);
-	
-	init << "n_bytes_audio_payload: " << d_n_bytes_audio_payload << std::endl;
-	init << "n_bytes_act_enc: " << n_bytes_act_enc << std::endl;
-	init << "bit rate: " << bit_rate << std::endl;
-    
+
     /* set encoder configuration */
 	faacEncConfigurationPtr cur_enc_format;
 	cur_enc_format = faacEncGetCurrentConfiguration(d_encHandle);
@@ -136,14 +112,6 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bitRate = bit_rate;
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
-	
-	init << "useTns: " << cur_enc_format->useTns << std::endl;
-	init << "aacObjectType: " << cur_enc_format->aacObjectType << std::endl;
-	init << "mpegVersion: " << cur_enc_format->mpegVersion << std::endl;
-	init << "outputFormat: " << cur_enc_format->outputFormat << std::endl;
-	
-	init.close();
-	
 }
 
 
@@ -188,23 +156,9 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out];
 	
 	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
-	
-	/* write aac_buffer to file ##WORKS## TESTED WITH 3 CONSECUTIVE SUPER AUDIO FRAMES WITH REAL DATA
-	std::ofstream aac_raw("aac_raw.dat", std::ios::app | std::ios::binary );
-	int sum = 0;
-	for(int i = 0; i < d_n_bytes_encoded.size(); i++)
-	{
-		std::cout << "n_bytes_encoded: " << d_n_bytes_encoded[i] << ", sum: " << sum + d_n_bytes_encoded[i] << std::endl;
-		aac_raw.write((char*) aac_buffer + sum, d_n_bytes_encoded[i]);	
-		sum += d_n_bytes_encoded[i];
-	}*/
-		
+
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
-	
-	/* write output buffer to file 
-	std::ofstream aac_formatted("aac_formatted.dat", std::ios::app | std::ios::binary);
-	aac_formatted.write((char*) out_start, 5826);*/
-	
+
 	/* Call consume each and return */
 	consume_each (d_transform_length * d_n_aac_frames);
 
@@ -295,7 +249,7 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 	for(int i = 0; i < d_n_aac_frames; i++)
 	{
 		enqueue_bits_dec(d_out, 8, crc_bits[i]);
-	}
+	}\
 	
 	/* append audio data (EEP is assumed -> no higher protected part) */
 	/* Higher protected part */

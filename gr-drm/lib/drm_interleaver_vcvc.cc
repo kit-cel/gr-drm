@@ -24,7 +24,6 @@
 
 #include <gr_io_signature.h>
 #include <drm_interleaver_vcvc.h>
-#include <fstream>
 
 
 drm_interleaver_vcvc_sptr
@@ -55,17 +54,11 @@ drm_interleaver_vcvc::work (int noutput_items,
 {
 	const gr_complex *in = (const  gr_complex *) input_items[0];
 	gr_complex *out = ( gr_complex *) output_items[0];
-	
-	std::ofstream log;
-	log.open("cell_interleaver_log.txt");
-	log << "CELL INTERLEADER LOG" << std::endl;
-	log << "interleaver size: " << d_seq.size() << std::endl;
 
 	// Interleave array entries according to the interleaver sequence
 	for(int i = 0; i < d_seq.size(); i++)
 	{
 		out[i] = in[d_seq[i]];
-		log << "index: " << d_seq[i] << ", input: "<< in[d_seq[i]] << ", output: " << out[i] << std::endl;
 	}
 
 	// Tell runtime system how many output items we produced.

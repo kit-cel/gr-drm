@@ -128,13 +128,8 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	// set output buffer to zero
 	memset(out, 0, d_N * d_M_TF * d_nfft * sizeof(gr_complex));
 	
-	// init log for debug purposes
-	std::ofstream log;
-	log.open("cell_mapping_log.txt");
-	log << "beginning of cell mapping log" << std::endl;
-	log.flush();
 	// define offset value
-	int k_off = d_nfft/2; // this should shift the DC carrier to the correct position TODO: evaluate this!
+	int k_off = d_nfft/2; // this shifts the DC carrier to the correct position
 	
 	// define some constants
 	const std::complex<double> j(0,1); // imaginary unit
@@ -186,12 +181,9 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	/* Actual mapping (see chapter 8.4 in the DRM standard for details) */
 	for(int tf = 0; tf < d_M_TF; tf++)
 	{	
-		log << std::endl << "BEGINNING OF FRAME " << tf << std::endl;
-		
 		/* Pilot cells */
 		
 		/* Frequency reference cells (not for RM E) */	
-		log << "FREQUENCY PILOTS" << std::endl;
 		if( d_tp->cfg().RM() != 4)
 		{
 			for(int s = 0; s < d_N; s++)
@@ -207,21 +199,17 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + freq_pil[i][0] + k_off] = sqrt(2) * (cos(2*pi*freq_pil[i][1]/1024) + j*sin(2*pi*freq_pil[i][1]/1024) );
 					}
-					log << "carrier " << freq_pil[i][0] << " ,symbol " << s << std::endl;
 				}
 			}
 		}
 	
 		/* Time reference cells (only in the first symbol of the transmission frame) */
-		log << std::endl << "TIME PILOTS" << std::endl;
 		for( int i = 0; i < time_rows; i++)
 		{
 			out[tf*d_N*d_nfft + time_pil[i][0] + k_off] = sqrt(2) * ( cos(2 * pi * time_pil[i][1] / 1024 ) + j * sin( 2 * pi * time_pil[i][1] / 1024 ) );
-			log << "carrier " << time_pil[i][0] << ", symbol 0" << std::endl;
 		}
 	
 		/* Gain reference cells */
-		log << std::endl << "GAIN PILOTS" << std::endl;
 		for(int s = 0; s < d_N; s++)
 		{
 			for(int i = 0; i < d_tables->d_gain_pos[s].size(); i++)
@@ -229,15 +217,12 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 				if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) == 0 ) // cell is empty, map gain reference cell to it	 
 				{
 					out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] = d_tables->d_gain_cells[s][i];
-					log << "carrier " << d_tables->d_gain_pos[s][i] << " , symbol " << s << std::endl;
 				}
 				else // cell is already occupied, do not overwrite phase. check if the cell is an overboosted one and boost amplitude if so.
 				{
 					if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) > 1.5 ) // normal boost is sqrt(2)
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] *= sqrt(2);
-						log << "carrier " << d_tables->d_gain_pos[s][i] << " , symbol " << s << " PHASE KEPT, abs: " << abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) << 
-							" real/imag: " << (out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]).real() << "/" << (out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]).imag() << std::endl;
 					}
 				}
 			}
@@ -247,18 +232,15 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	
 		/* Channel data (cells are mapped consecutively in ascending order from k_min to k_max) */
 		
-		/* Map FAC */		
-		log << std::endl << "FAC CELLS" << std::endl;
+		/* Map FAC */
 		for( int i = 0; i < d_tp->fac().N(); i++)
 		{
 			out[tf*d_N*d_nfft + fac_pos[i][0]*d_nfft + fac_pos[i][1] + k_off] = fac_in[tf*d_tp->fac().N() + i];
-			log << "carrier: " << fac_pos[i][1] << " , symbol: " << fac_pos[i][0] << ", value: " << fac_in[tf*d_tp->fac().N() + i] << std::endl;
 		}
 	
 		/* Map SDC (only in the first transmission frame, omit DC carrier) */
 		if( tf == 0 )
 		{
-			log << std::endl << "SDC CELLS" << std::endl;
 			int n = 0;
 			for( int s = 0; s < d_n_sdc_sym; s++)
 			{
@@ -269,7 +251,6 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = sdc_in[n];
 						n++; // increment SDC cell counter
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << std::endl;
 					}
 				}
 			}
@@ -277,7 +258,6 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	}
 	
 	/* Map MSC to the rest of the free cells */
-	log << std::endl << "MSC CELLS" << std::endl;
 	int n = 0;
 	// go through the whole super transmission frame and fill in MSC cells where the cell value is still 0 (except DC carrier)
 	for( int tf = 0; tf < d_M_TF; tf++)
@@ -287,22 +267,18 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 			for( int i = d_k_min; i <= d_k_max; i++)
 			{
 				if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0  
-						&& /* no unused carrier */ is_used_carrier(i) )
-				
-				{	log << "msc index: " << n << std::endl;
+						&& /* no unused carrier */ is_used_carrier(i) )			
+				{
 					if(n < d_tp->msc().N_MUX() * d_M_TF)
 					{
 						
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = msc_in[n];
 						n++; // increment MSC cell counter
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i] << ", input: " << msc_in[n-1] << std::endl;
 					}
 					else // insert dummy cell
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = d_dummy_cells[n - d_tp->msc().N_MUX() * d_M_TF];
 						n++;
-						log << "carrier: " << i << ", symbol: " << s << ", value: " << out[tf*d_N*d_nfft + s*d_nfft + k_off + i]
-						<< " from " <<  d_dummy_cells[n - d_tp->msc().N_MUX() * d_M_TF] << " DUMMY CELL" << std::endl;
 					}
 				}
 			}
