@@ -24,7 +24,6 @@ for n = 1 : n_stf
     %% read data for MSC.M_TF multiplex frames
     msc_stream = aac_data(:, n); % columns correspond to super transmission frames
     msc_stream = transpose(reshape(msc_stream, 5826, 3));
-    msc_stream = zeros(3, 5826);
     
     %% energy dispersal
     msc_stream_scrambled = cell(MSC.M_TF, 1);   

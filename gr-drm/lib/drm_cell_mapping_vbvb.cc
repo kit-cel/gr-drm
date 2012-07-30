@@ -134,7 +134,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	log << "beginning of cell mapping log" << std::endl;
 	log.flush();
 	// define offset value
-	int k_off = d_nfft/2   -1  ; // this should shift the DC carrier to the correct position TODO: evaluate this!
+	int k_off = d_nfft/2; // this should shift the DC carrier to the correct position TODO: evaluate this!
 	
 	// define some constants
 	const std::complex<double> j(0,1); // imaginary unit
