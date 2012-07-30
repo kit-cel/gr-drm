@@ -17,7 +17,6 @@
  ********************************************************************/
 #include <matrix.h>
 #include <mex.h>   
-#include <fstream>
 
 #include "libs/faac.h"
 #include "drm/Vector.h"
@@ -54,11 +53,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
     else if(nlhs != 2) 
       mexErrMsgIdAndTxt( "MATLAB:faac_wrapper:invalidNumOutputs",
               "Two outputs required.");
-    
-    std::ofstream log;
-    log.open("aac_mat.txt");
-    log << "MATLAB AAC ENCODER LOG" << std::endl;
-    log << "FIRST SUPERFRAME" << std::endl;
 
     /* declare variables *************************************************/
     // input variables
@@ -175,34 +169,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 	aac_crc_bits.Init(iNumAACFrames);
 	veciFrameLength.Init(iNumAACFrames);
     
-    std::ofstream ilog;
-    ilog.open("aac_init_mat.txt");
-    ilog << "MATLAB AAC ENC INIT LOG" << std::endl;
-    ilog << "n aac frames: " << iNumAACFrames << std::endl;
-    ilog << "time per aac super frame: " << iTimeEachAudBloMS << std::endl;
-    ilog << "n header bytes: " << iNumHeaderBytes << std::endl;
-    ilog << "n channels: " << numChannels << std::endl;
-    ilog << "L_MUX: " << iNumDecodedBitsMSC << std::endl;
-    ilog << "samples in: " << lNumSampEncIn << std::endl;
-    ilog << "max bytes out: " << lMaxBytesEncOut << std::endl;
-    ilog << "n bits usage: " << iTotNumBitsForUsage << std::endl;
-    ilog << "n bytes usage: " << iTotNumBytesForUsage << std::endl;
-    ilog << "n bits audio frame: " << iTotAudFraSizeBits << std::endl;
-    ilog << "bytes audio payload: " << iAudioPayloadLen << std::endl;
-    ilog << "n bytes act enc: " <<  iActEncOutBytes << std::endl;
-    ilog << "bit rate: " << iBitRate << std::endl;
-    ilog << "useTns: " << CurEncFormat->useTns << std::endl;
-	ilog << "aacObjectType: " << CurEncFormat->aacObjectType << std::endl;
-	ilog << "mpegVersion: " << CurEncFormat->mpegVersion << std::endl;
-	ilog << "outputFormat: " << CurEncFormat->outputFormat << std::endl;
-    ilog.close();
-    
     /* actual encoding ***************************************************/
-    
-    // write raw encoded data to file for debugging
-	FILE* aac_raw;
-	aac_raw = fopen("aac_raw_ref.bin", "a");
-	
 	for(int n = 0; n<superframes; n++) // first run is mainly init (no output)
 	{
         
@@ -213,17 +180,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			{
 				vecsEncInData[k] = (*pvecInputData)[n*lNumSampEncIn*iNumAACFrames + j*lNumSampEncIn + k];
 			}
-            if(n == 0)
-            {
-                log << "aac frame number " << j << std::endl;
-                log << "input data: ";
-                for(unsigned long k = 0; k < lNumSampEncIn; k++)
-                {
-                    log << vecsEncInData[k] << " ";
-                }
-                log << std::endl;
-            }
-
+            
 			CVector < unsigned char >vecsTmpData(lMaxBytesEncOut);
 			int bytesEncoded = faacEncEncode(encHandle, (int32_t*) &vecsEncInData[0], lNumSampEncIn, &vecsTmpData[0], lMaxBytesEncOut);
             
@@ -237,13 +194,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 				for (int i = 0; i < bytesEncoded - 1 /* "-1" for CRC */ ; i++)
 				{
 					audio_frame[j][i] = vecsTmpData[i + 1];	
-                    //log << (int) vecsTmpData[i + 1] << " ";
 				}
-				
-				if(n<1)
-			    {
-			        fwrite((void*) &vecsTmpData[1], sizeof(char), bytesEncoded-1, aac_raw);
-			    }
 			    
 				/* Store block lengths for borders in AAC super-frame-header */
 				veciFrameLength[j] = bytesEncoded - 1;
@@ -252,21 +203,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
 			else
 			{
 				/* Encoder is in initialization phase, reset CRC and length */
-                log << "encoder init, CRC and Frame length == 0" << std::endl;
 				aac_crc_bits[j] = 0;
 				veciFrameLength[j] = 0;
 			}
-            if(n == 0)
-            {	
-                log << "aac frame number: " << j << std::endl;
-                log << "bytes encoded: " << bytesEncoded << std::endl;
-                log << "CRC bits: " << (int) aac_crc_bits[j] << std::endl;
-                log << "frame length: " << veciFrameLength[j] << std::endl << std::endl;
-            }
 		}
-		
-		
-        
+   
     /* make AAC data DRM compliant ***************************************/
         
     /* AAC super-frame-header */
