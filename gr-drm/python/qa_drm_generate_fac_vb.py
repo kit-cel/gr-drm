@@ -28,7 +28,7 @@ class qa_generate_fac_vb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.tp = drm_init.transm_params()
+        self.tp = drm_init.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000)
         self.src = drm.generate_fac_vb(self.tp)
         self.head = gr.head(self.tp.fac().L(), 3)
         self.snk = gr.vector_sink_b(self.tp.fac().L())

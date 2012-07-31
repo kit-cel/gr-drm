@@ -28,7 +28,7 @@ class qa_audio_encoder_svb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.tp = drm_init.transm_params()
+        self.tp = drm_init.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000)
         self.audio_enc = drm.audio_encoder_svb(self.tp)
         self.src = gr.null_source(2)
         self.head = gr.head(2,  960*10*3)
