@@ -86,7 +86,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	int n_bits_usage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
 	int n_bytes_usage = n_bits_usage / sizeof_byte;
 
-	if(d_tp->cfg().text())
+	if(d_tp->cfg().text()) // FIXME order of initialization
 	{
 		n_bytes_usage = n_bits_usage / sizeof_byte - 4; // last 4 bytes are used for text messaging
 	}
@@ -95,7 +95,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		n_bytes_usage = n_bits_usage / sizeof_byte;
 	}
 	
-	int n_bits_audio_frame = n_bits_usage; // no text message included!
+	int n_bits_audio_frame = n_bits_usage; // no text message included! FIXME
 
 	d_n_bytes_audio_payload = n_bits_audio_frame / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
 	const int n_bytes_act_enc = (int) (d_n_bytes_audio_payload / d_n_aac_frames);
@@ -153,10 +153,8 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	
 	/* encode PCM stream and make it DRM compliant. write to output buffer (in make_drm_compliant()) */
 	// init AAC buffer
-	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out];
-	
+	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out * (const unsigned long) d_n_aac_frames];
 	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
-
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
 
 	/* Call consume each and return */
@@ -268,6 +266,5 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
             cur_num_bytes++;
         }
     }
-	
 }
 

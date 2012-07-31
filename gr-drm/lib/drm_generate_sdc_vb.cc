@@ -25,6 +25,8 @@
 #include <gr_io_signature.h>
 #include <drm_generate_sdc_vb.h>
 
+#include <iostream>
+
 
 drm_generate_sdc_vb_sptr
 drm_make_generate_sdc_vb (transm_params* tp)
@@ -70,49 +72,6 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	enqueue_bits_dec(data, 12, d_tp->cfg().n_bytes_A());
 	enqueue_bits_dec(data, 12, std::floor(d_tp->msc().L_MUX() / 8));
 	
-	
-	/* Label data entity - type 1 */
-	
-	// header
-	enqueue_bits_dec(data, 7, /*number of utf-8 characters*/ 16); // Maximum number of bytes
-	enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
-	enqueue_bits_dec(data, 4, 1); // data entity type
-	
-	// body
-	enqueue_bits_dec(data, 2, 0); // Short ID (denotes the service concerned)
-	enqueue_bits_dec(data, 2, 0); // rfu
-	unsigned char text[128] = { 0, 1, 0, 0, 0, 0, 1, 1, // C
-							   0, 1, 0, 0, 0, 1, 0, 1, // E
-							   0, 1, 0, 0, 1, 1, 0, 0, // L 
-							   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
-							   0, 1, 0, 0, 0, 1, 1, 1, // G
-							   0, 1, 1, 0, 1, 1, 1, 0, // n
-							   0, 1, 1, 1, 0, 1, 0, 1, // u
-							   0, 1, 0, 1, 0, 0, 1, 0, // R
-							   0, 1, 1, 0, 0, 0, 0, 1, // a
-							   0, 1, 1, 0, 0, 1, 0, 0, // d
-							   0, 1, 1, 0, 1, 0, 0, 1, // i
-							   0, 1, 1, 0, 1, 1, 1, 1, // o
-							   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
-							   0, 1, 0, 0, 0, 1, 0, 0, // D
-							   0, 1, 0, 1, 0, 0, 1, 0, // R
-							   0, 1, 0, 0, 1, 1, 0, 1  // M
-							   };
-	enqueue_bits(data, 128, text);
-	
-	
-	/* Time and date information data entity - type 8 */
-	
-	// header
-	enqueue_bits_dec(data, 7, 3); // No local time offset is transmitted
-	enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
-	enqueue_bits_dec(data, 4, 8); // data entity type
-	
-	// body
-	enqueue_bits_dec(data, 17, 55110); // arbitrary date in Modified Julian Date format
-	enqueue_bits_dec(data, 11, 0); // hours and minutes
-	
-	
 	/* Audio information data entity - type 9 */
 	
 	// header
@@ -153,6 +112,59 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	enqueue_bits_dec(data, 5, 0); // coder field (no MPEG surround)
 	enqueue_bits_dec(data, 1, 0); // rfa
 	
+	if(d_tp->sdc().L() - (data-data_start) >= 12 + 4 + 128 + 16) // make sure that enough bits are left in the SDC stream
+	{
+		/* Label data entity - type 1 */
+	
+		// header
+		enqueue_bits_dec(data, 7, /*number of utf-8 characters*/ 16); // Maximum number of bytes
+		enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
+		enqueue_bits_dec(data, 4, 1); // data entity type
+	
+		// body
+		enqueue_bits_dec(data, 2, 0); // Short ID (denotes the service concerned)
+		enqueue_bits_dec(data, 2, 0); // rfu
+		unsigned char text[128] = { 0, 1, 0, 0, 0, 0, 1, 1, // C
+								   0, 1, 0, 0, 0, 1, 0, 1, // E
+								   0, 1, 0, 0, 1, 1, 0, 0, // L 
+								   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
+								   0, 1, 0, 0, 0, 1, 1, 1, // G
+								   0, 1, 1, 0, 1, 1, 1, 0, // n
+								   0, 1, 1, 1, 0, 1, 0, 1, // u
+								   0, 1, 0, 1, 0, 0, 1, 0, // R
+								   0, 1, 1, 0, 0, 0, 0, 1, // a
+								   0, 1, 1, 0, 0, 1, 0, 0, // d
+								   0, 1, 1, 0, 1, 0, 0, 1, // i
+								   0, 1, 1, 0, 1, 1, 1, 1, // o
+								   0, 0, 1, 0, 0, 0, 0, 0, // <whitespace>
+								   0, 1, 0, 0, 0, 1, 0, 0, // D
+								   0, 1, 0, 1, 0, 0, 1, 0, // R
+								   0, 1, 0, 0, 1, 1, 0, 1  // M
+								   };
+		enqueue_bits(data, 128, text);
+	}
+	else
+	{
+		std::cout << "SDC: Label data entity could not be enqueued due to insufficient SDC length." << std::endl;
+	}
+	
+	if(d_tp->sdc().L() - (data-data_start) >= 12 + 28 + 16)
+	{
+		/* Time and date information data entity - type 8 */
+	
+		// header
+		enqueue_bits_dec(data, 7, 3); // No local time offset is transmitted
+		enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
+		enqueue_bits_dec(data, 4, 8); // data entity type
+	
+		// body
+		enqueue_bits_dec(data, 17, 55110); // arbitrary date in Modified Julian Date format
+		enqueue_bits_dec(data, 11, 0); // hours and minutes
+	}
+	else
+	{
+		std::cout << "SDC: Time and date data entity could not be enqueued due to insufficient SDC length." << std::endl;
+	}	
 	
 	/* enqueue CRC word */
 	enqueue_crc(data_start, d_tp, 16);
@@ -170,11 +182,11 @@ drm_generate_sdc_vb::work (int noutput_items,
 			gr_vector_void_star &output_items)
 {
 	const unsigned int sdc_length = d_tp->sdc().L();
-	unsigned char* data = new unsigned char[sdc_length];
+	unsigned char data[sdc_length];
+	memset(data, 0, sdc_length);
 	
 	init_data(data);
 	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * sdc_length );
-	delete[] data;
 		
 	// Tell runtime system how many output items we produced.
 	return 1;
