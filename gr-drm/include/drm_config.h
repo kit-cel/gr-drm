@@ -42,7 +42,20 @@ public:
 	config();
 	~config(){};
 
-	void init(tables* ptr_tables); // set member variables
+	void init(tables* ptr_tables,
+			  unsigned short RM, 
+			  unsigned short SO, 
+			  bool UEP,
+			  unsigned int n_bytes_A, 
+			  bool text,
+			  unsigned short msc_mapping,
+			  unsigned short msc_prot_level_1, 
+			  unsigned short msc_prot_level_2,
+			  unsigned short sdc_mapping,
+			  unsigned short sdc_prot_level,
+			  bool long_interl,
+			  unsigned int audio_samp_rate); // set member variables
+			  
 	bool check_arguments(); // some range and plausibility checks
 };
 

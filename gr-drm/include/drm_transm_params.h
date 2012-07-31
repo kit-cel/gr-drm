@@ -26,7 +26,18 @@ public:
 	sdc_params sdc();
 	fac_params fac();
 
-	transm_params();
+	transm_params(unsigned short RM, 
+				  unsigned short SO, 
+				  bool UEP,
+				  unsigned int n_bytes_A, 
+				  bool text,
+				  unsigned short msc_mapping,
+				  unsigned short msc_prot_level_1, 
+				  unsigned short msc_prot_level_2,
+				  unsigned short sdc_mapping,
+				  unsigned short sdc_prot_level,
+				  bool long_interl,
+				  unsigned int audio_samp_rate);
 	~transm_params(){};
 };
 

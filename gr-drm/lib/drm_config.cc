@@ -19,23 +19,33 @@ config::config()
 }
 
 void
-config::init(tables* ptr_tables)
+config::init(tables* ptr_tables, 
+			  unsigned short RM, 
+			  unsigned short SO, 
+			  bool UEP,
+			  unsigned int n_bytes_A, 
+			  bool text,
+			  unsigned short msc_mapping,
+			  unsigned short msc_prot_level_1, 
+			  unsigned short msc_prot_level_2,
+			  unsigned short sdc_mapping,
+			  unsigned short sdc_prot_level,
+			  bool long_interl,
+			  unsigned int audio_samp_rate)
 {
 	/* user defined parameters */
-	d_RM = 1; // B
-	//d_RM = 3;
-	d_SO = 3; // 10 kHz
-	//d_SO = 5;
+	//d_RM = 1; // B
+	d_RM = RM;
+	//d_SO = 3; // 10 kHz
+	d_SO = SO;
 	d_UEP = false; // EEP
-	//d_UEP = true;
 	d_n_bytes_A = 0; // EEP
-	//d_n_bytes_A = 100;
 	d_text = false; // no text message included
 	d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = 1; // 16-QAM SM
-	//d_msc_mapping = 2;
 	d_msc_prot_level_1 = 0; // not used because UEP==0
-	d_msc_prot_level_2 = 1; // R_all = 0.62
+	//d_msc_prot_level_2 = 1; // R_all = 0.62
+	d_msc_prot_level_2 = msc_prot_level_2;
 	d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
 	d_audio_samp_rate = 24000; // 24 kHz audio
