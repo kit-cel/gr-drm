@@ -44,7 +44,7 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	drm_audio_encoder_svb (transm_params* tp);
 
 	/* member variables */
-	gr_int16* d_in; // input buffer
+	float* d_in; // input buffer
 	unsigned char* d_out; // output buffer
 	int d_n_aac_frames; // number of AAC frames per super audio frame
 	int d_time_aac_superframe; // in ms

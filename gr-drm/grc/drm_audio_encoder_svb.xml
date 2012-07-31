@@ -27,7 +27,7 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type>short</type>
+    <type>float</type>
     <vlen>1</vlen>
   </sink>
 

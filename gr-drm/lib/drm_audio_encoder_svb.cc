@@ -40,7 +40,7 @@ const short MAX_OUT = 1;
 
 drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	: gr_block ("audio_encoder_svb",
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (gr_int16)),
+		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (float)),
 		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
 	// set buffer pointers to NULL
@@ -104,7 +104,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
     /* set encoder configuration */
 	faacEncConfigurationPtr cur_enc_format;
 	cur_enc_format = faacEncGetCurrentConfiguration(d_encHandle);
-	cur_enc_format->inputFormat = FAAC_INPUT_16BIT; // TODO: check if float can be used here directly
+	cur_enc_format->inputFormat = FAAC_INPUT_FLOAT; // TODO: check if float can be used here directly
 	cur_enc_format->useTns = 1;
 	cur_enc_format->aacObjectType = LOW;
 	cur_enc_format->mpegVersion = MPEG4;
@@ -144,7 +144,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	}
 	
 	/* set pointers to input and output buffer */
-	d_in = (gr_int16*) input_items[0];
+	d_in = (float*) input_items[0];
 	d_out = (unsigned char*) output_items[0];
 	unsigned char* out_start = d_out;
 	
@@ -170,7 +170,7 @@ drm_audio_encoder_svb::aac_encode(unsigned char* aac_buffer)
 	d_n_bytes_encoded.clear();
 	
 	// allocate tmp input buffers for PCM and AAC samples
-	gr_int16 tmp_pcm_buffer[(const unsigned long) d_transform_length]; // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
+	float tmp_pcm_buffer[(const unsigned long) d_transform_length]; // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
 	unsigned char tmp_aac_buffer[(const unsigned long) d_n_max_bytes_out];
 	
 	for (int j = 0; j < d_n_aac_frames; j++)
