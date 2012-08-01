@@ -58,7 +58,7 @@ drm_audio_decoder_vbs::drm_audio_decoder_vbs (transm_params* tp)
 	}
 	d_n_borders = d_n_aac_frames - 1;
 	
-	/* open decoder instance */
+	/* open and configure decoder instance */
 	unsigned char drm_channel_mode = DRMCH_MONO; // used for decoding (mono, no SBR)
 	int n_bytes_higher_protected;
 	int transform_length = 960;
@@ -71,9 +71,6 @@ drm_audio_decoder_vbs::drm_audio_decoder_vbs (transm_params* tp)
 	
 	d_dec_handle = NEAACDECAPI NeAACDecOpen();
 	NEAACDECAPI NeAACDecInitDRM(&d_dec_handle, d_audio_samp_rate, drm_channel_mode);
-
-	
-	/* configure decoder instance */
 }
 
 
@@ -145,6 +142,17 @@ void
 drm_audio_decoder_vbs::aac_decode()
 {
 	/* perform actual aac decoding */
+	gr_int16* dec_out_buffer;
+	NeAACDecFrameInfo dec_frame_info;
+	for(int i = 0; i < d_n_aac_frames; i++)
+	{
+		dec_out_buffer = (gr_int16*) NeAACDecDecode(d_dec_handle,
+															 &dec_frame_info,
+															 &(d_decoder_in[i])[0],
+															 d_decoder_in[i].size() );
+		memcpy(d_out, dec_out_buffer, 960 * sizeof(gr_int16));
+		d_out += 960;
+	}
 }
 
 int
