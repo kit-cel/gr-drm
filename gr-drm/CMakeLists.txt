@@ -47,6 +47,12 @@ if(NOT Faac_FOUND)
 	message(FATAL_ERROR "FAAC required to compile drm")
 endif()
 
+# Find FAAD
+find_package(Faad REQUIRED)
+if(NOT Faad_FOUND)
+	message(FATAL_ERROR "Faad required to compile drm")
+endif()
+
 ########################################################################
 # Find boost
 ########################################################################
@@ -108,6 +114,7 @@ include_directories(
     ${GRUEL_INCLUDE_DIRS}
     ${GNURADIO_CORE_INCLUDE_DIRS}
     ${Faac_INCLUDE_DIRS}
+    ${Faad_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -115,6 +122,7 @@ link_directories(
     ${GRUEL_LIBRARY_DIRS}
     ${GNURADIO_CORE_LIBRARY_DIRS}
     ${Faac_LIBRARY_DIRS}
+    ${Faad_LIBRARY_DIRS}
 )
 
 # Set component parameters

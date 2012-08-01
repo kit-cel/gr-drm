@@ -129,3 +129,29 @@ enqueue_array_to_vector(std::vector< unsigned char >* vec, const unsigned char* 
 		vec->push_back(arr[i]);
 	}
 }
+
+unsigned int
+dequeue_dec(unsigned char* &ptr, unsigned int len)
+{
+	unsigned int val_dec = 0;
+	for( int i = 0; i < len; i++)
+	{
+		val_dec += (unsigned int) ptr[i] * std::pow( 2, len-i-1);
+	}
+	ptr += len;
+	return val_dec;
+}
+
+unsigned char
+dequeue_char(unsigned char* &ptr)
+{
+	unsigned char val_char = 0;
+	for( int i = 0; i < 8; i++)
+	{
+		val_char += (unsigned char) ptr[i] * std::pow( 2, 7-i);
+	}
+	ptr += 8;
+	return val_char;
+}
+
+

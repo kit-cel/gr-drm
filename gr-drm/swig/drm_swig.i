@@ -20,6 +20,7 @@
 #include "drm_qam_map_vbvb.h"
 #include "drm_cell_mapping_vbvb.h"
 #include "drm_interleaver_vcvc.h"
+#include "drm_audio_decoder_vbs.h"
 %}
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
@@ -60,3 +61,6 @@ GR_SWIG_BLOCK_MAGIC(drm,cell_mapping_vbvb);
 
 GR_SWIG_BLOCK_MAGIC(drm,interleaver_vcvc);
 %include "drm_interleaver_vcvc.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,audio_decoder_vbs);
+%include "drm_audio_decoder_vbs.h"

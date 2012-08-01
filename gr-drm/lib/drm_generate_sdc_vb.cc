@@ -112,7 +112,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	enqueue_bits_dec(data, 5, 0); // coder field (no MPEG surround)
 	enqueue_bits_dec(data, 1, 0); // rfa
 	
-	if(d_tp->sdc().L() - (data-data_start) >= 12 + 4 + 128 + 16) // make sure that enough bits are left in the SDC stream
+	if(d_tp->sdc().L() - (data-data_start) >= 12 + 4 + 128 + 16) // make sure that enough bits are left in the SDC stream (header + short id + rfu + text + CRC)
 	{
 		/* Label data entity - type 1 */
 	
@@ -145,10 +145,10 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	}
 	else
 	{
-		std::cout << "SDC: Label data entity could not be enqueued due to insufficient SDC length." << std::endl;
+		//std::cout << "SDC: Label data entity could not be enqueued due to insufficient SDC length." << std::endl;
 	}
 	
-	if(d_tp->sdc().L() - (data-data_start) >= 12 + 28 + 16)
+	if(d_tp->sdc().L() - (data-data_start) >= 12 + 28 + 16) // header + date + CRC
 	{
 		/* Time and date information data entity - type 8 */
 	
@@ -163,7 +163,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	}
 	else
 	{
-		std::cout << "SDC: Time and date data entity could not be enqueued due to insufficient SDC length." << std::endl;
+		//std::cout << "SDC: Time and date data entity could not be enqueued due to insufficient SDC length." << std::endl;
 	}	
 	
 	/* enqueue CRC word */
