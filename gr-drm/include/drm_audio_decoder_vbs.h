@@ -52,9 +52,9 @@ class DRM_API drm_audio_decoder_vbs : public gr_block
 	int d_n_aac_frames;
 	int d_n_header_bytes;
 	int d_audio_samp_rate;
+	int d_transform_length;
 	int* d_frame_length;
-	int d_n_bytes_decoder_in;
-	int d_max_bytes_aac_frame;
+	int d_n_bytes_audio_payload;
 	unsigned char* d_crc_words;
 	std::vector< std::vector<unsigned char> > d_decoder_in;
 
@@ -65,7 +65,7 @@ class DRM_API drm_audio_decoder_vbs : public gr_block
     
     bool make_faad_compliant();
     
-    void aac_decode();
+    bool aac_decode();
 
     int general_work (int noutput_items,
 		    gr_vector_int &ninput_items,
