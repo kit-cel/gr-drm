@@ -74,10 +74,7 @@ drm_audio_decoder_vbs::drm_audio_decoder_vbs (transm_params* tp)
 	NeAACDecConfigurationPtr conf;
 
 	NEAACDECAPI NeAACDecInitDRM(&d_dec_handle, d_audio_samp_rate, drm_channel_mode);
-	conf = NeAACDecGetCurrentConfiguration(d_dec_handle);
-	std::cout << "object type: "  << (int) conf->defObjectType << std::endl;
-	std::cout << "output format: "<< (int) conf->outputFormat << std::endl;
-	
+	conf = NeAACDecGetCurrentConfiguration(d_dec_handle);	
 }
 
 
@@ -102,7 +99,7 @@ drm_audio_decoder_vbs::make_faad_compliant()
 	for(int i = 0; i < d_n_borders; i++)
 	{
 		unsigned int frame_border = dequeue_dec(d_in, 12);
-		d_frame_length[i] = frame_border - prev_border;
+		d_frame_length[i] = frame_border - prev_border; // distance between two consecutive chunks of aac bytes (does not include CRC)
 		prev_border = frame_border;
 	}
 	
@@ -110,18 +107,22 @@ drm_audio_decoder_vbs::make_faad_compliant()
 	if(d_n_borders == 9)
 	{
 		//std::cout << "perform byte alignment" << std::endl;
-		dequeue_dec(d_in, 4); // drop 4 bits
+		int al = dequeue_dec(d_in, 4); // drop 4 bits as they were inserted for alignment
+		if( al != 0 )
+		{
+			std::cout << "AAC Decoder: Alignment bits are not zero!\n";
+		}
 	}
 	
 	/* frame length of last AAC frame */
-	d_frame_length[d_n_borders] = d_n_bytes_audio_payload - prev_border;
+	d_frame_length[d_n_borders] = d_n_bytes_audio_payload - prev_border; // last frame duration is from last border to the end of audio payload (->longer than in the encoder! trailing zeros are dropped in the encoder?)
 	
 	/* check for plausible frame length entries and return if corrupted values are detected */
 	for( int i = 0; i < d_n_aac_frames; i++)
 	{
 		if( d_frame_length[i] < 0 || d_frame_length[i] > d_n_bytes_audio_payload )
 		{
-			//std::cout << "Invalid AAC frame length! Returning." << std::endl;
+			std::cout << "Invalid AAC frame length! Returning." << std::endl;
 			//std::cout << "frame length: " << d_frame_length[i] << std::endl;
 			return false;
 		}
@@ -132,7 +133,7 @@ drm_audio_decoder_vbs::make_faad_compliant()
 	for(int i = 0; i < d_n_aac_frames; i++)
 	{
 		d_crc_words[i] = dequeue_char(d_in);
-		std::cout << "dec frame length[" << i << "]: " << d_frame_length[i] << ", CRC: " << (int) d_crc_words[i] << std::endl;
+		//std::cout << "dec frame length[" << i << "]: " << d_frame_length[i] << ", CRC: " << (int) d_crc_words[i] << std::endl;
 	}
 	
 	/* insert CRC word and append payload (to be compliant with FAAD2 interface) */
@@ -154,7 +155,7 @@ drm_audio_decoder_vbs::make_faad_compliant()
 bool
 drm_audio_decoder_vbs::aac_decode()
 {
-	//std::cout << "entering aac_decode()" << std::endl;
+	std::cout << std::endl << "entering aac_decode()" << std::endl;
 	/* perform actual aac decoding */
 	gr_int16* dec_out_buffer;
 	NeAACDecFrameInfo dec_frame_info;
@@ -162,16 +163,21 @@ drm_audio_decoder_vbs::aac_decode()
 	for(int i = 0; i < d_n_aac_frames; i++)
 	{
 		//std::cout << "decoding frame number " << i << std::endl;
-		for(int j = 0; j < d_decoder_in[i].size(); j++)
+		std::cout << "frame length[" << i << "]: " << d_decoder_in[i].size() - 1 << ", crc: " << (int) (d_decoder_in[i])[0] << std::endl;
+		// EXPERIMENTAL: skip frame if CRC is 0
+		if((d_decoder_in[i])[0] == 0 )
 		{
-			std::cout << (int) (d_decoder_in[i])[j] << " ";
+			i++; // move on to next frame
+			if(i>d_n_aac_frames-1)
+			{
+				break; // avoid segfault
+			}
 		}
-		std::cout << std::endl;
-		std::cout << d_decoder_in[i].size() << std::endl;
 		dec_out_buffer = (gr_int16*) NeAACDecDecode(d_dec_handle,
 															 &dec_frame_info,
 															 &(d_decoder_in[i])[0],
 															 (unsigned long) d_decoder_in[i].size());
+    
 		if(dec_out_buffer != NULL)
 		{
 			memcpy(d_out, dec_out_buffer, d_transform_length * sizeof(gr_int16));
@@ -183,7 +189,15 @@ drm_audio_decoder_vbs::aac_decode()
 			memset(d_out, 0, d_transform_length * sizeof(gr_int16)); // set output buffer to zero for this aac frame
 			d_out += d_transform_length;
 		}
+		else
+		{
+			std::cout << "Pointer is NULL and we have no error!\n";
+			memset(d_out, 0, d_transform_length * sizeof(gr_int16)); // set output buffer to zero for this aac frame
+			d_out += d_transform_length;
+		}
+		//std::cout << "end of for loop. iteration " << i << std::endl;
 	}
+	std::cout << "returning from aac_decode()" << std::endl << std::endl;
 	return true; // FIXME change return type to void if no errors are handled
 }
 
@@ -213,28 +227,16 @@ drm_audio_decoder_vbs::general_work (int noutput_items,
   d_frame_length = &frame_length[0];
   
   //std::cout << "calling make_faad_compliant(). d_in: " << (long) d_in << std::endl;
-  bool data_ok = make_faad_compliant();
-  if( !data_ok )
+  if( make_faad_compliant() )
+  {
+  	aac_decode();
+  	return d_n_aac_frames * d_transform_length;
+  	
+  }
+  else
   {
   	std::cout << "make_faad_compliant(): corrupted data, return from general_work()" << std::endl;
-  	return 0; // no output
-  }
-  std::ofstream data_dec("data_dec.dat", std::ios::binary);
-  for(int i = 0; i < d_n_aac_frames; i++)
-  {
-  	  data_dec.write((char*) &(d_decoder_in[i])[0], d_decoder_in[i].size());
-  }
-  // actual decoding
-  //std::cout << "calling aac_decode()" << std::endl;
-  data_ok = aac_decode();
-  if( !data_ok )
-  {
-  	std::cout << "aac_encode(): corrupted data, return from general_work()" << std::endl; 	
-  	return 0; // no output
-  }
-
-  // Tell runtime system how many output items we produced.
-  //std::cout << "return from general_work" << std::endl;
-  return d_n_aac_frames * d_transform_length;
+  	return 0; // no output, drops 10 aac frames TODO: make this more intelligent
+  } 
 }
 

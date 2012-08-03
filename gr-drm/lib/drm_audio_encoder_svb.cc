@@ -25,6 +25,7 @@
 
 #include <gr_io_signature.h>
 #include <drm_audio_encoder_svb.h>
+#include <fstream>
 
 
 drm_audio_encoder_svb_sptr
@@ -155,11 +156,12 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	// init AAC buffer
 	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out * (const unsigned long) d_n_aac_frames];
 	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
+	
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
 
 	/* Call consume each and return */
 	consume_each (d_transform_length * d_n_aac_frames);
-
+	
 	return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
 }
 
@@ -176,10 +178,7 @@ drm_audio_encoder_svb::aac_encode(unsigned char* aac_buffer)
 	for (int j = 0; j < d_n_aac_frames; j++)
 	{
 		/* copy the part of the input data that is converted in this iteration */
-		for (unsigned long k = 0; k < d_transform_length; k++)
-		{
-			tmp_pcm_buffer[k] = d_in[j*d_transform_length + k];
-		}
+		memcpy(tmp_pcm_buffer, d_in + j*d_transform_length, d_transform_length * sizeof(float));
 
 		/* actual encoding */
 		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_pcm_buffer, d_transform_length, tmp_aac_buffer, d_n_max_bytes_out);
@@ -227,6 +226,7 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 			crc_bits[i] = 0;
 			frame_length[i] = 0;
 		}
+		std::cout << "enc frame length: " << frame_length[i] << ", CRC: " << (int) crc_bits[i] << std::endl;
 	}
 	
 	// append accumulated frame lengths, i. e. the frame borders
@@ -247,7 +247,7 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 	for(int i = 0; i < d_n_aac_frames; i++)
 	{
 		enqueue_bits_dec(d_out, 8, crc_bits[i]);
-	}\
+	}
 	
 	/* append audio data (EEP is assumed -> no higher protected part) */
 	/* Higher protected part */
