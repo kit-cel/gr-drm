@@ -183,6 +183,7 @@ drm_audio_encoder_svb::aac_encode(unsigned char* aac_buffer)
 		/* actual encoding */
 		int n_bytes_encoded = faacEncEncode(d_encHandle, (int32_t*) tmp_pcm_buffer, d_transform_length, tmp_aac_buffer, d_n_max_bytes_out);
         d_n_bytes_encoded.push_back(n_bytes_encoded);
+        //std::cout << "encoder: n_bytes_encoded: " << n_bytes_encoded << std::endl;
         memcpy(aac_buffer, tmp_aac_buffer, n_bytes_encoded * sizeof(char));
         aac_buffer += n_bytes_encoded;
 	}

@@ -106,6 +106,7 @@ drm_audio_decoder_vbs::make_faad_compliant()
 	{
 		unsigned int frame_border = dequeue_dec(d_in, 12);
 		d_frame_length[i] = frame_border - prev_border; // distance between two consecutive chunks of aac bytes (does not include CRC)
+		std::cout << "decoder frame length: " << d_frame_length[i] << std::endl;
 		prev_border = frame_border;
 	}
 	

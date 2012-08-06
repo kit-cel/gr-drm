@@ -105,17 +105,23 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	{
 		switch(d_tp->cfg().SO())
 		{
-			case 0: // A
+			case 0: // 4.5 kHz
 				enqueue_bits(data, 3, (unsigned char[]) {0,0,0});
 				break;
-			case 1: // B
+			case 1: // 5 kHz
 				enqueue_bits(data, 3, (unsigned char[]) {0,0,1});
 				break;
-			case 2: // C
+			case 2: // 9 kHz
 				enqueue_bits(data, 3, (unsigned char[]) {0,1,0});
 				break;
-			case 3: // D
+			case 3: // 10 kHz
 				enqueue_bits(data, 3, (unsigned char[]) {0,1,1});
+				break;
+			case 4: // 18 kHz
+				enqueue_bits(data, 3, (unsigned char[]) {1,0,0});
+				break;
+			case 5: // 20 kHz
+				enqueue_bits(data, 3, (unsigned char[]) {1,0,1});
 				break;
 			default: break; // error checking was done before
 		}
@@ -233,6 +239,11 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	
 	unsigned char* serv_params_start = data; //  marker for the start of the service parameters
 
+	/*std::cout << "FAC channel parameters: ";
+	for(int i = 0; i < 20; i++)
+		std::cout << (int) data_start[i];
+	std::cout << std::endl;*/
+	
 	/* Service parameters */
 	// Service identifier (arbitrarily chosen)
 	enqueue_bits(data, 24, (unsigned char[]) {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0,
@@ -265,6 +276,11 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	{
 		memcpy(data, serv_params_start, data - serv_params_start); // copy the part between data and serv_params_start
 	}
+	
+	/*std::cout << "FAC service parameters: ";
+	for(int i = 0; i < 44; i++)
+		std::cout << (int) serv_params_start[i];
+	std::cout << std::endl;*/
 	
 	/* enqueue CRC word */
 	enqueue_crc(data_start, d_tp, 8); //  The channel type is implicitly detected by the choice of the polynomial
