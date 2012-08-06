@@ -75,6 +75,12 @@ drm_audio_decoder_vbs::drm_audio_decoder_vbs (transm_params* tp)
 
 	NEAACDECAPI NeAACDecInitDRM(&d_dec_handle, d_audio_samp_rate, drm_channel_mode);
 	conf = NeAACDecGetCurrentConfiguration(d_dec_handle);	
+	std::cout << "obj type: " << (int) conf->defObjectType << std::endl;
+	std::cout << "defSampleRate: " << conf->defSampleRate << std::endl;
+	std::cout << "output format: " << (int) conf->outputFormat << std::endl;
+	std::cout << "down matrix: " << (int) conf->downMatrix << std::endl;
+	std::cout << "old adts format: " << (int) conf->useOldADTSFormat << std::endl;
+	std::cout << std::endl;
 }
 
 
@@ -155,7 +161,6 @@ drm_audio_decoder_vbs::make_faad_compliant()
 bool
 drm_audio_decoder_vbs::aac_decode()
 {
-	std::cout << std::endl << "entering aac_decode()" << std::endl;
 	/* perform actual aac decoding */
 	gr_int16* dec_out_buffer;
 	NeAACDecFrameInfo dec_frame_info;
@@ -163,7 +168,7 @@ drm_audio_decoder_vbs::aac_decode()
 	for(int i = 0; i < d_n_aac_frames; i++)
 	{
 		//std::cout << "decoding frame number " << i << std::endl;
-		std::cout << "frame length[" << i << "]: " << d_decoder_in[i].size() - 1 << ", crc: " << (int) (d_decoder_in[i])[0] << std::endl;
+		//std::cout << "frame length[" << i << "]: " << d_decoder_in[i].size() - 1 << ", crc: " << (int) (d_decoder_in[i])[0] << std::endl;
 		// EXPERIMENTAL: skip frame if CRC is 0
 		if((d_decoder_in[i])[0] == 0 )
 		{
@@ -178,10 +183,28 @@ drm_audio_decoder_vbs::aac_decode()
 															 &(d_decoder_in[i])[0],
 															 (unsigned long) d_decoder_in[i].size());
     
+    	/*std::cout << "bytesconsumed: " << dec_frame_info.bytesconsumed << std::endl;
+    	std::cout << "samples: " << dec_frame_info.samples << std::endl;
+    	std::cout << "channels: " << (int) dec_frame_info.channels << std::endl;
+    	std::cout << "error: " << (int) dec_frame_info.error << std::endl;
+    	std::cout << "samplerate: " << dec_frame_info.samplerate << std::endl;
+    	std::cout << "sbr: " << (int) dec_frame_info.sbr << std::endl;
+    	std::cout << "object type: " << (int) dec_frame_info.object_type << std::endl;
+    	std::cout << "header_type: " << (int) dec_frame_info.header_type << std::endl;
+    	std::cout << "num_front_channels: " << (int) dec_frame_info.num_front_channels << std::endl;
+    	std::cout << "num_side_channels: " << (int) dec_frame_info.num_side_channels << std::endl;
+    	std::cout << "num_back_channels: " << (int) dec_frame_info.num_back_channels << std::endl;
+    	std::cout << "num_lfe_channels: " << (int) dec_frame_info.num_lfe_channels << std::endl;
+    	std::cout << "channel_position: " << (int) dec_frame_info.channel_position[64] << std::endl;
+    	std::cout << "ps: " << (int) dec_frame_info.ps << std::endl;
+		std::cout << std::endl;*/
+		
 		if(dec_out_buffer != NULL)
 		{
-			memcpy(d_out, dec_out_buffer, d_transform_length * sizeof(gr_int16));
-			d_out += d_transform_length;
+			for( int x = 0; x < dec_frame_info.samples/2; x++)
+			{
+				*d_out++ = dec_out_buffer[x*2];
+			}
 		}
 		else if(dec_frame_info.error != 0)
 		{
@@ -195,9 +218,7 @@ drm_audio_decoder_vbs::aac_decode()
 			memset(d_out, 0, d_transform_length * sizeof(gr_int16)); // set output buffer to zero for this aac frame
 			d_out += d_transform_length;
 		}
-		//std::cout << "end of for loop. iteration " << i << std::endl;
 	}
-	std::cout << "returning from aac_decode()" << std::endl << std::endl;
 	return true; // FIXME change return type to void if no errors are handled
 }
 

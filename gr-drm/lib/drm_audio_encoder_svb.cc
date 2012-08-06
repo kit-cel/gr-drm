@@ -105,7 +105,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
     /* set encoder configuration */
 	faacEncConfigurationPtr cur_enc_format;
 	cur_enc_format = faacEncGetCurrentConfiguration(d_encHandle);
-	cur_enc_format->inputFormat = FAAC_INPUT_FLOAT; // TODO: check if float can be used here directly
+	cur_enc_format->inputFormat = FAAC_INPUT_FLOAT;
 	cur_enc_format->useTns = 1;
 	cur_enc_format->aacObjectType = LOW;
 	cur_enc_format->mpegVersion = MPEG4;
@@ -226,7 +226,6 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 			crc_bits[i] = 0;
 			frame_length[i] = 0;
 		}
-		std::cout << "enc frame length: " << frame_length[i] << ", CRC: " << (int) crc_bits[i] << std::endl;
 	}
 	
 	// append accumulated frame lengths, i. e. the frame borders
