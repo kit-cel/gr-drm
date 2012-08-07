@@ -115,17 +115,16 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	/* Label data entity - type 1 */
 	std::string label = d_tp->cfg().station_label(); // get header from config
 	int labelsize = label.size();
-	if(labelsize > 16) //  cut off after 16 characters
+	if(labelsize > 64) //  cut off after 64 byte
 	{
-		std::cout << "Station label too long (max. 16 characters)! Some characters are dropped.\n";
-		labelsize = 16;
+		std::cout << "Station label too long (max. 64 byte / 16 UTF-8 characters)! Some characters are dropped.\n";
+		labelsize = 64;
 	}	
 	
 	if(d_tp->sdc().L() - (data-data_start) >= 12 + 4 + labelsize*8 + 16) // make sure that enough bits are left in the SDC stream (header + short id + rfu + text + CRC)
 	{
 		// header
-		//enqueue_bits_dec(data, 7, /*number of utf-8 characters*/ 16);
-		enqueue_bits_dec(data, 7, /*number of utf-8 characters*/ labelsize);
+		enqueue_bits_dec(data, 7, /*number of bytes*/ labelsize);
 		enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
 		enqueue_bits_dec(data, 4, 1); // data entity type
 	
@@ -134,7 +133,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 		enqueue_bits_dec(data, 2, 0); // rfu
 		for( int i = 0; i < labelsize; i++) // actual text
 		{
-			enqueue_bits_dec(data, 8, (unsigned short) label[i]);
+			enqueue_bits_dec(data, 8, (unsigned char) label[i]);
 		}
 	}
 	else

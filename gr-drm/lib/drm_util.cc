@@ -37,7 +37,7 @@ enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 	}
 	else
 	{
-		std::cout << "Value cannot be converted because it is too large!\n";
+		std::cout << "Value (" << val << ") cannot be converted in (" << len << ") bits because it is too large!\n";
 	}
 }
 
