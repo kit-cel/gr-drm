@@ -20,6 +20,7 @@ class config
 	unsigned short d_sdc_prot_level; // (only for RM E) 0: 0.5, 1: 0.25
 	bool d_long_interl; // 0: short interleaving, 1: long interleaving
 	unsigned int d_audio_samp_rate; // Input audio sampling rate
+	std::string d_station_label; // station label
 
 	tables* d_ptables; // pointer to tables needed for init
 
@@ -37,6 +38,7 @@ public:
 	unsigned short sdc_prot_level();
 	bool long_interl();
 	unsigned int audio_samp_rate();
+	std::string station_label();
 	tables* ptables();
 
 	config();
@@ -54,7 +56,8 @@ public:
 			  unsigned short sdc_mapping,
 			  unsigned short sdc_prot_level,
 			  bool long_interl,
-			  unsigned int audio_samp_rate); // set member variables
+			  unsigned int audio_samp_rate,
+			  std::string station_label); // set member variables
 			  
 	bool check_arguments(); // some range and plausibility checks
 };

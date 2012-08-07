@@ -31,7 +31,8 @@ config::init(tables* ptr_tables,
 			  unsigned short sdc_mapping,
 			  unsigned short sdc_prot_level,
 			  bool long_interl,
-			  unsigned int audio_samp_rate)
+			  unsigned int audio_samp_rate,
+			  std::string station_label)
 {
 	/* user defined parameters */
 	//d_RM = 1; // B
@@ -48,7 +49,8 @@ config::init(tables* ptr_tables,
 	d_msc_prot_level_2 = msc_prot_level_2;
 	d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
-	d_audio_samp_rate = audio_samp_rate; // 24 kHz audio
+	d_audio_samp_rate = audio_samp_rate; // 12 or 24 kHz audio
+	d_station_label = station_label; // station label (up to 16 characters)
 
 	/* pointer to tables needed for init */
 	d_ptables = ptr_tables;
@@ -204,6 +206,12 @@ unsigned int
 config::audio_samp_rate()
 {
 	return d_audio_samp_rate;
+}
+
+std::string
+config::station_label()
+{
+	return d_station_label;
 }
 
 tables*

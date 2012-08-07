@@ -20,7 +20,8 @@ transm_params::transm_params(unsigned short RM,
 							 unsigned short sdc_mapping,
 							 unsigned short sdc_prot_level,
 							 bool long_interl,
-							 unsigned int audio_samp_rate)
+							 unsigned int audio_samp_rate,
+							 std::string station_label)
 {
 	/* init tables */
 	tables* t = new tables;
@@ -28,7 +29,7 @@ transm_params::transm_params(unsigned short RM,
 	/* init user defined configuration (currently partly hardcoded)*/
 	config* c = new config;
 	c->init(t, RM, SO, UEP, n_bytes_A, text, msc_mapping, msc_prot_level_1, msc_prot_level_2,
-			sdc_mapping, sdc_prot_level, long_interl, audio_samp_rate);
+			sdc_mapping, sdc_prot_level, long_interl, audio_samp_rate, station_label);
 
 	/* init transmission parameters matching the user defined configuration */
 	ofdm_params* o = new ofdm_params;
