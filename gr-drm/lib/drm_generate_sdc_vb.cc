@@ -107,7 +107,14 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 			break;
 	
 	}
-	enqueue_bits_dec(data, 1, 0); // text flag (no text message carried)
+	if(d_tp->cfg().text() == true) // text flag handling
+	{
+		enqueue_bits_dec(data, 1, 1); // text message carried
+	}
+	else
+	{
+		enqueue_bits_dec(data, 1, 0); // no text message carried
+	}
 	enqueue_bits_dec(data, 1, 0); // enhancement flag (no enhancement available)
 	enqueue_bits_dec(data, 5, 0); // coder field (no MPEG surround)
 	enqueue_bits_dec(data, 1, 0); // rfa

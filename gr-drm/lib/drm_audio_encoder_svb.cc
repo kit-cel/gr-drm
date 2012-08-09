@@ -47,6 +47,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	// set buffer pointers to NULL
 	d_in = NULL;
 	d_out = NULL;
+	d_out_start = NULL;
 	
 	// define variables depending on input parameters
 	
@@ -86,17 +87,12 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	int sizeof_byte = 8;
 	int n_bits_usage = (d_L_MUX_MSC / sizeof_byte) * sizeof_byte;
 	int n_bytes_usage = n_bits_usage / sizeof_byte;
-
-	if(d_tp->cfg().text()) // FIXME order of initialization
-	{
-		n_bytes_usage = n_bits_usage / sizeof_byte - 4; // last 4 bytes are used for text messaging
-	}
-	else
-	{
-		n_bytes_usage = n_bits_usage / sizeof_byte;
-	}
 	
-	int n_bits_audio_frame = n_bits_usage; // no text message included! FIXME
+	int n_bits_audio_frame = n_bits_usage;
+	if(tp->cfg().text())
+	{
+		n_bits_audio_frame -= 16; // if text message is carried, the last four bytes are used for this
+	}
 
 	d_n_bytes_audio_payload = n_bits_audio_frame / sizeof_byte - d_n_header_bytes - d_n_aac_frames /* for CRCs */ ;
 	const int n_bytes_act_enc = (int) (d_n_bytes_audio_payload / d_n_aac_frames);
@@ -113,6 +109,12 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bitRate = bit_rate;
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
+	
+	// set text message
+	d_text_msg = tp->cfg().text_message();
+	d_text_ctr = 0;
+	d_n_text_frames = 0;
+	prepare_text_message();
 }
 
 
@@ -147,7 +149,7 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	/* set pointers to input and output buffer */
 	d_in = (float*) input_items[0];
 	d_out = (unsigned char*) output_items[0];
-	unsigned char* out_start = d_out;
+	d_out_start = d_out;
 	
 	// set output buffer to zero (corresponds to zeropadding as defined in the DRM standard)
 	memset(d_out, 0, sizeof(char) * d_L_MUX_MSC);
@@ -158,6 +160,9 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
 	
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
+	
+	/* insert text message */
+	insert_text_message();
 
 	/* Call consume each and return */
 	consume_each (d_transform_length * d_n_aac_frames);
@@ -267,4 +272,140 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
         }
     }
 }
+
+void
+drm_audio_encoder_svb::prepare_text_message()
+{
+	/* prepare the text message string */
+	int len = d_text_msg.size(); // length of the string in bytes
+	
+	// determine the number of segments, truncate if needed
+	int n_segments = std::ceil( (float) len/16); // number of segments (16 bytes per segment)
+	if ( n_segments > 8 ) // max number of segments is 8, truncate if necessary
+	{
+		std::cout << "Text message is too long! Message gets truncated to the maximal possible length.\n";
+		n_segments = 8;
+		d_text_msg.resize(8*16); // max number of segments * max number of bytes
+	}
+	
+	// zero-pad string if its length is not a multiple of four (bytes)
+	int n_bytes_pad = 4 - len % 4;
+	if ( n_bytes_pad == 4 ) //  wrap around
+	{
+		n_bytes_pad = 0;
+	}	
+	d_text_msg.append(n_bytes_pad, 0); // append zeros (0x00)
+	
+	// allocate bit array (unpacked) that will hold the real text message stream
+	const int len_total = (len + n_bytes_pad) * 8 + n_segments * (16 + 32) + 16; // payload + header + leading zeros + CRC
+	d_n_text_frames = len_total/4;
+	unsigned char msg[len_total]; 
+	unsigned char* p_msg = &msg[0];
+	
+	// insert leading 0xFF bytes and header
+	int ctr = 0; // byte-based counter
+	for(int i = 0; i < n_segments; i++)
+	{
+		/* beginning of the segment */
+		enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
+		
+		/* header */
+		enqueue_bits_dec(p_msg, 1, 0); // toggle flag (changes when segments from different messages are transmitted)
+		
+		if(i == 0) // first flag
+		{
+			enqueue_bits_dec(p_msg, 1, 1); // first flag is set
+		}
+		else
+		{
+			enqueue_bits_dec(p_msg, 1, 0);
+		}
+		
+		if(i == n_segments - 1) // last flag
+		{
+			enqueue_bits_dec(p_msg, 1, 1); // last flag is set
+		}
+		else
+		{
+			enqueue_bits_dec(p_msg, 1, 0);
+		}
+		enqueue_bits_dec(p_msg, 1, 0); // command flag (0 -> Field 1 signals the length of the body of the segment; if set to 1, field 2 is omitted)
+		
+		// field 1 (length of the segment in bytes, coded as unsigned number)
+		if( i < n_segments - 1) // the last segment can hold less than 16 bytes of character data and has to be treated separately
+		{
+			enqueue_bits_dec(p_msg, 4, 15);
+		}
+		else
+		{
+			enqueue_bits_dec(p_msg, 4, d_text_msg.size() % 16);
+		}
+		
+		// field 2
+		if(i == 0) // first segment
+		{
+			enqueue_bits_dec(p_msg, 4, 0xF); // "1111"
+		}
+		else
+		{
+			enqueue_bits_dec(p_msg, 1, 0); // rfa
+			enqueue_bits_dec(p_msg, 3, i); // segment number (1-7)
+		}
+		
+		enqueue_bits_dec(p_msg, 4, 0); // rfa
+				
+		/* body */
+		if(i < n_segments - 1) // this is a 'full' segment
+		{
+			for(int j = 0; j < 4; j++)
+			{
+				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]); // unpack one byte and write it to the stream
+				ctr++;
+			}
+		
+		}
+		else // last segment
+		{
+			for(int j = 0; j < d_text_msg.size() % 16; j++)
+			{
+				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]);
+				ctr++;
+			}
+		}
+	}
+	
+	/* insert CRC */
+	
+	// copy the char array into a vector (more convenient)
+	d_text_msg_fmt.assign(&msg[0], &msg[0] + len_total);
+}
+
+void
+drm_audio_encoder_svb::insert_text_message()
+{
+	// text message handling (last 4 bytes of lower protected payload). For details see chapter 6.5 in the standard.
+	unsigned char* text_ptr; // start of text message in output buffer
+	text_ptr = d_out_start + d_L_MUX_MSC - 16; // corresponds to: end of buffer - 16 bits
+	
+	// determine the part of the message that is to be inserted in this call to work()
+	for(int i = 0; i < 16; i++)
+	{
+		*text_ptr = d_text_msg_fmt[d_text_ctr*16 + i];
+		text_ptr++;
+		d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;		
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 

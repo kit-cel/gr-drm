@@ -27,6 +27,7 @@
 #include "drm_util.h"
 #include <faac.h>
 #include <iostream>
+#include <string>
 
 class drm_audio_encoder_svb;
 typedef boost::shared_ptr<drm_audio_encoder_svb> drm_audio_encoder_svb_sptr;
@@ -35,7 +36,7 @@ DRM_API drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp
 
 /*!
  * \brief Audio source encoder using FAAC to produce AAC stream (LC, mono)
- * Input: PCM stream (short ints), output: bit vector (unpacked, unsigned chars)
+ * Input: PCM stream (float), output: bit vector (unpacked, unsigned chars)
  */
 class DRM_API drm_audio_encoder_svb : public gr_block
 {
@@ -46,6 +47,7 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	/* member variables */
 	float* d_in; // input buffer
 	unsigned char* d_out; // output buffer
+	unsigned char* d_out_start; // start of output buffer
 	int d_n_aac_frames; // number of AAC frames per super audio frame
 	int d_time_aac_superframe; // in ms
 	int d_n_header_bytes; // number of header bytes
@@ -55,8 +57,12 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	int d_n_bytes_audio_payload; // number of bytes of audio payload
 	unsigned int d_L_MUX_MSC; // number of decoded bits MSC
 	
-	std::vector<int> d_n_bytes_encoded; // return value of faacEncEncode(). Used to determine frame lengths.
+	std::string d_text_msg; // text message to be appended to the audio stream
+	std::vector< unsigned char > d_text_msg_fmt; // formatted text message
+	int d_text_ctr; // counter for the current text frame as per call to work() only a small part of the text stream is processed
+	int d_n_text_frames; // number of text frames (4 byte pieces)
 	
+	std::vector<int> d_n_bytes_encoded; // return value of faacEncEncode(). Used to determine frame lengths.
 	faacEncHandle d_encHandle;
 	transm_params* d_tp; // transmission params (holding config/msc/... values)
 	
@@ -67,7 +73,8 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	
 	void aac_encode(unsigned char* aac_buffer); // encodes PCM stream to AAC
 	void make_drm_compliant(unsigned char* aac_buffer); // reorders and processes the encoded AAC data to make it DRM compliant. writes to output buffer.
-
+	void prepare_text_message(); // format text message string according to the DRM standard
+	void insert_text_message(); // insert text message
     int general_work (int noutput_items,
 		gr_vector_int &ninput_items,
 		gr_vector_const_void_star &input_items,
