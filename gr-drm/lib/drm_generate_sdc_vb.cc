@@ -167,7 +167,8 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	}	
 	
 	/* enqueue CRC word */
-	enqueue_crc(data_start, d_tp, 16);
+	int len = d_tp->sdc().n_bytes_datafield() * 8 + 8; // SDC is calculated over data field + AFS index coded in an 8bit field (4 MSbs are 0)
+	enqueue_crc(data_start, d_tp, len, 16);
 					   
 }
 

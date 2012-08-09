@@ -110,11 +110,14 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
 	
-	// set text message
-	d_text_msg = tp->cfg().text_message();
-	d_text_ctr = 0;
-	d_n_text_frames = 0;
-	prepare_text_message();
+	// set text message if available
+	if(d_tp->cfg().text())
+	{
+		d_text_msg = tp->cfg().text_message();
+		d_text_ctr = 0;
+		d_n_text_frames = 0;
+		prepare_text_message();
+	}
 }
 
 
@@ -161,8 +164,11 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
 	
-	/* insert text message */
-	insert_text_message();
+	/* insert text message if available */
+	if( d_tp->cfg().text())
+	{
+		insert_text_message();
+	}
 
 	/* Call consume each and return */
 	consume_each (d_transform_length * d_n_aac_frames);
@@ -276,6 +282,7 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 void
 drm_audio_encoder_svb::prepare_text_message()
 {
+	std::cout << "entering prepare()" << std::endl;
 	/* prepare the text message string */
 	int len = d_text_msg.size(); // length of the string in bytes
 	
@@ -300,12 +307,17 @@ drm_audio_encoder_svb::prepare_text_message()
 	const int len_total = (len + n_bytes_pad) * 8 + n_segments * (16 + 32) + 16; // payload + header + leading zeros + CRC
 	d_n_text_frames = len_total/4;
 	unsigned char msg[len_total]; 
+	std::cout << "len_total: " << len_total << std::endl;
+	std::cout << "msg address: " << (long) &msg[0] << std::endl;
 	unsigned char* p_msg = &msg[0];
+	
 	
 	// insert leading 0xFF bytes and header
 	int ctr = 0; // byte-based counter
 	for(int i = 0; i < n_segments; i++)
 	{
+		std::cout << "insert leading ones and header" << std::endl;
+		std::cout << "msg address: " << (long) &msg[0] << std::endl;
 		/* beginning of the segment */
 		enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
 		
@@ -353,7 +365,9 @@ drm_audio_encoder_svb::prepare_text_message()
 		}
 		
 		enqueue_bits_dec(p_msg, 4, 0); // rfa
-				
+		
+		std::cout << "insert body" << std::endl;
+		std::cout << "msg address: " << (long) &msg[0] << std::endl;
 		/* body */
 		if(i < n_segments - 1) // this is a 'full' segment
 		{
@@ -362,6 +376,7 @@ drm_audio_encoder_svb::prepare_text_message()
 				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]); // unpack one byte and write it to the stream
 				ctr++;
 			}
+			enqueue_crc(&msg[0] + i*8*(16 + 2 + 2) + 32, d_tp, 16 + 16*8, 162); // calculate CRC over the body and header, mode 16-2 is a quick'n dirty solution...
 		
 		}
 		else // last segment
@@ -371,22 +386,28 @@ drm_audio_encoder_svb::prepare_text_message()
 				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]);
 				ctr++;
 			}
+			// FIXME: insert CRC here
 		}
 	}
 	
-	/* insert CRC */
 	
+	
+	std::cout << "copy array into a vector" << std::endl;
+	std::cout << "msg address: " << (long) &msg[0] << std::endl;
 	// copy the char array into a vector (more convenient)
 	d_text_msg_fmt.assign(&msg[0], &msg[0] + len_total);
+	std::cout << "return from prepare()" << std::endl;
 }
 
 void
 drm_audio_encoder_svb::insert_text_message()
 {
+	std::cout << "enter insert()" << std::endl;
 	// text message handling (last 4 bytes of lower protected payload). For details see chapter 6.5 in the standard.
 	unsigned char* text_ptr; // start of text message in output buffer
 	text_ptr = d_out_start + d_L_MUX_MSC - 16; // corresponds to: end of buffer - 16 bits
 	
+	std::cout << "write message to output stream" << std::endl;
 	// determine the part of the message that is to be inserted in this call to work()
 	for(int i = 0; i < 16; i++)
 	{
@@ -394,6 +415,7 @@ drm_audio_encoder_svb::insert_text_message()
 		text_ptr++;
 		d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;		
 	}
+	std::cout << "return from insert()" << std::endl;
 }
 
 

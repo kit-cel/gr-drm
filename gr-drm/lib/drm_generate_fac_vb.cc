@@ -283,7 +283,16 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	std::cout << std::endl;*/
 	
 	/* enqueue CRC word */
-	enqueue_crc(data_start, d_tp, 8); //  The channel type is implicitly detected by the choice of the polynomial
+	int len;
+	if(d_tp->cfg().RM() < 4) // standard DRM
+	{
+		len = 64; // 20 bits of channel parameters + 44 bits of service parameters
+	}
+	else // DRM+
+	{
+		len = 112; // 20 bits  + 2 * 44 bits + 4 bits (zeros, only for CRC calculation) 
+	}
+	enqueue_crc(data_start, d_tp, len, 8); //  The channel type is implicitly detected by the choice of the polynomial
 }
 
 void

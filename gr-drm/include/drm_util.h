@@ -13,7 +13,7 @@ void enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[]);
 void enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val);
 
 // enqueue crc word of order ord after bit sequence of length len at address ptr
-void enqueue_crc(unsigned char* ptr, transm_params* tp, unsigned short ord);
+void enqueue_crc(unsigned char* ptr, transm_params* tp, int len, unsigned short ord);
 
 // enqueue array arr of lenght len to vector vec
 void enqueue_array_to_vector(std::vector< unsigned char >* vec, const unsigned char* arr, int len);
