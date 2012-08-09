@@ -117,7 +117,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	int labelsize = label.size();
 	if(labelsize > 64) //  cut off after 64 byte
 	{
-		std::cout << "Station label too long (max. 64 byte / 16 UTF-8 characters)! Some characters are dropped.\n";
+		std::cout << "Station label too long (max. 64 byte of 16 UTF-8 characters)! Some characters are dropped.\n";
 		labelsize = 64;
 	}	
 	

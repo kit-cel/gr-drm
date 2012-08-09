@@ -7,7 +7,7 @@ config::config()
 	d_SO = 0;
 	d_UEP = 0;
 	d_n_bytes_A = 0;
-	d_text = 0;
+	d_text = false;
 	d_long_interl =	0;
     d_msc_mapping = 0;
     d_msc_prot_level_1 = 0;
@@ -32,7 +32,8 @@ config::init(tables* ptr_tables,
 			  unsigned short sdc_prot_level,
 			  bool long_interl,
 			  unsigned int audio_samp_rate,
-			  std::string station_label)
+			  std::string station_label,
+			  std::string text_message)
 {
 	/* user defined parameters */
 	//d_RM = 1; // B
@@ -41,7 +42,10 @@ config::init(tables* ptr_tables,
 	d_SO = SO;
 	d_UEP = false; // EEP
 	d_n_bytes_A = 0; // EEP
-	d_text = false; // no text message included
+	if(text_message.size() > 0) // set text message flag
+	{
+		d_text = true; // this is false by default, so only change it when there is a message
+	}
 	d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = 1; // 16-QAM SM
 	d_msc_prot_level_1 = 0; // not used because UEP==0
@@ -51,6 +55,7 @@ config::init(tables* ptr_tables,
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
 	d_audio_samp_rate = audio_samp_rate; // 12 or 24 kHz audio
 	d_station_label = station_label; // station label (up to 16 characters)
+	d_text_message = text_message; // text message (up to 8*16 bytes of UTF-8 encoded character data)
 
 	/* pointer to tables needed for init */
 	d_ptables = ptr_tables;
@@ -212,6 +217,12 @@ std::string
 config::station_label()
 {
 	return d_station_label;
+}
+
+std::string
+config::text_message()
+{
+	return d_text_message;
 }
 
 tables*

@@ -21,6 +21,7 @@ class config
 	bool d_long_interl; // 0: short interleaving, 1: long interleaving
 	unsigned int d_audio_samp_rate; // Input audio sampling rate
 	std::string d_station_label; // station label
+	std::string d_text_message; // text message
 
 	tables* d_ptables; // pointer to tables needed for init
 
@@ -39,6 +40,7 @@ public:
 	bool long_interl();
 	unsigned int audio_samp_rate();
 	std::string station_label();
+	std::string text_message();
 	tables* ptables();
 
 	config();
@@ -57,7 +59,8 @@ public:
 			  unsigned short sdc_prot_level,
 			  bool long_interl,
 			  unsigned int audio_samp_rate,
-			  std::string station_label); // set member variables
+			  std::string station_label,
+			  std::string text_message); // set member variables
 			  
 	bool check_arguments(); // some range and plausibility checks
 };

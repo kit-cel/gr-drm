@@ -38,7 +38,8 @@ public:
 				  unsigned short sdc_prot_level,
 				  bool long_interl,
 				  unsigned int audio_samp_rate,
-				  std::string station_label);
+				  std::string station_label,
+				  std::string text_message);
 	~transm_params(){};
 };
 
