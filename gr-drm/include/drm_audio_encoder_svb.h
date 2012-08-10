@@ -61,6 +61,7 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	std::vector< unsigned char > d_text_msg_fmt; // formatted text message
 	int d_text_ctr; // counter for the current text frame as per call to work() only a small part of the text stream is processed
 	int d_n_text_frames; // number of text frames (4 byte pieces)
+	int d_text_msg_index; // indicates the distance from the beginning of the buffer where the text message shall be positioned
 	
 	std::vector<int> d_n_bytes_encoded; // return value of faacEncEncode(). Used to determine frame lengths.
 	faacEncHandle d_encHandle;

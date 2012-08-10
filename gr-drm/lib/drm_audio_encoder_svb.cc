@@ -117,6 +117,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 		d_text_ctr = 0;
 		d_n_text_frames = 0;
 		prepare_text_message();
+		d_text_msg_index = n_bits_usage - 8 * 4; // set offset index for text message application
 	}
 }
 
@@ -153,21 +154,31 @@ drm_audio_encoder_svb::general_work (int noutput_items,
 	d_in = (float*) input_items[0];
 	d_out = (unsigned char*) output_items[0];
 	d_out_start = d_out;
+	//std::cout << "start of work()" << std::endl;
+	//std::cout << "d_out: " << (long) d_out << std::endl;
+	unsigned char* d_out_prev = d_out;
 	
 	// set output buffer to zero (corresponds to zeropadding as defined in the DRM standard)
 	memset(d_out, 0, sizeof(char) * d_L_MUX_MSC);
 	
 	/* encode PCM stream and make it DRM compliant. write to output buffer (in make_drm_compliant()) */
 	// init AAC buffer
+	//std::cout << "aac_encode()" << std::endl;
 	unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out * (const unsigned long) d_n_aac_frames];
 	aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
+	//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
+	d_out_prev = d_out;
 	
+	//std::cout << "make_drm_compliant()" << std::endl;
 	make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
-	
+	//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
+	d_out_prev = d_out;	
 	/* insert text message if available */
 	if( d_tp->cfg().text())
 	{
+		//std::cout << "insert text()" << std::endl;
 		insert_text_message();
+		//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
 	}
 
 	/* Call consume each and return */
@@ -282,47 +293,56 @@ drm_audio_encoder_svb::make_drm_compliant(unsigned char* aac_buffer)
 void
 drm_audio_encoder_svb::prepare_text_message()
 {
-	std::cout << "entering prepare()" << std::endl;
+	//std::cout << "entering prepare()" << std::endl;
 	/* prepare the text message string */
-	int len = d_text_msg.size(); // length of the string in bytes
 	
+
+	//std::cout << "length of the original string: " << d_text_msg.size() << std::endl;
 	// determine the number of segments, truncate if needed
-	int n_segments = std::ceil( (float) len/16); // number of segments (16 bytes per segment)
+	int n_segments = std::ceil( (float) d_text_msg.size()/16); // number of segments (16 bytes per segment)
 	if ( n_segments > 8 ) // max number of segments is 8, truncate if necessary
 	{
 		std::cout << "Text message is too long! Message gets truncated to the maximal possible length.\n";
 		n_segments = 8;
 		d_text_msg.resize(8*16); // max number of segments * max number of bytes
 	}
-	
+	std::cout << "length of the resized string: " << d_text_msg.size() << std::endl;
 	// zero-pad string if its length is not a multiple of four (bytes)
-	int n_bytes_pad = 4 - len % 4;
-	if ( n_bytes_pad == 4 ) //  wrap around
-	{
-		n_bytes_pad = 0;
-	}	
+	int n_bytes_pad = (4 - d_text_msg.size() % 4) % 4;
 	d_text_msg.append(n_bytes_pad, 0); // append zeros (0x00)
 	
-	// allocate bit array (unpacked) that will hold the real text message stream
-	const int len_total = (len + n_bytes_pad) * 8 + n_segments * (16 + 32) + 16; // payload + header + leading zeros + CRC
-	d_n_text_frames = len_total/4;
-	unsigned char msg[len_total]; 
-	std::cout << "len_total: " << len_total << std::endl;
-	std::cout << "msg address: " << (long) &msg[0] << std::endl;
-	unsigned char* p_msg = &msg[0];
+	int len_string_byte = d_text_msg.size(); // length of the string in bytes
+	///std::cout << "len of padded string: " << len_string_byte << std::endl;
 	
+	// allocate bit array (unpacked) that will hold the real text message stream
+	const int len_msg_bit = len_string_byte * 8 + n_segments * (16 + 32 + 16); // payload + header + leading zeros + CRC
+	//std::cout << "len_msg_bit: " << len_msg_bit << std::endl;
+	d_n_text_frames = len_msg_bit/(4*8);
+	//std::cout << "d_n_text_frames: " << d_n_text_frames << ", n_segments: " << n_segments << std::endl;
+	unsigned char msg[len_msg_bit]; 
+	memset(msg, 9, len_msg_bit);
+	
+	//std::cout << "msg address: " << (long) &msg[0] << std::endl;
+	unsigned char* p_msg = &msg[0];
 	
 	// insert leading 0xFF bytes and header
 	int ctr = 0; // byte-based counter
+	int bits_written_total = 0;
 	for(int i = 0; i < n_segments; i++)
 	{
-		std::cout << "insert leading ones and header" << std::endl;
-		std::cout << "msg address: " << (long) &msg[0] << std::endl;
+		int bits_written = 0;
+		unsigned char* seg_ptr = p_msg; // pointer to the beginning of the current segment
+		
+		//std::cout << "insert leading ones and header" << std::endl;
+		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
+		//std::cout << "segment " << i << ": " << std::endl;	
 		/* beginning of the segment */
 		enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
+		bits_written += 32;
 		
 		/* header */
 		enqueue_bits_dec(p_msg, 1, 0); // toggle flag (changes when segments from different messages are transmitted)
+		bits_written += 1;
 		
 		if(i == 0) // first flag
 		{
@@ -332,6 +352,7 @@ drm_audio_encoder_svb::prepare_text_message()
 		{
 			enqueue_bits_dec(p_msg, 1, 0);
 		}
+		bits_written += 1;
 		
 		if(i == n_segments - 1) // last flag
 		{
@@ -342,6 +363,7 @@ drm_audio_encoder_svb::prepare_text_message()
 			enqueue_bits_dec(p_msg, 1, 0);
 		}
 		enqueue_bits_dec(p_msg, 1, 0); // command flag (0 -> Field 1 signals the length of the body of the segment; if set to 1, field 2 is omitted)
+		bits_written += 2;
 		
 		// field 1 (length of the segment in bytes, coded as unsigned number)
 		if( i < n_segments - 1) // the last segment can hold less than 16 bytes of character data and has to be treated separately
@@ -350,8 +372,9 @@ drm_audio_encoder_svb::prepare_text_message()
 		}
 		else
 		{
-			enqueue_bits_dec(p_msg, 4, d_text_msg.size() % 16);
+			enqueue_bits_dec(p_msg, 4, len_string_byte - (n_segments-1) * 16 - 1);
 		}
+		bits_written += 4;
 		
 		// field 2
 		if(i == 0) // first segment
@@ -363,59 +386,90 @@ drm_audio_encoder_svb::prepare_text_message()
 			enqueue_bits_dec(p_msg, 1, 0); // rfa
 			enqueue_bits_dec(p_msg, 3, i); // segment number (1-7)
 		}
+		bits_written += 4;
 		
 		enqueue_bits_dec(p_msg, 4, 0); // rfa
+		bits_written += 4;
 		
-		std::cout << "insert body" << std::endl;
-		std::cout << "msg address: " << (long) &msg[0] << std::endl;
+		//std::cout << "insert body" << std::endl;
+		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 		/* body */
 		if(i < n_segments - 1) // this is a 'full' segment
 		{
-			for(int j = 0; j < 4; j++)
+			for(int j = 0; j < 16; j++)
 			{
-				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]); // unpack one byte and write it to the stream
+				enqueue_bits_dec(p_msg, 8, (unsigned char) d_text_msg[ctr]); // unpack one byte and write it to the stream
+				bits_written += 8;
 				ctr++;
 			}
-			enqueue_crc(&msg[0] + i*8*(16 + 2 + 2) + 32, d_tp, 16 + 16*8, 162); // calculate CRC over the body and header, mode 16-2 is a quick'n dirty solution...
-		
+			enqueue_crc(seg_ptr + 32, d_tp, bits_written - 32, 162);
+			p_msg += 16; // enqueue crc does not move the array pointer
+			bits_written += 16;
 		}
 		else // last segment
 		{
-			for(int j = 0; j < d_text_msg.size() % 16; j++)
+			for(int j = 0; j < len_string_byte - (n_segments-1) * 16; j++)
 			{
-				enqueue_bits_dec(p_msg, 8, d_text_msg[ctr]);
+				enqueue_bits_dec(p_msg, 8, (unsigned char) d_text_msg[ctr]);
+				bits_written += 8;
 				ctr++;
 			}
-			// FIXME: insert CRC here
+			enqueue_crc(seg_ptr + 32, d_tp, bits_written - 32, 162);
+			p_msg += 16; // enqueue crc does not move the array pointer
+			bits_written += 16;
 		}
+		
+		bits_written_total += bits_written;
+		
+		/*std::cout << "prefix: ";
+		for(int k = 0; k < 32; k++)
+			std::cout << (int) seg_ptr[k];
+		
+		std::cout << std::endl;
+		
+		std::cout << "header: ";
+		for(int k = 0; k < 16; k++)
+			std::cout << (int) seg_ptr[k+32];
+		std::cout << std::endl;
+		
+		std::cout << "body: ";
+		for(int k = 0; k < bits_written - 32 - 16 - 16; k++)
+			std::cout << (int) seg_ptr[k + 48];
+		std::cout << std::endl;
+		
+		std::cout << "CRC: ";
+		for(int k = 0; k < 16; k++)
+			std::cout << (int) seg_ptr[k + bits_written - 16];
+		std::cout << std::endl;*/
+		
 	}
 	
+	//std::cout << "total bits written: " << bits_written_total << std::endl;
 	
-	
-	std::cout << "copy array into a vector" << std::endl;
-	std::cout << "msg address: " << (long) &msg[0] << std::endl;
+	//std::cout << "copy array into a vector" << std::endl;
+	//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 	// copy the char array into a vector (more convenient)
-	d_text_msg_fmt.assign(&msg[0], &msg[0] + len_total);
-	std::cout << "return from prepare()" << std::endl;
+	d_text_msg_fmt.assign(&msg[0], &msg[0] + len_msg_bit);
+	//std::cout << "return from prepare()" << std::endl;
 }
 
 void
 drm_audio_encoder_svb::insert_text_message()
 {
-	std::cout << "enter insert()" << std::endl;
 	// text message handling (last 4 bytes of lower protected payload). For details see chapter 6.5 in the standard.
-	unsigned char* text_ptr; // start of text message in output buffer
-	text_ptr = d_out_start + d_L_MUX_MSC - 16; // corresponds to: end of buffer - 16 bits
+	d_out = d_out_start + d_text_msg_index; // set output buffer pointer to the beginning of the text message
 	
-	std::cout << "write message to output stream" << std::endl;
+	//std::cout << "write message to output stream" << std::endl;
 	// determine the part of the message that is to be inserted in this call to work()
-	for(int i = 0; i < 16; i++)
+	//std::cout << "actually inserted bits (ctr: " << d_text_ctr << "): ";
+	for(int i = 0; i < 32; i++)
 	{
-		*text_ptr = d_text_msg_fmt[d_text_ctr*16 + i];
-		text_ptr++;
-		d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;		
+		*d_out++ = d_text_msg_fmt[d_text_ctr*32 + i];
+		//std::cout << (int) *(d_out-1);	
 	}
-	std::cout << "return from insert()" << std::endl;
+	//std::cout << std::endl;
+	d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;
+	//std::cout << "return from insert()" << std::endl;
 }
 
 

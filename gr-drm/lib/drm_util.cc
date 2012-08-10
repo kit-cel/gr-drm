@@ -111,7 +111,7 @@ enqueue_crc(unsigned char* ptr, transm_params* tp, int len, const unsigned short
 	}
 	
 	/* read and append CRC word */
-	std::cout << "append CRC word" << std::endl;
+	//std::cout << "append CRC word" << std::endl;
 	for(unsigned int i = 0; i < ord; i++)
 	{
 		crc_word[i] = ( shift_reg[i] + 1 ) % 2; // CRC word shall be inverted prior to transmission
