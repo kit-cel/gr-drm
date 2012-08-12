@@ -47,7 +47,8 @@ config::init(tables* ptr_tables,
 		d_text = true; // this is false by default, so only change it when there is a message
 	}
 	d_long_interl = false; // short interleaving (400ms)
-	d_msc_mapping = 1; // 16-QAM SM
+	d_msc_mapping = msc_mapping;
+	//d_msc_mapping = 1; // 16-QAM SM
 	d_msc_prot_level_1 = 0; // not used because UEP==0
 	//d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_msc_prot_level_2 = msc_prot_level_2;
