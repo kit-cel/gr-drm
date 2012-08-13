@@ -15,7 +15,6 @@
 
 class tables
 {
-	// TODO: find a way to access the tables flexibly, then make them private.
 	public:
 
 	/****************************************************************
