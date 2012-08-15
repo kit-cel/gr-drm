@@ -7,8 +7,19 @@
 //load generated python docstrings
 %include "drm_swig_doc.i"
 
+%include "typemaps.i"
+
+%template(IntVector) std::vector<int>;
+%template(UCharVector) std::vector<unsigned char>;
+%template(VecIntVector) std::vector< std::vector<int> >;
 
 %{
+#include "drm_global_constants.h"
+#include "drm_tables.h"
+#include "drm_config.h"
+#include "drm_params.h"
+#include "drm_transm_params.h" 
+#include "drm_util.h"
 #include "drm_audio_encoder_svb.h"
 #include "drm_scrambler_vbvb.h"
 #include "drm_generate_sdc_vb.h"
@@ -22,6 +33,13 @@
 #include "drm_interleaver_vcvc.h"
 #include "drm_audio_decoder_vbs.h"
 %}
+
+%include "drm_global_constants.h"
+%include "drm_tables.h"
+%include "drm_config.h"
+%include "drm_params.h"
+%include "drm_transm_params.h"
+%include "drm_util.h"
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
 

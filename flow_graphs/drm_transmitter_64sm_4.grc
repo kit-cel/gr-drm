@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Mon Aug 13 12:39:24 2012</timestamp>
+  <timestamp>Wed Aug 15 12:55:04 2012</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -157,29 +157,6 @@
     </param>
   </block>
   <block>
-    <key>import</key>
-    <param>
-      <key>id</key>
-      <value>init</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>import</key>
-      <value>import drm_init</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>drm_scrambler_vbvb</key>
     <param>
       <key>id</key>
@@ -304,69 +281,6 @@
     <param>
       <key>_coordinate</key>
       <value>(708, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_4qam_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm_init.N_TAILBITS / drm_init.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm_init.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.sdc().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.sdc().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.sdc().punct_pat_tail_0()</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.sdc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -613,132 +527,6 @@
     <param>
       <key>_coordinate</key>
       <value>(1317, 403)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_64qam_sm_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_64qam_sm_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM64SM</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>6</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>6</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.msc().mod_order()</value>
-    </param>
-    <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
-      <value>tp.msc().punct_pat_tail_0_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_0_2</key>
-      <value>tp.msc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>part_len_mid</key>
-      <value>tp.msc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[2]</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.msc().punct_pat_1_2()</value>
-    </param>
-    <param>
-      <key>pp_2_tail</key>
-      <value>tp.msc().punct_pat_tail_1_2()</value>
-    </param>
-    <param>
-      <key>pp_2</key>
-      <value>tp.msc().punct_pat_2_2()</value>
-    </param>
-    <param>
-      <key>pp_1_tail</key>
-      <value>tp.msc().punct_pat_tail_2_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.msc().bit_interl_seq_1_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_2_2</key>
-      <value>tp.msc().bit_interl_seq_2_2()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(925, 153)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm_init.transm_params(RM, SO, False, 0, True, 2, 0, msc_prot_level_2, 1, 0, False, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 56)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1626,100 +1414,6 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm_init.N_TAILBITS / drm_init.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm_init.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.fac().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.fac().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 724)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_source_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/short24.wav</value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 325)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>gr_multiply_const_vxx</key>
     <param>
       <key>id</key>
@@ -1791,6 +1485,289 @@
     <param>
       <key>_rotation</key>
       <value>180</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, True, 2, 0, msc_prot_level_2, 1, 0, False, audio_sample_rate, station_label, text_message)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 56)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_vbvb_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.fac().N()</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>N</key>
+      <value>tp.fac().N()</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.fac().mod_order()</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.fac().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(924, 724)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_vbvb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.sdc().N()</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>N</key>
+      <value>tp.sdc().N()</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.sdc().mod_order()</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.sdc().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.sdc().punct_pat_tail_0()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.sdc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(924, 512)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_64qam_sm_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_64qam_sm_vbvb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM64SM</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>N</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.msc().mod_order()</value>
+    </param>
+    <param>
+      <key>pp_0</key>
+      <value>tp.msc().punct_pat_0_2()</value>
+    </param>
+    <param>
+      <key>pp_0_tail</key>
+      <value>tp.msc().punct_pat_tail_0_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_0_2</key>
+      <value>tp.msc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.msc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>M_total</key>
+      <value>tp.msc().M_total()</value>
+    </param>
+    <param>
+      <key>part_len_mid</key>
+      <value>tp.msc().M_total()[1]</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.msc().M_total()[2]</value>
+    </param>
+    <param>
+      <key>pp_1</key>
+      <value>tp.msc().punct_pat_1_2()</value>
+    </param>
+    <param>
+      <key>pp_2_tail</key>
+      <value>tp.msc().punct_pat_tail_1_2()</value>
+    </param>
+    <param>
+      <key>pp_2</key>
+      <value>tp.msc().punct_pat_2_2()</value>
+    </param>
+    <param>
+      <key>pp_1_tail</key>
+      <value>tp.msc().punct_pat_tail_2_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_1_2</key>
+      <value>tp.msc().bit_interl_seq_1_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_2_2</key>
+      <value>tp.msc().bit_interl_seq_2_2()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(925, 153)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/schubert24.wav</value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 325)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
     </param>
   </block>
   <connection>

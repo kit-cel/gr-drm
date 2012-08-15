@@ -6,3 +6,4 @@ github.txt
 *.dat
 *.bin
 gr-drm/build
+flow_graphs/*.py

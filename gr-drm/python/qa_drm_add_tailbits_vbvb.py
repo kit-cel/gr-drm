@@ -21,7 +21,6 @@
 
 from gnuradio import gr, gr_unittest
 import drm
-import drm_init
 #import drm_swig
 
 class qa_add_tailbits_vbvb (gr_unittest.TestCase):

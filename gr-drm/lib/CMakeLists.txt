@@ -19,7 +19,10 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-add_library(gnuradio-drm SHARED drm_audio_encoder_svb.cc drm_scrambler_vbvb.cc 
+add_library(gnuradio-drm SHARED 
+			drm_util.cc drm_transm_params.cc drm_params.cc drm_config.cc
+			drm_tables_mapping.cc drm_tables_params.cc 
+			drm_audio_encoder_svb.cc drm_scrambler_vbvb.cc 
 			drm_tables_mapping.cc drm_tables_params.cc drm_config.cc drm_util.cc
 			drm_params.cc drm_transm_params.cc drm_generate_sdc_vb.cc 
 			drm_generate_fac_vb.cc drm_partitioning_vbvb.cc drm_punct_vbvb.cc 

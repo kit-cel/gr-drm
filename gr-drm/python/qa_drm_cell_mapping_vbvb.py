@@ -21,14 +21,13 @@
 
 from gnuradio import gr, gr_unittest
 #import drm_swig
-import drm_init
 import drm
 
 class qa_cell_mapping_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.tp = drm_init.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
+        self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
         vlen_msc = self.tp.msc().N_MUX() * self.tp.ofdm().M_TF()
         vlen_sdc = self.tp.sdc().N()
         vlen_fac = self.tp.fac().N() * self.tp.ofdm().M_TF()

@@ -20,7 +20,6 @@
 #
 
 from gnuradio import gr, gr_unittest
-import drm_init
 import drm
 #import drm_swig
 

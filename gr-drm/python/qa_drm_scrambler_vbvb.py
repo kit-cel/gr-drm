@@ -22,7 +22,6 @@
 from gnuradio import gr, gr_unittest
 import numpy as np
 import drm
-import drm_init
 #import drm_swig
 
 class qa_scrambler_vbvb (gr_unittest.TestCase):
