@@ -81,13 +81,13 @@ drm_cell_mapping_vbvb::drm_cell_mapping_vbvb (transm_params* tp, std::vector< in
 	switch(tp->msc().mod_order())
 	{
 		case 2: // 4-QAM
-			d_boost_coeff = 1/sqrt(42);
+			d_boost_coeff = 1/sqrt(2);
 			break;
 		case 4: // 16-QAM
 			d_boost_coeff = 1/sqrt(10);
 			break;
 		case 6: // 64-QAM
-			d_boost_coeff = 1/sqrt(2);
+			d_boost_coeff = 1/sqrt(42);
 			break;
 		default:
 			break;
