@@ -434,6 +434,7 @@ void tables::calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int
 		gain_cells_tmp.clear();
 		for(int n = 0; n < (d_gain_pos[s]).size(); n++)
 		{
+			//std::cout << "check if " << d_gain_pos[s][n] << " equals " << d_gain_boost[rob_mode][4*so] << " or " << d_gain_boost[rob_mode][4*so + 1] << " or " << d_gain_boost[rob_mode][4*so + 2] << " or " << d_gain_boost[rob_mode][4*so + 3] << std::endl;
 			if(d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so] || // check if cell shall be overboosted
 			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 1] || 
 			   d_gain_pos[s][n] == d_gain_boost[rob_mode][4*so + 2] ||

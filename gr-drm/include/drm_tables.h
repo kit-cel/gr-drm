@@ -68,9 +68,6 @@ class tables
 	static const int d_gain_boost[NUM_RM][NUM_SO * 4]; // 4 indices per RM/SO
 	void calc_gain_cell_params(unsigned short rob_mode, int so, unsigned int n_sym, int k_min, int k_max); // this function is NOT called in init as RM is defined in config and N_S in ofdm_params!
 
-	/* AFS reference cells */
-	//TODO: add AFS reference cells
-
 	/* QAM mapping */
 	static const float d_QAM64SM[8][2];
 	static const float d_QAM64HMsym[8][2];

@@ -134,11 +134,12 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	// define some constants
 	const std::complex<double> j(0,1); // imaginary unit
 	const double pi = M_PI;
-	const double boost = sqrt(2);
+	const double boost = sqrt(2); // boost applied to the pilot cells
 	
 	// copy mapping tables to access them flexibly
 	int freq_pil[3][2];
 	const int time_rows = d_time_rows; // this way we can instance an array with this variable	
+	int afs_pil[NUM_AFS_PILOTS][3]; // only used for RM E
 	int time_pil[time_rows][2];
 	const int fac_rows = d_fac_rows;
 	int fac_pos[fac_rows][2];
@@ -171,8 +172,10 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 			d_unused_carriers.push_back(0);
 			break;
 		case 4: //E
-			//memcpy(time_pil, d_tables->d_time_E, RME_NUM_TIME_PIL*2*sizeof(int));
-			//memcpy(fac_pos, d_tables->d_FAC_E, N_FAC_DRMPLUS*2*sizeof(int));
+			memcpy(time_pil, d_tables->d_time_E, RME_NUM_TIME_PIL*2*sizeof(int));
+			memcpy(fac_pos, d_tables->d_FAC_E, N_FAC_DRMPLUS*2*sizeof(int));
+			memcpy(afs_pil, d_tables->d_AFS, NUM_AFS_PILOTS*3*sizeof(int));
+			d_unused_carriers.clear(); // no unused carriers
 			break;
 		default:
 			break;
@@ -183,7 +186,7 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 	{	
 		/* Pilot cells */
 		
-		/* Frequency reference cells (not for RM E) */	
+		/* Frequency reference cells (only DRM) and AFS reference cells (only DRM+) */	
 		if( d_tp->cfg().RM() != 4)
 		{
 			for(int s = 0; s < d_N; s++)
@@ -202,6 +205,20 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 				}
 			}
 		}
+		else // insert AFS reference cells
+		{
+			int col = 1; // index for the mapping table. is incremented before the next iteration to access the next column.
+			for( int s = 4; s < d_N; s+=35) // only symbol 4 and (4+35) 39
+			{
+				
+				for(int i = 0; i < NUM_AFS_PILOTS; i++)
+				{			
+					// no special boost is applied to the AFS cells
+					out[tf*d_N*d_nfft + s*d_nfft + afs_pil[i][0] + k_off] = cos(2*pi*afs_pil[i][col]/1024) + j*sin(2*pi*afs_pil[i][col]/1024);		
+				}
+				col++;
+			}
+		}
 	
 		/* Time reference cells (only in the first symbol of the transmission frame) */
 		for( int i = 0; i < time_rows; i++)
@@ -218,18 +235,28 @@ drm_cell_mapping_vbvb::work (int noutput_items,
 				{
 					out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] = d_tables->d_gain_cells[s][i];
 				}
-				else // cell is already occupied, do not overwrite phase. check if the cell is an overboosted one and boost amplitude if so.
+				else // cell is already occupied by another pilot, do not overwrite phase. check if the cell is an overboosted one and boost amplitude if so. Take special care of AFS reference cells in RM E as they are regularly boosted with 1 instead of sqrt(2).
 				{
-					if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) > 1.5 ) // normal boost is sqrt(2)
+					if( abs( d_tables->d_gain_cells[s][i] ) > 1.5 && abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) > 1.1) // this is a DRM pilot cell (not AFS) with abs sqrt(2)
+					//if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) > 1.5 ) // normal boost is sqrt(2)
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] *= sqrt(2);
+					}
+					if( d_tp->cfg().RM() == 4 && abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) < 1.1) // boost AFS cell to the gain pilot level
+					{
+						if( abs( d_tables->d_gain_cells[s][i] ) > 1.5 ) // this cell is to be boosted
+						{
+							out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] *= 2;
+						}
+						else // apply normal boost
+						{
+							out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] *= sqrt(2);
+						}
 					}
 				}
 			}
 		}
-	
-		/* AFS reference cells (only RM E) */
-	
+
 		/* Channel data (cells are mapped consecutively in ascending order from k_min to k_max) */
 		
 		/* Map FAC */
