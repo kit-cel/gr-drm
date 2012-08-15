@@ -26,22 +26,25 @@ class tables
 	static const int d_FAC_B[N_FAC_DRM][2];
 	static const int d_FAC_C[N_FAC_DRM][2];
 	static const int d_FAC_D[N_FAC_DRM][2];
-	//static const int d_FAC_E[N_FAC_DRMPLUS][2]; // TODO: define values
+	static const int d_FAC_E[N_FAC_DRMPLUS][2];
 
 	/* Frequency pilot positions and phases (normalized to 1024)
 	 * The two colums denote {carrier index, phase index} */
 	static const int d_freq_A[NUM_FREQ_PILOTS][2];
 	static const int d_freq_B[NUM_FREQ_PILOTS][2];
 	static const int d_freq_C[NUM_FREQ_PILOTS][2];
-	static const int d_freq_D[NUM_FREQ_PILOTS][2]; // TODO: special care has to be taken to ensure continuous tones in RM D.
+	static const int d_freq_D[NUM_FREQ_PILOTS][2];
 	// there are no frequency pilots in RM E!
+	
+	/* AFS reference cells (only RM E) */
+	static const int d_AFS[NUM_AFS_PILOTS][3];
 
 	/* Time reference positions and phases (normalized) */
 	static const int d_time_A[RMA_NUM_TIME_PIL][2];
 	static const int d_time_B[RMB_NUM_TIME_PIL][2];
 	static const int d_time_C[RMC_NUM_TIME_PIL][2];
 	static const int d_time_D[RMD_NUM_TIME_PIL][2];
-	//static const int d_time_E[RME_NUM_TIME_PIL][2]; // TODO: define values
+	static const int d_time_E[RME_NUM_TIME_PIL][2];
 
 	/* Gain reference cells */
 	static const int d_gain_W_A[5][3];
