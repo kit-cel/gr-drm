@@ -70,7 +70,7 @@ drm_cell_interleaver_vcvc::general_work (int noutput_items,
 		// fill buffer as 'd_depth' consecutive transmission frames are needed to perform long interleaving
 		for(int i = 0; i < d_seq.size(); i++)
 		{
-			d_tmp_buffer.push_back(out[i]);
+			d_tmp_buffer.push_back(in[i]);
 		}
 		d_buffer.push_back(d_tmp_buffer);
 		d_tmp_buffer.clear();
