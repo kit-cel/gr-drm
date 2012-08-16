@@ -1,21 +1,31 @@
 <?xml version="1.0"?>
 <block>
-  <name>DRM Cell Interleaver</name>
-  <key>drm_interleaver_vcvc</key>
+  <name>DRM Cell Interleaver (long/short)</name>
+  <key>drm_cell_interleaver_vcvc</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.interleaver_vcvc($interl_seq)</make>
+  <make>drm.cell_interleaver_vcvc($interl_seq, $long_interl, $depth)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>Interleaver sequence</name>
+    <name>Interleaving sequence</name>
     <key>interl_seq</key>
     <type>int_vector</type>
   </param>
-
+  <param>
+    <name>Long Interleaving</name>
+    <key>long_interl</key>
+    <type>bool</type>
+  </param>
+  <param>
+    <name>Interleaver Depth</name>
+    <key>depth</key>
+    <type>int</type>
+  </param>
+  
   <!-- Make one 'sink' node per input. Sub-nodes:
        * name (an identifier for the GUI)
        * type

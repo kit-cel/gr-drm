@@ -46,7 +46,8 @@ config::init(tables* ptr_tables,
 	{
 		d_text = true; // this is false by default, so only change it when there is a message
 	}
-	d_long_interl = false; // short interleaving (400ms)
+	d_long_interl = long_interl;
+	//d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = msc_mapping;
 	if(RM == 4 && msc_mapping != 0) // no other mapping tahn 4QAM is possible for DRM+
 	{

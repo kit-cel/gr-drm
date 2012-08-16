@@ -30,8 +30,8 @@
 #include "drm_interleaver_vbvb.h"
 #include "drm_qam_map_vbvb.h"
 #include "drm_cell_mapping_vbvb.h"
-#include "drm_interleaver_vcvc.h"
 #include "drm_audio_decoder_vbs.h"
+#include "drm_cell_interleaver_vcvc.h"
 %}
 
 %include "drm_global_constants.h"
@@ -77,8 +77,8 @@ GR_SWIG_BLOCK_MAGIC(drm,qam_map_vbvb);
 GR_SWIG_BLOCK_MAGIC(drm,cell_mapping_vbvb);
 %include "drm_cell_mapping_vbvb.h"
 
-GR_SWIG_BLOCK_MAGIC(drm,interleaver_vcvc);
-%include "drm_interleaver_vcvc.h"
-
 GR_SWIG_BLOCK_MAGIC(drm,audio_decoder_vbs);
 %include "drm_audio_decoder_vbs.h"
+
+GR_SWIG_BLOCK_MAGIC(drm,cell_interleaver_vcvc);
+%include "drm_cell_interleaver_vcvc.h"

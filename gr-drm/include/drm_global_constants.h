@@ -17,6 +17,9 @@
 #define L_FAC_DRM			72 // number of FAC bits in DRM
 #define L_FAC_DRMPLUS		116 // number of FAC bits in DRM+
 
+#define INTL_DEPTH_DRM		5 // interleaving depth for RM A-D for long interleaving (multiple of transmission frames)
+#define INTL_DEPTH_DRMPLUS	6 // ... same for DRM+ (RM E)
+
 #define NUM_FREQ_PILOTS		3 // only for RM A-D, no freq pilots in DRM+
 #define NUM_AFS_PILOTS		54 // only for RM E
 
