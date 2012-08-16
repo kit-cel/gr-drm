@@ -48,6 +48,11 @@ config::init(tables* ptr_tables,
 	}
 	d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = msc_mapping;
+	if(RM == 4 && msc_mapping != 0) // no other mapping tahn 4QAM is possible for DRM+
+	{
+		std::cout << "config:: MSC mapping has been reset to 4-QAM. This is the only mapping scheme used for DRM+.\n";
+		d_msc_mapping = 0;
+	}
 	//d_msc_mapping = 1; // 16-QAM SM
 	d_msc_prot_level_1 = 0; // not used because UEP==0
 	//d_msc_prot_level_2 = 1; // R_all = 0.62
