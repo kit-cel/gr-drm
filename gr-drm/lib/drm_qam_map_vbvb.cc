@@ -1,7 +1,8 @@
 /* -*- c++ -*- */
 /* 
- * Copyright 2012 <+YOU OR YOUR COMPANY+>.
- * 
+ * Copyright 2012 Communications Engineering Lab (CEL) / KIT (Karlsruhe Institute of Technology) 
+ * Author: Felix Wunsch
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)

@@ -1,21 +1,24 @@
-/*
- * drm_init_params.h
- *
- *  Created on: 11.06.2012
- *      Author: felixwunsch
- *
- *  Description: 	Some classes holding the parameters for transmission.
- *  				The control_channel_params and msc_params include
- *  				everything for the binary domain, the ofdm_params
- *  				class yields the needed variables for the complex
- *  				domain.
- *
- *  				These classes shall be instantiated at the
- *  				beginning. The init() routines determine all
- *  				important parameters. At the moment, they are not
- *  				thought to be changeable during transmission.
+/* -*- c++ -*- */
+/* 
+ * Copyright 2012 Communications Engineering Lab (CEL) / KIT (Karlsruhe Institute of Technology) 
+ * Author: Felix Wunsch
+ * 
+ * This is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ * 
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this software; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street,
+ * Boston, MA 02110-1301, USA.
  */
-
+ 
 #ifndef _DRM_PARAMS_H_
 #define _DRM_PARAMS_H_
 

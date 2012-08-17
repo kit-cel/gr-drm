@@ -1,8 +1,11 @@
 /* -*- c++ -*- */
-/* TODO: add Dream copyright notice!
 /* 
- * Copyright 2012 CEL KIT.
+ * Copyright 2012 Communications Engineering Lab (CEL) / KIT (Karlsruhe Institute of Technology) 
+ * Author: Felix Wunsch
  * 
+ * The algorithm for the composition of the DRM compliant data has been taken
+ * from DREAM (see http://sourceforge.net/apps/mediawiki/drm/index.php?title=Main_Page)
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
