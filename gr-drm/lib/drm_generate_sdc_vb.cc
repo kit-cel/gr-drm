@@ -151,7 +151,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	if(d_tp->sdc().L() - (data-data_start) >= 12 + 28 + 16) // header + date + CRC
 	{
 		/* Time and date information data entity - type 8 */
-	
+	/*
 		// header
 		enqueue_bits_dec(data, 7, 3); // No local time offset is transmitted
 		enqueue_bits_dec(data, 1, 0); // unique flag (no meaning)
@@ -159,7 +159,7 @@ drm_generate_sdc_vb::init_data(unsigned char* data)
 	
 		// body
 		enqueue_bits_dec(data, 17, 55110); // arbitrary date in Modified Julian Date format
-		enqueue_bits_dec(data, 11, 0); // hours and minutes
+		enqueue_bits_dec(data, 11, 0); // hours and minutes */
 	}
 	else
 	{

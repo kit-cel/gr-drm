@@ -76,34 +76,36 @@ drm_qam_map_vbvb::work (int noutput_items,
 	int iq_index[2]; // first index is I, 2nd is Q
 	int tmp_index;
 
-	// Map bits from several streams to symbols (SM only)
-	for( int i = 0; i < d_vlen_out; i++)
+	for(int n = 0; n < noutput_items; n++)
 	{
-		// reset index and bit vector
-		iq_index[0] = 0;
-		iq_index[1] = 0;
-		bits.clear();
-		
-		// take 2 bits from every stream
-		for( int k = 0; k < 2; k++)
+		// Map bits from several streams to symbols (SM only)
+		for( int i = 0; i < d_vlen_out; i++)
 		{
-			tmp_index = 0;
-			
-			// iterate over streams
-			for( int j = 0; j < d_n_inputs; j++)
+			// reset index and bit vector
+			iq_index[0] = 0;
+			iq_index[1] = 0;
+			bits.clear();
+		
+			// take 2 bits from every stream
+			for( int k = 0; k < 2; k++)
 			{
-				// take one bit from each stream
-				bits.push_back( *(in[j])++ );
+				tmp_index = 0;
+			
+				// iterate over streams
+				for( int j = 0; j < d_n_inputs; j++)
+				{
+					// take one bit from each stream
+					bits.push_back( *(in[j])++ );
 
-				tmp_index += (int) pow(2, d_n_inputs - j - 1) * (int) bits.back(); // add bit in decimal representation to the index
+					tmp_index += (int) pow(2, d_n_inputs - j - 1) * (int) bits.back(); // add bit in decimal representation to the index
+				}
+				iq_index[k] = tmp_index;
 			}
-			iq_index[k] = tmp_index;
+			// map bits through decimal indexes to output symbol
+			*out++ = gr_complex( d_map_table[ iq_index[0] ][0], d_map_table[ iq_index[1] ][1] );		
 		}
-		// map bits through decimal indexes to output symbol
-		*out++ = gr_complex( d_map_table[ iq_index[0] ][0], d_map_table[ iq_index[1] ][1] );		
 	}
-
 	// Tell runtime system how many output items we produced.
-	return 1;
+	return noutput_items;
 }
 

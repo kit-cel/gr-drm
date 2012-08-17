@@ -55,13 +55,15 @@ drm_interleaver_vbvb::work (int noutput_items,
 	const unsigned char *in = (const unsigned char *) input_items[0];
 	unsigned char *out = (unsigned char *) output_items[0];
 
-	// Interleave array entries according to the interleaver sequence
-	for(int i = 0; i < d_seq.size(); i++)
+	for(int n = 0; n < noutput_items; n++)
 	{
-		out[i] = in[d_seq[i]];
+		// Interleave array entries according to the interleaver sequence
+		for(int i = 0; i < d_seq.size(); i++)
+		{
+			out[i+n*d_seq.size()] = in[d_seq[i] + n*d_seq.size()];
+		}
 	}
-
 	// Tell runtime system how many output items we produced.
-	return 1;
+	return noutput_items;
 }
 
