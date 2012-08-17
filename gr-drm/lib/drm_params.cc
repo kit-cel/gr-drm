@@ -32,7 +32,7 @@ ofdm_params::init(config* cfg)
 	// TODO: define values for RM E (DRM+)
 
 	/* define tables to take the values for the current configuration from */
-	unsigned int tab_nfft[NUM_RM] = {1152, 1024, 704, 448, 0}; //  taken from Dream FIXME: missing value for E
+	unsigned int tab_nfft[NUM_RM] = {1152, 1024, 704, 448, 216}; //  A-D taken from Dream
 	unsigned int tab_N_S[NUM_RM] = {15, 15, 20, 24, 40}; // see DRM standard Table 82
 	unsigned int tab_cp_ratio[NUM_RM][2] = {{1, 9}, {1, 4}, {4, 11}, {11, 14}, {1, 9}}; // denominator
 	unsigned short tab_M_TF[NUM_RM] = {3, 3, 3, 3, 4}; // see DRM standard p. 137
@@ -460,7 +460,6 @@ msc_params::init(config* cfg)
 	{
 		// interleaving sequences are defined inside calc_vars_SM
 		calc_vars_SM(cfg);
-		// TODO: calc rest of the variables
 	}
 	else if(cfg->msc_mapping() == 3) // Hierarchical symmetrical mapping (HMsym)
 	{
@@ -572,7 +571,15 @@ msc_params::calc_vars_SM(config* cfg)
 	switch(P_max)
 	{
 		case 1: // 4-QAM, RM E
-			// TODO: call set_interl_seq for DRM+
+			if(cfg->UEP())
+			{
+				set_interl_seq(&d_bit_interl_seq_0_1, 2*d_N_1, d_mod_order, 0); // the different parts shall not overlap (see 7.3.1.1 in the standard)
+				set_interl_seq(&d_bit_interl_seq_0_2, 2*d_N_2, d_mod_order, 0);
+			}
+			else
+			{
+				set_interl_seq(&d_bit_interl_seq_0_2, 2*d_N_MUX, d_mod_order, 0);
+			}
 			break;
 		case 2: // 16-QAM
 			if(cfg->UEP())
