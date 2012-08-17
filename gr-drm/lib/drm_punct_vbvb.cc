@@ -61,34 +61,31 @@ drm_punct_vbvb::general_work (int noutput_items,
   unsigned char *out = (unsigned char *) output_items[0];
   int bit_ctr = 0;
 
-  for(int n = 0; n < noutput_items; n++)
+  for( int j = 0; j < d_vlen_in; j++)
   {
-	  for( int j = 0; j < d_vlen_in; j++)
+	  if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
 	  {
-		  if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
-		  {
-		  	  if(d_pp1[j % d_pp1.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
-		  	  {
-		  	  	  out[bit_ctr] = in[j + n*d_vlen_in];
-		  	  	  bit_ctr++;
-		  	  }
-		  }
-		  else // tail bit puncturing
-		  {
-		  	  if(d_pp2[j % d_pp2.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
-		  	  {
-		  	  	  out[bit_ctr] = in[j + n*d_vlen_in];
-		  	  	  bit_ctr++;
-		  	  }
-		  }
+	  	  if(d_pp1[j % d_pp1.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+	  	  {
+	  	  	  out[bit_ctr] = in[j];
+	  	  	  bit_ctr++;
+	  	  }
+	  }
+	  else // tail bit puncturing
+	  {
+	  	  if(d_pp2[j % d_pp2.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+	  	  {
+	  	  	  out[bit_ctr] = in[j];
+	  	  	  bit_ctr++;
+	  	  }
 	  }
   }
-
+  
   // Tell runtime system how many input items we consumed on
   // each input stream.
-  consume_each (noutput_items);
+  consume_each (1);
 
   // Tell runtime system how many output items we produced.
-  return noutput_items;
+  return 1;
 }
 
