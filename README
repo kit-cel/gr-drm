@@ -63,6 +63,10 @@ autodetection) and a source wav-file (either 12 or 24 kHz). There are also
 several other parameters you can change (see section Features). It is also 
 possible to record a wav-file that can be decoded with DREAM.
 
+As wav files usually aren't sampled with 12 or 24 kHz, I use sox for convenient
+resampling.
+Syntax: 'sox <mysong.wav> -r <new_sample_rate> <mysongresampled.wav> resample'
+
 
 3 FEATURES
 
