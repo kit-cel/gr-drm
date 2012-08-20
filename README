@@ -14,39 +14,48 @@ Dependencies:		GNU Radio, UHD, FAAC, FAAD2
 For installation instructions for GNU Radio and UHD please visit 
 http://www.gnuradio.org (there is a build script making things really easy!).
 
-FAAC:	wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
-		tar zxf faac-1.28.tar.gz
-		cd faac-1.28
-		. bootstrap
-		./configure --with-pic --disable-shared --without-mp4v2 --enable-drm
-		make
-		sudo cp include/faaccfg.h  include/faac.h /usr/include
-		sudo cp libfaac/.libs/libfaac.a /usr/local/lib
+FAAC:	
+
+wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
+tar zxf faac-1.28.tar.gz
+cd faac-1.28
+. bootstrap
+./configure --with-pic --disable-shared --without-mp4v2 --enable-drm
+make
+sudo cp include/faaccfg.h  include/faac.h /usr/include
+sudo cp libfaac/.libs/libfaac.a /usr/local/lib
+cd ..
 		
-FAAD2:	wget http://downloads.sourceforge.net/faac/faad2-2.7.tar.gz
-		tar zxf faad2-2.7.tar.gz
-		cd faad2-2.7
-		. bootstrap
-		./configure --disable-shared --without-xmms --without-bmp --with-drm --without-mpeg4ip --with-pic
-		make
-		sudo cp include/faad.h include/neaacdec.h /usr/include
-		sudo cp libfaad/.libs/libfaad.a /usr/local/lib
+FAAD2:	
+
+wget http://downloads.sourceforge.net/faac/faad2-2.7.tar.gz
+tar zxf faad2-2.7.tar.gz
+cd faad2-2.7
+. bootstrap
+./configure --disable-shared --without-xmms --without-bmp --with-drm --without-mpeg4ip --with-pic
+make
+sudo cp include/faad.h include/neaacdec.h /usr/include
+sudo cp libfaad/.libs/libfaad.a /usr/local/lib
+cd ..
 		
-gr-drm:	git clone git://github.com/fewu/gnuradio_drm.git
-		cd gnuradio_drm/gr-drm
-		mkdir build
-		cd build
-		cmake ../
-		make
-		sudo make install
-		ctest # (optional) this has to be done after make install at the moment as there is a problem with proper importing of drm_swig
-		cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks
+gr-drm:	
+
+git clone git://github.com/fewu/gnuradio_drm.git
+cd gnuradio_drm/gr-drm
+mkdir build
+cd build
+cmake ../
+make
+sudo make install
+sudo ldconfig
+ctest # (optional) at the moment this has to be done after make install as there is a problem with proper importing of drm_swig
+cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks (GRC has to be run once before executing this command)
 		
 		
 2 USAGE
 
 There are various, fully configured flow graphs under gnuradio_drm/flow_graphs 
-that can be used pretty much as-is. 
+that can be used pretty much as-is. The DRM+ flow graph is not functional yet.
 
 Of course you have to set the path to your USRP (or leave it blank for 
 autodetection) and a source wav-file (either 12 or 24 kHz). There are also 
@@ -80,8 +89,8 @@ standard that are not (yet) available. The most important are:
 5 KNOWN BUGS
 
 - incorrect FAC generation for DRM+
-- 16 QAM MLC block can't be used directly for SDC (-> only 4-QAM possible)
-- text message does not show for SO 5 / RM A (and possibly other modes) 
+- 16 QAM MLC block can't be used directly for SDC -> only 4-QAM possible
+- text message corrupted for SO 5 / RM A (and possibly other modes) 
 
 ################################################################################
 If you find any bugs or have great ideas you think the project could benefit 
