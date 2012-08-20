@@ -1,61 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Thu Aug 16 15:41:57 2012</timestamp>
-  <block>
-    <key>options</key>
-    <param>
-      <key>id</key>
-      <value>drm_transmitter_16_4</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value>DRM Transmitter 1</value>
-    </param>
-    <param>
-      <key>author</key>
-      <value>Felix Wunsch</value>
-    </param>
-    <param>
-      <key>description</key>
-      <value>RM B, SO 3, 16/4/4 QAM, short interleaving, EEP</value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>2500, 1920</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>no_gui</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>Custom</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>run</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
+  <timestamp>Mon Aug 20 10:34:44 2012</timestamp>
   <block>
     <key>drm_generate_fac_vb</key>
     <param>
@@ -726,6 +671,264 @@
     </param>
   </block>
   <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 56)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_16qam_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_16qam_vbvb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.msc().mod_order()</value>
+    </param>
+    <param>
+      <key>N</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM16</value>
+    </param>
+    <param>
+      <key>pp_0</key>
+      <value>tp.msc().punct_pat_0_2()</value>
+    </param>
+    <param>
+      <key>pp_0_tail</key>
+      <value>tp.msc().punct_pat_tail_0_2()</value>
+    </param>
+    <param>
+      <key>pp_1</key>
+      <value>tp.msc().punct_pat_1_2()</value>
+    </param>
+    <param>
+      <key>pp_1_tail</key>
+      <value>tp.msc().punct_pat_tail_1_2()</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.msc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.msc().M_total()[1]</value>
+    </param>
+    <param>
+      <key>M_total</key>
+      <value>tp.msc().M_total()</value>
+    </param>
+    <param>
+      <key>interl_seq_0_2</key>
+      <value>tp.msc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_1_2</key>
+      <value>tp.msc().bit_interl_seq_1_2()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(925, 205)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_stream_to_vector</key>
+    <param>
+      <key>id</key>
+      <value>gr_stream_to_vector_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>tp.ofdm().M_TF()</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1316, 550)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_cell_interleaver_vcvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_cell_interleaver_vcvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.msc().cell_interl_seq()</value>
+    </param>
+    <param>
+      <key>long_interl</key>
+      <value>long_interl</value>
+    </param>
+    <param>
+      <key>depth</key>
+      <value>drm.INTL_DEPTH_DRM</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1302, 383)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>options</key>
+    <param>
+      <key>id</key>
+      <value>drm_transmitter_16_4</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>DRM Transmitter 1</value>
+    </param>
+    <param>
+      <key>author</key>
+      <value>Felix Wunsch</value>
+    </param>
+    <param>
+      <key>description</key>
+      <value>16/4/4 QAM, EEP</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>2500, 1920</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>no_gui</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>Custom</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>run</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(10, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/short24.wav</value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 325)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>blks2_rational_resampler_xxx</key>
     <param>
       <key>id</key>
@@ -733,7 +936,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>type</key>
@@ -772,7 +975,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>type</key>
@@ -1435,7 +1638,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>file</key>
@@ -1470,7 +1673,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>vlen</key>
@@ -1493,7 +1696,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>type</key>
@@ -1524,7 +1727,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>type</key>
@@ -1560,209 +1763,6 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_source_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/short24.wav</value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 325)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 56)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_16qam_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_16qam_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.msc().mod_order()</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM16</value>
-    </param>
-    <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
-      <value>tp.msc().punct_pat_tail_0_2()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.msc().punct_pat_1_2()</value>
-    </param>
-    <param>
-      <key>pp_1_tail</key>
-      <value>tp.msc().punct_pat_tail_1_2()</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>interl_seq_0_2</key>
-      <value>tp.msc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.msc().bit_interl_seq_1_2()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(925, 205)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_stream_to_vector</key>
-    <param>
-      <key>id</key>
-      <value>gr_stream_to_vector_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>tp.ofdm().M_TF()</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1316, 550)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_cell_interleaver_vcvc</key>
-    <param>
-      <key>id</key>
-      <value>drm_cell_interleaver_vcvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.msc().cell_interl_seq()</value>
-    </param>
-    <param>
-      <key>long_interl</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>depth</key>
-      <value>drm.INTL_DEPTH_DRM</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1302, 383)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>variable</key>
     <param>
       <key>id</key>
@@ -1774,7 +1774,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>

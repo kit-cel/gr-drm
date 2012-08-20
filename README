@@ -4,6 +4,7 @@ CONTENTS: 	1: Installation
 			2: Usage
 			3: Features
 			4: (Current) Constraints
+			5: Known Bugs
 
 
 1 INSTALLATION
@@ -11,7 +12,7 @@ CONTENTS: 	1: Installation
 Dependencies:		GNU Radio, UHD, FAAC, FAAD2
 
 For installation instructions for GNU Radio and UHD please visit 
-http://www.gnuradio.org .
+http://www.gnuradio.org (there is a build script making things really easy!).
 
 FAAC:	wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
 		tar zxf faac-1.28.tar.gz
@@ -39,7 +40,7 @@ gr-drm:	git clone git://github.com/fewu/gnuradio_drm.git
 		make
 		sudo make install
 		ctest # (optional) this has to be done after make install at the moment as there is a problem with proper importing of drm_swig
-		cp ../../hier_blocks/* ~/.grc_gnuradio/
+		cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks
 		
 		
 2 USAGE
@@ -49,7 +50,8 @@ that can be used pretty much as-is.
 
 Of course you have to set the path to your USRP (or leave it blank for 
 autodetection) and a source wav-file (either 12 or 24 kHz). There are also 
-several other parameters you can change (see section Features).
+several other parameters you can change (see section Features). It is also 
+possible to record a wav-file that can be decoded with DREAM.
 
 
 3 FEATURES
@@ -74,9 +76,16 @@ standard that are not (yet) available. The most important are:
   SBR) is possible)
 - Reconfiguration
 
+
+5 KNOWN BUGS
+
+- incorrect FAC generation for DRM+
+- 16 QAM MLC block can't be used directly for SDC (-> only 4-QAM possible)
+- text message does not show for SO 5 / RM A (and possibly other modes) 
+
 ################################################################################
 If you find any bugs or have great ideas you think the project could benefit 
 from, just write me: uncnr[at]student.kit.edu
 
-last updated on: 2012/08/17
+last updated on: 2012/08/20
 
