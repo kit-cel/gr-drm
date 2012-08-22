@@ -90,16 +90,10 @@ drm_scrambler_vbvb::work (int noutput_items,
 			// save current state, then shift
 		
 			// save
-			for(int k = 0; k < 9; k++)
-			{
-				lfsr_prev[k] = lfsr[k];
-			}
+			memcpy(&lfsr_prev[0], &lfsr[0], 9);
 		
 			// shift
-			for(int k = 1; k < 9; k++)
-			{
-				lfsr[k] = lfsr_prev[k-1];
-			}
+			memcpy(&lfsr[1], &lfsr_prev[0], 8);
 		
 			// append next prbs bit
 			lfsr[0] = next_bit;
