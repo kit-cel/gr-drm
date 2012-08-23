@@ -1,0 +1,23 @@
+Bug Description
+
+The use of audio_sink in combination with DRM Audio Encoder / Decoder seems to 
+corrupt the data.
+
+When executing audio_corrupted, file sizes are as expected until the short to 
+float block after the decoder is reached. Input seems to be okay, as it can be 
+played back with aplay. Output of the conversion block is about 1/8 of the input 
+but should be exactly twice.
+
+The bug does not occur when the audio sink is replaced by a null sink or when
+the DRM encoder / decoder blocks are replaced by stream to vector blocks.
+
+
+How to reproduce:
+
+Install gr-drm (see installation instructions in the README file)
+Take an arbitrary wav file with 24 kHz sampling rate and 16 bit format
+Execute audio_corrupted with the wav-file
+--> Several output files are generated (pcm_*), where pcm_in_f and pcm_dec_f 
+	should have the same size if the bug does not occur. Try audio_correct.grc
+	for comparison.
+ 
