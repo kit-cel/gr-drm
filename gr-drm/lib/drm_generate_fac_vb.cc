@@ -272,7 +272,7 @@ drm_generate_fac_vb::init_data(unsigned char* data)
 	// rfa
 	enqueue_bits(data, 6, (unsigned char[]) {0,0,0,0,0,0});
 	
-	/* if RM E is chosen, two sets of service params are transmitted FIXME: here, it is just a copy of the first set */
+	/* if RM E is chosen, two sets of service params are transmitted TODO: this is just a copy of the first set (has to be changed when more services are transmitted */
 	if(d_tp->cfg().RM() == 4)
 	{
 		memcpy(data, serv_params_start, data - serv_params_start); // copy the part between data and serv_params_start
@@ -309,7 +309,8 @@ drm_generate_fac_vb::work (int noutput_items,
 			gr_vector_void_star &output_items)
 {	
 	const unsigned int fac_length = d_tp->fac().L();
-	unsigned char* data = new unsigned char[fac_length];
+	unsigned char* data = new unsigned char[fac_length + 4]; // +4 for CRC calculation in DRM+
+	memset(data, 0, fac_length + 4);
 	
 	init_data(data);
 	memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * fac_length );
