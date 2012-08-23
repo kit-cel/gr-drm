@@ -45,6 +45,7 @@ class DRM_API drm_qam_map_vbvb : public gr_sync_block
 	int d_bits_per_symbol;
 	int d_vlen_out;
 	int d_n_inputs;
+	std::vector<int> d_pow2;
 
  public:
 	~drm_qam_map_vbvb ();

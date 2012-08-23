@@ -51,6 +51,10 @@ drm_qam_map_vbvb::drm_qam_map_vbvb (const float map_table[][2], int bits_per_sym
 	d_bits_per_symbol = bits_per_symbol;
 	d_vlen_out = vlen_out;
 	d_n_inputs = n_inputs;
+	for(int i = 0; i < 8; i++)
+	{
+		d_pow2.push_back(pow(2,i));
+	}
 }
 
 
@@ -98,7 +102,7 @@ drm_qam_map_vbvb::work (int noutput_items,
 					// take one bit from each stream
 					bits.push_back( *(in[j])++ );
 
-					tmp_index += (int) pow(2, d_n_inputs - j - 1) * (int) bits.back(); // add bit in decimal representation to the index
+					tmp_index += d_pow2[d_n_inputs - j - 1] * (int) bits.back(); // add bit in decimal representation to the index
 				}
 				iq_index[k] = tmp_index;
 			}

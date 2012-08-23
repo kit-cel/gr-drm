@@ -60,12 +60,14 @@ drm_punct_vbvb::general_work (int noutput_items,
   unsigned char *in = (unsigned char *) input_items[0];
   unsigned char *out = (unsigned char *) output_items[0];
   int bit_ctr = 0;
+  int len_pp1 = d_pp1.size();
+  int len_pp2 = d_pp2.size();
 
   for( int j = 0; j < d_vlen_in; j++)
   {
 	  if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
 	  {
-	  	  if(d_pp1[j % d_pp1.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+	  	  if(d_pp1[j % len_pp1]) // keep bit if the corresponding puncturing pattern entry is '1'
 	  	  {
 	  	  	  out[bit_ctr] = in[j];
 	  	  	  bit_ctr++;
@@ -73,7 +75,7 @@ drm_punct_vbvb::general_work (int noutput_items,
 	  }
 	  else // tail bit puncturing
 	  {
-	  	  if(d_pp2[j % d_pp2.size()]) // keep bit if the corresponding puncturing pattern entry is '1'
+	  	  if(d_pp2[j % len_pp2]) // keep bit if the corresponding puncturing pattern entry is '1'
 	  	  {
 	  	  	  out[bit_ctr] = in[j];
 	  	  	  bit_ctr++;
