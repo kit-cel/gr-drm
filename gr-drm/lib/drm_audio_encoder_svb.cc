@@ -309,7 +309,7 @@ drm_audio_encoder_svb::prepare_text_message()
 		n_segments = 8;
 		d_text_msg.resize(8*16); // max number of segments * max number of bytes
 	}
-	std::cout << "length of the resized string: " << d_text_msg.size() << std::endl;
+	//std::cout << "length of the resized string: " << d_text_msg.size() << std::endl;
 	// zero-pad string if its length is not a multiple of four (bytes)
 	int n_bytes_pad = (4 - d_text_msg.size() % 4) % 4;
 	d_text_msg.append(n_bytes_pad, 0); // append zeros (0x00)
@@ -323,7 +323,7 @@ drm_audio_encoder_svb::prepare_text_message()
 	d_n_text_frames = len_msg_bit/(4*8);
 	//std::cout << "d_n_text_frames: " << d_n_text_frames << ", n_segments: " << n_segments << std::endl;
 	unsigned char msg[len_msg_bit]; 
-	memset(msg, 9, len_msg_bit);
+	memset(msg, 9, len_msg_bit); // set to 9 for debugging purposes
 	
 	//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 	unsigned char* p_msg = &msg[0];
@@ -338,7 +338,7 @@ drm_audio_encoder_svb::prepare_text_message()
 		
 		//std::cout << "insert leading ones and header" << std::endl;
 		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
-		//std::cout << "segment " << i << ": " << std::endl;	
+		std::cout << "segment " << i << ": " << std::endl;	
 		/* beginning of the segment */
 		enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
 		bits_written += 32;
@@ -424,27 +424,28 @@ drm_audio_encoder_svb::prepare_text_message()
 		
 		bits_written_total += bits_written;
 		
-		/*std::cout << "prefix: ";
+		/*
+		//std::cout << "prefix: ";
 		for(int k = 0; k < 32; k++)
 			std::cout << (int) seg_ptr[k];
 		
 		std::cout << std::endl;
 		
-		std::cout << "header: ";
+		//std::cout << "header: ";
 		for(int k = 0; k < 16; k++)
 			std::cout << (int) seg_ptr[k+32];
 		std::cout << std::endl;
 		
-		std::cout << "body: ";
+		//std::cout << "body: ";
 		for(int k = 0; k < bits_written - 32 - 16 - 16; k++)
 			std::cout << (int) seg_ptr[k + 48];
 		std::cout << std::endl;
 		
-		std::cout << "CRC: ";
+		//std::cout << "CRC: ";
 		for(int k = 0; k < 16; k++)
 			std::cout << (int) seg_ptr[k + bits_written - 16];
-		std::cout << std::endl;*/
-		
+		std::cout << std::endl;
+		*/
 	}
 	
 	//std::cout << "total bits written: " << bits_written_total << std::endl;
@@ -469,8 +470,9 @@ drm_audio_encoder_svb::insert_text_message()
 	{
 		*d_out++ = d_text_msg_fmt[d_text_ctr*32 + i];
 		//std::cout << (int) *(d_out-1);	
+		//if((i+1)%8 == 0){std::cout << std::endl;}
 	}
-	//std::cout << std::endl;
+	std::cout << std::endl << std::endl;
 	d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;
 	//std::cout << "return from insert()" << std::endl;
 }

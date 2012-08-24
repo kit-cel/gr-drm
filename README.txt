@@ -1,4 +1,4 @@
-############################### GR-DRM #########################################
+########### GR-DRM, A SOFTWARE DRM/DRM+ TRANSMITTER FOR GNU RADIO ##############
 
 CONTENTS: 	1: Installation
 			2: Usage
@@ -56,7 +56,8 @@ cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks
 2 USAGE
 
 There are various, fully configured flow graphs under gnuradio_drm/flow_graphs 
-that can be used pretty much as-is. The DRM+ flow graph is not functional yet.
+that can be used pretty much as-is. The DRM+ flow graph does not crash but is
+completely untested.
 
 Of course you have to set the path to your USRP (or leave it blank for 
 autodetection) and a source wav-file (either 12 or 24 kHz). There are also 
@@ -70,7 +71,7 @@ Syntax: 'sox <mysong.wav> -r <new_sample_rate> <mysongresampled.wav> resample'
 
 3 FEATURES
 
-This project features a DRM software transmitter fully integrated into GNU Radio
+This project features a DRM/DRM+ software transmitter fully integrated into GNU Radio
 Companion.
 
 You are also free to play around with several robustness modes (RM) and spectrum 
@@ -93,13 +94,11 @@ standard that are not (yet) available. The most important are:
 
 5 KNOWN BUGS
 
-- incorrect FAC generation for DRM+
-- 16 QAM MLC block can't be used directly for SDC -> only 4-QAM possible
 - text message corrupted for SO 5 / RM A (and possibly other modes) 
 
 ################################################################################
 If you find any bugs or have great ideas you think the project could benefit 
 from, just write me: uncnr[at]student.kit.edu
 
-last updated on: 2012/08/20
+last updated on: 2012/08/24
 

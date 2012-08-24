@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Fri Aug 17 11:37:30 2012</timestamp>
+  <timestamp>Fri Aug 24 11:12:10 2012</timestamp>
   <block>
     <key>options</key>
     <param>
       <key>id</key>
-      <value>drm_transmitter_rme_4</value>
+      <value>drm_plus_transmitter</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -13,7 +13,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>DRM Transmitter 2</value>
+      <value>DRM+ Transmitter</value>
     </param>
     <param>
       <key>author</key>
@@ -180,37 +180,6 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_source_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/short12.wav</value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 242)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>variable</key>
     <param>
       <key>id</key>
@@ -277,52 +246,6 @@
     <param>
       <key>_coordinate</key>
       <value>(327, 212)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>audio_sample_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>24000</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(709, 75)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>station_label</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"GNU Radio on DRM"</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 75)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -440,37 +363,6 @@
     <param>
       <key>_coordinate</key>
       <value>(924, 512)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_source_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>/home/felixwunsch/bachelor_thesis/gnuradio_drm/matlab_files/schubert24.wav</value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 325)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -764,29 +656,6 @@
     </param>
   </block>
   <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>96e3</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 117)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>gr_fft_vxx</key>
     <param>
       <key>id</key>
@@ -949,29 +818,6 @@
     <param>
       <key>_coordinate</key>
       <value>(929, 265)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, True, 0, 0, msc_prot_level_2, 1, 0, True, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 56)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1732,6 +1578,160 @@
     <param>
       <key>_coordinate</key>
       <value>(1477, 837)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>96e3</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(198, 72)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, True, 0, 0, msc_prot_level_2, 1, 0, True, audio_sample_rate, station_label, text_message)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(198, 11)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>station_label</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"GNU Radio on DRM"</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>audio_sample_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>24000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(716, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value></value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 242)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value></value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 325)</value>
     </param>
     <param>
       <key>_rotation</key>

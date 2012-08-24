@@ -79,7 +79,8 @@ config::init(tables* ptr_tables,
 	d_msc_prot_level_1 = 0; // not used because UEP==0
 	//d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_msc_prot_level_2 = msc_prot_level_2;
-	d_sdc_mapping = 1; // 4-QAM
+	d_sdc_mapping = sdc_mapping;
+	//d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
 	d_audio_samp_rate = audio_samp_rate; // 12 or 24 kHz audio
 	d_station_label = station_label; // station label (up to 16 characters)

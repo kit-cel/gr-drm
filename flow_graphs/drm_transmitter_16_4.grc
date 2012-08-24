@@ -1,6 +1,61 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Mon Aug 20 11:21:40 2012</timestamp>
+  <timestamp>Fri Aug 24 11:08:02 2012</timestamp>
+  <block>
+    <key>options</key>
+    <param>
+      <key>id</key>
+      <value>drm_transmitter_16_4</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>DRM Transmitter 1</value>
+    </param>
+    <param>
+      <key>author</key>
+      <value>Felix Wunsch</value>
+    </param>
+    <param>
+      <key>description</key>
+      <value>16/4/4 QAM, EEP</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>2500, 1920</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>no_gui</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>Custom</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>run</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(10, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
   <block>
     <key>drm_generate_fac_vb</key>
     <param>
@@ -149,29 +204,6 @@
     <param>
       <key>_coordinate</key>
       <value>(263, 333)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>48e3</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 117)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -640,29 +672,6 @@
     </param>
   </block>
   <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 56)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>drm_mlc_16qam_vbvb</key>
     <param>
       <key>id</key>
@@ -805,61 +814,6 @@
     <param>
       <key>_coordinate</key>
       <value>(1302, 383)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>options</key>
-    <param>
-      <key>id</key>
-      <value>drm_transmitter_16_4</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value>DRM Transmitter 1</value>
-    </param>
-    <param>
-      <key>author</key>
-      <value>Felix Wunsch</value>
-    </param>
-    <param>
-      <key>description</key>
-      <value>16/4/4 QAM, EEP</value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>2500, 1920</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>no_gui</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>Custom</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>run</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1779,6 +1733,52 @@
     <param>
       <key>_coordinate</key>
       <value>(1714, 837)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 11)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>48e3</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 75)</value>
     </param>
     <param>
       <key>_rotation</key>
