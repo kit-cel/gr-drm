@@ -472,7 +472,7 @@ drm_audio_encoder_svb::insert_text_message()
 		//std::cout << (int) *(d_out-1);	
 		//if((i+1)%8 == 0){std::cout << std::endl;}
 	}
-	std::cout << std::endl << std::endl;
+	//std::cout << std::endl << std::endl;
 	d_text_ctr = (d_text_ctr + 1) % d_n_text_frames;
 	//std::cout << "return from insert()" << std::endl;
 }
