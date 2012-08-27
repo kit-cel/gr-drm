@@ -25,6 +25,7 @@
 
 #include <gr_io_signature.h>
 #include <drm_punct_vbvb.h>
+#include <iostream>
 
 
 drm_punct_vbvb_sptr
@@ -40,6 +41,7 @@ drm_punct_vbvb::drm_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vec
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_out))
 {
 	d_vlen_in = vlen_in;
+	d_vlen_out = vlen_out;
 	d_pp1 = punct_pat_1;
 	d_pp2 = punct_pat_2;
 	d_n_tail = num_tailbits;
@@ -59,35 +61,50 @@ drm_punct_vbvb::general_work (int noutput_items,
 {
   unsigned char *in = (unsigned char *) input_items[0];
   unsigned char *out = (unsigned char *) output_items[0];
-  int bit_ctr = 0;
+  
   int len_pp1 = d_pp1.size();
   int len_pp2 = d_pp2.size();
+  //std::cout << "vlen_in: " << d_vlen_in << ", vlen_out: " << d_vlen_out << ", len_pp1: " << len_pp1 << ", len_pp2: " << len_pp2 << std::endl;
 
-  for( int j = 0; j < d_vlen_in; j++)
+  for( int i = 0; i < noutput_items; i++)
   {
-	  if(j <= d_vlen_in - d_n_tail) // "normal" puncturing
+	  for( int j = 0; j < d_vlen_in; j++)
 	  {
-	  	  if(d_pp1[j % len_pp1]) // keep bit if the corresponding puncturing pattern entry is '1'
-	  	  {
-	  	  	  out[bit_ctr] = in[j];
-	  	  	  bit_ctr++;
-	  	  }
-	  }
-	  else // tail bit puncturing
-	  {
-	  	  if(d_pp2[j % len_pp2]) // keep bit if the corresponding puncturing pattern entry is '1'
-	  	  {
-	  	  	  out[bit_ctr] = in[j];
-	  	  	  bit_ctr++;
-	  	  }
+	  	  //std::cout << "index j: " << j;
+		  if(j < d_vlen_in - d_n_tail) // "normal" puncturing
+		  {
+		  	  //std::cout << " normal puncturing. pp1[" << j % len_pp1 << "]=" << (int) d_pp1[j % len_pp1];
+		  	  if(d_pp1[j % len_pp1]) // keep bit if the corresponding puncturing pattern entry is '1'
+		  	  {
+		  	  	  //std::cout << "-> KEPT " << (int) in[j + i*d_vlen_in] << ".\n";
+		  	  	  *out++ = in[j + i*d_vlen_in];
+		  	  }
+		  	  else
+		  	  {
+		  	  	  //std::cout << "-> DROPPED " << (int) in[j + i*d_vlen_in] << ".\n";
+		  	  }
+		  }
+		  else // tail bit puncturing
+		  {
+		  	  //std::cout << " tail biting. pp2[" << j % len_pp2 << "]=" << (int) d_pp2[(j  + i*d_vlen_in) % len_pp2];
+		  	  if(d_pp2[j % len_pp2]) // keep bit if the corresponding puncturing pattern entry is '1'
+		  	  {
+		  	  	  //std::cout << "-> KEPT " << (int) in[j + i*d_vlen_in] << ".\n";
+		  	  	  *out++ = in[j + i*d_vlen_in];
+		  	  }
+		  	  else
+		  	  {
+		  	  	  //std::cout << "-> DROPPED " << (int) in[j + i*d_vlen_in] << ".\n";
+		  	  }
+		  }
 	  }
   }
   
   // Tell runtime system how many input items we consumed on
   // each input stream.
-  consume_each (1);
+  consume_each (noutput_items);
 
   // Tell runtime system how many output items we produced.
-  return 1;
+  return noutput_items;
 }
 

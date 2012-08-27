@@ -41,6 +41,7 @@ class DRM_API drm_punct_vbvb : public gr_block
 	drm_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits);
 
 	int d_vlen_in; // input vector length
+	int d_vlen_out; // output vector length
 	std::vector< unsigned char > d_pp1; // puncturing pattern
 	std::vector< unsigned char > d_pp2; // tail bit pattern
 	int d_n_tail;
