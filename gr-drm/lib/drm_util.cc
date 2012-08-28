@@ -84,9 +84,10 @@ enqueue_crc(unsigned char* ptr, transm_params* tp, int len, const unsigned short
 				shift_reg[5] = ( shift_reg_prev[6] + next_lsb ) % 2;
 				shift_reg[4] = ( shift_reg_prev[5] + next_lsb ) % 2;
 				shift_reg[3] = ( shift_reg_prev[4] + next_lsb ) % 2;
-				shift_reg[2] = shift_reg_prev[3];
+				memcpy(&shift_reg[0], &shift_reg_prev[1], 3);
+				/*shift_reg[2] = shift_reg_prev[3];
 				shift_reg[1] = shift_reg_prev[2];
-				shift_reg[0] = shift_reg_prev[1];				
+				shift_reg[0] = shift_reg_prev[1];*/				
 			}
 			break;
 			
@@ -103,11 +104,14 @@ enqueue_crc(unsigned char* ptr, transm_params* tp, int len, const unsigned short
 					next_lsb = ( ptr[i-4] + shift_reg_prev[0] ) % 2;
 				}
 				shift_reg[15] = next_lsb;
-				for(int j = 11; j<15; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 11; j<15; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[11], &shift_reg_prev[12], 4);
 				shift_reg[10] = ( shift_reg_prev[11] + next_lsb ) % 2;
-				for(int j = 4; j<10; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 4; j<10; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[4], &shift_reg_prev[5], 6);
 				shift_reg[3] = ( shift_reg_prev[4] + next_lsb ) % 2;
-				for(int j = 0; j<3; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 0; j<3; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[0], &shift_reg_prev[1], 3);
 			}
 			break;
 		
@@ -117,11 +121,14 @@ enqueue_crc(unsigned char* ptr, transm_params* tp, int len, const unsigned short
 				memcpy(shift_reg_prev, shift_reg, ord);			
 				next_lsb = ( ptr[i] + shift_reg_prev[0] ) % 2;
 				shift_reg[15] = next_lsb;
-				for(int j = 11; j<15; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 11; j<15; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[11], &shift_reg_prev[12], 4);
 				shift_reg[10] = ( shift_reg_prev[11] + next_lsb ) % 2;
-				for(int j = 4; j<10; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 4; j<10; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[4], &shift_reg_prev[5], 6);
 				shift_reg[3] = ( shift_reg_prev[4] + next_lsb ) % 2;
-				for(int j = 0; j<3; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				//for(int j = 0; j<3; j++){ shift_reg[j] = shift_reg_prev[j+1];}
+				memcpy(&shift_reg[0], &shift_reg_prev[1], 3);
 			}
 			break;
 			

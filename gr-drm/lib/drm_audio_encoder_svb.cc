@@ -338,7 +338,7 @@ drm_audio_encoder_svb::prepare_text_message()
 		
 		//std::cout << "insert leading ones and header" << std::endl;
 		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
-		std::cout << "segment " << i << ": " << std::endl;	
+		//std::cout << "segment " << i << ": " << std::endl;	
 		/* beginning of the segment */
 		enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
 		bits_written += 32;
