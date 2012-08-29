@@ -27,6 +27,7 @@
 #include "drm_transm_params.h"
 #include "drm_util.h"
 #include <faac.h>
+#include <aacenc_lib.h>
 #include <iostream>
 #include <string>
 
@@ -67,6 +68,8 @@ class DRM_API drm_audio_encoder_svb : public gr_block
 	std::vector<int> d_n_bytes_encoded; // return value of faacEncEncode(). Used to determine frame lengths.
 	faacEncHandle d_encHandle;
 	transm_params* d_tp; // transmission params (holding config/msc/... values)
+	
+	HANDLE_AACENCODER d_hAacEncoder;
 	
  public:
 	~drm_audio_encoder_svb ();

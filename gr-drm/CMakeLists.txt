@@ -47,6 +47,12 @@ if(NOT Faac_FOUND)
 	message(FATAL_ERROR "FAAC required to compile drm")
 endif()
 
+# Find fdk-aac
+find_package(Fdkaac REQUIRED)
+if(NOT Fdkaac_FOUND)
+	message(FATAL_ERROR "fdk-aac required to compile drm")
+endif()
+
 # Find FAAD
 find_package(Faad REQUIRED)
 if(NOT Faad_FOUND)
@@ -115,6 +121,7 @@ include_directories(
     ${GNURADIO_CORE_INCLUDE_DIRS}
     ${Faac_INCLUDE_DIRS}
     ${Faad_INCLUDE_DIRS}
+    ${Fdkaac_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -123,8 +130,9 @@ link_directories(
     ${GNURADIO_CORE_LIBRARY_DIRS}
     ${Faac_LIBRARY_DIRS}
     ${Faad_LIBRARY_DIRS}
+    ${Fdkaac_LIBRARY_DIRS}
 )
-
+message(STATUS "Fdkaac dirs: ${Fdkaac_INCLUDE_DIRS} ${Fdkaac_LIBRARY_DIRS}")
 # Set component parameters
 set(GR_DRM_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "" FORCE)
 set(GR_DRM_SWIG_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/swig CACHE INTERNAL "" FORCE)
