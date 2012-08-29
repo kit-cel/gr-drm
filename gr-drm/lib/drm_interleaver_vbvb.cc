@@ -40,6 +40,7 @@ drm_interleaver_vbvb::drm_interleaver_vbvb (std::vector<int> interl_seq)
 		gr_make_io_signature (1, 1, sizeof (unsigned char) * interl_seq.size() ))
 {
 	d_seq = interl_seq;
+	d_seqsize = interl_seq.size();
 }
 
 
@@ -59,11 +60,12 @@ drm_interleaver_vbvb::work (int noutput_items,
 	for(int n = 0; n < noutput_items; n++)
 	{
 		// Interleave array entries according to the interleaver sequence
-		for(int i = 0; i < d_seq.size(); i++)
+		for(int i = 0; i < d_seqsize; i++)
 		{
-			out[i+n*d_seq.size()] = in[d_seq[i] + n*d_seq.size()];
+			*out++ = in[d_seq[i] + n*d_seqsize];
 		}
 	}
+	
 	// Tell runtime system how many output items we produced.
 	return noutput_items;
 }

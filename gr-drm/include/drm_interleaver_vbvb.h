@@ -41,6 +41,7 @@ class DRM_API drm_interleaver_vbvb : public gr_sync_block
 	drm_interleaver_vbvb (std::vector<int> interl_seq);
 	
 	std::vector< int > d_seq; // interleaver sequence representing the interleaved indices
+	int d_seqsize; // stores the length of the sequence
 
  public:
 	~drm_interleaver_vbvb ();
