@@ -130,8 +130,9 @@ link_directories(
     ${GNURADIO_CORE_LIBRARY_DIRS}
     ${Faac_LIBRARY_DIRS}
     ${Faad_LIBRARY_DIRS}
-    ${Fdkaac_LIBRARY}
+    ${Fdkaac_LIBRARY_DIRS}
 )
+
 # Set component parameters
 set(GR_DRM_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include CACHE INTERNAL "" FORCE)
 set(GR_DRM_SWIG_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/swig CACHE INTERNAL "" FORCE)

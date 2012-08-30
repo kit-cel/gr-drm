@@ -52,6 +52,18 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	d_out = NULL;
 	d_out_start = NULL;
 	
+	// fdk-aac stuff
+	d_hAacEncoder = NULL;
+	/* encoder handle */
+	int ErrorStatus = AACENC_OK;
+	if ( (ErrorStatus = aacEncOpen(&d_hAacEncoder,0,0)) != AACENC_OK ) {
+		std::cout << "Failed to open encoder instance!\n";
+	}
+	else
+	{
+		std::cout << "opened encoder instance.\n";
+	}
+
 	// define variables depending on input parameters
 	
 	d_tp = tp;
