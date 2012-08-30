@@ -48,5 +48,3 @@ mark_as_advanced(
   Fdkaac_LIBRARY
   Fdkaac_INCLUDE_DIR
   )
-
-message(STATUS "fdk results: ${Fdkaac_LIBRARY}  ${Fdkaac_INCLUDE_DIR}")

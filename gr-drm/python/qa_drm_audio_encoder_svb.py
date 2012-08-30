@@ -39,7 +39,7 @@ class qa_audio_encoder_svb (gr_unittest.TestCase):
     def tearDown (self):
         self.tb = None
 
-    def test_001_t (self):
+    def test_001_t (self): # this test just runs the encoder on zeros ensuring it does not crash during construction or work()
         # set up fg
         self.tb.run ()
         # check data
