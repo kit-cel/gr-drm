@@ -52,18 +52,6 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	d_out = NULL;
 	d_out_start = NULL;
 	
-	// fdk-aac stuff
-	d_hAacEncoder = NULL;
-	/* encoder handle */
-	int ErrorStatus = AACENC_OK;
-	if ( (ErrorStatus = aacEncOpen(&d_hAacEncoder,0,0)) != AACENC_OK ) {
-		std::cout << "Failed to open encoder instance!\n";
-	}
-	else
-	{
-		std::cout << "opened encoder instance.\n";
-	}
-
 	// define variables depending on input parameters
 	
 	d_tp = tp;
@@ -125,6 +113,66 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	cur_enc_format->bandWidth = 0;	/* Let the encoder choose the bandwidth */
 	faacEncSetConfiguration(d_encHandle, cur_enc_format);
 	
+	/* fdk-aac encoder initialization */
+	d_hAacEncoder = NULL;
+	/* encoder handle */
+	int ErrorStatus = AACENC_OK;
+	if ( (ErrorStatus = aacEncOpen(&d_hAacEncoder,(0x01 | 0x02),1)) != AACENC_OK ) // AAC + SBR, mono
+	{
+		std::cout << "Failed to open encoder instance!\n";
+	}
+	else
+	{
+		std::cout << "opened encoder instance.\n";
+	}
+	
+	/* set parameters */
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_AOT, 5) != AACENC_OK) // HeAAC (AAC-LC + SBR)
+	{
+		fprintf(stderr, "Unable to set the AOT\n");
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_SAMPLERATE, tp->cfg().audio_samp_rate()) != AACENC_OK) // audio sample rate
+	{
+		fprintf(stderr, "Unable to set the sample rate\n");
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_GRANULE_LENGTH, 960) != AACENC_OK) // 960 transform length
+	{
+		fprintf(stderr, "Unable to set the transform length to %li \n", d_transform_length);
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_CHANNELMODE, MODE_1) != AACENC_OK) // 1 front channel
+	{
+		fprintf(stderr, "Unable to set the channel mode\n");
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_BITRATE, bit_rate) != AACENC_OK) // set bitrate
+	{
+		fprintf(stderr, "Unable to set the bitrate\n");
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_TRANSMUX, 0) != AACENC_OK) // raw
+	{
+		fprintf(stderr, "Unable to set the ADTS transmux\n");
+	}
+	if (aacEncoder_SetParam(d_hAacEncoder, AACENC_AFTERBURNER, 1) != AACENC_OK)  // afterburner is activated, deactivate for less cpu consumption
+	{
+		fprintf(stderr, "Unable to set the afterburner mode\n");
+	}
+	if (aacEncEncode(d_hAacEncoder, NULL, NULL, NULL, NULL) != AACENC_OK) // apply parameters
+	{
+		fprintf(stderr, "Unable to initialize the encoder\n");
+	}
+	AACENC_InfoStruct info;
+	if (aacEncInfo(d_hAacEncoder, &info) != AACENC_OK) // get encoder info
+	{
+		fprintf(stderr, "Unable to get the encoder info\n");
+	}
+	
+	// print info
+	std::cout << "maxOutBufBytes: " << info.maxOutBufBytes << std::endl;
+	std::cout << "maxAncBytes: " << info.maxAncBytes << std::endl;
+	std::cout << "inBufFillLevel: " << info.inBufFillLevel << std::endl;
+	std::cout << "inputChannels: " << info.inputChannels << std::endl;
+	std::cout << "frameLength: " << info.frameLength << std::endl;
+	std::cout << "encoderDelay: " << info.encoderDelay << std::endl;		
+		
 	// set text message if available
 	if(d_tp->cfg().text())
 	{
