@@ -43,6 +43,10 @@ class DRM_API drm_cell_mapping_vbvb : public gr_sync_interpolator
 	drm_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes);
 
 	transm_params* d_tp;
+	msc_params d_msc;
+	unsigned short d_RM;
+	unsigned int d_N_FAC; // number of QAM cells in the FAC
+	unsigned int d_N_MSC; // number of QAM cells in the MSC
 	tables* d_tables;
 	int d_N; // number of symbols per transmission frame
 	int d_n_dummy_cells; // number of dummy cells

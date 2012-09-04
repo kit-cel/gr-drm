@@ -22,6 +22,10 @@
 #include "drm_util.h"
 #include <iostream>
 
+// powers of two for fast access without using pow() (costly!)
+#define NUM_PO2 	14 // number of precalculated powers of two
+static int po2[NUM_PO2] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
+
 void 
 enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 {
@@ -42,7 +46,17 @@ enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 void 
 enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 {
-	if(sizeof(val) <= sizeof(unsigned int) && (val <= std::pow(2,len)-1 || (val == 0 && len > 0)))
+	int maxval;
+	if(len < NUM_PO2) // use precalculated values if possible
+	{
+		maxval = po2[len] - 1;
+	}
+	else
+	{
+		maxval = std::pow(2,len)-1;
+	}
+	
+	if(sizeof(val) <= sizeof(unsigned int) && (val <= maxval || (val == 0 && len > 0)))
 	{
 		unsigned char bits[sizeof(unsigned int)*8];
 		unsigned int mask = 0x1;
@@ -165,7 +179,14 @@ dequeue_dec(unsigned char* &ptr, unsigned int len)
 	unsigned int val_dec = 0;
 	for( int i = 0; i < len; i++)
 	{
-		val_dec += (unsigned int) ptr[i] * std::pow( 2, len-i-1);
+		if(len < NUM_PO2)
+		{
+			val_dec += (unsigned int) ptr[i] * po2[len-i-1];
+		}
+		else
+		{
+			val_dec += (unsigned int) ptr[i] * std::pow( 2, len-i-1);
+		}
 	}
 	ptr += len;
 	return val_dec;
@@ -177,7 +198,7 @@ dequeue_char(unsigned char* &ptr)
 	unsigned char val_char = 0;
 	for( int i = 0; i < 8; i++)
 	{
-		val_char += (unsigned char) ptr[i] * std::pow( 2, 7-i);
+		val_char += (unsigned char) ptr[i] * po2[7-i];
 	}
 	ptr += 8;
 	return val_char;
