@@ -46,7 +46,7 @@ enqueue_bits(unsigned char* &ptr, unsigned int len, unsigned char arr[])
 void 
 enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 {
-	int maxval;
+	unsigned int maxval;
 	if(len < NUM_PO2) // use precalculated values if possible
 	{
 		maxval = po2[len] - 1;
@@ -55,8 +55,8 @@ enqueue_bits_dec(unsigned char* &ptr, unsigned int len, unsigned int val)
 	{
 		maxval = std::pow(2,len)-1;
 	}
-	
-	if(sizeof(val) <= sizeof(unsigned int) && (val <= maxval || (val == 0 && len > 0)))
+			
+	if(sizeof(val) <= sizeof(unsigned int) && ((val <= maxval) || (val == 0 && len > 0)))
 	{
 		unsigned char bits[sizeof(unsigned int)*8];
 		unsigned int mask = 0x1;
