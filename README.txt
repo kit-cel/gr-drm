@@ -50,6 +50,7 @@ make
 sudo make install
 sudo ldconfig
 ctest # (optional) at the moment this has to be done after make install as there is a problem with proper importing of drm_swig
+../../misc/set_grc_path.sh # this replaces the hardcoded home folder in the hier block XML defs with yours
 cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks (GRC has to be run once before executing this command)
 		
 		
