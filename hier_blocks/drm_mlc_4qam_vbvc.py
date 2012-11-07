@@ -12,7 +12,7 @@ from gnuradio import trellis
 from gnuradio.gr import firdes
 import drm
 
-class drm_mlc_4qam_vbvb(gr.hier_block2):
+class drm_mlc_4qam_vbvc(gr.hier_block2):
 
 	def __init__(self, vlen_in=1, vlen_out=1, n_tailbits=6, denom_mother_code_rate=6, gen_poly=(91, 121, 101, 91, 121, 101), N=1, bits_per_symbol=0, pp=0, pp_tail=0, interl_seq=range(2), map_tab=0):
 		gr.hier_block2.__init__(

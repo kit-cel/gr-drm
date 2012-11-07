@@ -408,10 +408,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvb</key>
+    <key>drm_mlc_4qam_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0_0</value>
+      <value>drm_mlc_4qam_vbvc_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -502,10 +502,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvb</key>
+    <key>drm_mlc_4qam_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0</value>
+      <value>drm_mlc_4qam_vbvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -611,10 +611,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_64qam_sm_vbvb</key>
+    <key>drm_mlc_64qam_sm_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_64qam_sm_vbvb_0</value>
+      <value>drm_mlc_64qam_sm_vbvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1803,13 +1803,13 @@
   </block>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvb_0_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_vbvc_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvb_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1826,7 +1826,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvb_0</source_block_id>
+    <source_block_id>drm_mlc_4qam_vbvc_0</source_block_id>
     <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
@@ -1844,7 +1844,7 @@
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvb_0_0</source_block_id>
+    <source_block_id>drm_mlc_4qam_vbvc_0_0</source_block_id>
     <sink_block_id>gr_stream_to_vector_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1929,12 +1929,12 @@
   </connection>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0</source_block_id>
-    <sink_block_id>drm_mlc_64qam_sm_vbvb_0</sink_block_id>
+    <sink_block_id>drm_mlc_64qam_sm_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_64qam_sm_vbvb_0</source_block_id>
+    <source_block_id>drm_mlc_64qam_sm_vbvc_0</source_block_id>
     <sink_block_id>drm_cell_interleaver_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>

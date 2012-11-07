@@ -11,7 +11,7 @@ from gnuradio import trellis
 from gnuradio.gr import firdes
 import drm
 
-class drm_mlc_64qam_sm_vbvb(gr.hier_block2):
+class drm_mlc_64qam_sm_vbvc(gr.hier_block2):
 
 	def __init__(self, map_tab=0, n_tailbits=6, denom_mother_code_rate=6, gen_poly=(91, 121, 101, 91, 121, 101), vlen_out=1, vlen_in=1, N=1, bits_per_symbol=0, pp_0=0, pp_0_tail=0, interl_seq_0_2=range(2), part_len_top=1, M_total=0, part_len_mid=0, part_len_bot=1, pp_1=0, pp_2_tail=0, pp_2=0, pp_1_tail=0, interl_seq_1_2=range(2), interl_seq_2_2=range(2)):
 		gr.hier_block2.__init__(
