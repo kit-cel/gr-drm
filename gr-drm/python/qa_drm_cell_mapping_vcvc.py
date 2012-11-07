@@ -24,7 +24,7 @@ from gnuradio import gr, gr_unittest
 #import drm_swig
 import drm
 
-class qa_cell_mapping_vbvb (gr_unittest.TestCase):
+class qa_cell_mapping_vcvc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -32,7 +32,7 @@ class qa_cell_mapping_vbvb (gr_unittest.TestCase):
         vlen_msc = self.tp.msc().N_MUX() * self.tp.ofdm().M_TF()
         vlen_sdc = self.tp.sdc().N()
         vlen_fac = self.tp.fac().N() * self.tp.ofdm().M_TF()
-        self.cell_mapping = drm.cell_mapping_vbvb(self.tp, (vlen_msc, vlen_sdc, vlen_fac))
+        self.cell_mapping = drm.cell_mapping_vcvc(self.tp, (vlen_msc, vlen_sdc, vlen_fac))
 
     def tearDown (self):
         self.tb = None

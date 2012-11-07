@@ -19,8 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DRM_CELL_MAPPING_VBVB_H
-#define INCLUDED_DRM_CELL_MAPPING_VBVB_H
+#ifndef INCLUDED_DRM_CELL_mapping_vcvc_H
+#define INCLUDED_DRM_CELL_mapping_vcvc_H
 
 #include <drm_api.h>
 #include <gr_sync_interpolator.h>
@@ -28,19 +28,19 @@
 #include <complex>
 #include "drm_transm_params.h"
 
-class drm_cell_mapping_vbvb;
-typedef boost::shared_ptr<drm_cell_mapping_vbvb> drm_cell_mapping_vbvb_sptr;
+class drm_cell_mapping_vcvc;
+typedef boost::shared_ptr<drm_cell_mapping_vcvc> drm_cell_mapping_vcvc_sptr;
 
-DRM_API drm_cell_mapping_vbvb_sptr drm_make_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes);
+DRM_API drm_cell_mapping_vcvc_sptr drm_make_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes);
 
 /*!
  * \brief Performs mapping of MSC, SDC, FAC and pilot cells onto the OFDM super transmission frame.
  */
-class DRM_API drm_cell_mapping_vbvb : public gr_sync_interpolator
+class DRM_API drm_cell_mapping_vcvc : public gr_sync_interpolator
 {
-	friend DRM_API drm_cell_mapping_vbvb_sptr drm_make_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes);
+	friend DRM_API drm_cell_mapping_vcvc_sptr drm_make_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes);
 
-	drm_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes);
+	drm_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes);
 
 	transm_params* d_tp;
 	msc_params d_msc;
@@ -62,7 +62,7 @@ class DRM_API drm_cell_mapping_vbvb : public gr_sync_interpolator
 	std::vector<int> d_unused_carriers;
 	
  public:
-	~drm_cell_mapping_vbvb ();
+	~drm_cell_mapping_vcvc ();
 	
 	bool is_used_carrier(int k);
 
@@ -72,5 +72,5 @@ class DRM_API drm_cell_mapping_vbvb : public gr_sync_interpolator
 		gr_vector_void_star &output_items);
 };
 
-#endif /* INCLUDED_DRM_CELL_MAPPING_VBVB_H */
+#endif /* INCLUDED_DRM_CELL_mapping_vcvc_H */
 

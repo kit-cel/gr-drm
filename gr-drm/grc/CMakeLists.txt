@@ -27,8 +27,8 @@ install(FILES
     drm_punct_vbvb.xml
     drm_add_tailbits_vbvb.xml
     drm_interleaver_vbvb.xml
-    drm_qam_map_vbvb.xml
-    drm_cell_mapping_vbvb.xml
+    drm_qam_map_vbvc.xml
+    drm_cell_mapping_vcvc.xml
     drm_audio_decoder_vbs.xml
     drm_cell_interleaver_vcvc.xml DESTINATION share/gnuradio/grc/blocks
 )

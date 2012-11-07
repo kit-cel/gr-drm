@@ -24,18 +24,18 @@
 #endif
 
 #include <gr_io_signature.h>
-#include <drm_qam_map_vbvb.h>
+#include <drm_qam_map_vbvc.h>
 
 
-drm_qam_map_vbvb_sptr
-drm_make_qam_map_vbvb (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
+drm_qam_map_vbvc_sptr
+drm_make_qam_map_vbvc (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
 {
-	return drm_qam_map_vbvb_sptr (new drm_qam_map_vbvb (map_table, bits_per_symbol, vlen_out, n_inputs));
+	return drm_qam_map_vbvc_sptr (new drm_qam_map_vbvc (map_table, bits_per_symbol, vlen_out, n_inputs));
 }
 
 
-drm_qam_map_vbvb::drm_qam_map_vbvb (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
-	: gr_sync_block ("qam_map_vbvb",
+drm_qam_map_vbvc::drm_qam_map_vbvc (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
+	: gr_sync_block ("qam_map_vbvc",
 		gr_make_io_signature (n_inputs, n_inputs, sizeof (unsigned char) * vlen_out * 2 ),
 		gr_make_io_signature (1, 1, sizeof (gr_complex) * vlen_out ))
 {
@@ -58,13 +58,13 @@ drm_qam_map_vbvb::drm_qam_map_vbvb (const float map_table[][2], int bits_per_sym
 }
 
 
-drm_qam_map_vbvb::~drm_qam_map_vbvb ()
+drm_qam_map_vbvc::~drm_qam_map_vbvc ()
 {
 }
 
 
 int
-drm_qam_map_vbvb::work (int noutput_items,
+drm_qam_map_vbvc::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {

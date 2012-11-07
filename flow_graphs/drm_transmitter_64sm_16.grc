@@ -499,10 +499,10 @@
     </param>
   </block>
   <block>
-    <key>cell_mapping_vbvb</key>
+    <key>cell_mapping_vcvc</key>
     <param>
       <key>id</key>
-      <value>cell_mapping_vbvb_0</value>
+      <value>cell_mapping_vcvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1910,7 +1910,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cell_mapping_vbvb_0</source_block_id>
+    <source_block_id>cell_mapping_vcvc_0</source_block_id>
     <sink_block_id>gr_fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1929,13 +1929,13 @@
   </connection>
   <connection>
     <source_block_id>gr_stream_to_vector_1</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
     <source_block_id>gr_stream_to_vector_0</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1965,7 +1965,7 @@
   </connection>
   <connection>
     <source_block_id>drm_mlc_16qam_vbvb_0</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>

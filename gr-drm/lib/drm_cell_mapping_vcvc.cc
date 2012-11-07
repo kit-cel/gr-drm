@@ -24,18 +24,18 @@
 #endif
 
 #include <gr_io_signature.h>
-#include <drm_cell_mapping_vbvb.h>
+#include <drm_cell_mapping_vcvc.h>
 
 
-drm_cell_mapping_vbvb_sptr
-drm_make_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes)
+drm_cell_mapping_vcvc_sptr
+drm_make_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes)
 {
-	return drm_cell_mapping_vbvb_sptr (new drm_cell_mapping_vbvb (tp, input_sizes));
+	return drm_cell_mapping_vcvc_sptr (new drm_cell_mapping_vcvc (tp, input_sizes));
 }
 
 
-drm_cell_mapping_vbvb::drm_cell_mapping_vbvb (transm_params* tp, std::vector< int > input_sizes)
-	: gr_sync_interpolator ("cell_mapping_vbvb",
+drm_cell_mapping_vcvc::drm_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes)
+	: gr_sync_interpolator ("cell_mapping_vcvc",
 		gr_make_io_signaturev (3, 3, input_sizes),
 		gr_make_io_signature (1, 1, sizeof (gr_complex) * tp->ofdm().nfft()), tp->ofdm().N_S() * tp->ofdm().M_TF() )
 {
@@ -102,12 +102,12 @@ drm_cell_mapping_vbvb::drm_cell_mapping_vbvb (transm_params* tp, std::vector< in
 }
 
 
-drm_cell_mapping_vbvb::~drm_cell_mapping_vbvb ()
+drm_cell_mapping_vcvc::~drm_cell_mapping_vcvc ()
 {
 }
 
 bool
-drm_cell_mapping_vbvb::is_used_carrier(int k)
+drm_cell_mapping_vcvc::is_used_carrier(int k)
 {
 	for(int i = 0; i < d_unused_carriers.size(); i++)
 	{
@@ -121,7 +121,7 @@ drm_cell_mapping_vbvb::is_used_carrier(int k)
 
 
 int
-drm_cell_mapping_vbvb::work (int noutput_items,
+drm_cell_mapping_vcvc::work (int noutput_items,
 			gr_vector_const_void_star &input_items,
 			gr_vector_void_star &output_items)
 {

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
   <name>DRM Cell mapping</name>
-  <key>cell_mapping_vbvb</key>
+  <key>cell_mapping_vcvc</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.cell_mapping_vbvb($tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))</make>
+  <make>drm.cell_mapping_vcvc($tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
