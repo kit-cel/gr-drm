@@ -11,7 +11,7 @@ from gnuradio import trellis
 from gnuradio.gr import firdes
 import drm
 
-class drm_mlc_64qam_sm_vbvb(gr.hier_block2):
+class drm_mlc_64qam_sm_vbvc(gr.hier_block2):
 
 	def __init__(self, map_tab=0, n_tailbits=6, denom_mother_code_rate=6, gen_poly=(91, 121, 101, 91, 121, 101), vlen_out=1, vlen_in=1, N=1, bits_per_symbol=0, pp_0=0, pp_0_tail=0, interl_seq_0_2=range(2), part_len_top=1, M_total=0, part_len_mid=0, part_len_bot=1, pp_1=0, pp_2_tail=0, pp_2=0, pp_1_tail=0, interl_seq_1_2=range(2), interl_seq_2_2=range(2)):
 		gr.hier_block2.__init__(
@@ -60,7 +60,7 @@ class drm_mlc_64qam_sm_vbvb(gr.hier_block2):
 		self.gr_stream_to_vector_0_0_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_mid + n_tailbits) * denom_mother_code_rate)
 		self.gr_stream_to_vector_0_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_bot+ n_tailbits) * denom_mother_code_rate)
 		self.gr_stream_to_vector_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_top+ n_tailbits) * denom_mother_code_rate)
-		self.drm_qam_map_vbvb_0 = drm.qam_map_vbvb(map_tab, bits_per_symbol, vlen_out, 3)
+		self.drm_qam_map_vbvc_0 = drm.qam_map_vbvc(map_tab, bits_per_symbol, vlen_out, 3)
 		self.drm_punct_vbvb_0_0_0 = drm.punct_vbvb(pp_1, pp_1_tail, (part_len_mid + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
 		self.drm_punct_vbvb_0_0 = drm.punct_vbvb(pp_2, pp_2_tail, (part_len_bot + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
 		self.drm_punct_vbvb_0 = drm.punct_vbvb(pp_0, pp_0_tail, (part_len_top + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
@@ -78,8 +78,8 @@ class drm_mlc_64qam_sm_vbvb(gr.hier_block2):
 		self.connect((self.trellis_encoder_xx_0, 0), (self.gr_unpack_k_bits_bb_0, 0))
 		self.connect((self.gr_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
 		self.connect((self.gr_unpack_k_bits_bb_0, 0), (self.gr_stream_to_vector_0, 0))
-		self.connect((self.drm_qam_map_vbvb_0, 0), (self, 0))
-		self.connect((self.drm_punct_vbvb_0, 0), (self.drm_qam_map_vbvb_0, 0))
+		self.connect((self.drm_qam_map_vbvc_0, 0), (self, 0))
+		self.connect((self.drm_punct_vbvb_0, 0), (self.drm_qam_map_vbvc_0, 0))
 		self.connect((self, 0), (self.drm_partitioning_64sm_vbvb_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 0), (self.add_tailbits_vbvb_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 2), (self.add_tailbits_vbvb_0_0, 0))
@@ -94,8 +94,8 @@ class drm_mlc_64qam_sm_vbvb(gr.hier_block2):
 		self.connect((self.add_tailbits_vbvb_0_0, 0), (self.gr_vector_to_stream_1_0, 0))
 		self.connect((self.add_tailbits_vbvb_0_0_0, 0), (self.gr_vector_to_stream_1_0_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 1), (self.add_tailbits_vbvb_0_0_0, 0))
-		self.connect((self.drm_interleaver_vbvb_0_0, 0), (self.drm_qam_map_vbvb_0, 2))
-		self.connect((self.drm_interleaver_vbvb_0_0_0, 0), (self.drm_qam_map_vbvb_0, 1))
+		self.connect((self.drm_interleaver_vbvb_0_0, 0), (self.drm_qam_map_vbvc_0, 2))
+		self.connect((self.drm_interleaver_vbvb_0_0_0, 0), (self.drm_qam_map_vbvc_0, 1))
 		self.connect((self.gr_vector_to_stream_1_0_0, 0), (self.trellis_encoder_xx_0_0_0, 0))
 		self.connect((self.gr_vector_to_stream_1_0, 0), (self.trellis_encoder_xx_0_0, 0))
 		self.connect((self.gr_vector_to_stream_1, 0), (self.trellis_encoder_xx_0, 0))

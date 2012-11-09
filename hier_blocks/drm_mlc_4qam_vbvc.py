@@ -12,7 +12,7 @@ from gnuradio import trellis
 from gnuradio.gr import firdes
 import drm
 
-class drm_mlc_4qam_vbvb(gr.hier_block2):
+class drm_mlc_4qam_vbvc(gr.hier_block2):
 
 	def __init__(self, vlen_in=1, vlen_out=1, n_tailbits=6, denom_mother_code_rate=6, gen_poly=(91, 121, 101, 91, 121, 101), N=1, bits_per_symbol=0, pp=0, pp_tail=0, interl_seq=range(2), map_tab=0):
 		gr.hier_block2.__init__(
@@ -43,7 +43,7 @@ class drm_mlc_4qam_vbvb(gr.hier_block2):
 		self.gr_vector_to_stream_0 = gr.vector_to_stream(gr.sizeof_char*1, vlen_in + n_tailbits)
 		self.gr_unpack_k_bits_bb_0 = gr.unpack_k_bits_bb(denom_mother_code_rate)
 		self.gr_stream_to_vector_0 = gr.stream_to_vector(gr.sizeof_char*1, (vlen_in + n_tailbits) * denom_mother_code_rate)
-		self.drm_qam_map_vbvb_0 = drm.qam_map_vbvb(map_tab, bits_per_symbol, vlen_out, 1)
+		self.drm_qam_map_vbvc_0 = drm.qam_map_vbvc(map_tab, bits_per_symbol, vlen_out, 1)
 		self.drm_punct_vbvb_0 = drm.punct_vbvb(pp, pp_tail, (vlen_in + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
 		self.drm_interleaver_vbvb_0 = drm.interleaver_vbvb((interl_seq))
 		self.add_tailbits_vbvb_0 = drm.add_tailbits_vbvb(vlen_in, n_tailbits)
@@ -58,8 +58,8 @@ class drm_mlc_4qam_vbvb(gr.hier_block2):
 		self.connect((self.gr_unpack_k_bits_bb_0, 0), (self.gr_stream_to_vector_0, 0))
 		self.connect((self.gr_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
 		self.connect((self.drm_punct_vbvb_0, 0), (self.drm_interleaver_vbvb_0, 0))
-		self.connect((self.drm_interleaver_vbvb_0, 0), (self.drm_qam_map_vbvb_0, 0))
-		self.connect((self.drm_qam_map_vbvb_0, 0), (self, 0))
+		self.connect((self.drm_interleaver_vbvb_0, 0), (self.drm_qam_map_vbvc_0, 0))
+		self.connect((self.drm_qam_map_vbvc_0, 0), (self, 0))
 
 	def get_vlen_in(self):
 		return self.vlen_in

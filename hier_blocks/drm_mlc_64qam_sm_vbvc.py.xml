@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='ASCII'?>
 <block>
   <name>DRM MLC 64 QAM SM</name>
-  <key>drm_mlc_64qam_sm_vbvb</key>
+  <key>drm_mlc_64qam_sm_vbvc</key>
   <category>drm</category>
-  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvb.py")</import>
-  <make>drm_mlc_64qam_sm_vbvb(
+  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvc.py")</import>
+  <make>drm_mlc_64qam_sm_vbvc(
 	map_tab=$map_tab,
 	n_tailbits=$n_tailbits,
 	denom_mother_code_rate=$denom_mother_code_rate,
@@ -186,5 +186,5 @@
   </source>
   <doc>Felix Wunsch
 
-/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvb.py</doc>
+/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvc.py</doc>
 </block>

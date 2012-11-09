@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='ASCII'?>
 <block>
   <name>DRM MLC 4-QAM</name>
-  <key>drm_mlc_4qam_vbvb</key>
+  <key>drm_mlc_4qam_vbvc</key>
   <category>drm</category>
-  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvb.py")</import>
-  <make>drm_mlc_4qam_vbvb(
+  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvc.py")</import>
+  <make>drm_mlc_4qam_vbvc(
 	vlen_in=$vlen_in,
 	vlen_out=$vlen_out,
 	n_tailbits=$n_tailbits,
@@ -106,5 +106,5 @@
   </source>
   <doc>Felix Wunsch
 performs multilevelcoding (4-QAM)
-/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvb.py</doc>
+/home/felixwunsch/.grc_gnuradio/drm_mlc_4qam_vbvc.py</doc>
 </block>

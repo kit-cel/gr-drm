@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Fri Aug 24 11:10:17 2012</timestamp>
+  <timestamp>Wed Nov  7 09:52:06 2012</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -261,10 +261,10 @@
     </param>
   </block>
   <block>
-    <key>cell_mapping_vbvb</key>
+    <key>cell_mapping_vcvc</key>
     <param>
       <key>id</key>
-      <value>cell_mapping_vbvb_0</value>
+      <value>cell_mapping_vcvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -408,10 +408,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvb</key>
+    <key>drm_mlc_4qam_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0_0</value>
+      <value>drm_mlc_4qam_vbvc_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -502,10 +502,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvb</key>
+    <key>drm_mlc_4qam_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvb_0</value>
+      <value>drm_mlc_4qam_vbvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -611,10 +611,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_64qam_sm_vbvb</key>
+    <key>drm_mlc_64qam_sm_vbvc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_64qam_sm_vbvb_0</value>
+      <value>drm_mlc_64qam_sm_vbvc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1470,41 +1470,6 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_sink</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_sink_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>drm_out.wav</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>48000</value>
-    </param>
-    <param>
-      <key>bits_per_sample</key>
-      <value>16</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1787, 956)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>gr_complex_to_real</key>
     <param>
       <key>id</key>
@@ -1628,52 +1593,6 @@
     <key>variable</key>
     <param>
       <key>id</key>
-      <value>RM</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>SO</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>5</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(637, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
       <value>samp_rate</value>
     </param>
     <param>
@@ -1743,37 +1662,6 @@
     <key>gr_wavfile_source</key>
     <param>
       <key>id</key>
-      <value>gr_wavfile_source_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value></value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(41, 324)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
       <value>gr_wavfile_source_0_0</value>
     </param>
     <param>
@@ -1801,15 +1689,127 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/felixwunsch/Musik/zelda24.wav</value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(41, 324)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_sink</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_sink_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/felixwunsch/drm_out.wav</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>48000</value>
+    </param>
+    <param>
+      <key>bits_per_sample</key>
+      <value>16</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1787, 956)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>SO</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>5</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(637, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>RM</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvb_0_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_vbvc_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvb_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1826,25 +1826,25 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvb_0</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <source_block_id>drm_mlc_4qam_vbvc_0</source_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>gr_stream_to_vector_0</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>gr_stream_to_vector_1</source_block_id>
-    <sink_block_id>cell_mapping_vbvb_0</sink_block_id>
+    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvb_0_0</source_block_id>
+    <source_block_id>drm_mlc_4qam_vbvc_0_0</source_block_id>
     <sink_block_id>gr_stream_to_vector_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1856,7 +1856,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cell_mapping_vbvb_0</source_block_id>
+    <source_block_id>cell_mapping_vcvc_0</source_block_id>
     <sink_block_id>gr_fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1929,12 +1929,12 @@
   </connection>
   <connection>
     <source_block_id>drm_scrambler_vbvb_0</source_block_id>
-    <sink_block_id>drm_mlc_64qam_sm_vbvb_0</sink_block_id>
+    <sink_block_id>drm_mlc_64qam_sm_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_64qam_sm_vbvb_0</source_block_id>
+    <source_block_id>drm_mlc_64qam_sm_vbvc_0</source_block_id>
     <sink_block_id>drm_cell_interleaver_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>

@@ -28,8 +28,8 @@
 #include "drm_punct_vbvb.h"
 #include "drm_add_tailbits_vbvb.h"
 #include "drm_interleaver_vbvb.h"
-#include "drm_qam_map_vbvb.h"
-#include "drm_cell_mapping_vbvb.h"
+#include "drm_qam_map_vbvc.h"
+#include "drm_cell_mapping_vcvc.h"
 #include "drm_audio_decoder_vbs.h"
 #include "drm_cell_interleaver_vcvc.h"
 %}
@@ -71,11 +71,11 @@ GR_SWIG_BLOCK_MAGIC(drm,add_tailbits_vbvb);
 GR_SWIG_BLOCK_MAGIC(drm,interleaver_vbvb);
 %include "drm_interleaver_vbvb.h"
 
-GR_SWIG_BLOCK_MAGIC(drm,qam_map_vbvb);
-%include "drm_qam_map_vbvb.h"
+GR_SWIG_BLOCK_MAGIC(drm,qam_map_vbvc);
+%include "drm_qam_map_vbvc.h"
 
-GR_SWIG_BLOCK_MAGIC(drm,cell_mapping_vbvb);
-%include "drm_cell_mapping_vbvb.h"
+GR_SWIG_BLOCK_MAGIC(drm,cell_mapping_vcvc);
+%include "drm_cell_mapping_vcvc.h"
 
 GR_SWIG_BLOCK_MAGIC(drm,audio_decoder_vbs);
 %include "drm_audio_decoder_vbs.h"

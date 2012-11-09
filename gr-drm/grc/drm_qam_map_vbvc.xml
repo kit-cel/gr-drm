@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
   <name>DRM QAM Mapping</name>
-  <key>drm_qam_map_vbvb</key>
+  <key>drm_qam_map_vbvc</key>
   <category>drm</category>
   <import>import drm</import>
-  <make>drm.qam_map_vbvb($map_table, $bits_per_symbol, $vlen_out, $n_inputs)</make>
+  <make>drm.qam_map_vbvc($map_table, $bits_per_symbol, $vlen_out, $n_inputs)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name
