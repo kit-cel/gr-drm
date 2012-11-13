@@ -26,15 +26,12 @@ add_library(gnuradio-drm SHARED
 			drm_tables_mapping.cc drm_tables_params.cc drm_config.cc drm_util.cc
 			drm_params.cc drm_transm_params.cc drm_generate_sdc_vb.cc 
 			drm_generate_fac_vb.cc drm_partitioning_vbvb.cc drm_punct_vbvb.cc 
-<<<<<<< HEAD
 			drm_add_tailbits_vbvb.cc drm_interleaver_vbvb.cc drm_qam_map_vbvc.cc 
 			drm_cell_mapping_vcvc.cc drm_audio_decoder_vbs.cc drm_cell_interleaver_vcvc.cc)
+			
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES} ${Faac_LIBRARIES} ${Faad_LIBRARIES} ${Fdkaac_LIBRARIES})
-=======
-			drm_add_tailbits_vbvb.cc drm_interleaver_vbvb.cc drm_qam_map_vbvc.cc 
-			drm_cell_mapping_vcvc.cc drm_audio_decoder_vbs.cc drm_cell_interleaver_vcvc.cc)
-target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES} ${Faac_LIBRARIES} ${Faad_LIBRARIES})
->>>>>>> master
+
+
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 
 ########################################################################

@@ -117,7 +117,7 @@ drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
 	d_hAacEncoder = NULL;
 	/* encoder handle */
 	int ErrorStatus = AACENC_OK;
-	if ( (ErrorStatus = aacEncOpen(&d_hAacEncoder,0x17,MODE_1)) != AACENC_OK ) // AAC + SBR, mono
+	if ( (ErrorStatus = aacEncOpen(&d_hAacEncoder,0x0 /*allocate all modules*/,MODE_1)) != AACENC_OK ) // AAC + SBR, mono
 	{
 		std::cout << "Failed to open encoder instance!\n";
 	}
