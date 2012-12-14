@@ -20,18 +20,29 @@ s = complex_baseband; % reines Basisbandsignal ohne Kanaleinfluss
 p_s = var(s);
 s = s./sqrt(p_s);
 
-max_Ts = .4/15; % maximale OFDM Symboldauer
-nsamp_Ts = ceil(fs*max_Ts) % maximale Anzahl Samples pro OFDM Symbol
+Ts = .4/15; % OFDM Symboldauer RM B
+nsamp_Ts = ceil(fs*Ts); % Anzahl Samples pro OFDM Symbol
+Tg = 5.33/1000; % CP Dauer RM B
+nsamp_Tg = ceil(fs*Tg); % Anzahl Samples im CP
 
 % Guard Time Correlation
 
-slagged = s(100000:100000+1280); % Ausschnitt aus dem Signal, enthaelt min. 1 Symbol
-scorr = xcorr(s(100000:200000), slagged);
+avg_sym = 10; % Anzahl der Symbole, ueber die gemittelt wird
+decim_factor = 5; % Dezimationsfaktor fuer die Korrelation
+lag = 300 % Verschiebung vom Anfang des Symbols in Samples (unabh. von decim_factor)
 
-Tg_B = 5.33/1000;
-nsamp_Tg = ceil(fs*Tg_B)
+s = awgn(s, 5, 'measured'); % AWGN addieren
 
-find(scorr == max(scorr))
+corrvec = zeros(1, ceil(nsamp_Ts/decim_factor)); % Vektor fuer die Korrelationswerte
+corrlen = length(corrvec);
+for start = 0 : decim_factor : avg_sym*nsamp_Ts-1
+    corrvec(mod(ceil(start/decim_factor),length(corrvec))+1) = ... % Korrelation berechnen und zum vorhandenen Werte addieren
+        corrvec(mod(ceil(start/decim_factor),corrlen)+1) + ...
+        corr(s(start+lag+1:start+lag+nsamp_Tg+1), s(start+lag+1+nsamp_Ts-nsamp_Tg:start+lag+nsamp_Ts+1));
+end
+corrvec = corrvec/avg_sym; % Mittelung anwenden
 
-plot(abs(scorr));
+lag_est = (corrlen - find(corrvec == max(corrvec)))*decim_factor
 
+plot(abs(corrvec)); title('Guard Intervall Korrelation'); 
+xlabel('Samples'); ylabel('Korrelationskoeffizient');
