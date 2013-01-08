@@ -39,5 +39,7 @@ install(FILES
     drm_qam_map_vbvc.h
     drm_cell_mapping_vcvc.h
     drm_audio_decoder_vbs.h
-    drm_cell_interleaver_vcvc.h DESTINATION include/drm
+    drm_cell_interleaver_vcvc.h
+    drm_cp_corr_cc.h
+    drm_dc_corr_cc.h DESTINATION include/drm
 )
