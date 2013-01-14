@@ -37,6 +37,7 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 		gr_make_io_signature (1, 1, sizeof (gr_complex)))
 {
 	d_rx = rx;
+	d_nsamp_sym = FS * T_O; 
 }
 
 

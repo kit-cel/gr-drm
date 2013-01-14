@@ -24,6 +24,7 @@
 #include <drmrx_api.h>
 #include <gr_block.h>
 #include <drmrx_conf.h>
+#include <drmrx_constants.h>
 
 class drmrx_freq_sync_cc;
 typedef boost::shared_ptr<drmrx_freq_sync_cc> drmrx_freq_sync_cc_sptr;
@@ -31,7 +32,7 @@ typedef boost::shared_ptr<drmrx_freq_sync_cc> drmrx_freq_sync_cc_sptr;
 DRMRX_API drmrx_freq_sync_cc_sptr drmrx_make_freq_sync_cc (drmrx_conf* rx);
 
 /*!
- * \brief Detects the presence of a drmrx30 signal by correlating with the known frequency pilot pattern. 
+ * \brief Detects the presence of a DRM30 signal by correlating with the known frequency pilot pattern. 
  *
  */
 class DRMRX_API drmrx_freq_sync_cc : public gr_block
@@ -39,8 +40,8 @@ class DRMRX_API drmrx_freq_sync_cc : public gr_block
 	friend DRMRX_API drmrx_freq_sync_cc_sptr drmrx_make_freq_sync_cc (drmrx_conf* rx);
 
 	drmrx_freq_sync_cc (drmrx_conf* rx);
-
 	drmrx_conf* d_rx; // drmrx_conf instance
+	unsigned int d_nsamp_sym; // number of samples per symbol
 	std::vector<gr_complex>* d_buf; // intermediate buffer
 
  public:
