@@ -5,7 +5,8 @@ github.txt
 *.wav
 *.dat
 *.bin
-gr-drm/build
+gr-drmrx/build
+gr-drmtx/build
 flow_graphs/*.py
 *.swp
 *.swo
