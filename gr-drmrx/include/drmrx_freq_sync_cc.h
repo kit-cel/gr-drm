@@ -25,6 +25,7 @@
 #include <gr_block.h>
 #include <drmrx_conf.h>
 #include <drmrx_constants.h>
+#include <cmath>
 
 class drmrx_freq_sync_cc;
 typedef boost::shared_ptr<drmrx_freq_sync_cc> drmrx_freq_sync_cc_sptr;
@@ -42,9 +43,13 @@ class DRMRX_API drmrx_freq_sync_cc : public gr_block
 	drmrx_freq_sync_cc (drmrx_conf* rx);
 	drmrx_conf* d_rx; // drmrx_conf instance
 	unsigned int d_nsamp_sym; // number of samples per symbol
-	std::vector<gr_complex>* d_buf; // intermediate buffer
+	std::vector<gr_complex> d_pilot_pattern; // vector representing the frequency pilot positions 
+	std::vector<gr_complex> d_buf; // intermediate buffer
 
  public:
+	unsigned int nsamp_sym(){ return d_nsamp_sym; }
+	std::vector<gr_complex> pilot_pattern(){ return d_pilot_pattern; }
+
 	~drmrx_freq_sync_cc ();
 
 

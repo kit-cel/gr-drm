@@ -9,10 +9,16 @@
 
 
 %{
+#include "drmrx_constants.h"
+#include "drmrx_conf.h"
+#include "drmrx_params.h"
 #include "drmrx_freq_sync_cc.h"
 #include "drmrx_time_sync_cc.h"
 %}
 
+%include "drmrx_constants.h"
+%include "drmrx_conf.h"
+%include "drmrx_params.h"
 
 GR_SWIG_BLOCK_MAGIC(drmrx,freq_sync_cc);
 %include "drmrx_freq_sync_cc.h"

@@ -24,6 +24,7 @@
 
 #include <gr_io_signature.h>
 #include <drmrx_freq_sync_cc.h>
+#include <cmath>
 
 drmrx_freq_sync_cc_sptr
 drmrx_make_freq_sync_cc (drmrx_conf* rx)
@@ -38,6 +39,21 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 {
 	d_rx = rx;
 	d_nsamp_sym = FS * T_O; 
+	
+	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
+	
+	double delta_f = 1/T_O; // frequency resolution in Hz
+	double f1 = 750; // pilot position in Hz
+	double f2 = 2250;
+	double f3 = 3000;
+	unsigned int i_f1 = round(f1/delta_f); // frequency pilot index
+	unsigned int i_f2 = round(f2/delta_f);
+	unsigned int i_f3 = round(f3/delta_f);
+
+	d_pilot_pattern.assign(std::ceil(3000.0/delta_f) + 1, 0); // first bin represents DC, last one 3 kHz
+	d_pilot_pattern[i_f1] = 1;
+	d_pilot_pattern[i_f2] = 1;
+	d_pilot_pattern[i_f3] = 1;
 }
 
 
