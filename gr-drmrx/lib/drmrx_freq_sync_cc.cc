@@ -42,6 +42,10 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 	d_rx = rx;
 	d_nsamp_sym = FS * T_O; 
     d_freq_off = 0;
+    d_corr_vec = NULL;
+    d_corr_maxval = 0;
+    d_corr_pos = 0;
+    d_signal_present = false;
 	
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
 	
@@ -49,14 +53,15 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 	double f1 = 750; // pilot position in Hz
 	double f2 = 2250;
 	double f3 = 3000;
-	unsigned int i_f1 = round(f1/delta_f); // frequency pilot index
-	unsigned int i_f2 = round(f2/delta_f);
-	unsigned int i_f3 = round(f3/delta_f);
+    std::vector<double> t; // time vector
 
-	d_pilot_pattern.assign(d_nsamp_sym, 0); // first bin represents DC, last one 3 kHz
-	d_pilot_pattern[i_f1] = 1;
-	d_pilot_pattern[i_f2] = 1;
-	d_pilot_pattern[i_f3] = 1;
+    for(int i = 0; i < d_nsamp_sym; i++)
+    {
+        d_pilot_pattern.push_back(sin(2*M_PI*f1*i/T_O) + 
+                                  sin(2*M_PI*f2*i/T_O) +
+                                  sin(2*M_PI*f3*i/T_O));
+    }
+
 }
 
 
@@ -84,6 +89,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   // each input stream.
   consume_each (ninput_items[0]);
 
+  // If there are enough samples, determine the frequency offset through correlation with the frequency pilots
   if(d_buf.size() < d_nsamp_sym) 
   {
       return 0; // wait for more samples
@@ -95,8 +101,24 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
       for(int i = 0; i < nsym_in_buf; i++)
       {
           // correlate pilot positions with fouriertransformed OFDM signal 
+         drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0],
+                               d_corr_vec, d_nsamp_sym);
+         correlator.execute();
+         correlator.get_maximum(d_corr_pos, d_corr_maxval);
+
+         // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
+         
+         //TODO: implementation
       }
-      return 0; // FIXME
+
+      if(d_signal_present)
+      {
+        return nsym_in_buf * d_nsamp_sym;
+      }
+      else
+      {
+          return 0;
+      }
   }
 }
 

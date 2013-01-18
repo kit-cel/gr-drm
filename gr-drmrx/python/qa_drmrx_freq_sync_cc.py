@@ -40,9 +40,6 @@ class qa_freq_sync_cc (gr_unittest.TestCase):
 		pil = self.freq_acq.pilot_pattern()
 		self.assertEqual(self.freq_acq.nsamp_sym(), drmrx_swig.FS*drmrx_swig.T_O)
 		self.assertEqual(len(pil), self.freq_acq.nsamp_sym())
-		self.assertEqual(pil[int(750*drmrx_swig.T_O)], 1)
-		self.assertEqual(pil[int(2250*drmrx_swig.T_O)], 1)
-		self.assertEqual(pil[int(3000*drmrx_swig.T_O)], 1)
 
 
 if __name__ == '__main__':

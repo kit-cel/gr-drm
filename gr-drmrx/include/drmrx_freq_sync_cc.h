@@ -45,7 +45,11 @@ class DRMRX_API drmrx_freq_sync_cc : public gr_block
 	unsigned int d_nsamp_sym; // number of samples per symbol
 	std::vector<gr_complex> d_pilot_pattern; // vector representing the frequency pilot positions 
 	std::vector<gr_complex> d_buf; // intermediate buffer
+    gr_complex* d_corr_vec; // correlation vector
+    float d_corr_maxval; // maximum correlation value
+    int d_corr_pos; // position of the maximum of the correlation
     std::vector<double> d_freq_off_vec; // vector keeping the last 10 estimated frequency offsets used for averaging
+    bool d_signal_present; // DRM signal presence flag
     double d_freq_off; // current estimated and averaged frequency offset
 
  public:
