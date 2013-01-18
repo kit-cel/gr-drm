@@ -25,6 +25,7 @@
 #include <gr_io_signature.h>
 #include <drmrx_freq_sync_cc.h>
 #include <cmath>
+#include <drmrx_corr.h>
 
 drmrx_freq_sync_cc_sptr
 drmrx_make_freq_sync_cc (drmrx_conf* rx)
@@ -37,8 +38,10 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 		gr_make_io_signature (1, 1, sizeof (gr_complex)),
 		gr_make_io_signature (1, 1, sizeof (gr_complex)))
 {
+    // set (default) values for variables)
 	d_rx = rx;
 	d_nsamp_sym = FS * T_O; 
+    d_freq_off = 0;
 	
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
 	
@@ -50,7 +53,7 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 	unsigned int i_f2 = round(f2/delta_f);
 	unsigned int i_f3 = round(f3/delta_f);
 
-	d_pilot_pattern.assign(std::ceil(3000.0/delta_f) + 1, 0); // first bin represents DC, last one 3 kHz
+	d_pilot_pattern.assign(d_nsamp_sym, 0); // first bin represents DC, last one 3 kHz
 	d_pilot_pattern[i_f1] = 1;
 	d_pilot_pattern[i_f2] = 1;
 	d_pilot_pattern[i_f3] = 1;
@@ -70,12 +73,30 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
 {
   const gr_complex *in = (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
+  
+  // copy input buffer to intermediate buffer
+  for(int i = 0; i < ninput_items[0]; i++)
+  {
+      d_buf.push_back(in[i]);
+  }
 
   // Tell runtime system how many input items we consumed on
   // each input stream.
-  consume_each (noutput_items);
+  consume_each (ninput_items[0]);
 
-  // Tell runtime system how many output items we produced.
-  return noutput_items;
+  if(d_buf.size() < d_nsamp_sym) 
+  {
+      return 0; // wait for more samples
+  }
+  else
+  {
+      double freq_off = 0;
+      int nsym_in_buf = std::floor(d_buf.size() / d_nsamp_sym);
+      for(int i = 0; i < nsym_in_buf; i++)
+      {
+          // correlate pilot positions with fouriertransformed OFDM signal 
+      }
+      return 0; // FIXME
+  }
 }
 

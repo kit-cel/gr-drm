@@ -45,6 +45,8 @@ class DRMRX_API drmrx_freq_sync_cc : public gr_block
 	unsigned int d_nsamp_sym; // number of samples per symbol
 	std::vector<gr_complex> d_pilot_pattern; // vector representing the frequency pilot positions 
 	std::vector<gr_complex> d_buf; // intermediate buffer
+    std::vector<double> d_freq_off_vec; // vector keeping the last 10 estimated frequency offsets used for averaging
+    double d_freq_off; // current estimated and averaged frequency offset
 
  public:
 	unsigned int nsamp_sym(){ return d_nsamp_sym; }
