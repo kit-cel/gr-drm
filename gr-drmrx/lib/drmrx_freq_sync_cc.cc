@@ -45,6 +45,7 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
     d_corr_vec = NULL;
     d_corr_maxval = 0;
     d_corr_pos = 0;
+    d_corr_avg = 0;
     d_signal_present = false;
 	
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
@@ -82,7 +83,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   // copy input buffer to intermediate buffer
   for(int i = 0; i < ninput_items[0]; i++)
   {
-      d_buf.push_back(in[i]);
+      d_buf.push_back(in[i]); // do this via insert to be faster
   }
 
   // Tell runtime system how many input items we consumed on
@@ -96,7 +97,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   }
   else
   {
-      double freq_off = 0;
+      double freq_off_tmp = 0;
       int nsym_in_buf = std::floor(d_buf.size() / d_nsamp_sym);
       for(int i = 0; i < nsym_in_buf; i++)
       {
@@ -104,20 +105,26 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
          drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0],
                                d_corr_vec, d_nsamp_sym);
          correlator.execute();
-         correlator.get_maximum(d_corr_pos, d_corr_maxval);
+         correlator.get_maximum(d_corr_pos, d_corr_maxval, d_corr_avg);
 
          // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
-         
-         //TODO: implementation
-      }
+         if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
+         {
+             d_signal_present = true;
+            // copy samples from intermediate to output buffer and delete from buffer
+            memcpy(out, &d_buf[0], d_nsamp_sym);
+            d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
 
-      if(d_signal_present)
-      {
-        return nsym_in_buf * d_nsamp_sym;
-      }
-      else
-      {
-          return 0;
+            return nsym_in_buf * d_nsamp_sym;
+         }
+         else
+         {
+             d_signal_present = false; // reset flag if it was true before
+            // don't copy samples to output, just delete them from the buffer
+            d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
+
+            return 0;
+         }
       }
   }
 }

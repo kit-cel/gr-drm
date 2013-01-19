@@ -60,7 +60,7 @@ class drmrx_corr
         ~drmrx_corr();
         
         void execute();
-        void get_maximum(int &pos, float &max );
+        void get_maximum(int &pos, float &max, float &avg );
 
 };
 

@@ -93,19 +93,22 @@ drmrx_corr::execute()
 
     
 void
-drmrx_corr::get_maximum(int &pos, float &max )
+drmrx_corr::get_maximum(int &pos, float &max, float &avg )
 {
     int rlen = (2*d_len-1);
+    int sum = 0;
     volk_32fc_magnitude_32f_a(d_abs, d_res_t, rlen);
     int fpos = 0;
     float fmax = 0.0;
     for (int i = 0 ; i < rlen; i++){
+        sum += d_abs[i];
         if(fmax < d_abs[i]){
             fmax = d_abs[i];
             fpos = i;
         }
     }
 
+    avg = sum/rlen;
     max = fmax;
     pos = fpos;
 
