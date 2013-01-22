@@ -43,10 +43,11 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 	d_nsamp_sym = FS * T_O; 
     d_freq_off = 0;
     d_corr_vec = NULL;
-    d_corr_maxval = 0;
-    d_corr_pos = 0;
-    d_corr_avg = 0;
+    d_corr_maxval = -1;
+    d_corr_pos = -1;
+    d_corr_avg = -1;
     d_signal_present = false;
+	d_corr_vec = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nsamp_sym); 
 	
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
 	
@@ -68,7 +69,14 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 
 drmrx_freq_sync_cc::~drmrx_freq_sync_cc ()
 {
+	fftwf_free(d_corr_vec);	
 }
+
+/*void
+drmrx_freq_sync_cc::forecast(int noutput_items, gr_vector_int &ninput_items_required)
+{
+	ninput_items_required[0] = d_nsamp_sym; // we need d_nsamp_sym input samples for the work() algorithm
+}*/
 
 
 int
@@ -77,28 +85,32 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
 			       gr_vector_const_void_star &input_items,
 			       gr_vector_void_star &output_items)
 {
+  printf("\nentering work()\n");
   const gr_complex *in = (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
   
   // copy input buffer to intermediate buffer
   for(int i = 0; i < ninput_items[0]; i++)
   {
-      d_buf.push_back(in[i]); // do this via insert to be faster
+      d_buf.push_back(in[i]); // TODO: do this via insert to be faster
   }
 
   // Tell runtime system how many input items we consumed on
   // each input stream.
+  std::cout << "ninput items: " << ninput_items[0] << std::endl;
   consume_each (ninput_items[0]);
 
   // If there are enough samples, determine the frequency offset through correlation with the frequency pilots
   if(d_buf.size() < d_nsamp_sym) 
   {
+  	  std::cout << "not enough samples. returning." << std::endl;
       return 0; // wait for more samples
   }
   else
   {
       double freq_off_tmp = 0;
       int nsym_in_buf = std::floor(d_buf.size() / d_nsamp_sym);
+	  std::cout << "performing correlation " << nsym_in_buf << " times." << std::endl;
       for(int i = 0; i < nsym_in_buf; i++)
       {
           // correlate pilot positions with fouriertransformed OFDM signal 
@@ -110,6 +122,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
          // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
          if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
          {
+		    std::cout << "signal present! ratio is max/avg: " << d_corr_maxval << "/" << d_corr_avg << "=" << d_corr_maxval/d_corr_avg << "copy and return.\n";
              d_signal_present = true;
             // copy samples from intermediate to output buffer and delete from buffer
             memcpy(out, &d_buf[0], d_nsamp_sym);
@@ -119,6 +132,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
          }
          else
          {
+		    std::cout << "no signal detected. returning.\n";
              d_signal_present = false; // reset flag if it was true before
             // don't copy samples to output, just delete them from the buffer
             d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!

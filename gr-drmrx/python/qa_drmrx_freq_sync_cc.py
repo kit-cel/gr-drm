@@ -28,6 +28,10 @@ class qa_freq_sync_cc (gr_unittest.TestCase):
 		self.tb = gr.top_block ()
 		self.rx = drmrx_swig.drmrx_conf()
 		self.freq_acq = drmrx_swig.freq_sync_cc(self.rx)
+		self.src = gr.null_source(gr.sizeof_gr_complex*1)
+		self.snk = gr.null_sink(gr.sizeof_gr_complex*1)
+		self.head = gr.head(gr.sizeof_gr_complex*1, 210000)
+		self.tb.connect(self.src, self.head, self.freq_acq, self.snk)
 
 	def tearDown (self):
 		self.tb = None

@@ -56,6 +56,7 @@ class DRMRX_API drmrx_freq_sync_cc : public gr_block
  public:
 	unsigned int nsamp_sym(){ return d_nsamp_sym; }
 	std::vector<gr_complex> pilot_pattern(){ return d_pilot_pattern; }
+	//void forecast(int noutput_items, gr_vector_int& noutput_items_required);
 
 	~drmrx_freq_sync_cc ();
 

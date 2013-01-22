@@ -62,22 +62,22 @@ drmrx_corr::~drmrx_corr()
 void
 drmrx_corr::execute()
 {
-    // Transform first sequence
+    // Transform first sequence 
     memcpy(d_in+1, d_in1, sizeof(gr_complex)*(d_len-1) );
     d_in[0] = d_in1[d_len-1];//shift
     
     // Transform and conjugate first input
     fftwf_execute(d_plan_f);
     memcpy(d_f1, d_out, sizeof(gr_complex)*d_len);
-    volk_32fc_conjugate_32fc_a(d_f1, d_f1, d_len); //numPoints (number of complex values)
-    
+    volk_32fc_conjugate_32fc_u(d_f1, d_f1, d_len); //numPoints (number of complex values)
+   
     // Transform second sequence
     memcpy(d_in, d_in2, sizeof(gr_complex)*d_len);
     fftwf_execute(d_plan_f);
     memcpy(d_f2, d_out, sizeof(gr_complex)*d_len);
     
     // Multiply in frequency domain
-    volk_32fc_x2_multiply_32fc_a(d_res_f, d_f1, d_f2, d_len);
+    volk_32fc_x2_multiply_32fc_u(d_res_f, d_f1, d_f2, d_len);
     
     // Transform back to time domain
     memcpy(d_in, d_res_f, sizeof(gr_complex)*d_len);
@@ -88,7 +88,7 @@ drmrx_corr::execute()
     memcpy(d_res_t+d_len, d_out, sizeof(gr_complex)*(d_len-1));
     
     // make result available
-    memcpy(d_out_p, d_out, sizeof(gr_complex)*d_len );
+    memcpy(d_out_p, d_out, sizeof(gr_complex)*d_len ); 
 }    
 
     
@@ -108,7 +108,16 @@ drmrx_corr::get_maximum(int &pos, float &max, float &avg )
         }
     }
 
-    avg = sum/rlen;
+	if(sum>0)
+	{
+		std::cout << "sum: " << sum << "\n";
+    	avg = sum/float(rlen);
+		std::cout << "rlen: " << rlen << "\n";
+	}
+	else
+	{
+			avg = -1;
+	}
     max = fmax;
     pos = fpos;
 
