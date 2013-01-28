@@ -47,6 +47,7 @@ drmrx_corr::drmrx_corr(gr_complex* in1, gr_complex* in2, gr_complex *out, int le
 
 drmrx_corr::~drmrx_corr()
 {
+	
     fftwf_destroy_plan(d_plan_f);
     fftwf_destroy_plan(d_plan_r);
     
@@ -57,6 +58,7 @@ drmrx_corr::~drmrx_corr()
     fftwf_free(d_res_f);
     fftwf_free(d_res_t);
     fftwf_free(d_abs);
+
 }
 
 void
@@ -110,9 +112,9 @@ drmrx_corr::get_maximum(int &pos, float &max, float &avg )
 
 	if(sum>0)
 	{
-		std::cout << "sum: " << sum << "\n";
+		printf( "sum: %i \n", sum);
     	avg = sum/float(rlen);
-		std::cout << "rlen: " << rlen << "\n";
+		printf( "rlen: %i \n", rlen);
 	}
 	else
 	{

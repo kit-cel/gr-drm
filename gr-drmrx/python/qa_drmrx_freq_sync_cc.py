@@ -19,7 +19,7 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
+from gnuradio import analog, gr, gr_unittest
 import drmrx_swig
 
 class qa_freq_sync_cc (gr_unittest.TestCase):
@@ -30,20 +30,32 @@ class qa_freq_sync_cc (gr_unittest.TestCase):
 		self.freq_acq = drmrx_swig.freq_sync_cc(self.rx)
 		self.src = gr.null_source(gr.sizeof_gr_complex*1)
 		self.snk = gr.null_sink(gr.sizeof_gr_complex*1)
-		self.head = gr.head(gr.sizeof_gr_complex*1, 210000)
-		self.tb.connect(self.src, self.head, self.freq_acq, self.snk)
+		self.head = gr.head(gr.sizeof_gr_complex*1, 110000)
+		self.samp_rate = 250000;
+		self.f1 = analog.sig_source_c(self.samp_rate, analog.GR_SIN_WAVE, 750, 1, 0) 
+		self.f2 = analog.sig_source_c(self.samp_rate, analog.GR_SIN_WAVE, 2250, 1, 0) 
+		self.f3 = analog.sig_source_c(self.samp_rate, analog.GR_SIN_WAVE, 3000, 1, 0) 
+		self.add = gr.add_vcc(1)
 
 	def tearDown (self):
 		self.tb = None
 
 	def test_001_t (self):
 		# set up fg
+		self.tb.connect(self.src, self.head, self.freq_acq, self.snk)
 		self.tb.run ()
 
 		# check data
 		pil = self.freq_acq.pilot_pattern()
 		self.assertEqual(self.freq_acq.nsamp_sym(), drmrx_swig.FS*drmrx_swig.T_O)
 		self.assertEqual(len(pil), self.freq_acq.nsamp_sym())
+
+	def test_002_t (self):
+		self.tb.connect(self.f1, (self.add, 0))
+		self.tb.connect(self.f2, (self.add, 1))
+		self.tb.connect(self.f3, (self.add, 2))
+		self.tb.connect(self.add, self.head, self.freq_acq, self.snk)
+		self.tb.run()
 
 
 if __name__ == '__main__':

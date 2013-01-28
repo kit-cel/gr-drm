@@ -89,57 +89,62 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   const gr_complex *in = (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
   
-  // copy input buffer to intermediate buffer
-  for(int i = 0; i < ninput_items[0]; i++)
+  printf("ninput items: %i \n", ninput_items[0]);
+
+  // copy input buffer to intermediate buffer and make sure the buffer doesn't constantly 
+  int new_samples = 0;
+  if(ninput_items[0] > d_nsamp_sym)
+  {
+	  new_samples = d_nsamp_sym;
+  }
+  else
+  {
+      new_samples = ninput_items[0];
+  }
+  for(int i = 0; i < new_samples; i++)
   {
       d_buf.push_back(in[i]); // TODO: do this via insert to be faster
   }
 
-  // Tell runtime system how many input items we consumed on
-  // each input stream.
-  std::cout << "ninput items: " << ninput_items[0] << std::endl;
-  consume_each (ninput_items[0]);
-
-  // If there are enough samples, determine the frequency offset through correlation with the frequency pilots
   if(d_buf.size() < d_nsamp_sym) 
   {
-  	  std::cout << "not enough samples. returning." << std::endl;
+  	  printf("not enough samples. returning.\n");
       return 0; // wait for more samples
+  }
+
+  // Tell runtime system how many input items we consumed on
+  // each input stream.
+  consume_each (new_samples);
+
+  // determine the frequency offset through correlation with the frequency pilots
+  printf("performing correlation \n");
+  
+  // correlate pilot positions with fourier-transformed OFDM signal 
+  drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0],
+                               d_corr_vec, d_nsamp_sym);
+  correlator.execute();
+  correlator.get_maximum(d_corr_pos, d_corr_maxval, d_corr_avg);
+
+  // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
+  if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
+  {
+  	printf("signal present! max/avg: %f/%f=%f. copy and return.", d_corr_maxval, d_corr_avg, d_corr_maxval/d_corr_avg);
+    d_signal_present = true;
+    // copy samples from intermediate to output buffer and delete from buffer
+    memcpy(out, &d_buf[0], d_nsamp_sym);
+    d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
+
+	return 0;
+    //return d_nsamp_sym;
   }
   else
   {
-      double freq_off_tmp = 0;
-      int nsym_in_buf = std::floor(d_buf.size() / d_nsamp_sym);
-	  std::cout << "performing correlation " << nsym_in_buf << " times." << std::endl;
-      for(int i = 0; i < nsym_in_buf; i++)
-      {
-          // correlate pilot positions with fouriertransformed OFDM signal 
-         drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0],
-                               d_corr_vec, d_nsamp_sym);
-         correlator.execute();
-         correlator.get_maximum(d_corr_pos, d_corr_maxval, d_corr_avg);
+	printf("no signal detected.  max/avg: %f/%f=%f. return.", d_corr_maxval, d_corr_avg, d_corr_maxval/d_corr_avg);
+    d_signal_present = false; // reset flag if it was true before
+    // don't copy samples to output, just delete them from the buffer
+    d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
 
-         // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
-         if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
-         {
-		    std::cout << "signal present! ratio is max/avg: " << d_corr_maxval << "/" << d_corr_avg << "=" << d_corr_maxval/d_corr_avg << "copy and return.\n";
-             d_signal_present = true;
-            // copy samples from intermediate to output buffer and delete from buffer
-            memcpy(out, &d_buf[0], d_nsamp_sym);
-            d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
-
-            return nsym_in_buf * d_nsamp_sym;
-         }
-         else
-         {
-		    std::cout << "no signal detected. returning.\n";
-             d_signal_present = false; // reset flag if it was true before
-            // don't copy samples to output, just delete them from the buffer
-            d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
-
-            return 0;
-         }
-      }
+    return 0;
   }
 }
 
