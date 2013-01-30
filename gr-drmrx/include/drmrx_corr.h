@@ -29,7 +29,9 @@
 #include <cstring>
 #include <iostream>
  
- 
+void
+drmrx_corr_t(gr_complex* in1, gr_complex* in2, float* out, int len1, int len2, int& pos, float& val, float& avg);
+
 class drmrx_corr
 {
     

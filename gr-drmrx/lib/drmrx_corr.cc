@@ -21,6 +21,52 @@
     
 #include <drmrx_corr.h>
 
+void
+drmrx_corr_t(gr_complex* in1, gr_complex* in2, float* out, int len1, int len2, int& pos, float& val, float& avg)
+{
+
+	printf("enter drmrx_corr_t\n");
+	// performs a time-domain correlation of the two input series
+	// length of in1 is considered to be >= length of in2
+	gr_complex tmp;
+	int pos1 = 0;
+	int pos2 = -len2+1;
+	int nmult = 1;
+
+	for(int i = 0; i < len1+len2-1; i++)
+	{
+		if(i%10000 == 0){printf("calculating correlation...");};
+		tmp = 0; // tmp result
+		pos2 = len2-1-i; // starting position of in2
+		pos2 = std::max(pos2, 0); // if the starting index of in2 gets negative, the start is already being multiplied
+		if(pos2 == 0){ pos1 = std::max(0, i-len2); } // set starting point of in1
+		if(nmult < len2){ nmult++; } // set number of multiplications
+		else{ nmult--; }
+
+		for(int n = 0; n < nmult; n++)
+		{
+			tmp += conj(in2[pos2+n]) * in1[pos1+n];
+		}
+		out[i] = float( abs(tmp)/float(len1+len2-1-nmult) ); // normalize and assign tmp result to output
+	}
+	printf("calculate max, pos and avg\n");
+	
+	// calculate maximum, its position and the average correlation value
+	pos = 0;
+	val = 0;
+	avg = -1;
+	for(int i = 0; i < len1+len2-1; i++)
+	{
+		if(val < out[i])
+		{
+			val = out[i];
+			pos = i;
+		}
+		avg += out[i];
+	}
+	avg = avg/float(len1+len2-1);
+}
+
 drmrx_corr::drmrx_corr(gr_complex* in1, gr_complex* in2, gr_complex *out, int len):
         d_in1(in1),
         d_in2(in2),

@@ -47,7 +47,8 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
     d_corr_pos = -1;
     d_corr_avg = -1;
     d_signal_present = false;
-	d_corr_vec = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nsamp_sym); 
+	//d_corr_vec = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nsamp_sym); 
+	d_corr_vec = (float*) malloc(sizeof(float)*d_nsamp_sym*2-1); 
 	
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
 	
@@ -69,7 +70,7 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 
 drmrx_freq_sync_cc::~drmrx_freq_sync_cc ()
 {
-	fftwf_free(d_corr_vec);	
+	free(d_corr_vec);	
 }
 
 /*void
@@ -120,11 +121,13 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   printf("performing correlation \n");
   
   // correlate pilot positions with fourier-transformed OFDM signal 
-  drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0],
-                               d_corr_vec, d_nsamp_sym);
+  //drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym);
+  /*drmrx_corr correlator( &d_pilot_pattern[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym); 
   correlator.execute();
   correlator.get_maximum(d_corr_pos, d_corr_maxval, d_corr_avg);
-
+*/
+  
+  drmrx_corr_t(&d_pilot_pattern[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym, d_nsamp_sym, d_corr_pos, d_corr_maxval, d_corr_avg); 
   // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
   if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
   {
@@ -134,7 +137,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
     memcpy(out, &d_buf[0], d_nsamp_sym);
     d_buf.erase(d_buf.begin(), d_buf.begin()+d_nsamp_sym); // this is inefficient!
 
-	return 0;
+	return 0; // FIXME
     //return d_nsamp_sym;
   }
   else
