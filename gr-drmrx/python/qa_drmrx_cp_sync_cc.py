@@ -19,21 +19,36 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
+from gnuradio import analog, gr, gr_unittest
 import drmrx_swig
 
-class qa_time_sync_cc (gr_unittest.TestCase):
+class qa_cp_sync_cc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.rx = drmrx_swig.drmrx_conf()
+        self.cp_sync = drmrx_swig.cp_sync_cc(self.rx)
 
     def tearDown (self):
         self.tb = None
 
-    def test_001_t (self):
+    def test_001_t (self): # dummy test, just testing if work() produces sensible output
         # set up fg
+        print "test_001"
+        self.src_noise = analog.noise_source_c(analog.GR_GAUSSIAN, 1, 0)
+        self.head = gr.head(gr.sizeof_gr_complex*1, 10000)
+        self.snk = gr.null_sink(gr.sizeof_gr_complex*1)
+        self.tb.connect(self.src_noise, self.head, self.cp_sync, self.snk)
         self.tb.run ()
         # check data
+        
+    def test_002_t (self): # test with real data created with drmtx
+        print "test_002"
+        self.src_file = gr.file_source(gr.sizeof_gr_complex*1, "testdata_cpsync.bin", False)
+        self.head = gr.head(gr.sizeof_gr_complex*1, 10000)
+        self.snk = gr.null_sink(gr.sizeof_gr_complex*1)
+        self.tb.connect(self.src_file, self.head, self.cp_sync, self.snk)
+        self.tb.run ()
 
 
 if __name__ == '__main__':

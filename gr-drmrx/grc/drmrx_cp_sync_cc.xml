@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
-  <name>time_sync_cc</name>
-  <key>drmrx_time_sync_cc</key>
+  <name>cp_sync_cc</name>
+  <key>drmrx_cp_sync_cc</key>
   <category>drmrx</category>
   <import>import drmrx</import>
-  <make>drmrx.time_sync_cc()</make>
+  <make>drmrx.cp_sync_cc(rx)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
        Sub-nodes:
        * name

@@ -25,6 +25,7 @@ import drmrx_swig
 class qa_freq_sync_cc (gr_unittest.TestCase):
 
 	def setUp (self):
+		print "setUp()"
 		self.tb = gr.top_block ()
 		self.rx = drmrx_swig.drmrx_conf()
 		self.freq_acq = drmrx_swig.freq_sync_cc(self.rx)
@@ -38,9 +39,11 @@ class qa_freq_sync_cc (gr_unittest.TestCase):
 		self.add = gr.add_vcc(1)
 
 	def tearDown (self):
+		print "tearDown()"
 		self.tb = None
 
 	def test_001_t (self):
+		print "test_001"
 		# set up fg
 		self.tb.connect(self.src, self.head, self.freq_acq, self.snk)
 		self.tb.run ()
@@ -51,6 +54,7 @@ class qa_freq_sync_cc (gr_unittest.TestCase):
 		self.assertEqual(len(pil), self.freq_acq.nsamp_sym())
 
 	def test_002_t (self):
+		print "test_002"
 		self.tb.connect(self.f1, (self.add, 0))
 		self.tb.connect(self.f2, (self.add, 1))
 		self.tb.connect(self.f3, (self.add, 2))

@@ -13,7 +13,7 @@
 #include "drmrx_conf.h"
 #include "drmrx_params.h"
 #include "drmrx_freq_sync_cc.h"
-#include "drmrx_time_sync_cc.h"
+#include "drmrx_cp_sync_cc.h"
 %}
 
 %include "drmrx_constants.h"
@@ -23,5 +23,5 @@
 GR_SWIG_BLOCK_MAGIC(drmrx,freq_sync_cc);
 %include "drmrx_freq_sync_cc.h"
 
-GR_SWIG_BLOCK_MAGIC(drmrx,time_sync_cc);
-%include "drmrx_time_sync_cc.h"
+GR_SWIG_BLOCK_MAGIC(drmrx,cp_sync_cc);
+%include "drmrx_cp_sync_cc.h"

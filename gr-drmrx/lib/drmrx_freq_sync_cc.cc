@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
+/*
  * Copyright 2013 <+YOU OR YOUR COMPANY+>.
- * 
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -40,37 +40,43 @@ drmrx_freq_sync_cc::drmrx_freq_sync_cc (drmrx_conf* rx)
 {
     // set (default) values for variables)
 	d_rx = rx;
-	d_nsamp_sym = FS * T_O; 
+	d_nsamp_sym = FS * T_O;
     d_freq_off = 0;
+    d_nfft = -1;
     d_corr_vec = NULL;
     d_corr_maxval = -1;
     d_corr_pos = -1;
     d_corr_avg = -1;
     d_signal_present = false;
-	//d_corr_vec = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nsamp_sym); 
-	d_corr_vec = (float*) malloc(sizeof(float)*d_nsamp_sym*2-1); 
-	
+	//d_corr_vec = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nsamp_sym);
+	d_corr_vec = (float*) malloc(sizeof(float)*d_nsamp_sym*2-1);
+	//d_fft = drmrx_fft(); // FIXME
+
 	// Generation of frequency pilot pattern - vector with ones at the pilot positions, zeroes otherwise
-	
-	double delta_f = 1/T_O; // frequency resolution in Hz
-	double f1 = 750; // pilot position in Hz
-	double f2 = 2250;
-	double f3 = 3000;
-    std::vector<double> t; // time vector
+	double delta_f = double(1.0/T_O); // frequency resolution in Hz
+	double f1 = 750.0; // pilot position in Hz
+	double f2 = 2250.0;
+	double f3 = 3000.0;
+	int if1 = round(f1/delta_f);
+	int if2 = round(f2/delta_f);
+	int if3 = round(f3/delta_f);
 
-    for(int i = 0; i < d_nsamp_sym; i++)
-    {
-        d_pilot_pattern.push_back(sin(2*M_PI*f1*i/T_O) + 
-                                  sin(2*M_PI*f2*i/T_O) +
-                                  sin(2*M_PI*f3*i/T_O));
-    }
+    // use the shortest FFT that reaches a spectral resolution of 1/T_0
+	d_nfft = pow(2, ceil(log(f3/delta_f)/log(2))); // log2(x) = ln(x)/ln(2)
+	printf("freq_sync: using FFT lenght of %d; frequency resolution is %f", d_nfft, delta_f); printf(" >= %f (1/T_0)\n", 1.0/T_O);
+	d_pilot_pattern = (gr_complex*) fftwf_malloc(sizeof(gr_complex)*d_nfft);
+	memset( (void*) d_pilot_pattern, 0, sizeof(gr_complex)*d_nfft ); // set all values to zero
 
+	d_pilot_pattern[if1] = 1;
+	d_pilot_pattern[if2] = 1;
+	d_pilot_pattern[if3] = 1;
 }
 
 
 drmrx_freq_sync_cc::~drmrx_freq_sync_cc ()
 {
-	free(d_corr_vec);	
+	free(d_corr_vec);
+	fftwf_free(d_pilot_pattern);
 }
 
 /*void
@@ -89,10 +95,10 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
   printf("\nentering work()\n");
   const gr_complex *in = (const gr_complex *) input_items[0];
   gr_complex *out = (gr_complex *) output_items[0];
-  
+
   printf("ninput items: %i \n", ninput_items[0]);
 
-  // copy input buffer to intermediate buffer and make sure the buffer doesn't constantly 
+  // copy input buffer to intermediate buffer and make sure the buffer doesn't constantly
   int new_samples = 0;
   if(ninput_items[0] > d_nsamp_sym)
   {
@@ -107,7 +113,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
       d_buf.push_back(in[i]); // TODO: do this via insert to be faster
   }
 
-  if(d_buf.size() < d_nsamp_sym) 
+  if(d_buf.size() < d_nsamp_sym)
   {
   	  printf("not enough samples. returning.\n");
       return 0; // wait for more samples
@@ -119,17 +125,17 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
 
   // determine the frequency offset through correlation with the frequency pilots
   printf("performing correlation \n");
-  
-  // correlate pilot positions with fourier-transformed OFDM signal 
+
+  // correlate pilot positions with fourier-transformed OFDM signal
   //drmrx_corr correlator(&d_buf[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym);
-  /*drmrx_corr correlator( &d_pilot_pattern[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym); 
+  /*drmrx_corr correlator( &d_pilot_pattern[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym);
   correlator.execute();
   correlator.get_maximum(d_corr_pos, d_corr_maxval, d_corr_avg);
-*/
-  
-  drmrx_corr_t(&d_pilot_pattern[0], &d_pilot_pattern[0], d_corr_vec, d_nsamp_sym, d_nsamp_sym, d_corr_pos, d_corr_maxval, d_corr_avg); 
+
+
+  drmrx_corr_t(d_pilot_pattern, d_pilot_pattern, d_corr_vec, d_nsamp_sym, d_nsamp_sym, d_corr_pos, d_corr_maxval, d_corr_avg);
   // evaluate, if maxval is high enough (-> DRM signal present) and if so, correct the signal
-  if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5 
+  if(d_corr_maxval/d_corr_avg > 5) // maybe find a better value than 5
   {
   	printf("signal present! max/avg: %f/%f=%f. copy and return.", d_corr_maxval, d_corr_avg, d_corr_maxval/d_corr_avg);
     d_signal_present = true;
@@ -149,5 +155,7 @@ drmrx_freq_sync_cc::general_work (int noutput_items,
 
     return 0;
   }
+  */
+  return 0;
 }
 
