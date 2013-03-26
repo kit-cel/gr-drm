@@ -45,6 +45,8 @@ if _RTLD_GLOBAL != 0:
 from drmrx_swig import *
 
 # import any pure python here
+from cp_sync_py import cp_sync_py
+from freq_sync_py import freq_sync_py
 #
 
 # ----------------------------------------------------------------

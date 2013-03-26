@@ -18,5 +18,7 @@
 # Boston, MA 02110-1301, USA.
 install(FILES
     drmrx_freq_sync_cc.xml
-    drmrx_cp_sync_cc.xml DESTINATION share/gnuradio/grc/blocks
+    drmrx_cp_sync_cc.xml
+    drmrx_cp_sync_py.xml
+    drmrx_freq_sync_py.xml DESTINATION share/gnuradio/grc/blocks
 )

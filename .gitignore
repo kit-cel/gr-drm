@@ -13,3 +13,6 @@ flow_graphs/*.py
 *.swp
 *.swo
 *.swn
+*.pyc
+*.pyo
+gr-drmrx/cb-build

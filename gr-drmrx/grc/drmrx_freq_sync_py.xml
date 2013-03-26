@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<block>
+  <name>presence detection and coarse frequency synchronization</name>
+  <key>drmrx_freq_sync_py</key>
+  <category>drmrx</category>
+  <import>import drmrx</import>
+  <make>drmrx.freq_sync_py(rx)</make>
+  <!-- Make one 'param' node for every Parameter you want settable from the GUI.
+       Sub-nodes:
+       * name
+       * key (makes the value accessible as $keyname, e.g. in the make node)
+       * type -->
+  <param>
+    <name>rx</name>
+    <key>rx</key>
+    <type>raw</type>
+  </param>
+
+  <!-- Make one 'sink' node per input. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+
+  <!-- Make one 'source' node per output. Sub-nodes:
+       * name (an identifier for the GUI)
+       * type
+       * vlen
+       * optional (set to 1 for optional inputs) -->
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+</block>
+
