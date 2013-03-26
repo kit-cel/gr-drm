@@ -98,7 +98,9 @@ class cp_sync_py(gr.basic_block):
         self.corr_vec = np.zeros(( self.nsamp_ts, 1), dtype=np.complex64)		
         self.timing_offset = (-1, 0) # (peak index, peak value)
         self.freq_hist_len = 8
-        self.frac_freq_offset_hist = []
+        self.freq_hist_ctr = 0
+        self.freq_hist_filled = False
+        self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_avg = np.NaN
         self.sync_step_size = 5 # number of samples for which one estimation shall be valid
         self.sync_step_counter = 0
@@ -130,21 +132,19 @@ class cp_sync_py(gr.basic_block):
         phase_diff = 0;
         for i in range(self.nsamp_tg): # e^(jwt + phi_1 - (jwt + phi_2) = e^(phi_2 - phi_1) --> arg(x) = delta_phi
             phase_diff += cmath.phase(in0[self.timing_offset[0]+self.nsamp_tu+i] / in0[self.timing_offset[0]+i]) 
-        cur_frac_freq_offset = phase_diff / (self.TU_B) / 2 / cmath.pi / self.nsamp_tg		
+        cur_frac_freq_offset = phase_diff / (self.TU_B) / 2 / cmath.pi / self.nsamp_tg	
         self.find_avg_frac_freq_offset(cur_frac_freq_offset)
     
-    def find_avg_frac_freq_offset(self, cur_offset): # moving average of frac_freq_offset
-        if len(self.frac_freq_offset_hist) < self.freq_hist_len: # append to history if history is not filled
-            self.frac_freq_offset_hist.append(cur_offset)
+    def find_avg_frac_freq_offset(self, cur_offset): # moving average of frac_freq_offset     
+        self.frac_freq_offset_hist[self.freq_hist_ctr] = cur_offset
+        self.freq_hist_ctr = (self.freq_hist_ctr + 1) % self.freq_hist_len
+
+        if self.freq_hist_ctr >= self.freq_hist_len-1 :
+            self.freq_hist_filled = True
             
-        else: # if history is filled, shift history and drop oldest entry
-            for i in range(self.freq_hist_len - 1): 
-                self.frac_freq_offset_hist[i] = self.frac_freq_offset_hist[i+1]
-            self.frac_freq_offset_hist[self.freq_hist_len-1] = cur_offset
-        print "avg:", self.frac_freq_offset_avg
-        print "history:", self.frac_freq_offset_hist       
-        self.frac_freq_offset_avg= np.mean(self.frac_freq_offset_hist)
-        
+        if self.freq_hist_filled:            
+            self.frac_freq_offset_avg = np.mean(self.frac_freq_offset_hist)
+            
     def correct_frac_freq_offset(self, in0):
         # multiply input vector with a complex exponential function to compensate fractional frequency offset
         for i in range(self.nsamp_ts): # start correction at the beginning of the detected symbol
@@ -155,7 +155,9 @@ class cp_sync_py(gr.basic_block):
     def reset_estimates(self):
         self.timing_offset = (-1, 0)
         self.frac_freq_offset_avg = np.NaN
-        self.frac_freq_offset_hist = []
+        self.frac_freq_offset_ctr = 0
+        self.freq_hist_ctr = 0
+        self.freq_hist_filled = False
         self.tracking_mode = False
         
     def general_work(self, input_items, output_items):
@@ -164,12 +166,11 @@ class cp_sync_py(gr.basic_block):
         
         # drop, if not enough samples in input buffer
         if len(in0) < 2*self.nsamp_ts:
-            #print "not enough samples, skip work()"
-            #self.consume_each(len(in0))
+            print "cp_sync_py: not enough samples, skip work()"
             self.sync_step_counter = 0
             self.reset_estimates()
             return 0            
-            
+        
         if not(self.tracking_mode): # acquisition mode, try to find a symbol
            # print "acquisition mode"
             self.sync_step_counter = 0
@@ -185,9 +186,9 @@ class cp_sync_py(gr.basic_block):
         #else: # tracking mode, but no estimation for this symbol
             #print "tracking mode, no estimation, counter:", self.sync_step_counter
         
-        #print "t_off index / corr: ", self.timing_offset[0], "/", float(self.timing_offset[1]), \
-        #"; f_off cur / avg: ", float(self.frac_freq_offset_hist[0]), "/", self.frac_freq_offset_avg
-        
+        print "cp_sync_py: t_off index / corr: ", self.timing_offset[0], "/", self.timing_offset[1].real, \
+        "; f_off cur / avg: ", self.frac_freq_offset_hist[0], "/", self.frac_freq_offset_avg
+                
         self.consume_each(self.nsamp_ts)
         
         # threshold decision, if a signal was detected or not
