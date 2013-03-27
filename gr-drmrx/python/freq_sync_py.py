@@ -45,6 +45,8 @@ class freq_sync_py(gr.basic_block):
         self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
         self.fft_vec_avg = np.zeros((1, self.nfft))
         self.corr_vec = np.zeros((self.nfft, ))
+        self.peak_avg_ratio = 0
+        self.signal_present = False
         self.freq_offset = 0
         
     def forecast(self, noutput_items, ninput_items_required):
@@ -68,7 +70,15 @@ class freq_sync_py(gr.basic_block):
             self.corr_vec[i] = abs(fft_vec_expanded[i+self.f_pil_index[0]] \
             + fft_vec_expanded[i+self.f_pil_index[1]] \
             + fft_vec_expanded[i+self.f_pil_index[2]])
-                       
+        
+    
+    def presence_detection(self):
+        self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
+        if self.peak_avg_ratio > 4: # equals an SNR of about 3dB (AWGN channel)
+            self.signal_present = True
+        else:
+            self.signal_present = False
+                   
     def find_freq_offset(self):
         # find maximum and corresponding value
         peak_index = 0;
@@ -108,6 +118,7 @@ class freq_sync_py(gr.basic_block):
         if len(in0) < self.nfft:
             print "freq_sync_py: not enough samples, skip work()"
             return 0
+            
         else:
             # compute averaged FFT of input signal
             self.calc_avg_fft(in0[:self.nfft])
@@ -115,13 +126,21 @@ class freq_sync_py(gr.basic_block):
                 self.buffer_filled = True
                     
         if self.buffer_filled:
-            self.pilot_corr()            
-            self.find_freq_offset()
-            out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft]) 
             self.consume_each(self.nfft)
-            return self.nfft
-
-        else:
+            
+            self.pilot_corr()  
+            self.presence_detection()
+            
+            if self.signal_present:
+                self.find_freq_offset()
+                out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])  
+                #self.debug_plot()
+                return self.nfft
+                
+            else:
+                return 0
+           
+        else: # buffer not yet filled
             print "freq_sync_py: filling buffer", self.buf_ctr, "/", self.buf_ctr_max
             self.consume_each(self.nfft)
             return 0
