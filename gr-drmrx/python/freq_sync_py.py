@@ -74,10 +74,11 @@ class freq_sync_py(gr.basic_block):
     
     def presence_detection(self):
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
-        if self.peak_avg_ratio > 4: # equals an SNR of about 3dB (AWGN channel)
+        if self.peak_avg_ratio > 4: # experimental value, estimates get unreliable below (tested in AWGN conditions)
             self.signal_present = True
         else:
             self.signal_present = False
+            print "no signal detected. ratio is", self.peak_avg_ratio
                    
     def find_freq_offset(self):
         # find maximum and corresponding value

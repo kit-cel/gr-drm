@@ -87,8 +87,7 @@ class cp_sync_py(gr.basic_block):
             out_sig=[np.complex64])
             
         self.FS = 48000
-        self.TU_B = 0.02133
-        
+        self.TU_B = 0.02133        
         self.TG_B = 0.00533
         self.T_S = self.TU_B + self.TG_B
         self.nsamp_ts = int(round(self.FS * self.T_S))
@@ -102,7 +101,7 @@ class cp_sync_py(gr.basic_block):
         self.freq_hist_filled = False
         self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_avg = np.NaN
-        self.sync_step_size = 5 # number of samples for which one estimation shall be valid
+        self.sync_step_size = 5 # number of symbols for which one estimation shall be valid
         self.sync_step_counter = 0
         self.corr_threshold = 0.6
         
@@ -198,6 +197,7 @@ class cp_sync_py(gr.basic_block):
             self.sync_step_counter += 1
             return self.nsamp_ts # return aligned symbol
         else:
+            print "signal too weak, no reliable estimation possible!"
             self.reset_estimates()
             return 0 # no output if no symbol was found
         
