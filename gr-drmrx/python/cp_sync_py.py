@@ -76,8 +76,9 @@ def complex_cov(m, y=None, rowvar=1, bias=0, ddof=None):
 class cp_sync_py(gr.basic_block):
     """
     Perform time synchronization and fractional frequency offset correction by cylic prefix correlation.
-    Symbol detection is based on a threshold detection (max. correlation value).
-    Output is frequency corrected and starts with the first sample of a symbol.
+    Symbol detection is based on a threshold decision (max. correlation value).
+    Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.
+    TODO: maybe divide this block up in timing offset detection -> fractional frequency offset correction -> cylic prefix removal
     """
     
     def __init__(self, rx):
@@ -96,6 +97,7 @@ class cp_sync_py(gr.basic_block):
         self.tracking_mode = False # switches between acquisition and tracking mode
         self.corr_vec = np.zeros(( self.nsamp_ts, 1), dtype=np.complex64)		
         self.timing_offset = (-1, 0) # (peak index, peak value)
+        self.timing_backoff = np.floor( 0.2 * self.nsamp_tg) # backoff to prevent late sync
         self.freq_hist_len = 8
         self.freq_hist_ctr = 0
         self.freq_hist_filled = False
@@ -103,7 +105,7 @@ class cp_sync_py(gr.basic_block):
         self.frac_freq_offset_avg = np.NaN
         self.sync_step_size = 5 # number of symbols for which one estimation shall be valid
         self.sync_step_counter = 0
-        self.corr_threshold = 0.6
+        self.corr_threshold = 0.7
         
     def forecast(self, noutput_items, ninput_items_required):
         # we need more samples in the input buffer than we consume because of the correlation
@@ -124,7 +126,11 @@ class cp_sync_py(gr.basic_block):
     			peak_index = k		
         
         self.timing_offset = (peak_index, peak_val)
-    
+        
+        # if the offset is close to zero or nsamp_ts, consume some items to prevent losing whole symbols through wrap-arounds
+        if (self.timing_offset[0] < 20) or (self.timing_offset[0] > self.nsamp_ts - 20):
+            self.consume_each(100)
+            
     def find_frac_freq_offset(self, in0):
         #calculate average phase difference between the two intervals and determine the fractional frequency offset
         #phase_diff = cmath.phase(complex(self.corr_vec[self.timing_offset[0]].real, self.corr_vec[self.timing_offset[0]].imag))
@@ -149,8 +155,14 @@ class cp_sync_py(gr.basic_block):
         for i in range(self.nsamp_ts): # start correction at the beginning of the detected symbol
             in0[self.timing_offset[0] + i] = in0[self.timing_offset[0] + i] * np.exp(-1j*2*np.pi*self.frac_freq_offset_avg*i/self.FS)
             
-        return in0[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts]        
-    
+        return in0[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts]  
+        
+    def remove_cp(self, in0):
+        # remove cylic prefix. to prevent late synchronization, a timing backoff is applied. this
+        # results in a constant phase shift in the frequency domain.
+        symbol_start = self.nsamp_tg - self.timing_backoff
+        return in0[symbol_start : symbol_start + self.nsamp_tu]
+        
     def reset_estimates(self):
         self.timing_offset = (-1, 0)
         self.frac_freq_offset_avg = np.NaN
@@ -192,10 +204,11 @@ class cp_sync_py(gr.basic_block):
         
         # threshold decision, if a signal was detected or not
         if self.timing_offset[1] > self.corr_threshold:
-            out[0:self.nsamp_ts] = self.correct_frac_freq_offset(in0)
+            in0[0:self.nsamp_ts] = self.correct_frac_freq_offset(in0)
+            out[0:self.nsamp_tu] = self.remove_cp(in0)
             self.tracking_mode = True
             self.sync_step_counter += 1
-            return self.nsamp_ts # return aligned symbol
+            return self.nsamp_tu # return one symbol
         else:
             print "signal too weak, no reliable estimation possible!"
             self.reset_estimates()

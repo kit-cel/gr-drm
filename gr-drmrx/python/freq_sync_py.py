@@ -25,7 +25,8 @@ from gnuradio import gr
         
 class freq_sync_py(gr.basic_block):
     """
-    Perform frequency synchronization by correlating with the three continuous sine pilots
+    Perform frequency synchronization by correlating with the three continuous sine pilots. 
+    TODO: deactivate this block after a signal was found to reduce processor load.
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -74,11 +75,11 @@ class freq_sync_py(gr.basic_block):
     
     def presence_detection(self):
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
-        if self.peak_avg_ratio > 4: # experimental value, estimates get unreliable below (tested in AWGN conditions)
+        if self.peak_avg_ratio > 7: # experimental value, estimates get unreliable below (tested in AWGN conditions)
             self.signal_present = True
         else:
             self.signal_present = False
-            print "no signal detected. ratio is", self.peak_avg_ratio
+            print "freq_sync_py: no signal detected. ratio is", self.peak_avg_ratio
                    
     def find_freq_offset(self):
         # find maximum and corresponding value
@@ -92,7 +93,7 @@ class freq_sync_py(gr.basic_block):
         # wrap indices around because of fftshift
         peak_index -= self.nfft/2 
         self.freq_offset = peak_index * self.delta_f
-        print "freq_sync_py: frequency offset: ",self.freq_offset, "Hz"
+        print "freq_sync_py: frequency offset: ",self.freq_offset, "Hz. ratio:", self.peak_avg_ratio
         
     def correct_freq_offset(self, in0):
         arg = -2*np.pi*self.freq_offset/self.FS # -2*pi*f*1/FS; -1 because we want to compensate the offset
