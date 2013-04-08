@@ -128,8 +128,8 @@ class cp_sync_py(gr.basic_block):
         self.timing_offset = (peak_index, peak_val)
         
         # if the offset is close to zero or nsamp_ts, consume some items to prevent losing whole symbols through wrap-arounds
-        if (self.timing_offset[0] < 20) or (self.timing_offset[0] > self.nsamp_ts - 20):
-            self.consume_each(100)
+        if (self.timing_offset[0] < 0.1 * self.nsamp_ts) or (self.timing_offset[0] > self.nsamp_ts - 0.1 * self.nsamp_ts):
+            self.consume_each(self.nsamp_ts/2)
             
     def find_frac_freq_offset(self, in0):
         #calculate average phase difference between the two intervals and determine the fractional frequency offset
@@ -210,7 +210,7 @@ class cp_sync_py(gr.basic_block):
             self.sync_step_counter += 1
             return self.nsamp_tu # return one symbol
         else:
-            print "signal too weak, no reliable estimation possible!"
+            print "cp_sync_py: signal too weak, no reliable estimation possible!"
             self.reset_estimates()
             return 0 # no output if no symbol was found
         

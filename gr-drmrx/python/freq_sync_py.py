@@ -50,6 +50,8 @@ class freq_sync_py(gr.basic_block):
         self.signal_present = False
         self.freq_offset = 0
         
+        self.set_output_multiple(self.nfft) # set minimum buffer output size
+        
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
