@@ -24,8 +24,5 @@ install(FILES
     drmrx_api.h
 	drmrx_params.h
 	drmrx_conf.h
-    drmrx_freq_sync_cc.h
-    drmrx_corr.h
-	drmrx_fft.h
-    drmrx_cp_sync_cc.h DESTINATION include/drmrx
+    DESTINATION include/drmrx
 )

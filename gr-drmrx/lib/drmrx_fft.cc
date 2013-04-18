@@ -1,3 +1,5 @@
+//NOTE: THIS FILE IS CURRENTLY NOT USED BY THIS PROJECT
+
 #include "drmrx_fft.h"
 
 drmrx_fft::drmrx_fft(gr_complex* in, gr_complex* out, unsigned int len)

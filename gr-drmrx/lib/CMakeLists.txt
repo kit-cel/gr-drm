@@ -21,7 +21,7 @@
 include(GrPlatform) #define LIB_SUFFIX
 add_library(gnuradio-drmrx SHARED
 	   		drmrx_params.cc
-			drmrx_conf.cc drmrx_freq_sync_cc.cc drmrx_corr.cc drmrx_fft.cc drmrx_cp_sync_cc.cc )
+			drmrx_conf.cc )
 target_link_libraries(gnuradio-drmrx ${Boost_LIBRARIES} ${GRUEL_LIBRARIES} ${GNURADIO_CORE_LIBRARIES})
 set_target_properties(gnuradio-drmrx PROPERTIES DEFINE_SYMBOL "gnuradio_drmrx_EXPORTS")
 

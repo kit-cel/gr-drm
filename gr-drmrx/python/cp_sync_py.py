@@ -86,7 +86,7 @@ class cp_sync_py(gr.basic_block):
             name="cp_sync_py",
             in_sig=[np.complex64],
             out_sig=[np.complex64])
-            
+        self.rx = rx
         self.FS = 48000
         self.TU_B = 0.02133        
         self.TG_B = 0.00533
@@ -103,7 +103,7 @@ class cp_sync_py(gr.basic_block):
         self.freq_hist_filled = False
         self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_avg = np.NaN
-        self.sync_step_size = 5 # number of symbols for which one estimation shall be valid
+        self.sync_step_size = 0 # number of symbols for which one estimation shall be valid
         self.sync_step_counter = 0
         self.corr_threshold = 0.7
         
@@ -170,6 +170,7 @@ class cp_sync_py(gr.basic_block):
         self.freq_hist_ctr = 0
         self.freq_hist_filled = False
         self.tracking_mode = False
+        self.rx.set_RM(5) # reset RM to invalid
         
     def general_work(self, input_items, output_items):
         in0 = input_items[0]        
@@ -210,7 +211,7 @@ class cp_sync_py(gr.basic_block):
             self.sync_step_counter += 1
             return self.nsamp_tu # return one symbol
         else:
-            print "cp_sync_py: signal too weak, no reliable estimation possible!"
+            print "cp_sync_py: symbol start could not be detected!"
             self.reset_estimates()
             return 0 # no output if no symbol was found
         

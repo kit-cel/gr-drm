@@ -27,6 +27,7 @@ class freq_sync_py(gr.basic_block):
     """
     Perform frequency synchronization by correlating with the three continuous sine pilots. 
     TODO: deactivate this block after a signal was found to reduce processor load.
+    FIXME: No-Signal detection does not work. Maybe use difference between two highest peaks.
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -41,7 +42,7 @@ class freq_sync_py(gr.basic_block):
         self.delta_f = self.FS / self.nfft
         self.f_pil_index = np.array([np.round(750/self.delta_f), np.round(2250/self.delta_f), np.round(3000/self.delta_f)], dtype=int)
         self.buf_ctr = 0
-        self.buf_ctr_max = 15 # arbitrary value
+        self.buf_ctr_max = 10 # arbitrary value
         self.buffer_filled = False
         self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
         self.fft_vec_avg = np.zeros((1, self.nfft))
@@ -68,6 +69,7 @@ class freq_sync_py(gr.basic_block):
         
     def pilot_corr(self):
         # add the FFT bins corresponding to the pilot positions for each shift and take the magnitude
+        # expand FFT cyclically vec so that correlation indexes don't go out of bounds
         fft_vec_expanded = np.concatenate((self.fft_vec_avg, self.fft_vec_avg[:self.f_pil_index[2]]), axis=0)
         for i in range(self.nfft): 
             self.corr_vec[i] = abs(fft_vec_expanded[i+self.f_pil_index[0]] \
@@ -75,7 +77,7 @@ class freq_sync_py(gr.basic_block):
             + fft_vec_expanded[i+self.f_pil_index[2]])
         
     
-    def presence_detection(self):
+    def presence_detection(self): #FIXME: this ratio is not a good measure for signal presence!
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
         if self.peak_avg_ratio > 7: # experimental value, estimates get unreliable below (tested in AWGN conditions)
             self.signal_present = True
@@ -106,13 +108,15 @@ class freq_sync_py(gr.basic_block):
     def debug_plot(self):
         pl.subplot(311)
         pl.plot(self.corr_vec/max(self.corr_vec))
-        pl.ylabel("correlation")
+        pl.title("freq_sync_py")
+        pl.ylabel("correlation (linear)")
         pl.subplot(312)
-        pl.plot(self.fft_vec_avg)
-        pl.ylabel("avg fft")
+        pl.plot(pl.log10(self.fft_vec_avg))
+        pl.ylabel("avg fft (db)")
         pl.subplot(313)
-        pl.plot(self.fft_vec[abs(self.buf_ctr-1)])
-        pl.ylabel("current fft")
+        pl.plot(pl.log10(self.fft_vec[abs(self.buf_ctr-1)]))
+        pl.ylabel("current fft (db)")
+        
         pl.show()
         
     def general_work(self, input_items, output_items):

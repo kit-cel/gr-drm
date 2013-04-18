@@ -3,27 +3,30 @@
 #ifndef DRMRX_CONF_H
 #define DRMRX_CONF_H
 
+#include "drmrx_params.h"
+
 class drmrx_conf
 {
-		unsigned short d_RM; // Robustness Mode; 0-4 corresponds to A-E
-		unsigned short d_SO; // Spectrum Occupancy; 0-5
+        drmrx_params* d_params; // holds all possible configuration values
+
+        // current configuration that is updated at runtime
+		int d_RM; // Robustness Mode; 0-4 corresponds to A-E
+		int d_SO; // Spectrum Occupancy; 0-5
 
 
 		public:
 		// constructor, destructor
-		drmrx_conf()
-				: d_RM(5),
-				  d_SO(6)
-				{}
+		drmrx_conf();
 		~drmrx_conf(){}
 
 		// get methods
-		unsigned short RM(){ return d_RM; }
-		unsigned short SO(){ return d_SO; }
+		drmrx_params* p(){ return d_params; }
+		int RM(){ return d_RM; }
+		int SO(){ return d_SO; }
 
 		// set methods
-		void set_RM(unsigned short RM){ d_RM = RM; }
-		void set_SO(unsigned short SO){ d_SO = SO; }
+		void set_RM(int RM){ d_RM = RM; }
+		void set_SO(int SO){ d_SO = SO; }
 };
 
 #endif

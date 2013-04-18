@@ -42,7 +42,5 @@ include(GrTest)
 
 set(GR_TEST_TARGET_DEPS gnuradio-drmrx)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
-GR_ADD_TEST(qa_freq_sync_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drmrx_freq_sync_cc.py)
-GR_ADD_TEST(qa_cp_sync_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drmrx_cp_sync_cc.py)
 GR_ADD_TEST(qa_cp_sync_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cp_sync_py.py)
 GR_ADD_TEST(qa_freq_sync_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_freq_sync_py.py)
