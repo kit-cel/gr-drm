@@ -26,8 +26,8 @@ from gnuradio import gr
 class freq_sync_py(gr.basic_block):
     """
     Perform frequency synchronization by correlating with the three continuous sine pilots. 
-    TODO: deactivate this block after a signal was found to reduce processor load.
     FIXME: No-Signal detection does not work. Maybe use difference between two highest peaks.
+    FIXME: introduce flags in the rx class to communicate between blocks (might be async!)
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -97,7 +97,7 @@ class freq_sync_py(gr.basic_block):
         # wrap indices around because of fftshift
         peak_index -= self.nfft/2 
         self.freq_offset = peak_index * self.delta_f
-        print "freq_sync_py: frequency offset: ",self.freq_offset, "Hz. ratio:", self.peak_avg_ratio
+        print "freq_sync_py: frequency offset: ", self.freq_offset, "Hz"#, "ratio:", self.peak_avg_ratio
         
     def correct_freq_offset(self, in0):
         arg = -2*np.pi*self.freq_offset/self.FS # -2*pi*f*1/FS; -1 because we want to compensate the offset
@@ -134,6 +134,7 @@ class freq_sync_py(gr.basic_block):
                 self.buffer_filled = True
                     
         if self.buffer_filled:
+            #self.debug_plot()
             self.consume_each(self.nfft)
             
             self.pilot_corr()  
@@ -142,7 +143,6 @@ class freq_sync_py(gr.basic_block):
             if self.signal_present:
                 self.find_freq_offset()
                 out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])  
-                #self.debug_plot()
                 return self.nfft
                 
             else:

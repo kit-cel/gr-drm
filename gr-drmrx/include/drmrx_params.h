@@ -40,7 +40,10 @@ class drmrx_params
 
 
  public:
-     // get methods for python access through SWIG
+    // get methods for python access through SWIG
+
+    // sampling rate
+    int FS(){ return d_FS; }
 
     // robustness modes
     int RM_A(){ return d_RM_A; }
