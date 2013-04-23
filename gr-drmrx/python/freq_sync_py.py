@@ -27,7 +27,7 @@ class freq_sync_py(gr.basic_block):
     """
     Perform frequency synchronization by correlating with the three continuous sine pilots. 
     FIXME: No-Signal detection does not work. Maybe use difference between two highest peaks.
-    FIXME: introduce flags in the rx class to communicate between blocks (might be async!)
+    FIXME: introduce tags to tell the following cp sync when the estimated offset has changed
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -104,6 +104,13 @@ class freq_sync_py(gr.basic_block):
         for i in range(self.nfft):
             in0[i] *= (np.cos(arg*i) + 1j*np.sin(arg*i)) # exp(j*2*pi*f*t)
         return in0[:self.nfft]
+        
+    def attach_tag(self):
+        offset = self.nitems_written(0)
+        key = gr.pmt.pmt_string_to_symbol("coarse_freq_offset")
+        value = gr.pmt.pmt_from_uint64(self.freq_offset)
+        self.add_item_tag(0, offset, key, value)
+        
     
     def debug_plot(self):
         pl.subplot(311)
@@ -143,6 +150,7 @@ class freq_sync_py(gr.basic_block):
             if self.signal_present:
                 self.find_freq_offset()
                 out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])  
+                self.attach_tag()
                 return self.nfft
                 
             else:
