@@ -47,6 +47,7 @@ from drmrx_swig import *
 # import any pure python here
 from cp_sync_py import cp_sync_py
 from freq_sync_py import freq_sync_py
+from frame_sync_py_cc import frame_sync_py_cc
 #
 
 # ----------------------------------------------------------------

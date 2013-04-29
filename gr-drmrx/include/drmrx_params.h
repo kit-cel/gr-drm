@@ -4,6 +4,7 @@
 #define DRMRX_PARAMS_H
 
 #include <vector>
+#include <iostream>
 
 class drmrx_params
 {
@@ -38,6 +39,13 @@ class drmrx_params
     // symbol length (without cyclic prefix)
     std::vector<int> d_nsamp_Tu;
 
+    // FFT lengths for different RMs
+    std::vector<int> d_nfft;
+
+    // time pilots (position and phase index)
+    std::vector< std::vector< int > > d_time_pil_phase;
+    std::vector< std::vector< int > > d_time_pil_pos;
+
 
  public:
     // get methods for python access through SWIG
@@ -66,6 +74,10 @@ class drmrx_params
     std::vector<int> nsamp_Ts(){ return d_nsamp_Ts; }
     std::vector<int> nsamp_Tg(){ return d_nsamp_Tg; }
     std::vector<int> nsamp_Tu(){ return d_nsamp_Tu; }
+    std::vector<int> nfft(){ return d_nfft; }
+
+    std::vector<std::vector<int> > time_pil_phase(){ return d_time_pil_phase; }
+    std::vector<std::vector<int> > time_pil_pos(){ return d_time_pil_pos; }
 
     drmrx_params(); // constructor, initializes all the values
     ~drmrx_params(){} // destructor

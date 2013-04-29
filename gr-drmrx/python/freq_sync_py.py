@@ -41,7 +41,7 @@ class freq_sync_py(gr.basic_block):
         self.delta_f = self.FS / self.nfft
         self.f_pil_index = np.array([np.round(750/self.delta_f), np.round(2250/self.delta_f), np.round(3000/self.delta_f)], dtype=int)
         self.buf_ctr = 0
-        self.buf_ctr_max = 5 # arbitrary value
+        self.buf_ctr_max = 5 # arbitrary value, longer -> better estimation, shorter -> faster resync
         self.buffer_filled = False
         self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
         self.fft_vec_avg = np.zeros((1, self.nfft))
@@ -96,7 +96,7 @@ class freq_sync_py(gr.basic_block):
         # wrap indices around because of fftshift
         peak_index -= self.nfft/2 
         self.freq_offset = peak_index * self.delta_f
-        print "freq_sync_py: frequency offset: ", self.freq_offset, "Hz"#, "ratio:", self.peak_avg_ratio
+        #print "freq_sync_py: frequency offset: ", self.freq_offset, "Hz"#, "ratio:", self.peak_avg_ratio
         
     def correct_freq_offset(self, in0):
         arg = -2*np.pi*self.freq_offset/self.FS # -2*pi*f*1/FS; -1 because we want to compensate the offset

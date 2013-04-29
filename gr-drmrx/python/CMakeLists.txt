@@ -32,7 +32,8 @@ GR_PYTHON_INSTALL(
     FILES
     __init__.py
     cp_sync_py.py
-    freq_sync_py.py DESTINATION ${GR_PYTHON_DIR}/drmrx
+    freq_sync_py.py
+    frame_sync_py_cc.py DESTINATION ${GR_PYTHON_DIR}/drmrx
 )
 
 ########################################################################
@@ -44,3 +45,4 @@ set(GR_TEST_TARGET_DEPS gnuradio-drmrx)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)
 GR_ADD_TEST(qa_cp_sync_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cp_sync_py.py)
 GR_ADD_TEST(qa_freq_sync_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_freq_sync_py.py)
+GR_ADD_TEST(qa_frame_sync_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_frame_sync_py_cc.py)
