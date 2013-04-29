@@ -128,10 +128,10 @@ class cp_sync_py(gr.basic_block):
             if len(tags) > 1:
                 print "cp_sync_py: got more tags than expected (", len(tags), "). Discarding all but the first."
             if self.coarse_freq_offset == []: # first run
-                self.coarse_freq_offset = gr.pmt.pmt_to_uint64(tags[0].value)
+                self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
                 
-            if self.coarse_freq_offset != gr.pmt.pmt_to_uint64(tags[0].value): # coarse frequency estimate has changed
-                self.coarse_freq_offset = gr.pmt.pmt_to_uint64(tags[0].value)
+            if self.coarse_freq_offset != gr.pmt.pmt_to_long(tags[0].value): # coarse frequency estimate has changed
+                self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
                 self.reset_freq()
             #print gr.pmt.pmt_symbol_to_string(tags[0].key), gr.pmt.pmt_to_uint64(tags[0].value)
        
@@ -293,9 +293,7 @@ class cp_sync_py(gr.basic_block):
             self.find_frac_freq_offset(in0)
             in0[0:self.nsamp_ts[self.rx.RM()]] = self.correct_frac_freq_offset(in0)
             out[0:self.nsamp_tu[self.rx.RM()]] = self.remove_cp(in0)
-#            print "cp_sync_py: t_off index / corr: ", self.timing_offset[0], "/", self.timing_offset[1].real, \
-#                "; f_off cur / avg: ", self.frac_freq_offset_hist[0], "/", self.frac_freq_offset_avg
-            print "cp_sync_py: current / average offset:", self.frac_freq_offset_hist[0], "/", self.frac_freq_offset_avg, "Hz. Timing:", self.timing_offset[0]
+            print "cp_sync_py: current / average offset:", self.frac_freq_offset_hist[0] + self.coarse_freq_offset, "/", self.frac_freq_offset_avg + self.coarse_freq_offset, "Hz. Timing:", self.timing_offset[0]
             self.consume_each(self.nsamp_ts[self.rx.RM()])
             return self.nsamp_tu[self.rx.RM()]
             

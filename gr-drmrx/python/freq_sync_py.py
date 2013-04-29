@@ -26,8 +26,7 @@ from gnuradio import gr
 class freq_sync_py(gr.basic_block):
     """
     Perform frequency synchronization by correlating with the three continuous sine pilots. 
-    FIXME: No-Signal detection does not work. Maybe use difference between two highest peaks.
-    FIXME: introduce tags to tell the following cp sync when the estimated offset has changed
+    FIXME: No-Signal detection does not work reliably. Maybe use difference between two highest peaks or cancel DC offset.
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -79,7 +78,7 @@ class freq_sync_py(gr.basic_block):
     
     def presence_detection(self): #FIXME: this ratio is not a good measure for signal presence!
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
-        if self.peak_avg_ratio > 7: # experimental value, estimates get unreliable below (tested in AWGN conditions)
+        if self.peak_avg_ratio > 5: # experimental value, AWGN has a ratio < 2
             self.signal_present = True
         else:
             self.signal_present = False
@@ -108,7 +107,7 @@ class freq_sync_py(gr.basic_block):
     def attach_tag(self):
         offset = self.nitems_written(0)
         key = gr.pmt.pmt_string_to_symbol("coarse_freq_offset")
-        value = gr.pmt.pmt_from_uint64(self.freq_offset)
+        value = gr.pmt.pmt_from_long(self.freq_offset)
         self.add_item_tag(0, offset, key, value)
         
     
