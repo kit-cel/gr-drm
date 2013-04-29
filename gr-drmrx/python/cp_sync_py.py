@@ -100,8 +100,6 @@ class cp_sync_py(gr.basic_block):
         self.timing_offset = (-1, 0) # (peak index, peak value)
         self.timing_backoff = 10 # backoff to prevent late sync
         self.freq_hist_len = 4
-        self.freq_hist_ctr = 0
-        self.freq_hist_filled = False
         #self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_hist = []
         self.frac_freq_offset_avg = np.NaN

@@ -41,7 +41,7 @@ class freq_sync_py(gr.basic_block):
         self.delta_f = self.FS / self.nfft
         self.f_pil_index = np.array([np.round(750/self.delta_f), np.round(2250/self.delta_f), np.round(3000/self.delta_f)], dtype=int)
         self.buf_ctr = 0
-        self.buf_ctr_max = 10 # arbitrary value
+        self.buf_ctr_max = 5 # arbitrary value
         self.buffer_filled = False
         self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
         self.fft_vec_avg = np.zeros((1, self.nfft))
