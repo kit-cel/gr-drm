@@ -103,7 +103,7 @@ class cp_sync_py(gr.basic_block):
         #self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_hist = []
         self.frac_freq_offset_avg = np.NaN
-        self.sync_step_size = 3 # number of symbols for which one estimation shall be valid
+        self.sync_step_size = 5 # number of symbols for which one estimation shall be valid
         self.sync_step_counter = 0
         self.corr_threshold = 0.7
         

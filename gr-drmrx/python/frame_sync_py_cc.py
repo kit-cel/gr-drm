@@ -24,7 +24,8 @@ import pylab as pl
 
 class frame_sync_py_cc(gr.basic_block):
     """
-    docstring for block frame_sync_py_cc
+    Samples are expected to come in fftshifted. Detects the start of a frame by correlating with time pilot symbols.
+    NOTE: ONLY RM B SO 3 supported!
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -35,10 +36,18 @@ class frame_sync_py_cc(gr.basic_block):
         # rx class and some shortcuts
         self.rx = rx
         self.p = rx.p()
-        self.RM = self.p.RM_B()
+        self.RM = self.rx.RM()
+        self.SO = self.rx.SO()
         self.nfft = self.p.nfft()[self.RM]
-        self.time_pil = self.p.time_pil()[self.RM]
+        self.time_pil = self.calc_time_pil()
+        self.dc_carr = self.nfft/2
+        self.k_min = self.p.k_min()[self.RM][self.SO]
     
+    def calc_time_pil(self):
+        self.time_pil = np.zeros((self.nfft,), dtype=np.complex64)
+        for i in self.p.time_pil_pos()[self.RM][:]: 
+            self.time_pil[i+self.dc_carr+self.k_min] = np.exp(2j*np.pi*self.p.time_pil_phase()[self.RM][i]/1024)
+        
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):

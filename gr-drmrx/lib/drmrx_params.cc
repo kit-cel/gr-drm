@@ -162,4 +162,27 @@ drmrx_params::drmrx_params()
         d_time_pil_phase.push_back(tmp_phase);
         d_time_pil_pos.push_back(tmp_pos);        
     }
+
+    // min/max occupied carrier numbers for all RM/SO combinations
+    unsigned int tab_K_range[8][6] = {{2, 2, -102, -114, -98, -110}, // see DRM standard Table 84
+												  {102, 114, 102, 114, 314, 350},
+												  {1, 1, -91, -103, -87, -99},
+												  {91, 103, 91, 103, 279, 311},
+												  {0, 0, 0, -69, 0, -67},
+												  {0, 0, 0, 69, 0, 213},
+												  {0, 0, 0, -44, 0, -43},
+                                        					  {0, 0, 0, 44, 0, 135}};
+    std::vector<int> tmp_kmin, tmp_kmax;
+    for(int r = 0; r < 4; r++)
+    {
+        tmp_kmin.clear();
+        tmp_kmax.clear();
+        for(int s = 0; s < 6; s++)
+        {
+            tmp_kmin.push_back(tab_K_range[2*r][s]);
+            tmp_kmax.push_back(tab_K_range[2*r+1][s]);
+        }
+        d_k_min.push_back(tmp_kmin);
+        d_k_max.push_back(tmp_kmax);
+    }
 }
