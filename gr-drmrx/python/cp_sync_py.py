@@ -103,9 +103,9 @@ class cp_sync_py(gr.basic_block):
         #self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
         self.frac_freq_offset_hist = []
         self.frac_freq_offset_avg = np.NaN
-        self.sync_step_size = 5 # number of symbols for which one estimation shall be valid
+        self.sync_step_size = 0 # number of symbols for which one estimation shall be valid
         self.sync_step_counter = 0
-        self.corr_threshold = 0.7
+        self.corr_threshold = 0.4
         
     def forecast(self, noutput_items, ninput_items_required):
         # we need more samples in the input buffer than we consume because of the correlation
@@ -129,6 +129,7 @@ class cp_sync_py(gr.basic_block):
                 self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
                 
             if self.coarse_freq_offset != gr.pmt.pmt_to_long(tags[0].value): # coarse frequency estimate has changed
+                print "cp_sync_py: coarse freq offset changed:", self.coarse_freq_offset, "->", gr.pmt.pmt_to_long(tags[0].value)
                 self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
                 self.reset_freq()
             #print gr.pmt.pmt_symbol_to_string(tags[0].key), gr.pmt.pmt_to_uint64(tags[0].value)
@@ -136,9 +137,8 @@ class cp_sync_py(gr.basic_block):
        
             
     def find_timing_offset(self, in0):
-        # calculate correlation values for sliding window for every robustness mode
-        
-        if self.tracking_mode: # wait until freq_hist is filled to get a more reliable result
+        # calculate correlation values for sliding window for every robustness mode      
+        if self.tracking_mode:
             
             if self.sync_step_counter == 0: # calculate timing and frequency offset for current RM
             # NOTE: UPDATING ONLY ONE ROW OF THE CORRELATION MATRIX RESULTS IN DIFFERENT ROWS REFERRING TO DIFFERENT SAMPLES
@@ -160,12 +160,21 @@ class cp_sync_py(gr.basic_block):
                     if (self.timing_offset[0] < 0.1 * self.nsamp_ts[self.rx.RM()]) or (self.timing_offset[0] > self.nsamp_ts[self.rx.RM()] - 0.1 * self.nsamp_ts[self.rx.RM()]):
                         # if the offset is close to zero or nsamp_ts, consume some items to prevent losing whole symbols through wrap-arounds
                         # after that, a resync is needed   
+                        #FIXME: make this more intelligent. estimates can still be valid
                         print "cp_sync_py: consuming some items to prevent wrap-around"
                         self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
                         self.reset_all()
                         return 0
                 
                 else:
+                    pl.subplot(2,1,1)
+                    pl.plot(self.corr_vec_abs[1])
+                    pl.ylabel("corr vec")
+                    pl.subplot(2,1,2)
+                    pl.plot(np.square(abs(np.fft.fft(in0))))
+                    pl.ylabel("FFT^2")
+                    pl.show()
+                    
                     self.reset_all()  
                 
             else: # increase counter and wrap if needed
@@ -252,7 +261,7 @@ class cp_sync_py(gr.basic_block):
         self.sync_step_counter = 0
         
     def reset_all(self):
-        print "cp_sync_py: reset sync due to overflow or low correlation peak"
+        print "cp_sync_py: reset sync due to overflow or low correlation peak. peak value is", self.timing_offset[1]
         self.timing_offset = (-1, 0)
         self.frac_freq_offset_avg = np.NaN
         self.frac_freq_offset_hist = []
@@ -291,7 +300,8 @@ class cp_sync_py(gr.basic_block):
             self.find_frac_freq_offset(in0)
             in0[0:self.nsamp_ts[self.rx.RM()]] = self.correct_frac_freq_offset(in0)
             out[0:self.nsamp_tu[self.rx.RM()]] = self.remove_cp(in0)
-            print "cp_sync_py: current / average offset:", self.frac_freq_offset_hist[0] + self.coarse_freq_offset, "/", self.frac_freq_offset_avg + self.coarse_freq_offset, "Hz. Timing:", self.timing_offset[0]
+            #print "cp_sync_py: current / average offset:", self.frac_freq_offset_hist[0] + self.coarse_freq_offset, "/", self.frac_freq_offset_avg + self.coarse_freq_offset, "Hz. Timing:", self.timing_offset[0]
+            print "offset:", self.frac_freq_offset_hist[0]              
             self.consume_each(self.nsamp_ts[self.rx.RM()])
             return self.nsamp_tu[self.rx.RM()]
             
