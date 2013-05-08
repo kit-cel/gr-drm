@@ -27,6 +27,7 @@ class freq_sync_py(gr.basic_block):
     """
     Perform frequency synchronization by correlating with the three continuous sine pilots. 
     FIXME: No-Signal detection does not work reliably. Maybe use difference between two highest peaks or cancel DC offset.
+    TODO: Idea: This block only estimates the rough offset, attaches a tag but doesn't correct it. cp_sync then implements a closed loop with this estimate as starting point.
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -50,6 +51,7 @@ class freq_sync_py(gr.basic_block):
         self.signal_present = False
         self.freq_offset = 0
         
+        self.message_port_register_in(gr.pmt.pmt_string_to_symbol("reset"))
         self.set_output_multiple(self.nfft) # set minimum buffer output size
         
     def forecast(self, noutput_items, ninput_items_required):
@@ -144,6 +146,12 @@ class freq_sync_py(gr.basic_block):
             print "freq_sync_py: not enough samples, skip work()"
             return 0
             
+        if self.signal_present: # FIXME: define a way to reset signal_present from cp_sync_py (message passing?)
+            min_buf_len = min((len(in0), len(out))) # return as many samples as possible
+            self.consume_each(min_buf_len)
+            out[:min_buf_len] = in0[:min_buf_len]
+            return min_buf_len
+            
         else:
             # compute averaged FFT of input signal
             self.calc_avg_fft(in0[:self.nfft])
@@ -159,7 +167,8 @@ class freq_sync_py(gr.basic_block):
             
             if self.signal_present:
                 self.find_freq_offset()
-                out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])  
+                #out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])
+                out[:self.nfft] = in0[:self.nfft]
                 self.attach_tag()
                 return self.nfft
                 

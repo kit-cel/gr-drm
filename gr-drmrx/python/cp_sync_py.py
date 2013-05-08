@@ -92,181 +92,121 @@ class cp_sync_py(gr.basic_block):
         self.nsamp_tu = self.rx.p().nsamp_Tu()
         self.nsamp_tg = self.rx.p().nsamp_Tg()
         self.tracking_mode = False # switches between acquisition and tracking mode
-        self.coarse_freq_offset = []
+        self.prev_freq_offset = 0
+        self.cur_freq_offset = 0
         self.corr_vec = [np.zeros(( self.nsamp_ts[0], 1), dtype=np.complex64), np.zeros(( self.nsamp_ts[1], 1), \
             dtype=np.complex64), np.zeros(( self.nsamp_ts[2], 1), dtype=np.complex64), np.zeros(( self.nsamp_ts[3], 1), dtype=np.complex64)]                           
         self.corr_vec_abs = [np.zeros(( self.nsamp_ts[0], 1)), np.zeros(( self.nsamp_ts[1], 1)), \
             np.zeros(( self.nsamp_ts[2], 1)), np.zeros(( self.nsamp_ts[3], 1))]              
-        self.timing_offset = (-1, 0) # (peak index, peak value)
+        self.timing_offset = [-1, 0] # (peak index, peak value)
         self.timing_backoff = 10 # backoff to prevent late sync
-        self.freq_hist_len = 4
-        #self.frac_freq_offset_hist = np.zeros((self.freq_hist_len,))
-        self.frac_freq_offset_hist = []
-        self.frac_freq_offset_avg = np.NaN
-        self.sync_step_size = 0 # number of symbols for which one estimation shall be valid
-        self.sync_step_counter = 0
-        self.corr_threshold = 0.4
+        self.corr_threshold = 0.6
+        
+        self.message_port_register_out(gr.pmt.pmt_string_to_symbol("reset"))
         
     def forecast(self, noutput_items, ninput_items_required):
         # we need more samples in the input buffer than we consume because of the correlation
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = 2*max(self.nsamp_ts)
             
-    def find_tags(self):
-        nread = self.nitems_read(0)
-        ninput_items = []
-        if self.rx.RM() != self.rx.p().RM_NONE():
-            ninput_items = self.nsamp_ts[self.rx.RM()]
-        else:
-            ninput_items = max(self.nsamp_ts)
-            
-        tags = self.get_tags_in_range(0, nread, nread+ninput_items, gr.pmt.pmt_string_to_symbol("coarse_freq_offset"))
-        
-        if len(tags) > 0:
-            if len(tags) > 1:
-                print "cp_sync_py: got more tags than expected (", len(tags), "). Discarding all but the first."
-            if self.coarse_freq_offset == []: # first run
-                self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
-                
-            if self.coarse_freq_offset != gr.pmt.pmt_to_long(tags[0].value): # coarse frequency estimate has changed
-                print "cp_sync_py: coarse freq offset changed:", self.coarse_freq_offset, "->", gr.pmt.pmt_to_long(tags[0].value)
-                self.coarse_freq_offset = gr.pmt.pmt_to_long(tags[0].value)
-                self.reset_freq()
-            #print gr.pmt.pmt_symbol_to_string(tags[0].key), gr.pmt.pmt_to_uint64(tags[0].value)
-       
-       
-            
-    def find_timing_offset(self, in0):
-        # calculate correlation values for sliding window for every robustness mode      
-        if self.tracking_mode:
-            
-            if self.sync_step_counter == 0: # calculate timing and frequency offset for current RM
-            # NOTE: UPDATING ONLY ONE ROW OF THE CORRELATION MATRIX RESULTS IN DIFFERENT ROWS REFERRING TO DIFFERENT SAMPLES
-                for k in range(self.nsamp_ts[self.rx.RM()]):
-                    self.corr_vec[self.rx.RM()][k] = complex_corrcoef(in0[k:self.nsamp_tg[self.rx.RM()]-1+k], in0[self.nsamp_tu[self.rx.RM()]+k:self.nsamp_ts[self.rx.RM()]-1+k])[0][1]
-                    self.corr_vec_abs[self.rx.RM()][:] = abs(self.corr_vec[self.rx.RM()][:])
-                    peak_index = 0
-                    peak_val = 0
-                    
-                for k in range(self.nsamp_ts[self.rx.RM()]):
-            		if self.corr_vec_abs[self.rx.RM()][k] > peak_val:
-            			peak_val = self.corr_vec_abs[self.rx.RM()][k]
-            			peak_index = k  
-               
-                timing_diff = abs(self.timing_offset[0] - peak_index)
-                if peak_val > self.corr_threshold and timing_diff < self.nsamp_tg[self.rx.RM()] / 5:                
-                    self.timing_offset = (peak_index, peak_val)
-                
-                    if (self.timing_offset[0] < 0.1 * self.nsamp_ts[self.rx.RM()]) or (self.timing_offset[0] > self.nsamp_ts[self.rx.RM()] - 0.1 * self.nsamp_ts[self.rx.RM()]):
-                        # if the offset is close to zero or nsamp_ts, consume some items to prevent losing whole symbols through wrap-arounds
-                        # after that, a resync is needed   
-                        #FIXME: make this more intelligent. estimates can still be valid
-                        print "cp_sync_py: consuming some items to prevent wrap-around"
-                        self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
-                        self.reset_all()
-                        return 0
-                
-                else:
-                    pl.subplot(2,1,1)
-                    pl.plot(self.corr_vec_abs[1])
-                    pl.ylabel("corr vec")
-                    pl.subplot(2,1,2)
-                    pl.plot(np.square(abs(np.fft.fft(in0))))
-                    pl.ylabel("FFT^2")
-                    pl.show()
-                    
-                    self.reset_all()  
-                
-            else: # increase counter and wrap if needed
-                self.sync_step_counter = (self.sync_step_counter + 1) % self.sync_step_size
-                
-        else:
-            for i in range(4): # modes A, B, C, D
-                for k in range(self.nsamp_ts[i]):
-                    self.corr_vec[i][k] = complex_corrcoef(in0[k:self.nsamp_tg[i]-1+k], in0[self.nsamp_tu[i]+k:self.nsamp_ts[i]-1+k])[0][1]
-                    self.corr_vec_abs[i][:] = abs(self.corr_vec[i][:])
-                
-            peak_index = [0, 0, 0, 0]
-            peak_val = [0, 0, 0, 0]
-            for i in range(4): # find maximum in every correlation vector
-                for k in range(self.nsamp_ts[i]):
-            		if self.corr_vec_abs[i][k] > peak_val[i]:
-            			peak_val[i] = self.corr_vec_abs[i][k]
-            			peak_index[i] = k
-    
-            new_rm_index = []
-            maxval = max(peak_val)
-            for i in range(4):
-                if peak_val[i] == maxval: # comparing float here. should be okay because maxval is a simple copy
-                    new_rm_index = i
-            
-            #print "peak_index:", peak_index, "peak_val:", list(peak_val)
-            #self.debug_plot()
-            
-            # decide, if the estimation is reliable enough
-            if peak_val[new_rm_index] > self.corr_threshold:
-                
-                self.timing_offset = (peak_index[new_rm_index], peak_val[new_rm_index])
-                
-                if (self.timing_offset[0] < 0.1 * self.nsamp_ts[new_rm_index]) or (self.timing_offset[0] > self.nsamp_ts[new_rm_index] - 0.1 * self.nsamp_ts[new_rm_index]):
-                    # if the offset is close to zero or nsamp_ts, consume some items to prevent losing whole symbols through wrap-arounds
-                    # after that, a resync is needed   
-                    print "cp_sync_py: consuming some items to prevent wrap-around"
-                    self.consume_each(self.nsamp_ts[new_rm_index]/2)
-                    self.reset_all()
-                    return 0
-                    
-                else:
-                    self.rx.set_RM(new_rm_index) # make detected RM "official"
-                    print "cp_sync_py: enter tracking mode. RM:", self.rx.RM()#, ", correlation value:", float(peak_val[self.rx.RM()])
-                    self.tracking_mode = True
-                
+    def find_tags(self, tracking):
+        if not(tracking): # if in tracking mode, this can be skipped
+            nread = self.nitems_read(0)
+            ninput_items = []
+            if self.rx.RM() != self.rx.p().RM_NONE():
+                ninput_items = self.nsamp_ts[self.rx.RM()]
             else:
-                print "cp_sync_py: correlation value too low (", float(peak_val[new_rm_index]), ")"
-                self.reset_all()           
+                ninput_items = max(self.nsamp_ts)
+                
+            tags = self.get_tags_in_range(0, nread, nread+ninput_items, gr.pmt.pmt_string_to_symbol("coarse_freq_offset"))
             
-    def find_frac_freq_offset(self, in0):
+            if len(tags) > 0:
+                self.prev_freq_offset = gr.pmt.pmt_to_long(tags[0].value) # start value for closed loop estimation
+                
+    def calc_correlation(self, vec, tracking):
+        if tracking: # reduced complexity because the RM is already known
+            for k in range(self.nsamp_ts[self.rx.RM()]):
+                self.corr_vec[self.rx.RM()][k] = complex_corrcoef(vec[k:self.nsamp_tg[self.rx.RM()]-1+k],vec[self.nsamp_tu[self.rx.RM()]+k:self.nsamp_ts[self.rx.RM()]-1+k])[0][1]
+                self.corr_vec_abs[self.rx.RM()][:] = abs(self.corr_vec[self.rx.RM()][:])
+                
+        else: # acquisition mode, try all configurations (RMs)
+           for i in range(4): # modes A, B, C, D
+                for k in range(self.nsamp_ts[i]):
+                    self.corr_vec[i][k] = complex_corrcoef(vec[k:self.nsamp_tg[i]-1+k], vec[self.nsamp_tu[i]+k:self.nsamp_ts[i]-1+k])[0][1]
+                    self.corr_vec_abs[i][:] = abs(self.corr_vec[i][:]) 
+        
+    def find_RM(self, tracking):
+        if not(tracking): # if already in tracking mode, this can be skipped
+            # use maximum of the correlation coefficients' magnitude to determine the RM
+            max_val = np.zeros((4,))
+            for i in range(len(max_val)):
+                max_val[i] = max(self.corr_vec_abs[i][:])
+            print "cp_sync_py: max correlation values are", list(max_val)
+                
+            # threshold decision, if correlation value is high enough (normalized between 0 and 1)
+            if max(max_val) > self.corr_threshold:
+                # find robustness mode
+                rm = 0 # start value 
+                for i in range(len(max_val)-1):
+                    if max_val[i+1] > max_val[rm]:
+                        rm = i+1
+                self.rx.set_RM(rm)
+                print "cp_sync_py: detected RM", self.rx.RM()
+            else:
+                self.reset_all()
+                
+    def calc_timing_offset(self):
+        self.timing_offset[0] = np.argmax(self.corr_vec_abs[self.rx.RM()][:])
+        self.timing_offset[1] = self.corr_vec_abs[self.rx.RM()][self.timing_offset[0]]
+        print "cp_sync_py: timing offset", self.timing_offset[0], "samples, correlation coefficient", self.timing_offset[1]
+        
+    def prevent_wraparound(self):
+        if self.timing_offset[0] < 0.1*self.nsamp_ts[self.rx.RM()] or self.timing_offset[0] > 0.9*self.nsamp_ts[self.rx.RM()]:
+            # consume half a symbol and return 0
+            print "cp_sync_py: preventing wrap-arounds by consuming half a symbol"
+            self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
+            self.reset_block()
+            return True
+            
+    def calc_frac_freq_offset(self):
         #calculate average phase difference between the two intervals and determine the fractional frequency offset
         phase_diff = cmath.phase(complex(self.corr_vec[self.rx.RM()][self.timing_offset[0]].real, self.corr_vec[self.rx.RM()][self.timing_offset[0]].imag))
         time_diff = float(self.nsamp_tu[self.rx.RM()]) / self.FS
-        cur_frac_freq_offset = - phase_diff / (2*cmath.pi * time_diff)
-    
-        self.find_avg_frac_freq_offset(cur_frac_freq_offset)
-    
-    def find_avg_frac_freq_offset(self, cur_offset): # moving average of frac_freq_offset     
-        self.frac_freq_offset_hist.append(cur_offset)
-        cur_list_len = len(self.frac_freq_offset_hist)
-        if cur_list_len > self.freq_hist_len:
-            self.frac_freq_offset_hist = self.frac_freq_offset_hist[cur_list_len-self.freq_hist_len:]
-
-        self.frac_freq_offset_avg = np.mean(self.frac_freq_offset_hist)
-            
-    def correct_frac_freq_offset(self, in0):
-        # multiply input vector with a complex exponential function to compensate fractional frequency offset
-        for i in range(self.nsamp_ts[self.rx.RM()]): # start correction at the beginning of the detected symbol
-            in0[self.timing_offset[0] + i] = in0[self.timing_offset[0] + i] * np.exp(-1j*2*np.pi*self.frac_freq_offset_avg*i/self.FS)
-            
-        return in0[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts[self.rx.RM()]]  
+        self.cur_freq_offset = - phase_diff / (2*cmath.pi * time_diff)
         
-    def remove_cp(self, in0):
+    def update_prev_freq_offset(self): #TODO: maybe this could be more intelligent (e.g. with averaging)
+        self.prev_freq_offset += self.cur_freq_offset
+        print "cp_sync_py: current (total) frequency offset is", self.prev_freq_offset, "Hz"
+                            
+    def correct_freq_offset(self, vec, f_off):
+        if not(f_off == 0): # this can happen in acquisition mode
+            for i in range(len(vec)):
+                vec[i] = vec[i] * np.exp(-1j*2*np.pi*f_off*i/self.FS)
+        return vec
+           
+    def remove_cp(self, vec):
         # remove cylic prefix. to prevent late synchronization, a timing backoff is applied. this
         # results in a constant phase shift.
         symbol_start = self.nsamp_tg[self.rx.RM()] - self.timing_backoff
-        return in0[symbol_start : symbol_start + self.nsamp_tu[self.rx.RM()]]
-        
-    def reset_freq(self):
-        print "cp_sync_py: reset frequency estimation because coarse estimate has changed"
-        self.frac_freq_offset_hist = []
-        self.frac_freq_offset_avg = np.NaN
-        self.sync_step_counter = 0
+        return vec[symbol_start : symbol_start + self.nsamp_tu[self.rx.RM()]]
         
     def reset_all(self):
-        print "cp_sync_py: reset sync due to overflow or low correlation peak. peak value is", self.timing_offset[1]
-        self.timing_offset = (-1, 0)
-        self.frac_freq_offset_avg = np.NaN
-        self.frac_freq_offset_hist = []
+        print "cp_sync_py: reset all"
+        # reset block variables
+        self.timing_offset = [-1, 0]
+        self.prev_freq_offset = 0
+        self.cur_freq_offset = 0
         self.tracking_mode = False
-        self.rx.set_RM(self.rx.p().RM_NONE()) # reset RM to invalid
+        # reset the RM
+        self.rx.set_RM(self.rx.p().RM_NONE())
+        # send reset to the upstream blocks
+        self.message_port_pub(gr.pmt.pmt_string_to_symbol("reset"), gr.pmt.pmt_from_bool(True))
+        
+    def reset_block(self):
+        print "cp_sync_py: reset all"
+        # reset block variables
+        self.timing_offset = [-1, 0]
+        self.tracking_mode = False
         
     def debug_plot(self):
         pl.subplot(4,1,1)
@@ -284,7 +224,7 @@ class cp_sync_py(gr.basic_block):
         pl.show()
         
     def general_work(self, input_items, output_items):
-        in0 = input_items[0]        
+        in0 = input_items[0]   
         out = output_items[0]
         
         # drop, if not enough samples in input buffer
@@ -293,18 +233,47 @@ class cp_sync_py(gr.basic_block):
             self.sync_step_counter = 0
             return 0            
         
-        self.find_tags()
-        self.find_timing_offset(in0) # TODO: make this more modular!
+        in_vec = in0[:2*max(self.nsamp_ts)]
         
-        if self.tracking_mode:
-            self.find_frac_freq_offset(in0)
-            in0[0:self.nsamp_ts[self.rx.RM()]] = self.correct_frac_freq_offset(in0)
-            out[0:self.nsamp_tu[self.rx.RM()]] = self.remove_cp(in0)
-            #print "cp_sync_py: current / average offset:", self.frac_freq_offset_hist[0] + self.coarse_freq_offset, "/", self.frac_freq_offset_avg + self.coarse_freq_offset, "Hz. Timing:", self.timing_offset[0]
-            print "offset:", self.frac_freq_offset_hist[0]              
-            self.consume_each(self.nsamp_ts[self.rx.RM()])
-            return self.nsamp_tu[self.rx.RM()]
+        # look for tags with coarse frequency offset if not in tracking mode
+        self.find_tags(self.tracking_mode)
             
-        else:
+        # correct last known frequency offset
+        in_vec = self.correct_freq_offset(in_vec, self.prev_freq_offset)
+        
+        # find current timing offset
+        self.calc_correlation(in_vec, self.tracking_mode)
+        
+        # determine the robustness mode
+        self.find_RM(self.tracking_mode)
+        
+        # consume and return if no RM was detected and therefore block is still in acquisition mode
+        if self.rx.RM() == self.rx.p().RM_NONE():
             self.consume_each(max(self.nsamp_ts))
             return 0
+        else:
+            self.tracking_mode = True
+            
+        # find the timing offset 
+        self.calc_timing_offset()
+        
+        # if the timing offset is close to zero, consume half a symbol to prevent a wrap-around
+        if self.prevent_wraparound():
+            return 0
+        
+        # ... and the remaining fractional frequency offset
+        self.calc_frac_freq_offset()
+        
+        # calculate new prev_freq_offset
+        self.update_prev_freq_offset()
+        
+        # correct this offset
+        in_vec = self.correct_freq_offset(in_vec[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts[self.rx.RM()]], self.cur_freq_offset)
+        #self.debug_plot()
+        
+        # remove cyclic prefix and write the aligned symbol in the output buffer
+        out[:self.nsamp_tu[self.rx.RM()]] = self.remove_cp(in_vec)
+        
+        # consume and return 
+        self.consume_each(self.nsamp_ts[self.rx.RM()])
+        return self.nsamp_tu[self.rx.RM()]
