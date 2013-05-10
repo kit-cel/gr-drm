@@ -111,9 +111,10 @@ class cp_sync_py(gr.basic_block):
             np.zeros(( self.nsamp_ts[2], 1)), np.zeros(( self.nsamp_ts[3], 1))]              
         self.timing_offset = [-1, 0] # (peak index, peak value)
         self.timing_backoff = 10 # backoff to prevent late sync
-        self.corr_threshold = 0.6
+        self.corr_threshold = 0.8
         
         self.message_port_register_out(gr.pmt.pmt_string_to_symbol("reset"))
+        self.set_output_multiple(max(self.nsamp_ts))
         
     def forecast(self, noutput_items, ninput_items_required):
         # we need more samples in the input buffer than we consume because of the correlation
@@ -177,9 +178,13 @@ class cp_sync_py(gr.basic_block):
                 print "cp_sync_py: no RM detected"
                 self.reset_all()
                 return False
-        else:
-            print "cp_sync_py: in tracking mode, skip find_RM()"
-            return True
+        else: # if already tracking, just check if correlation peak is still above the threshold
+            if max(self.corr_vec_abs[self.rx.RM()][:]) > self.corr_threshold:
+                return True
+            else:
+                print "cp_sync_py: lost sync. reset all."
+                self.reset_all()
+                return False
                 
     def calc_timing_offset(self):
         self.timing_offset[0] = np.argmax(self.corr_vec_abs[self.rx.RM()][:])
@@ -200,7 +205,6 @@ class cp_sync_py(gr.basic_block):
         phase_diff = cmath.phase(complex(self.corr_vec[self.rx.RM()][self.timing_offset[0]].real, self.corr_vec[self.rx.RM()][self.timing_offset[0]].imag))
         time_diff = float(self.nsamp_tu[self.rx.RM()]) / self.FS
         self.remaining_freq_offset = -phase_diff / (2*cmath.pi * time_diff)
-        print "cp_sync_py: remaining frequency offset is", self.remaining_freq_offset, "Hz"
         
     def update_prev_freq_offset(self): #TODO: maybe this could be more intelligent (e.g. with averaging)
         print "cp_sync_py: updating prev_freq_offset from", self.prev_freq_offset, "to", self.prev_freq_offset + self.remaining_freq_offset
@@ -208,14 +212,10 @@ class cp_sync_py(gr.basic_block):
         
                             
     def correct_freq_offset(self, vec, f_off):
-        print "cp_sync_py: correcting offset of", f_off, "Hz"
-        if not(f_off == 0): # this can happen in acquisition mode
-            arg = -2j*np.pi*f_off/self.FS
-            for i in range(len(vec)):
-                vec[i] *= np.exp(arg*i + self.cont_phase_offset)
-            self.cont_phase_offset = arg*len(vec) + self.cont_phase_offset # NCO must be continuous in phase
-        else:
-            print "cp_sync_py: skipped correcting the offset because it's 0 Hz"
+        arg = -2j*np.pi*f_off/self.FS
+        for i in range(len(vec)):
+            vec[i] *= np.exp(arg*i + self.cont_phase_offset)
+        self.cont_phase_offset = (arg*len(vec) + self.cont_phase_offset) % 2*np.pi # NCO must be continuous in phase
         return vec
            
     def remove_cp(self, vec):
@@ -262,7 +262,6 @@ class cp_sync_py(gr.basic_block):
         in0 = input_items[0]   
         out = output_items[0]
         
-        print "cp_sync_py: entering work(). items read:", self.nitems_read(0), "items written:", self.nitems_written(0)
         # drop, if not enough samples in input buffer
         if len(in0) < 2*max(self.nsamp_ts):
             print "cp_sync_py: not enough samples, skip work()"
@@ -317,5 +316,4 @@ class cp_sync_py(gr.basic_block):
         
         # consume and return 
         self.consume_each(self.nsamp_ts[self.rx.RM()])
-        print "cp_sync_py: regular return from work. consuming", self.nsamp_ts[self.rx.RM()]
         return self.nsamp_tu[self.rx.RM()]

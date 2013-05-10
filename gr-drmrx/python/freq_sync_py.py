@@ -52,6 +52,7 @@ class freq_sync_py(gr.basic_block):
         self.freq_offset = 0
         
         self.message_port_register_in(gr.pmt.pmt_string_to_symbol("reset"))
+        
         self.set_output_multiple(self.nfft) # set minimum buffer output size
         
     def forecast(self, noutput_items, ninput_items_required):
@@ -126,6 +127,16 @@ class freq_sync_py(gr.basic_block):
         while ctr < self.nfft:
             self.add_item_tag(0, offset + dist_between_tags*ctr, key, value)
             ctr += 1
+            
+    def reset(self):
+        self.buf_ctr = 0
+        self.buffer_filled = False
+        self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
+        self.fft_vec_avg = np.zeros((1, self.nfft))
+        self.corr_vec = np.zeros((self.nfft, ))
+        self.peak_avg_ratio = 0
+        self.signal_present = False
+        self.freq_offset = 0
         
     
     def debug_plot(self):
@@ -172,7 +183,6 @@ class freq_sync_py(gr.basic_block):
             
             if self.signal_present:
                 self.find_freq_offset()
-                #out[:self.nfft] = self.correct_freq_offset(in0[:self.nfft])
                 out[:self.nfft] = in0[:self.nfft]
                 self.attach_tag()
                 return self.nfft
