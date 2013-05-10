@@ -79,6 +79,15 @@ class cp_sync_py(gr.basic_block):
     Symbol detection is based on a threshold decision (max. correlation value).
     Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.
     TODO: maybe divide this block up in timing offset detection -> fractional frequency offset correction -> cylic prefix removal
+    
+    DEBUG STATUS:
+        -- works with a perfect baseband signal (delta_t == f_off == 0)
+        -- works (always?) with a delayed signal
+        -- works sometimes with a f_off=0
+        -- does sometimes not work with the same(!?) signal out of the channel_simulator
+        -- never works with frequency offset, although the first estimation is always correct
+        
+        
     """
     
     def __init__(self, rx):
@@ -120,8 +129,16 @@ class cp_sync_py(gr.basic_block):
                 
             tags = self.get_tags_in_range(0, nread, nread+ninput_items, gr.pmt.pmt_string_to_symbol("coarse_freq_offset"))
             
-            if len(tags) > 0:
+            if len(tags) > 0:                
                 self.prev_freq_offset = gr.pmt.pmt_to_long(tags[0].value) # start value for closed loop estimation
+                print "cp_sync_py: found stream tag, new offset is", self.prev_freq_offset
+                return True
+            else:
+                print "cp_sync_py: looking for a stream tag, but none found"
+                return False
+        else:
+            return True        
+        
                 
     def calc_correlation(self, vec, tracking):
         if tracking: # reduced complexity because the RM is already known
@@ -152,8 +169,14 @@ class cp_sync_py(gr.basic_block):
                         rm = i+1
                 self.rx.set_RM(rm)
                 print "cp_sync_py: detected RM", self.rx.RM()
+                return True
             else:
+                print "cp_sync_py: no RM detected"
                 self.reset_all()
+                return False
+        else:
+            print "cp_sync_py: in tracking mode, skip find_RM()"
+            return True
                 
     def calc_timing_offset(self):
         self.timing_offset[0] = np.argmax(self.corr_vec_abs[self.rx.RM()][:])
@@ -163,7 +186,7 @@ class cp_sync_py(gr.basic_block):
     def prevent_wraparound(self):
         if self.timing_offset[0] < 0.1*self.nsamp_ts[self.rx.RM()] or self.timing_offset[0] > 0.9*self.nsamp_ts[self.rx.RM()]:
             # consume half a symbol and return 0
-            print "cp_sync_py: preventing wrap-arounds by consuming half a symbol"
+            print "cp_sync_py: preventing wrap-arounds by consuming", self.nsamp_ts[self.rx.RM()]/2
             self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
             self.reset_block()
             return True
@@ -172,16 +195,19 @@ class cp_sync_py(gr.basic_block):
         #calculate average phase difference between the two intervals and determine the fractional frequency offset
         phase_diff = cmath.phase(complex(self.corr_vec[self.rx.RM()][self.timing_offset[0]].real, self.corr_vec[self.rx.RM()][self.timing_offset[0]].imag))
         time_diff = float(self.nsamp_tu[self.rx.RM()]) / self.FS
-        self.cur_freq_offset = - phase_diff / (2*cmath.pi * time_diff)
+        self.cur_freq_offset = -phase_diff / (2*cmath.pi * time_diff)
         
     def update_prev_freq_offset(self): #TODO: maybe this could be more intelligent (e.g. with averaging)
-        self.prev_freq_offset += self.cur_freq_offset
+        self.prev_freq_offset = self.cur_freq_offset #DEBUG
         print "cp_sync_py: current (total) frequency offset is", self.prev_freq_offset, "Hz"
                             
     def correct_freq_offset(self, vec, f_off):
         if not(f_off == 0): # this can happen in acquisition mode
+            arg = -2*np.pi*f_off/self.FS
             for i in range(len(vec)):
-                vec[i] = vec[i] * np.exp(-1j*2*np.pi*f_off*i/self.FS)
+                vec[i] *= (np.cos(arg*i) + 1j*np.sin(arg*i))
+        else:
+            print "cp_sync_py: skipped correcting the offset because it's 0 Hz"
         return vec
            
     def remove_cp(self, vec):
@@ -203,23 +229,23 @@ class cp_sync_py(gr.basic_block):
         self.message_port_pub(gr.pmt.pmt_string_to_symbol("reset"), gr.pmt.pmt_from_bool(True))
         
     def reset_block(self):
-        print "cp_sync_py: reset all"
+        print "cp_sync_py: reset block"
         # reset block variables
         self.timing_offset = [-1, 0]
         self.tracking_mode = False
         
     def debug_plot(self):
         pl.subplot(4,1,1)
-        pl.plot(self.corr_vec[0][:])
+        pl.plot(self.corr_vec_abs[0][:])
         pl.ylabel("RM A")
         pl.subplot(4,1,2)
-        pl.plot(self.corr_vec[1][:])
+        pl.plot(self.corr_vec_abs[1][:])
         pl.ylabel("RM B")
         pl.subplot(4,1,3)
-        pl.plot(self.corr_vec[2][:])
+        pl.plot(self.corr_vec_abs[2][:])
         pl.ylabel("RM C")
         pl.subplot(4,1,4)
-        pl.plot(self.corr_vec[3][:])
+        pl.plot(self.corr_vec_abs[3][:])
         pl.ylabel("RM D")
         pl.show()
         
@@ -227,32 +253,42 @@ class cp_sync_py(gr.basic_block):
         in0 = input_items[0]   
         out = output_items[0]
         
+        print "cp_sync_py: entering work(). items read:", self.nitems_read(0), "items written:", self.nitems_written(0)
         # drop, if not enough samples in input buffer
         if len(in0) < 2*max(self.nsamp_ts):
             print "cp_sync_py: not enough samples, skip work()"
             self.sync_step_counter = 0
             return 0            
         
-        in_vec = in0[:2*max(self.nsamp_ts)]
-        
-        # look for tags with coarse frequency offset if not in tracking mode
-        self.find_tags(self.tracking_mode)
-            
-        # correct last known frequency offset
-        in_vec = self.correct_freq_offset(in_vec, self.prev_freq_offset)
-        
-        # find current timing offset
-        self.calc_correlation(in_vec, self.tracking_mode)
-        
-        # determine the robustness mode
-        self.find_RM(self.tracking_mode)
-        
-        # consume and return if no RM was detected and therefore block is still in acquisition mode
-        if self.rx.RM() == self.rx.p().RM_NONE():
+        # look for tags with coarse frequency offset if not in tracking mode. return if tag is needed but not found
+        if not(self.find_tags(self.tracking_mode)):
+            # no need to reset because nothing happened so far
+            print "cp_sync_py: no tag found. consuming", max(self.nsamp_ts)
             self.consume_each(max(self.nsamp_ts))
             return 0
+            
+       
+        in_vec = []
+        if self.tracking_mode:
+            in_vec = in0[:2*self.nsamp_ts[self.rx.RM()]]
         else:
+            in_vec = in0[:2*max(self.nsamp_ts)]
+        
+        # correct last known frequency offset
+        #in_vec = self.correct_freq_offset(in_vec, self.prev_freq_offset)
+       
+       # find current timing offset
+        self.calc_correlation(in_vec, self.tracking_mode)
+        #self.debug_plot()
+        
+        # determine the robustness mode
+        if self.find_RM(self.tracking_mode): # true if RM was found (or already in tracking mode)
+            print "cp_sync_py: RM", self.rx.RM(), "detected"
             self.tracking_mode = True
+        else:
+            print "cp_sync_py: no RM detected. return from work(). consuming", max(self.nsamp_ts)
+            self.consume_each(max(self.nsamp_ts))
+            return 0
             
         # find the timing offset 
         self.calc_timing_offset()
@@ -276,4 +312,5 @@ class cp_sync_py(gr.basic_block):
         
         # consume and return 
         self.consume_each(self.nsamp_ts[self.rx.RM()])
+        print "regular return from work. consuming", self.nsamp_ts[self.rx.RM()]
         return self.nsamp_tu[self.rx.RM()]

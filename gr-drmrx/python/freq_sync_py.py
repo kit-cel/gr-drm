@@ -147,6 +147,7 @@ class freq_sync_py(gr.basic_block):
             return 0
             
         if self.signal_present: # FIXME: define a way to reset signal_present from cp_sync_py (message passing?)
+            self.attach_tag()
             min_buf_len = min((len(in0), len(out))) # return as many samples as possible
             self.consume_each(min_buf_len)
             out[:min_buf_len] = in0[:min_buf_len]
