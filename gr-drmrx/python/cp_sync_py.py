@@ -86,6 +86,7 @@ class cp_sync_py(gr.basic_block):
         -- works sometimes with a f_off=0
         -- does sometimes not work with the same(!?) signal out of the channel_simulator
         -- never works with frequency offset, although the first estimation is always correct
+        -- always works for the first run (if the freq offset is not too big), then results deviate quickly
         
         
     """
@@ -102,7 +103,8 @@ class cp_sync_py(gr.basic_block):
         self.nsamp_tg = self.rx.p().nsamp_Tg()
         self.tracking_mode = False # switches between acquisition and tracking mode
         self.prev_freq_offset = 0
-        self.cur_freq_offset = 0
+        self.remaining_freq_offset = 0
+        self.cont_phase_offset = 0
         self.corr_vec = [np.zeros(( self.nsamp_ts[0], 1), dtype=np.complex64), np.zeros(( self.nsamp_ts[1], 1), \
             dtype=np.complex64), np.zeros(( self.nsamp_ts[2], 1), dtype=np.complex64), np.zeros(( self.nsamp_ts[3], 1), dtype=np.complex64)]                           
         self.corr_vec_abs = [np.zeros(( self.nsamp_ts[0], 1)), np.zeros(( self.nsamp_ts[1], 1)), \
@@ -168,6 +170,7 @@ class cp_sync_py(gr.basic_block):
                     if max_val[i+1] > max_val[rm]:
                         rm = i+1
                 self.rx.set_RM(rm)
+                self.tracking_mode = True
                 print "cp_sync_py: detected RM", self.rx.RM()
                 return True
             else:
@@ -187,25 +190,30 @@ class cp_sync_py(gr.basic_block):
         if self.timing_offset[0] < 0.1*self.nsamp_ts[self.rx.RM()] or self.timing_offset[0] > 0.9*self.nsamp_ts[self.rx.RM()]:
             # consume half a symbol and return 0
             print "cp_sync_py: preventing wrap-arounds by consuming", self.nsamp_ts[self.rx.RM()]/2
-            self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
             self.reset_block()
             return True
+        else:
+            return False
             
     def calc_frac_freq_offset(self):
         #calculate average phase difference between the two intervals and determine the fractional frequency offset
         phase_diff = cmath.phase(complex(self.corr_vec[self.rx.RM()][self.timing_offset[0]].real, self.corr_vec[self.rx.RM()][self.timing_offset[0]].imag))
         time_diff = float(self.nsamp_tu[self.rx.RM()]) / self.FS
-        self.cur_freq_offset = -phase_diff / (2*cmath.pi * time_diff)
+        self.remaining_freq_offset = -phase_diff / (2*cmath.pi * time_diff)
+        print "cp_sync_py: remaining frequency offset is", self.remaining_freq_offset, "Hz"
         
     def update_prev_freq_offset(self): #TODO: maybe this could be more intelligent (e.g. with averaging)
-        self.prev_freq_offset = self.cur_freq_offset #DEBUG
-        print "cp_sync_py: current (total) frequency offset is", self.prev_freq_offset, "Hz"
+        print "cp_sync_py: updating prev_freq_offset from", self.prev_freq_offset, "to", self.prev_freq_offset + self.remaining_freq_offset
+        self.prev_freq_offset += self.remaining_freq_offset
+        
                             
     def correct_freq_offset(self, vec, f_off):
+        print "cp_sync_py: correcting offset of", f_off, "Hz"
         if not(f_off == 0): # this can happen in acquisition mode
-            arg = -2*np.pi*f_off/self.FS
+            arg = -2j*np.pi*f_off/self.FS
             for i in range(len(vec)):
-                vec[i] *= (np.cos(arg*i) + 1j*np.sin(arg*i))
+                vec[i] *= np.exp(arg*i + self.cont_phase_offset)
+            self.cont_phase_offset = arg*len(vec) + self.cont_phase_offset # NCO must be continuous in phase
         else:
             print "cp_sync_py: skipped correcting the offset because it's 0 Hz"
         return vec
@@ -221,7 +229,8 @@ class cp_sync_py(gr.basic_block):
         # reset block variables
         self.timing_offset = [-1, 0]
         self.prev_freq_offset = 0
-        self.cur_freq_offset = 0
+        self.remaining_freq_offset = 0
+        self.cont_phase_offset = 0
         self.tracking_mode = False
         # reset the RM
         self.rx.set_RM(self.rx.p().RM_NONE())
@@ -266,27 +275,22 @@ class cp_sync_py(gr.basic_block):
             print "cp_sync_py: no tag found. consuming", max(self.nsamp_ts)
             self.consume_each(max(self.nsamp_ts))
             return 0
-            
-       
+                 
         in_vec = []
         if self.tracking_mode:
-            in_vec = in0[:2*self.nsamp_ts[self.rx.RM()]]
+            in_vec[:] = in0[:2*self.nsamp_ts[self.rx.RM()]]
         else:
-            in_vec = in0[:2*max(self.nsamp_ts)]
+            in_vec[:] = in0[:2*max(self.nsamp_ts)]
         
         # correct last known frequency offset
-        #in_vec = self.correct_freq_offset(in_vec, self.prev_freq_offset)
-       
+        in_vec[:] = self.correct_freq_offset(in_vec, self.prev_freq_offset)
+        
        # find current timing offset
         self.calc_correlation(in_vec, self.tracking_mode)
         #self.debug_plot()
         
         # determine the robustness mode
-        if self.find_RM(self.tracking_mode): # true if RM was found (or already in tracking mode)
-            print "cp_sync_py: RM", self.rx.RM(), "detected"
-            self.tracking_mode = True
-        else:
-            print "cp_sync_py: no RM detected. return from work(). consuming", max(self.nsamp_ts)
+        if not(self.find_RM(self.tracking_mode)): # true if RM was found (or already in tracking mode)
             self.consume_each(max(self.nsamp_ts))
             return 0
             
@@ -295,6 +299,7 @@ class cp_sync_py(gr.basic_block):
         
         # if the timing offset is close to zero, consume half a symbol to prevent a wrap-around
         if self.prevent_wraparound():
+            self.consume_each(self.nsamp_ts[self.rx.RM()]/2)
             return 0
         
         # ... and the remaining fractional frequency offset
@@ -304,7 +309,7 @@ class cp_sync_py(gr.basic_block):
         self.update_prev_freq_offset()
         
         # correct this offset
-        in_vec = self.correct_freq_offset(in_vec[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts[self.rx.RM()]], self.cur_freq_offset)
+        #in_vec = self.correct_freq_offset(in_vec[self.timing_offset[0] : self.timing_offset[0] + self.nsamp_ts[self.rx.RM()]], self.remaining_freq_offset)
         #self.debug_plot()
         
         # remove cyclic prefix and write the aligned symbol in the output buffer
@@ -312,5 +317,5 @@ class cp_sync_py(gr.basic_block):
         
         # consume and return 
         self.consume_each(self.nsamp_ts[self.rx.RM()])
-        print "regular return from work. consuming", self.nsamp_ts[self.rx.RM()]
+        print "cp_sync_py: regular return from work. consuming", self.nsamp_ts[self.rx.RM()]
         return self.nsamp_tu[self.rx.RM()]

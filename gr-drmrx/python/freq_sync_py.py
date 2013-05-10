@@ -121,7 +121,11 @@ class freq_sync_py(gr.basic_block):
         offset = self.nitems_written(0)
         key = gr.pmt.pmt_string_to_symbol("coarse_freq_offset")
         value = gr.pmt.pmt_from_long(self.freq_offset)
-        self.add_item_tag(0, offset, key, value)
+        dist_between_tags = int(self.nfft/4)
+        ctr = 0
+        while ctr < self.nfft:
+            self.add_item_tag(0, offset + dist_between_tags*ctr, key, value)
+            ctr += 1
         
     
     def debug_plot(self):
@@ -145,7 +149,7 @@ class freq_sync_py(gr.basic_block):
         if len(in0) < self.nfft:
             print "freq_sync_py: not enough samples, skip work()"
             return 0
-            
+        
         if self.signal_present: # FIXME: define a way to reset signal_present from cp_sync_py (message passing?)
             self.attach_tag()
             min_buf_len = min((len(in0), len(out))) # return as many samples as possible
