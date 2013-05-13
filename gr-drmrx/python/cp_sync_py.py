@@ -81,12 +81,13 @@ class cp_sync_py(gr.basic_block):
     TODO: maybe divide this block up in timing offset detection -> fractional frequency offset correction -> cylic prefix removal
     
     DEBUG STATUS:
-        -- works with a perfect baseband signal (delta_t == f_off == 0)
-        -- works (always?) with a delayed signal
-        -- works sometimes with a f_off=0
-        -- does sometimes not work with the same(!?) signal out of the channel_simulator
-        -- never works with frequency offset, although the first estimation is always correct
-        -- always works for the first run (if the freq offset is not too big), then results deviate quickly
+        -- losing sync every 25-30 symbols, getting worse with increasing frequency offset, no losses for (exactly) 0 Hz offset
+        -- AWGN seems to have little to no impact on the sync loss
+        -- is there some accumulating error?
+        -- timing detection is ok (+- 1 sample)
+        -- for low offsets (e.g. 10 Hz) the loop starts to add the offsets after some point (after ~30-35 symbols)
+        -- closed loop is unstable... maybe adjusting the feedback factor helps (setting it to .5 does not)
+    
         
         
     """
@@ -112,7 +113,7 @@ class cp_sync_py(gr.basic_block):
         self.timing_offset = [-1, 0] # (peak index, peak value)
         self.timing_backoff = 10 # backoff to prevent late sync
         self.corr_threshold = 0.8
-        
+        self.valid_sym_ctr = 0
         self.message_port_register_out(gr.pmt.pmt_string_to_symbol("reset"))
         self.set_output_multiple(max(self.nsamp_ts))
         
@@ -215,7 +216,7 @@ class cp_sync_py(gr.basic_block):
         arg = -2j*np.pi*f_off/self.FS
         for i in range(len(vec)):
             vec[i] *= np.exp(arg*i + self.cont_phase_offset)
-        self.cont_phase_offset = (arg*len(vec) + self.cont_phase_offset) % 2*np.pi # NCO must be continuous in phase
+        self.cont_phase_offset = (arg*len(vec) + self.cont_phase_offset) % (2*np.pi) # NCO must be continuous in phase
         return vec
            
     def remove_cp(self, vec):
@@ -232,6 +233,7 @@ class cp_sync_py(gr.basic_block):
         self.remaining_freq_offset = 0
         self.cont_phase_offset = 0
         self.tracking_mode = False
+        self.valid_sym_ctr = 0
         # reset the RM
         self.rx.set_RM(self.rx.p().RM_NONE())
         # send reset to the upstream blocks
@@ -242,6 +244,7 @@ class cp_sync_py(gr.basic_block):
         # reset block variables
         self.timing_offset = [-1, 0]
         self.tracking_mode = False
+        self.valid_sym_ctr = 0
         
     def debug_plot(self):
         pl.subplot(4,1,1)
@@ -315,5 +318,7 @@ class cp_sync_py(gr.basic_block):
         out[:self.nsamp_tu[self.rx.RM()]] = self.remove_cp(in_vec)
         
         # consume and return 
+        self.valid_sym_ctr += 1
+        print "cp_sync_py:", self.valid_sym_ctr, "valid symbols in a row."
         self.consume_each(self.nsamp_ts[self.rx.RM()])
         return self.nsamp_tu[self.rx.RM()]
