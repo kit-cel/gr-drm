@@ -71,16 +71,27 @@ class freq_sync_py(gr.basic_block):
         
     def pilot_corr(self):
         # add the FFT bins corresponding to the pilot positions for each shift and take the magnitude
-        # expand FFT cyclically vec so that correlation indexes don't go out of bounds
-        fft_vec_expanded = np.concatenate((self.fft_vec_avg, self.fft_vec_avg[:self.f_pil_index[2]]), axis=0)
+        # if conditions prevent out-of-bounds errors.
         for i in range(self.nfft): 
-            self.corr_vec[i] = abs(fft_vec_expanded[i+self.f_pil_index[0]] \
-            + fft_vec_expanded[i+self.f_pil_index[1]] \
-            + fft_vec_expanded[i+self.f_pil_index[2]])
+            if i + self.f_pil_index[2] < self.nfft:
+                self.corr_vec[i] = abs(self.fft_vec_avg[i+self.f_pil_index[0]] \
+                + self.fft_vec_avg[i+self.f_pil_index[1]] \
+                + self.fft_vec_avg[i+self.f_pil_index[2]])
+            elif i + self.f_pil_index[1] < self.nfft:
+                self.corr_vec[i] = abs(self.fft_vec_avg[i+self.f_pil_index[0]] \
+                + self.fft_vec_avg[i+self.f_pil_index[1]])
+            elif i + self.f_pil_index[0] < self.nfft:
+                self.corr_vec[i] = abs(self.fft_vec_avg[i+self.f_pil_index[0]])
+            else:
+                self.corr_vec[i] = 0
+                
         
     
     def presence_detection(self): #FIXME: this ratio is not a good measure for signal presence!
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
+        pl.plot(self.corr_vec)
+        pl.title("freq_sync_py: corr_vec")
+        pl.show()
         if self.peak_avg_ratio > 5: # experimental value, AWGN has a ratio < 2
             self.signal_present = True
         else:
@@ -162,7 +173,7 @@ class freq_sync_py(gr.basic_block):
             return 0
         
         if self.signal_present: # FIXME: define a way to reset signal_present from cp_sync_py (message passing?)
-            self.attach_tag()
+            #self.attach_tag()
             min_buf_len = min((len(in0), len(out))) # return as many samples as possible
             self.consume_each(min_buf_len)
             out[:min_buf_len] = in0[:min_buf_len]

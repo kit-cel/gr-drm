@@ -78,17 +78,6 @@ class cp_sync_py(gr.basic_block):
     Perform time synchronization and fractional frequency offset correction by cylic prefix correlation.
     Symbol detection is based on a threshold decision (max. correlation value).
     Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.
-    TODO: maybe divide this block up in timing offset detection -> fractional frequency offset correction -> cylic prefix removal
-    
-    DEBUG STATUS:
-        -- losing sync every 25-30 symbols, getting worse with increasing frequency offset, no losses for (exactly) 0 Hz offset
-        -- AWGN seems to have little to no impact on the sync loss
-        -- is there some accumulating error?
-        -- timing detection is ok (+- 1 sample)
-        -- for low offsets (e.g. 10 Hz) the loop starts to add the offsets after some point (after ~30-35 symbols)
-        -- closed loop is unstable... maybe adjusting the feedback factor helps (setting it to .5 does not)
-    
-        
         
     """
     
