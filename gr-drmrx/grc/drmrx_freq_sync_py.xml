@@ -28,7 +28,7 @@
 
   <sink>
     <name>reset_in</name>
-    <type>msg</type>
+    <type>message</type>
     <optional>1</optional>
   </sink>
 

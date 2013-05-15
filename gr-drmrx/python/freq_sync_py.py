@@ -51,7 +51,8 @@ class freq_sync_py(gr.basic_block):
         self.signal_present = False
         self.freq_offset = 0
         
-        self.message_port_register_in(gr.pmt.pmt_string_to_symbol("reset"))
+        self.message_port_register_in(gr.pmt.pmt_intern('reset_in'))
+        self.set_msg_handler(gr.pmt.pmt_intern('reset_in'), self.handle_msg)
         
         self.set_output_multiple(self.nfft) # set minimum buffer output size
         
@@ -59,6 +60,10 @@ class freq_sync_py(gr.basic_block):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = self.nfft
+            
+    def handle_msg(self, msg):
+        print "freq_sync_py: got message. reset."
+        self.reset()
             
     def calc_avg_fft(self, in0):
         fft_tmp = np.fft.fft(in0[0:self.nfft], self.nfft)
@@ -89,9 +94,6 @@ class freq_sync_py(gr.basic_block):
     
     def presence_detection(self): #FIXME: this ratio is not a good measure for signal presence!
         self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
-        pl.plot(self.corr_vec)
-        pl.title("freq_sync_py: corr_vec")
-        pl.show()
         if self.peak_avg_ratio > 5: # experimental value, AWGN has a ratio < 2
             self.signal_present = True
         else:

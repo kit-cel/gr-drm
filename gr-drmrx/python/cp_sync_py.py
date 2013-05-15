@@ -77,8 +77,7 @@ class cp_sync_py(gr.basic_block):
     """
     Perform time synchronization and fractional frequency offset correction by cylic prefix correlation.
     Symbol detection is based on a threshold decision (max. correlation value).
-    Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.
-        
+    Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.       
     """
     
     def __init__(self, rx):
@@ -103,7 +102,7 @@ class cp_sync_py(gr.basic_block):
         self.timing_backoff = 10 # backoff to prevent late sync
         self.corr_threshold = 0.8
         self.valid_sym_ctr = 0
-        self.message_port_register_out(gr.pmt.pmt_string_to_symbol("reset"))
+        self.message_port_register_out(gr.pmt.pmt_intern('reset_out'))
         self.set_output_multiple(max(self.nsamp_ts))
         
     def forecast(self, noutput_items, ninput_items_required):
@@ -185,7 +184,7 @@ class cp_sync_py(gr.basic_block):
         if self.timing_offset[0] < 0.1*self.nsamp_ts[self.rx.RM()] or self.timing_offset[0] > 0.9*self.nsamp_ts[self.rx.RM()]:
             # consume half a symbol and return 0
             print "cp_sync_py: preventing wrap-arounds by consuming", self.nsamp_ts[self.rx.RM()]/2
-            self.reset_block()
+            self.reset_block()            
             return True
         else:
             return False
@@ -225,8 +224,8 @@ class cp_sync_py(gr.basic_block):
         self.valid_sym_ctr = 0
         # reset the RM
         self.rx.set_RM(self.rx.p().RM_NONE())
-        # send reset to the upstream blocks
-        self.message_port_pub(gr.pmt.pmt_string_to_symbol("reset"), gr.pmt.pmt_from_bool(True))
+        # send reset to the upstream blocks NOTE: The actual content of the message is not checked, the simple presence of a message causes the reset
+        self.message_port_pub(gr.pmt.pmt_intern("reset_out"), gr.pmt.pmt_from_bool(True))
         
     def reset_block(self):
         print "cp_sync_py: reset block"

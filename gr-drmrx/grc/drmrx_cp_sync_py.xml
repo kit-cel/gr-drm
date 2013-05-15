@@ -25,11 +25,7 @@
     <name>in</name>
     <type>complex</type>
   </sink>
-  <sink>
-    <name>reset_in</name>
-    <type>msg</type>
-    <optional>1</optional>
-  </sink>
+
   <!-- Make one 'source' node per output. Sub-nodes:
        * name (an identifier for the GUI)
        * type
@@ -37,7 +33,7 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>reset_out</name>
-    <type>msg</type>
+    <type>message</type>
     <optional>1</optional>
   </source>
 
