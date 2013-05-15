@@ -48,8 +48,11 @@ class freq_sync_py(gr.basic_block):
         self.fft_vec_avg = np.zeros((1, self.nfft))
         self.corr_vec = np.zeros((self.nfft, ))
         self.peak_avg_ratio = 0
-        self.signal_present = False
-        self.freq_offset = 0
+        self.tracking_mode = False # 'True' basically deactivates this block because tracking is done in cp_sync
+        self.cur_freq_offset = np.NaN        
+        self.freq_offset_hist = []
+        self.freq_offset_hist_len = 3 # arbitrary value
+        self.freq_offset = []
         
         self.message_port_register_in(gr.pmt.pmt_intern('reset_in'))
         self.set_msg_handler(gr.pmt.pmt_intern('reset_in'), self.handle_msg)
@@ -76,7 +79,7 @@ class freq_sync_py(gr.basic_block):
         
     def pilot_corr(self):
         # add the FFT bins corresponding to the pilot positions for each shift and take the magnitude
-        # if conditions prevent out-of-bounds errors.
+        # the if conditions prevent out-of-bounds errors
         for i in range(self.nfft): 
             if i + self.f_pil_index[2] < self.nfft:
                 self.corr_vec[i] = abs(self.fft_vec_avg[i+self.f_pil_index[0]] \
@@ -89,16 +92,6 @@ class freq_sync_py(gr.basic_block):
                 self.corr_vec[i] = abs(self.fft_vec_avg[i+self.f_pil_index[0]])
             else:
                 self.corr_vec[i] = 0
-                
-        
-    
-    def presence_detection(self): #FIXME: this ratio is not a good measure for signal presence!
-        self.peak_avg_ratio = np.max(self.corr_vec)/np.mean(self.corr_vec)
-        if self.peak_avg_ratio > 5: # experimental value, AWGN has a ratio < 2
-            self.signal_present = True
-        else:
-            self.signal_present = False
-            print "freq_sync_py: no signal detected. ratio is", self.peak_avg_ratio
                    
     def find_freq_offset(self):
         # find maximum and corresponding value
@@ -110,36 +103,32 @@ class freq_sync_py(gr.basic_block):
     			peak_index = k	
        
         # wrap indices around because of fftshift
-        peak_index -= self.nfft/2 
+        peak_index -= self.nfft/2            
+        self.cur_freq_offset = peak_index * self.delta_f
         
-        #debug plots
-#        if self.freq_offset != peak_index * self.delta_f:
-#            pl.subplot(2,1,1)
-#            pl.plot(self.fft_vec_avg/max(self.fft_vec_avg))
-#            pl.ylabel("avg FFT")
-#            pl.subplot(2,1,2)
-#            pl.plot(self.corr_vec/max(self.corr_vec))
-#            pl.ylabel("corr vec")
-#            pl.show()
+    def append_offset_to_hist(self):
+        #append frequency offset to history if its equal to the existing estimates. otherwise, empty the list and set the current offset as first element
+        if len(self.freq_offset_hist) == 0:
+            self.freq_offset_hist.append(self.cur_freq_offset)
+        elif len(self.freq_offset_hist) < self.freq_offset_hist_len:
+            is_equal = True
+            for i in range(len(self.freq_offset_hist)):
+                if self.cur_freq_offset != self.freq_offset_hist[i]:
+                    is_equal = False
+            if is_equal:
+                self.freq_offset_hist.append(self.cur_freq_offset)
+            else:
+                self.freq_offset_hist = list(self.cur_freq_offset)
+        else:
+            print "freq_sync_py: this should not happen!"
+    
             
-        self.freq_offset = peak_index * self.delta_f
-        print "freq_sync_py: frequency offset: ", self.freq_offset, "Hz"#, "ratio:", self.peak_avg_ratio
-        
-    def correct_freq_offset(self, in0):
-        arg = -2*np.pi*self.freq_offset/self.FS # -2*pi*f*1/FS; -1 because we want to compensate the offset
-        for i in range(self.nfft):
-            in0[i] *= (np.cos(arg*i) + 1j*np.sin(arg*i)) # exp(j*2*pi*f*t)
-        return in0[:self.nfft]
-        
     def attach_tag(self):
         offset = self.nitems_written(0)
         key = gr.pmt.pmt_string_to_symbol("coarse_freq_offset")
+        print "attach_tag(): freq_offset",self.freq_offset
         value = gr.pmt.pmt_from_long(self.freq_offset)
-        dist_between_tags = int(self.nfft/4)
-        ctr = 0
-        while ctr < self.nfft:
-            self.add_item_tag(0, offset + dist_between_tags*ctr, key, value)
-            ctr += 1
+        self.add_item_tag(0, offset + self.nfft, key, value)
             
     def reset(self):
         self.buf_ctr = 0
@@ -148,9 +137,10 @@ class freq_sync_py(gr.basic_block):
         self.fft_vec_avg = np.zeros((1, self.nfft))
         self.corr_vec = np.zeros((self.nfft, ))
         self.peak_avg_ratio = 0
-        self.signal_present = False
-        self.freq_offset = 0
-        
+        self.tracking_mode = False
+        self.freq_offset_hist = []
+        self.freq_offset = []
+        self.cur_freq_offset = np.NaN        
     
     def debug_plot(self):
         pl.subplot(311)
@@ -174,28 +164,30 @@ class freq_sync_py(gr.basic_block):
             print "freq_sync_py: not enough samples, skip work()"
             return 0
         
-        if self.signal_present: # FIXME: define a way to reset signal_present from cp_sync_py (message passing?)
-            #self.attach_tag()
+        if self.tracking_mode:
             min_buf_len = min((len(in0), len(out))) # return as many samples as possible
             self.consume_each(min_buf_len)
             out[:min_buf_len] = in0[:min_buf_len]
             return min_buf_len
             
-        else:
-            # compute averaged FFT of input signal
-            self.calc_avg_fft(in0[:self.nfft])
-            if self.buf_ctr >= self.buf_ctr_max - 1: # the flag is never set back to false once the buffer is filled
-                self.buffer_filled = True
+        # compute averaged FFT of input signal
+        self.calc_avg_fft(in0[:self.nfft])
+        if self.buf_ctr >= self.buf_ctr_max - 1: # the flag is never set back to false once the buffer is filled
+            self.buffer_filled = True
                     
         if self.buffer_filled:
             #self.debug_plot()
             self.consume_each(self.nfft)
             
             self.pilot_corr()  
-            self.presence_detection()
-            
-            if self.signal_present:
-                self.find_freq_offset()
+            self.find_freq_offset()
+            self.append_offset_to_hist()
+            if len(self.freq_offset_hist) >= self.freq_offset_hist_len:
+                self.tracking_mode = True
+                self.freq_offset = self.freq_offset_hist[0] 
+                print "freq_sync_py: coarse frequency offset estimation is", self.freq_offset, "Hz"
+                
+            if self.freq_offset != []:
                 out[:self.nfft] = in0[:self.nfft]
                 self.attach_tag()
                 return self.nfft

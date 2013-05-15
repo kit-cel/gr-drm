@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Wed May 15 16:54:52 2013</timestamp>
+  <timestamp>Wed May 15 18:23:40 2013</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -1220,115 +1220,6 @@
     </param>
   </block>
   <block>
-    <key>gr_throttle</key>
-    <param>
-      <key>id</key>
-      <value>gr_throttle_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>samples_per_second</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(323, 714)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>channel_sim</key>
-    <param>
-      <key>id</key>
-      <value>channel_sim_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>skip0</key>
-      <value>skip0</value>
-    </param>
-    <param>
-      <key>skip1</key>
-      <value>skip1</value>
-    </param>
-    <param>
-      <key>skip2</key>
-      <value>skip2</value>
-    </param>
-    <param>
-      <key>noise_ampl</key>
-      <value>noise_ampl</value>
-    </param>
-    <param>
-      <key>f_off</key>
-      <value>f_off</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>filename</key>
-      <value>"/home/felixwunsch/src/gr-drm/gr-drmrx/test_data/rmb_so3.dat"</value>
-    </param>
-    <param>
-      <key>m2</key>
-      <value>(0.2-0.1j)*channel_influence</value>
-    </param>
-    <param>
-      <key>m1</key>
-      <value>(0.4+0.2j)*channel_influence</value>
-    </param>
-    <param>
-      <key>m0</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(27, 234)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_message_debug</key>
-    <param>
-      <key>id</key>
-      <value>blocks_message_debug_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1053, 280)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>drmrx_cp_sync_py</key>
     <param>
       <key>id</key>
@@ -1345,29 +1236,6 @@
     <param>
       <key>_coordinate</key>
       <value>(735, 437)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drmrx_freq_sync_py</key>
-    <param>
-      <key>id</key>
-      <value>drmrx_freq_sync_py_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>rx</key>
-      <value>rx</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(545, 313)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1556,6 +1424,119 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>drmrx_freq_sync_py</key>
+    <param>
+      <key>id</key>
+      <value>drmrx_freq_sync_py_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>rx</key>
+      <value>rx</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(545, 313)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>channel_sim</key>
+    <param>
+      <key>id</key>
+      <value>channel_sim_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>skip0</key>
+      <value>skip0</value>
+    </param>
+    <param>
+      <key>skip1</key>
+      <value>skip1</value>
+    </param>
+    <param>
+      <key>skip2</key>
+      <value>skip2</value>
+    </param>
+    <param>
+      <key>noise_ampl</key>
+      <value>noise_ampl</value>
+    </param>
+    <param>
+      <key>f_off</key>
+      <value>f_off</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>filename</key>
+      <value>"/home/felixwunsch/src/gr-drm/gr-drmrx/test_data/rmb_so3.dat"</value>
+    </param>
+    <param>
+      <key>m2</key>
+      <value>(0.2-0.1j)*channel_influence</value>
+    </param>
+    <param>
+      <key>m1</key>
+      <value>(0.4+0.2j)*channel_influence</value>
+    </param>
+    <param>
+      <key>m0</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(27, 234)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_throttle</key>
+    <param>
+      <key>id</key>
+      <value>gr_throttle_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>samples_per_second</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(323, 715)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>channel_sim_0</source_block_id>
     <sink_block_id>wxgui_fftsink2_0</sink_block_id>
@@ -1587,12 +1568,6 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>channel_sim_0</source_block_id>
-    <sink_block_id>drmrx_freq_sync_py_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
     <source_block_id>drmrx_freq_sync_py_0</source_block_id>
     <sink_block_id>drmrx_cp_sync_py_1</sink_block_id>
     <source_key>0</source_key>
@@ -1606,14 +1581,20 @@
   </connection>
   <connection>
     <source_block_id>drmrx_cp_sync_py_1</source_block_id>
-    <sink_block_id>blocks_message_debug_0</sink_block_id>
-    <source_key>reset_out</source_key>
-    <sink_key>print</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drmrx_cp_sync_py_1</source_block_id>
     <sink_block_id>drmrx_freq_sync_py_0</sink_block_id>
     <source_key>reset_out</source_key>
     <sink_key>reset_in</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>gr_throttle_0</source_block_id>
+    <sink_block_id>drmrx_freq_sync_py_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>channel_sim_0</source_block_id>
+    <sink_block_id>gr_throttle_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
   </connection>
 </flow_graph>
