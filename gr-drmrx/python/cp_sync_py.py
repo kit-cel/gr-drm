@@ -77,7 +77,11 @@ class cp_sync_py(gr.basic_block):
     """
     Perform time synchronization and fractional frequency offset correction by cylic prefix correlation.
     Symbol detection is based on a threshold decision (max. correlation value).
-    Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.       
+    Output is frequency corrected and starts with the first sample of a symbol with its cylic prefix removed.   
+
+    Problem: reset_block() does force looking for tags, but these might not be coming because freq_sync is (stuck) in tracking mode. Detected RM is not discarded, this might help. 
+    Solution: extended if condition: IF (no tag found) AND (RM == RM_NONE): --> consume some samples and wait for a tag
+                                     ELIF (no tag found) BUT (RM != RM_NONE): --> still in tracking mode
     """
     
     def __init__(self, rx):
@@ -110,27 +114,23 @@ class cp_sync_py(gr.basic_block):
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = 2*max(self.nsamp_ts)
             
-    def find_tags(self, tracking):
-        if not(tracking): # if in tracking mode, this can be skipped
-            nread = self.nitems_read(0)
-            ninput_items = []
-            if self.rx.RM() != self.rx.p().RM_NONE():
-                ninput_items = self.nsamp_ts[self.rx.RM()]
-            else:
-                ninput_items = max(self.nsamp_ts)
-                
-            tags = self.get_tags_in_range(0, nread, nread+ninput_items, gr.pmt.pmt_string_to_symbol("coarse_freq_offset"))
-            
-            if len(tags) > 0:                
-                self.prev_freq_offset = gr.pmt.pmt_to_long(tags[0].value) # start value for closed loop estimation
-                print "cp_sync_py: found stream tag, new offset is", self.prev_freq_offset
-                return True
-            else:
-                print "cp_sync_py: looking for a stream tag, but none found"
-                return False
+    def find_tags(self):
+        nread = self.nitems_read(0)
+        ninput_items = []
+        if self.rx.RM() != self.rx.p().RM_NONE():
+            ninput_items = self.nsamp_ts[self.rx.RM()]
         else:
-            return True        
+            ninput_items = max(self.nsamp_ts)
+            
+        tags = self.get_tags_in_range(0, nread, nread+ninput_items, gr.pmt.pmt_string_to_symbol("coarse_freq_offset"))
         
+        if len(tags) > 0:                
+            self.prev_freq_offset = gr.pmt.pmt_to_long(tags[0].value) # start value for closed loop estimation
+            print "cp_sync_py: found stream tag, new offset is", self.prev_freq_offset
+            return True
+        else:
+            print "cp_sync_py: looking for a stream tag, but none found"
+            return False            
                 
     def calc_correlation(self, vec, tracking):
         if tracking: # reduced complexity because the RM is already known
@@ -255,16 +255,20 @@ class cp_sync_py(gr.basic_block):
         
         # drop, if not enough samples in input buffer
         if len(in0) < 2*max(self.nsamp_ts):
-            print "cp_sync_py: not enough samples, skip work()"
-            self.sync_step_counter = 0
-            return 0            
-        
-        # look for tags with coarse frequency offset if not in tracking mode. return if tag is needed but not found
-        if not(self.find_tags(self.tracking_mode)):
-            # no need to reset because nothing happened so far
-            print "cp_sync_py: no tag found. consuming", max(self.nsamp_ts)
-            self.consume_each(max(self.nsamp_ts))
-            return 0
+            if self.rx.RM() == self.rx.p().RM_NONE():
+                print "cp_sync_py: not enough samples, skip work()"
+                self.sync_step_counter = 0
+                return 0            
+            
+        if not(self.tracking_mode):
+            if  self.rx.RM() != self.rx.p().RM_NONE():
+                print "cp_sync_py: return to tracking mode after preventing wrap-around"
+                self.tracking_mode = True
+            elif(not(self.find_tags())):
+                # no need to reset because nothing happened so far, block is waiting for the first tag after start-up / reset
+                print "cp_sync_py: no tag found. consuming", max(self.nsamp_ts)
+                self.consume_each(max(self.nsamp_ts))
+                return 0        
                  
         in_vec = []
         if self.tracking_mode:

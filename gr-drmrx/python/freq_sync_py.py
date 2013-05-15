@@ -25,9 +25,8 @@ from gnuradio import gr
         
 class freq_sync_py(gr.basic_block):
     """
-    Perform frequency synchronization by correlating with the three continuous sine pilots. 
-    FIXME: No-Signal detection does not work reliably. Maybe use difference between two highest peaks or cancel DC offset.
-    TODO: Idea: This block only estimates the rough offset, attaches a tag but doesn't correct it. cp_sync then implements a closed loop with this estimate as starting point.
+    Perform frequency synchronization by correlating with the three continuous sine pilots.
+    FIXME: last row of fft_vec matrix does not get populated.
     """
     def __init__(self, rx):
         gr.basic_block.__init__(self,
@@ -42,12 +41,14 @@ class freq_sync_py(gr.basic_block):
         self.delta_f = self.FS / self.nfft
         self.f_pil_index = np.array([np.round(750/self.delta_f), np.round(2250/self.delta_f), np.round(3000/self.delta_f)], dtype=int)
         self.buf_ctr = 0
-        self.buf_ctr_max = 5 # arbitrary value, longer -> better estimation, shorter -> faster resync
+        self.buf_ctr_max = 4 # arbitrary value, longer -> better estimation, shorter -> faster resync
         self.buffer_filled = False
         self.fft_vec = np.zeros((self.buf_ctr_max, self.nfft))    
         self.fft_vec_avg = np.zeros((1, self.nfft))
         self.corr_vec = np.zeros((self.nfft, ))
         self.peak_avg_ratio = 0
+        self.peak_avg_lower_threshold = 12 # experimental values...
+        self.peak_avg_upper_threshold = 50
         self.tracking_mode = False # 'True' basically deactivates this block because tracking is done in cp_sync
         self.cur_freq_offset = np.NaN        
         self.freq_offset_hist = []
@@ -118,17 +119,19 @@ class freq_sync_py(gr.basic_block):
             if is_equal:
                 self.freq_offset_hist.append(self.cur_freq_offset)
             else:
-                self.freq_offset_hist = list(self.cur_freq_offset)
+                self.freq_offset_hist = []
+                self.freq_offset_hist.append(self.cur_freq_offset)
         else:
             print "freq_sync_py: this should not happen!"
-    
+            
+    def calc_peak_avg_ratio(self):
+        self.peak_avg_ratio = max(self.corr_vec)/np.mean(self.corr_vec)   
             
     def attach_tag(self):
         offset = self.nitems_written(0)
         key = gr.pmt.pmt_string_to_symbol("coarse_freq_offset")
-        print "attach_tag(): freq_offset",self.freq_offset
         value = gr.pmt.pmt_from_long(self.freq_offset)
-        self.add_item_tag(0, offset + self.nfft, key, value)
+        self.add_item_tag(0, offset, key, value)
             
     def reset(self):
         self.buf_ctr = 0
@@ -174,25 +177,31 @@ class freq_sync_py(gr.basic_block):
         self.calc_avg_fft(in0[:self.nfft])
         if self.buf_ctr >= self.buf_ctr_max - 1: # the flag is never set back to false once the buffer is filled
             self.buffer_filled = True
+            for i in range(self.buf_ctr_max):
+                print self.fft_vec[i][:10]
                     
         if self.buffer_filled:
             #self.debug_plot()
             self.consume_each(self.nfft)
             
-            self.pilot_corr()  
+            self.pilot_corr()            
             self.find_freq_offset()
+            self.calc_peak_avg_ratio()
             self.append_offset_to_hist()
-            if len(self.freq_offset_hist) >= self.freq_offset_hist_len:
-                self.tracking_mode = True
-                self.freq_offset = self.freq_offset_hist[0] 
-                print "freq_sync_py: coarse frequency offset estimation is", self.freq_offset, "Hz"
-                
-            if self.freq_offset != []:
-                out[:self.nfft] = in0[:self.nfft]
-                self.attach_tag()
-                return self.nfft
-                
+            if len(self.freq_offset_hist) >= self.freq_offset_hist_len: # a series of equal consecutive estimates is available
+                if self.peak_avg_ratio > self.peak_avg_lower_threshold and self.peak_avg_ratio < self.peak_avg_upper_threshold: # signal is regarded as valid
+                    self.tracking_mode = True
+                    self.freq_offset = self.freq_offset_hist[0] # which value in the vector is arbitrary because they are all equal
+                    print "freq_sync_py: coarse frequency offset estimation is", self.freq_offset, "Hz. peak2avg ratio:", self.peak_avg_ratio
+                    self.attach_tag()
+                    out[:self.nfft] = in0[:self.nfft]
+                    return self.nfft
+                else: # correlation is either too low or too high. Too high might indicate noise + DC offset
+                    print "freq_sync_py: no signal detected."
+                    self.reset()
+                    return 0                           
             else:
+                print "freq_sync_py: not enough consecutive equal estimates"
                 return 0
            
         else: # buffer not yet filled
