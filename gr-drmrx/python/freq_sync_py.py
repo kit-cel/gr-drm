@@ -74,7 +74,10 @@ class freq_sync_py(gr.basic_block):
         fft_tmp = np.fft.fftshift(fft_tmp)
         fft_tmp *= np.conj(fft_tmp) # square it for power spectrum density
         self.fft_vec[self.buf_ctr][:] = abs(fft_tmp)
-        self.buf_ctr = (self.buf_ctr + 1) % self.buf_ctr_max
+        self.buf_ctr = self.buf_ctr + 1
+        if self.buf_ctr >= self.buf_ctr_max: # wrap around and set buffer_filled to True (although this is only necessary in the first run)
+            self.buffer_filled = True
+            self.buf_ctr = self.buf_ctr % self.buf_ctr_max
         # average FFT to get a better estimate of the spectrum
         self.fft_vec_avg = np.mean(self.fft_vec, 0)
         
@@ -175,11 +178,7 @@ class freq_sync_py(gr.basic_block):
             
         # compute averaged FFT of input signal
         self.calc_avg_fft(in0[:self.nfft])
-        if self.buf_ctr >= self.buf_ctr_max - 1: # the flag is never set back to false once the buffer is filled
-            self.buffer_filled = True
-            for i in range(self.buf_ctr_max):
-                print self.fft_vec[i][:10]
-                    
+
         if self.buffer_filled:
             #self.debug_plot()
             self.consume_each(self.nfft)
