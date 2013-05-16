@@ -51,9 +51,10 @@ GNUradio http://www.gnuradio.org (there is a build script making things really e
 		
 - gr-drm	
 
-		git clone git://github.com/fewu/gnuradio_drm.git
-		cd gnuradio_drm/gr-drm
+		git clone git://github.com/kit-cel/gr-drm.git
+		cd gr-drm
 		git checkout stable
+		cd gr-drm
 		mkdir build
 		cd build
 		cmake ../
