@@ -22,6 +22,53 @@ from gnuradio import gr
 import numpy as np
 import pylab as pl
 
+# custom implementation of numpy.corrcoef that works with complex arrays
+def complex_corrcoef(x, y=None, rowvar=1, bias=0, ddof=None):
+    c = complex_cov(x, y, rowvar, bias, ddof)
+    try:
+        d = np.diag(c)
+    except ValueError: # scalar covariance
+        return 1
+    return c/np.sqrt(np.multiply.outer(d,d))
+    
+def complex_cov(m, y=None, rowvar=1, bias=0, ddof=None):
+    # Check inputs
+    if ddof is not None and ddof != int(ddof):
+        raise ValueError("ddof must be integer")
+     
+    X = np.array(m, ndmin=2)#, dtype=float)
+    if X.shape[0] == 1:
+        rowvar = 1
+    if rowvar:
+        axis = 0
+        tup = (slice(None),np.newaxis)
+    else:
+        axis = 1
+        tup = (np.newaxis, slice(None))
+     
+     
+    if y is not None:
+        y = np.array(y, copy=False, ndmin=2)#, dtype=float)
+        X = np.concatenate((X,y), axis)
+     
+    X -= X.mean(axis=1-axis)[tup]
+    if rowvar:
+        N = X.shape[1]
+    else:
+        N = X.shape[0]
+     
+    if ddof is None:
+        if bias == 0:
+            ddof = 1
+        else:
+            ddof = 0
+    fact = float(N - ddof)
+     
+    if not rowvar:
+        return (np.dot(X.T, X.conj()) / fact).squeeze()
+    else:
+        return (np.dot(X, X.T.conj()) / fact).squeeze()
+        
 class frame_sync_py_cc(gr.basic_block):
     """
     Samples are expected to come in fftshifted. Detects the start of a frame by correlating with time pilot symbols.
@@ -36,25 +83,47 @@ class frame_sync_py_cc(gr.basic_block):
         # rx class and some shortcuts
         self.rx = rx
         self.p = rx.p()
-        self.RM = self.rx.RM()
-        self.SO = self.rx.SO()
+        self.RM = self.p.RM_B() # fixed for now
+        self.SO = self.p.SO_3() # fixed for now
         self.nfft = self.p.nfft()[self.RM]
-        self.time_pil = self.calc_time_pil()
         self.dc_carr = self.nfft/2
-        self.k_min = self.p.k_min()[self.RM][self.SO]
+        #self.k_min = self.p.k_min()[self.RM][self.SO]   
+        self.time_pil_pos = self.p.time_pil_pos()[self.RM][:]
+        self.time_pil_phase = self.p.time_pil_phase()[self.RM][:]
+        self.num_pilots = len(self.time_pil_pos)
+        self.time_pil = self.calc_time_pil()                
+        self.extracted_pilots = np.zeros((self.num_pilots,), dtype=np.complex64)
+        self.corr_threshold = 0.8
     
     def calc_time_pil(self):
-        self.time_pil = np.zeros((self.nfft,), dtype=np.complex64)
-        for i in self.p.time_pil_pos()[self.RM][:]: 
-            self.time_pil[i+self.dc_carr+self.k_min] = np.exp(2j*np.pi*self.p.time_pil_phase()[self.RM][i]/1024)
-        
+        pilot_symbols = np.zeros((self.num_pilots,), dtype=np.complex64)
+        for i in range(self.num_pilots): 
+            #print "carrier index (raw/dc_off):", self.time_pil_pos[i], self.time_pil_pos[i]+self.dc_carr, "phase index:", self.time_pil_phase[i]
+            pilot_symbols[i] = np.exp(2j*np.pi*self.time_pil_phase[i]/1024)
+
+        return pilot_symbols
+     
+    def extract_pilots_from_symbol(self, in0):
+        for i in range(self.num_pilots):
+            self.extracted_pilots[i] = in0[self.dc_carr + self.time_pil_pos[i]]
+            
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):
-            ninput_items_required[i] = noutput_items
+            ninput_items_required[i] = self.nfft
 
     def general_work(self, input_items, output_items):
-        output_items[0][:] = input_items[0]
+        in0 = input_items[0]
+
+        self.extract_pilots_from_symbol(in0)
+        print abs(complex_corrcoef(self.extracted_pilots, self.time_pil)[0][1])
+        self.consume_each(self.nfft)
+       # if complex_corrcoef(in0[:self.nfft], self.time_pil)[0][1] > self.corr_threshold:
+       #     print "detected start of frame"
+       # else:
+       #     print "detected no start of frame"
+            
+        #output_items[0][:] = input_items[0]
         #self.consume_each(0, len(input_items[0]))
         #self.consume_each(len(input_items[0]))
-        return len(output_items[0])
+        return 0

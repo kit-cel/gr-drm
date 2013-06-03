@@ -54,9 +54,9 @@ class detect_SO_py_cc(gr.basic_block):
         k_high = dc_carr
         
         #debug plot
-        pl.plot(in0_mag)
-        pl.title("averaged magnitude of input FFT")     
-        pl.show()
+        #pl.plot(in0_mag)
+        #pl.title("averaged magnitude of input FFT")     
+        #pl.show()
         
         ctr = 0
         while k_low == dc_carr+10 and ctr < self.nfft/2+20: # in RM A, the lowest carrier is above DC
