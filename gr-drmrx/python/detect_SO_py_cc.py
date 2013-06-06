@@ -40,13 +40,15 @@ class detect_SO_py_cc(gr.basic_block):
         self.estimated_SO = self.p.SO_NONE()
         self.SO_detected = False
         
+        self.set_output_multiple(self.nfft)
+        
     def forecast(self, noutput_items, ninput_items_required):
         # we need more samples in the input buffer than we consume because of the correlation
         for i in range(len(ninput_items_required)):
             ninput_items_required[i] = self.nfft
             
     def detect_SO(self, in0):
-        in0_mag = self.moving_average(abs(in0[:])) # do this to avoid locking on fading gaps
+        in0_mag = self.moving_average(abs(in0[:])) # average to avoid locking on fading gaps
         dc_carr = self.nfft/2
         delta_f = self.p.FS() / self.nfft
         # start at the dc carrier and progress in both directions until the magnitude is considerably lower
@@ -54,9 +56,9 @@ class detect_SO_py_cc(gr.basic_block):
         k_high = dc_carr
         
         #debug plot
-        #pl.plot(in0_mag)
-        #pl.title("averaged magnitude of input FFT")     
-        #pl.show()
+#        pl.plot(in0_mag)
+#        pl.title("averaged magnitude of input FFT")     
+#        pl.show()
         
         ctr = 0
         while k_low == dc_carr+10 and ctr < self.nfft/2+20: # in RM A, the lowest carrier is above DC
@@ -74,10 +76,10 @@ class detect_SO_py_cc(gr.basic_block):
         self.estimated_SO = self.estimate_SO(est_bandwidth)
         print "detect_SO_py_cc: detected SO", self.estimated_SO
                    
-    def moving_average(self, vec): # short MA (2 samples window, look ahead)
+    def moving_average(self, vec): # short MA
         window_len = 5
         vec_avg = np.zeros((len(vec),))
-        np.concatenate((vec, vec[0:window_len])) # cyclic continuation for MA filtering
+        np.concatenate((vec, np.zeros((window_len,)))) # cyclic continuation for MA filtering
         for i in range(len(vec_avg)):
             vec_avg[i] = sum(vec[i:i+window_len]) / window_len
             
