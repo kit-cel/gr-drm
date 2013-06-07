@@ -94,6 +94,9 @@ class frame_sync_py_cc(gr.basic_block):
         self.time_pil = self.calc_time_pil()                
         self.extracted_pilots = np.zeros((self.num_pilots,), dtype=np.complex64)
         self.corr_threshold = 0.8
+        self.frame_detected = False
+        
+        self.set_output_multiple(self.nfft)
     
     def calc_time_pil(self):
         pilot_symbols = np.zeros((self.num_pilots,), dtype=np.complex64)
@@ -115,15 +118,18 @@ class frame_sync_py_cc(gr.basic_block):
     def general_work(self, input_items, output_items):
         in0 = input_items[0]
 
-        self.extract_pilots_from_symbol(in0)
-        print abs(complex_corrcoef(self.extracted_pilots, self.time_pil)[0][1])
-        self.consume_each(self.nfft)
-       # if complex_corrcoef(in0[:self.nfft], self.time_pil)[0][1] > self.corr_threshold:
-       #     print "detected start of frame"
-       # else:
-       #     print "detected no start of frame"
-            
-        #output_items[0][:] = input_items[0]
-        #self.consume_each(0, len(input_items[0]))
-        #self.consume_each(len(input_items[0]))
-        return 0
+        if not(self.frame_detected):
+            self.extract_pilots_from_symbol(in0)
+            self.consume_each(self.nfft)
+            if abs(complex_corrcoef(self.extracted_pilots, self.time_pil)[0][1]) > self.corr_threshold:
+                print "detected start of frame"
+                self.frame_detected = True
+                output_items[0][:self.nfft] = in0[:self.nfft]
+                return self.nfft
+            else:
+                print "no start of frame detected"
+                return 0
+        else:
+            output_items[0][:self.nfft] = in0[:self.nfft]
+            self.consume_each(self.nfft)
+            return self.nfft

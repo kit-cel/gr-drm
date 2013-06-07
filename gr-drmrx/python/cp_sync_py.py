@@ -103,7 +103,7 @@ class cp_sync_py(gr.basic_block):
         self.corr_vec_abs = [np.zeros(( self.nsamp_ts[0], 1)), np.zeros(( self.nsamp_ts[1], 1)), \
             np.zeros(( self.nsamp_ts[2], 1)), np.zeros(( self.nsamp_ts[3], 1))]              
         self.timing_offset = [-1, 0] # (peak index, peak value)
-        self.timing_backoff = 10 # backoff to prevent late sync
+        self.timing_backoff = 0 # backoff to prevent late sync
         self.corr_threshold = 0.8
         self.valid_sym_ctr = 0
         self.message_port_register_out(gr.pmt.pmt_intern('reset_out'))
@@ -183,7 +183,7 @@ class cp_sync_py(gr.basic_block):
     def prevent_wraparound(self):
         if self.timing_offset[0] < 0.1*self.nsamp_ts[self.rx.RM()] or self.timing_offset[0] > 0.9*self.nsamp_ts[self.rx.RM()]:
             # consume half a symbol and return 0
-            print "cp_sync_py: preventing wrap-arounds by consuming", self.nsamp_ts[self.rx.RM()]/2
+            print "cp_sync_py: prevent wrap-arounds by consuming", self.nsamp_ts[self.rx.RM()]/2
             self.reset_block()            
             return True
         else:
@@ -210,7 +210,8 @@ class cp_sync_py(gr.basic_block):
     def remove_cp(self, vec):
         # remove cylic prefix. to prevent late synchronization, a timing backoff is applied. this
         # results in a constant phase shift.
-        symbol_start = self.nsamp_tg[self.rx.RM()] - self.timing_backoff
+        symbol_start = self.timing_offset[0] + self.nsamp_tg[self.rx.RM()] - self.timing_backoff
+        #print "remove_cp(): start index is", symbol_start, "=", self.timing_offset[0], "+", self.nsamp_tg[self.rx.RM()], "-", self.timing_backoff
         return vec[symbol_start : symbol_start + self.nsamp_tu[self.rx.RM()]]
         
     def reset_all(self):

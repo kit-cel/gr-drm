@@ -49,6 +49,7 @@ from cp_sync_py import cp_sync_py
 from freq_sync_py import freq_sync_py
 from frame_sync_py_cc import frame_sync_py_cc
 from detect_SO_py_cc import detect_SO_py_cc
+from cell_demapping_py_cc import cell_demapping_py_cc
 #
 
 # ----------------------------------------------------------------
