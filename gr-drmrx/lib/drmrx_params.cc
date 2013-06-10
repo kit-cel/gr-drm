@@ -44,8 +44,55 @@ drmrx_params::drmrx_params()
     int nfft[4] = {1152, 1024, 704, 448};
     d_nfft.assign(nfft, nfft+4);
 
+    /* frequency reference cells [carrier index][phase_index(0,k)]
+     * corresponds to 750 Hz, 2250 Hz and 3000 Hz */
+    int freq_A[3][2] = {
+    	{18, 205},
+    	{54, 836},
+    	{72, 215}};
+    
+    int freq_B[3][2] = {
+    	{16, 331},
+    	{48, 651},
+    	{64, 555}};
+    
+    int freq_C[3][2] = {
+    	{11, 214},
+    	{33, 392},
+    	{44, 242}};
+    
+    int freq_D[3][2] = {
+    	{7,	788},
+    	{21, 1014},
+    	{28, 332}};
+
+    std::vector<int> tmp_pos, tmp_phase;
+    for(int i = 0; i < 4; i++)
+    {
+        switch(i)
+        {
+        case 0:
+            for(int k = 0; k<3; k++){tmp_pos.push_back(freq_A[k][0]);}
+            break;
+        case 1:
+            for(int k = 0; k<3; k++){tmp_pos.push_back(freq_B[k][0]);}
+            break;
+        case 2:
+            for(int k = 0; k<3; k++){tmp_pos.push_back(freq_C[k][0]);}
+            break;
+        case 3:
+            for(int k = 0; k<3; k++){tmp_pos.push_back(freq_D[k][0]);}
+            break;
+        default: 
+            std::cout << "drmrx_params: ERROR! invalid RM?\n";
+            break;
+        }
+        d_freq_pil_pos.push_back(tmp_pos);
+        tmp_pos.clear(); 
+    }
+
     /* time reference cells [carrier index][phase_index(0,k)]
- * only in the first symbol of each transmission frame */
+     * only in the first symbol of each transmission frame */
     int time_A[21][2] = {
 	{17, 973},
 	{18, 205},
@@ -135,7 +182,8 @@ drmrx_params::drmrx_params()
 	{32, 452}};
     
     int ntime_pil[4] = {21, 19, 19, 21};
-    std::vector<int> tmp_phase, tmp_pos;
+    tmp_phase.clear(); // these vectors are reused, so make sure they are empty
+    tmp_pos.clear();
     for(int i = 0; i < 4; i++)
     {
         tmp_phase.clear();

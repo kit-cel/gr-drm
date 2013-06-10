@@ -19,21 +19,34 @@
 # 
 
 from gnuradio import gr, gr_unittest
+import drmrx
 from cell_demapping_py_cc import cell_demapping_py_cc
 
 class qa_cell_demapping_py_cc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.rx = drmrx.drmrx_conf()
+        self.src = gr.null_source(gr.sizeof_gr_complex)
+        self.head = gr.head(gr.sizeof_gr_complex, 100)
+        self.cell_demapper = cell_demapping_py_cc(self.rx)
+        self.snk1 = gr.null_sink(gr.sizeof_gr_complex)
+        self.snk2 = gr.null_sink(gr.sizeof_gr_complex)
+        self.snk3 = gr.null_sink(gr.sizeof_gr_complex)
 
     def tearDown (self):
         self.tb = None
 
     def test_001_t (self):
         # set up fg
+        self.tb.connect(self.src, self.head, self.cell_demapper)
+        self.tb.connect((self.cell_demapper,0), self.snk1)
+        self.tb.connect((self.cell_demapper,1), self.snk2)
+        self.tb.connect((self.cell_demapper,2), self.snk3)
         self.tb.run ()
         # check data
+        print sum(self.cell_demapper.channel_pos)
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_cell_demapping_py_cc, "qa_cell_demapping_py_cc.xml")
+    gr_unittest.run(qa_cell_demapping_py_cc)

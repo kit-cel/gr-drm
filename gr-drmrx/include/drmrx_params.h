@@ -46,6 +46,9 @@ class drmrx_params
     std::vector< std::vector< int > > d_time_pil_phase;
     std::vector< std::vector< int > > d_time_pil_pos;
 
+    // frequency pilots
+    std::vector< std::vector< int > > d_freq_pil_pos;
+
     std::vector< std::vector< int > > d_k_min;
     std::vector< std::vector< int > > d_k_max;
 
@@ -81,6 +84,7 @@ class drmrx_params
 
     std::vector<std::vector<int> > time_pil_phase(){ return d_time_pil_phase; }
     std::vector<std::vector<int> > time_pil_pos(){ return d_time_pil_pos; }
+    std::vector<std::vector<int> > freq_pil_pos(){ return d_freq_pil_pos; }
 
     std::vector<std::vector<int> > k_min(){ return d_k_min; }
     std::vector<std::vector<int> > k_max(){ return d_k_max; }
