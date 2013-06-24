@@ -48,6 +48,7 @@ class cell_demapping_py_cc(gr.basic_block):
         # these flags are inserted in channel_pos to indicate to which channel the cell belongs 
         self.time_pil_pos = self.p.time_pil_pos()[self.RM]
         self.freq_pil_pos = self.p.freq_pil_pos()[self.RM]
+        self.gain_pil_pos = self.p.gain_pil_pos()[self.RM][self.SO]
         self.flag_drop = 0
         self.flag_msc = 1
         self.flag_sdc = 2
@@ -56,7 +57,7 @@ class cell_demapping_py_cc(gr.basic_block):
     
         self.set_output_multiple(self.nfft) # this is way too much...
     
-    def mark_pilots(self, mat): # RM B specific!
+    def mark_pilots(self, mat): # RM B specific! works on an entire superframe!
         # time pilots
         for i in self.time_pil_pos:
             for n in [0, self.nsym_frame, 2*self.nsym_frame]: # time pilots occur in every 15th symbol in RM B
@@ -64,6 +65,7 @@ class cell_demapping_py_cc(gr.basic_block):
                     mat[i-self.k_min, n] = self.flag_drop # pilots are dropped, offset is needed because pilot positions are arranged around DC
                 elif self.SO < 3:
                     print "cell_demapping: shifted carrier index <0. something goes wrong here!"
+        
         # frequency pilots        
         for i in self.freq_pil_pos:
             if i-self.k_min >= 0:
@@ -71,6 +73,15 @@ class cell_demapping_py_cc(gr.basic_block):
             elif self.SO < 3:
                 print "cell_demapping: shifted carrier index <0. something goes wrong here!"     
         
+        # gain pilots NOTE: gain_pilot_pos is only defined for one frame, so use modulo to wrap
+        for n in range(self.nsym_frame*self.nframes):
+            for i in self.gain_pil_pos[n]:
+                if i-self.k_min >= 0:
+                    mat[i-self.k_min, n] = self.flag_drop
+                elif self.SO < 3:
+                    print "cell_demapping: shifted carrier index <0. something goes wrong here!"
+
+                
     def calc_channel_positions(self):
         cell_grid = np.zeros((self.k_max - self.k_min + 1, self.nsym_frame * self.nframes)) - 1  # -1 to indicate still uncategorized positions
         self.mark_pilots(cell_grid)

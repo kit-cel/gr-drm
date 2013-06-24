@@ -5,6 +5,8 @@
 
 #include <vector>
 #include <iostream>
+#include <complex>
+#include <cstdio>
 
 class drmrx_params
 {
@@ -30,6 +32,9 @@ class drmrx_params
 
     // OFDM parameters. Lenghts are in samples
 
+    // number of samples per frame (NOT superframe)
+    std::vector<int> d_nsym_frame;
+
     // symbol length (with cyclic prefix)
     std::vector<int> d_nsamp_Ts;
 
@@ -49,6 +54,12 @@ class drmrx_params
     // frequency pilots
     std::vector< std::vector< int > > d_freq_pil_pos;
 
+    // gain pilots
+    std::vector< std::vector< std::vector< std::vector< int > > > > d_gain_pil_pos; //[RM][SO][symbol][carrier]
+    std::vector< std::vector<int> > d_gain_boosted; // boosted gain pilot cells
+    std::vector< std::vector< std::vector< std::vector< std::complex<double> > > > > d_gain_pil_values; //[RM][SO][symbol][carrier] actual complex pilot symbols
+
+    // edge carrier indexes
     std::vector< std::vector< int > > d_k_min;
     std::vector< std::vector< int > > d_k_max;
 
@@ -77,18 +88,25 @@ class drmrx_params
     int SO_NONE(){ return d_SO_NONE; }
 
     // OFDM parameters
+    std::vector<int> nsym_frame(){ return d_nsym_frame; }
     std::vector<int> nsamp_Ts(){ return d_nsamp_Ts; }
     std::vector<int> nsamp_Tg(){ return d_nsamp_Tg; }
     std::vector<int> nsamp_Tu(){ return d_nsamp_Tu; }
     std::vector<int> nfft(){ return d_nfft; }
 
+    // pilot cell positions and phase indexes
     std::vector<std::vector<int> > time_pil_phase(){ return d_time_pil_phase; }
     std::vector<std::vector<int> > time_pil_pos(){ return d_time_pil_pos; }
     std::vector<std::vector<int> > freq_pil_pos(){ return d_freq_pil_pos; }
+    std::vector<std::vector<std::vector< std::vector<int> > > > gain_pil_pos(){ return d_gain_pil_pos; }
+    std::vector<std::vector<std::vector< std::vector<std::complex<double> > > > > gain_pil_values(){ return d_gain_pil_values; }
+    std::vector<std::vector<int> > gain_boosted(){ return d_gain_boosted; }
 
+    // edge carrier indexes
     std::vector<std::vector<int> > k_min(){ return d_k_min; }
     std::vector<std::vector<int> > k_max(){ return d_k_max; }
 
+    // constructor and destructor
     drmrx_params(); // constructor, initializes all the values
     ~drmrx_params(){} // destructor
 
