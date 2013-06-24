@@ -333,7 +333,7 @@ drmrx_params::drmrx_params()
     // calculate all possible gain cell positions and phases
     printf("enter pos calc");
     // gain pilot carrier positions
-    for(int rm = 0; rm < 5; rm++)
+    for(int rm = 0; rm < 4; rm++) // no RM E here
     {
         // tmp vectors, also used in phase calculation
         std::vector< int > tmp_sym_rmso_fixed;
@@ -408,7 +408,7 @@ drmrx_params::drmrx_params()
 
     // gain pilot phases
     printf("enter phase calc");
-    for(int rm = 0; rm < 5; rm++)
+    for(int rm = 0; rm < 4; rm++) // no RM E here
     {
         std::vector< std::vector<std::complex<double> > > tmp_frame_rmso_fixed;
         std::vector< std::vector< std::vector<std::complex<double> > > > tmp_frame_rm_fixed;
@@ -497,7 +497,7 @@ drmrx_params::drmrx_params()
                 gain_phase_index.push_back(v_tmp); // push indices for one symbol to d_gain_phase
             }
 
-            /* calculate cell values
+            /* calculate actual complex cell values
              cell value is sqrt(2) * exp( j*2*pi*phase_index/1024 ) */
             printf("enter value calc");
             std::vector< std::complex<double> > gain_cells_tmp;

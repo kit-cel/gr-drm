@@ -7,14 +7,9 @@
 //load generated python docstrings
 %include "drmrx_swig_doc.i"
 
-//%{
-//#include <vector>
-//#include <complex>
-//%}
-
 namespace std {
-    %template()     vector< vector< vector< vector<int> > > >;
-    %template()     vector< vector< vector< vector<complex<double> > > > >;
+    %template()     vector< std::vector< std::vector< std::vector<int> > > >;
+    %template()     vector< std::vector< std::vector< std::vector<gr_complex > > > >;
 };
 
 
