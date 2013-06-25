@@ -9,7 +9,7 @@
 
 namespace std {
     %template()     vector< std::vector< std::vector< std::vector<int> > > >;
-    %template()     vector< std::vector< std::vector< std::vector<gr_complex > > > >;
+    %template()     vector< std::vector< std::vector< std::vector< gr_complex > > > >;
 };
 
 

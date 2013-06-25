@@ -5,8 +5,8 @@
 
 #include <vector>
 #include <iostream>
-#include <complex>
 #include <cstdio>
+#include <gr_complex.h>
 
 class drmrx_params
 {
@@ -57,7 +57,7 @@ class drmrx_params
     // gain pilots
     std::vector< std::vector< std::vector< std::vector< int > > > > d_gain_pil_pos; //[RM][SO][symbol][carrier]
     std::vector< std::vector<int> > d_gain_boosted; // boosted gain pilot cells
-    std::vector< std::vector< std::vector< std::vector< std::complex<double> > > > > d_gain_pil_values; //[RM][SO][symbol][carrier] actual complex pilot symbols
+    std::vector< std::vector< std::vector< std::vector< gr_complex > > > > d_gain_pil_values; //[RM][SO][symbol][carrier] actual complex pilot symbols
 
     // edge carrier indexes
     std::vector< std::vector< int > > d_k_min;
@@ -99,7 +99,7 @@ class drmrx_params
     std::vector<std::vector<int> > time_pil_pos(){ return d_time_pil_pos; }
     std::vector<std::vector<int> > freq_pil_pos(){ return d_freq_pil_pos; }
     std::vector<std::vector<std::vector< std::vector<int> > > > gain_pil_pos(){ return d_gain_pil_pos; }
-    std::vector<std::vector<std::vector< std::vector<std::complex<double> > > > > gain_pil_values(){ return d_gain_pil_values; }
+    std::vector<std::vector<std::vector< std::vector<gr_complex > > > > gain_pil_values(){ return d_gain_pil_values; }
     std::vector<std::vector<int> > gain_boosted(){ return d_gain_boosted; }
 
     // edge carrier indexes

@@ -410,8 +410,8 @@ drmrx_params::drmrx_params()
     printf("enter phase calc");
     for(int rm = 0; rm < 4; rm++) // no RM E here
     {
-        std::vector< std::vector<std::complex<double> > > tmp_frame_rmso_fixed;
-        std::vector< std::vector< std::vector<std::complex<double> > > > tmp_frame_rm_fixed;
+        std::vector< std::vector<gr_complex > > tmp_frame_rmso_fixed;
+        std::vector< std::vector< std::vector<gr_complex > > > tmp_frame_rm_fixed;
         tmp_frame_rm_fixed.clear();
         for(int so = 0; so < 6; so++)
         {
@@ -500,10 +500,10 @@ drmrx_params::drmrx_params()
             /* calculate actual complex cell values
              cell value is sqrt(2) * exp( j*2*pi*phase_index/1024 ) */
             printf("enter value calc");
-            std::vector< std::complex<double> > gain_cells_tmp;
+            std::vector< gr_complex > gain_cells_tmp;
             double boost = sqrt(2);
             const double pi = M_PI;
-            std::complex<double> j(0,1); // imaginary unit
+            gr_complexd j(0,1); // imaginary unit
             tmp_frame_rmso_fixed.clear();
             for(int s = 0; s < d_nsym_frame[rm]; s++)
             {
