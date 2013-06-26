@@ -119,8 +119,14 @@ class cell_demapping_py_cc(gr.basic_block):
         return cell_grid
     
     def extract_channels(self, sym):
-        print "not implemented yet" 
-        
+        for i in range(self.channel_pos.shape[0]):
+            if self.channel_pos[i][self.sym_ctr] == self.flag_msc:
+                self.msc_cells.append(sym[self.nfft/2+self.k_min+i])
+            elif self.channel_pos[i][self.sym_ctr] == self.flag_sdc:
+                self.sdc_cells.append(sym[self.nfft/2+self.k_min+i])
+            elif self.channel_pos[i][self.sym_ctr] == self.flag_fac:
+                self.fac_cells.append(sym[self.nfft/2+self.k_min+i])
+                
     def forecast(self, noutput_items, ninput_items_required):
         #setup size of input_items[i] for work call
         for i in range(len(ninput_items_required)):

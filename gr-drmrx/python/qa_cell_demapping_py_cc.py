@@ -29,12 +29,12 @@ class qa_cell_demapping_py_cc (gr_unittest.TestCase):
         self.tb = gr.top_block ()
         self.rx = drmrx_swig.drmrx_conf()
         self.p = self.rx.p()
-        self.src = gr.null_source(gr.sizeof_gr_complex)
+        self.src = gr.file_source(gr.sizeof_gr_complex, '../../test_data/rmb_so3_cellmapper_out.dat')
         self.head = gr.head(gr.sizeof_gr_complex, 10000)
         self.cell_demapper = cell_demapping_py_cc(self.rx)
-        self.snk1 = gr.null_sink(gr.sizeof_gr_complex)
-        self.snk2 = gr.null_sink(gr.sizeof_gr_complex)
-        self.snk3 = gr.null_sink(gr.sizeof_gr_complex)
+        self.snk_msc = gr.vector_sink_c()
+        self.snk_sdc = gr.vector_sink_c()
+        self.snk_fac = gr.vector_sink_c()
         self.debug_plot(self.cell_demapper.channel_pos)
         
 
@@ -49,11 +49,17 @@ class qa_cell_demapping_py_cc (gr_unittest.TestCase):
     def test_001_t (self):
         # set up fg
         self.tb.connect(self.src, self.head, self.cell_demapper)
-        self.tb.connect((self.cell_demapper,0), self.snk1)
-        self.tb.connect((self.cell_demapper,1), self.snk2)
-        self.tb.connect((self.cell_demapper,2), self.snk3)
+        self.tb.connect((self.cell_demapper,0), self.snk_msc)
+        self.tb.connect((self.cell_demapper,1), self.snk_sdc)
+        self.tb.connect((self.cell_demapper,2), self.snk_fac)
         self.tb.run ()
         # check data
+        data_msc = self.snk_msc.data()
+        data_sdc = self.snk_sdc.data()
+        data_fac = self.snk_fac.data()
+        self.assertTupleEqual(data_msc, tuple(pl.ones(len(data_msc))))
+        self.assertTupleEqual(data_sdc, tuple(pl.ones(len(data_sdc))+1))
+        self.assertTupleEqual(data_fac, tuple(pl.ones(len(data_fac))+2))
 
 
 if __name__ == '__main__':
