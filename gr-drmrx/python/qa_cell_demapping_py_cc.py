@@ -20,27 +20,31 @@
 
 from gnuradio import gr, gr_unittest
 import drmrx_swig
-import os
 from cell_demapping_py_cc import cell_demapping_py_cc
+import pylab as pl
 
 class qa_cell_demapping_py_cc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        print "instantiate rx instance..."
         self.rx = drmrx_swig.drmrx_conf()
-        print "done. get p()..."
         self.p = self.rx.p()
-        print "done."
         self.src = gr.null_source(gr.sizeof_gr_complex)
         self.head = gr.head(gr.sizeof_gr_complex, 100)
         self.cell_demapper = cell_demapping_py_cc(self.rx)
         self.snk1 = gr.null_sink(gr.sizeof_gr_complex)
         self.snk2 = gr.null_sink(gr.sizeof_gr_complex)
         self.snk3 = gr.null_sink(gr.sizeof_gr_complex)
+        self.debug_plot(self.cell_demapper.channel_pos)
+        
 
     def tearDown (self):
         self.tb = None
+        
+    def debug_plot(self,mat):
+        pl.imshow(mat, origin='lower')
+        pl.colorbar()
+        pl.show()
 
     def test_001_t (self):
         # set up fg
@@ -50,10 +54,7 @@ class qa_cell_demapping_py_cc (gr_unittest.TestCase):
         self.tb.connect((self.cell_demapper,2), self.snk3)
         self.tb.run ()
         # check data
-        print sum(self.cell_demapper.channel_pos)
 
 
 if __name__ == '__main__':
-    print 'Blocked waiting for GDB attach (pid = %d)' % (os.getpid(),)
-    raw_input ('Press Enter to continue: ')
     gr_unittest.run(qa_cell_demapping_py_cc)

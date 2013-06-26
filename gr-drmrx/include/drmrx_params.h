@@ -63,6 +63,9 @@ class drmrx_params
     std::vector< std::vector< int > > d_k_min;
     std::vector< std::vector< int > > d_k_max;
 
+    // FAC positions
+    std::vector< std::vector< std::vector< int > > > d_fac_pos; // fixed to RM B, so [symbol][carrier]
+
 
  public:
     // get methods for python access through SWIG
@@ -101,6 +104,9 @@ class drmrx_params
     std::vector<std::vector<std::vector< std::vector<int> > > > gain_pil_pos(){ return d_gain_pil_pos; }
     std::vector<std::vector<std::vector< std::vector<gr_complex > > > > gain_pil_values(){ return d_gain_pil_values; }
     std::vector<std::vector<int> > gain_boosted(){ return d_gain_boosted; }
+
+    // FAC positions
+    std::vector< std::vector< std::vector< int > > > fac_pos(){ return d_fac_pos; }
 
     // edge carrier indexes
     std::vector<std::vector<int> > k_min(){ return d_k_min; }
