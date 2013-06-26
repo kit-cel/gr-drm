@@ -496,7 +496,6 @@ drmrx_params::drmrx_params()
 
             /* calculate actual complex cell values
              cell value is sqrt(2) * exp( j*2*pi*phase_index/1024 ) */
-            printf("enter value calc");
             std::vector< gr_complex > gain_cells_tmp;
             double boost = sqrt(2);
             const double pi = M_PI;

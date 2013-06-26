@@ -55,6 +55,10 @@ class cell_demapping_py_cc(gr.basic_block):
         self.flag_sdc = 2
         self.flag_fac = 3
         self.channel_pos = self.calc_channel_positions()
+        self.fac_cells = []
+        self.sdc_cells = []
+        self.msc_cells = []
+        self.sym_ctr = 0 # keep track of current position in the superframe
     
         self.set_output_multiple(self.nfft) # this is way too much...
     
@@ -114,7 +118,7 @@ class cell_demapping_py_cc(gr.basic_block):
         self.mark_msc(cell_grid)      
         return cell_grid
     
-    def extract_channels(self):
+    def extract_channels(self, sym):
         print "not implemented yet" 
         
     def forecast(self, noutput_items, ninput_items_required):
@@ -124,12 +128,17 @@ class cell_demapping_py_cc(gr.basic_block):
 
     def general_work(self, input_items, output_items):
         in0 = input_items[0]
-        #output_items[0][:] = input_items[0]
-        output_items[0][:1] = np.zeros((1,))
-        self.produce(0, 1)
-        output_items[1][:2] = np.ones((2,))
-        self.produce(1, 2)
-        output_items[2][:3] = np.ones((3,))+1
-        self.produce(2, 3)
+        self.extract_channels(in0[:self.nfft])
+        output_items[0][:len(self.msc_cells)] = self.msc_cells[:]
+        self.produce(0, len(self.msc_cells))
+        output_items[1][:len(self.sdc_cells)] = self.sdc_cells[:]
+        self.produce(1, len(self.sdc_cells))
+        output_items[2][:len(self.fac_cells)] = self.fac_cells[:]
+        self.produce(2, len(self.fac_cells))
+        
         self.consume_each(self.nfft)
+        self.fac_cells = []
+        self.sdc_cells = []
+        self.msc_cells = []
+        self.sym_ctr = (self.sym_ctr + 1)%(self.nframes*self.nsym_frame)
         return -2 # return value for WORK_CALLED_PRODUCE

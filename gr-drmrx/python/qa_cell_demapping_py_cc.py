@@ -30,7 +30,7 @@ class qa_cell_demapping_py_cc (gr_unittest.TestCase):
         self.rx = drmrx_swig.drmrx_conf()
         self.p = self.rx.p()
         self.src = gr.null_source(gr.sizeof_gr_complex)
-        self.head = gr.head(gr.sizeof_gr_complex, 100)
+        self.head = gr.head(gr.sizeof_gr_complex, 10000)
         self.cell_demapper = cell_demapping_py_cc(self.rx)
         self.snk1 = gr.null_sink(gr.sizeof_gr_complex)
         self.snk2 = gr.null_sink(gr.sizeof_gr_complex)
