@@ -30,7 +30,7 @@ class drmrx_params
     int d_SO_5; // 5 -> 20 kHz
     int d_SO_NONE; // 6 -> invalid
 
-    // OFDM parameters. Lenghts are in samples
+    /************* OFDM parameters. Lenghts are in samples *********/
 
     // number of samples per frame (NOT superframe)
     std::vector<int> d_nsym_frame;
@@ -66,9 +66,12 @@ class drmrx_params
     // FAC positions
     std::vector< std::vector< std::vector< int > > > d_fac_pos; // fixed to RM B, so [symbol][carrier]
 
+    /************** Channel coding *************************/
+    // QAM constellation sizes for different channels
+
 
  public:
-    // get methods for python access through SWIG
+    /*********** get methods for python access through SWIG **************/
 
     // sampling rate
     int FS(){ return d_FS; }

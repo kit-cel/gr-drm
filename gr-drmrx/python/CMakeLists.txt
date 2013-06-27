@@ -35,7 +35,8 @@ GR_PYTHON_INSTALL(
     freq_sync_py.py
     frame_sync_py_cc.py
     detect_SO_py_cc.py
-    cell_demapping_py_cc.py DESTINATION ${GR_PYTHON_DIR}/drmrx
+    cell_demapping_py_cc.py
+    qam_demod.py DESTINATION ${GR_PYTHON_DIR}/drmrx
 )
 
 ########################################################################
@@ -50,3 +51,4 @@ GR_ADD_TEST(qa_freq_sync_py ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_
 GR_ADD_TEST(qa_frame_sync_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_frame_sync_py_cc.py)
 GR_ADD_TEST(qa_detect_SO_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_detect_SO_py_cc.py)
 GR_ADD_TEST(qa_cell_demapping_py_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cell_demapping_py_cc.py)
+GR_ADD_TEST(qa_qam_demod ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_qam_demod.py)

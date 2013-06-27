@@ -119,6 +119,7 @@ class cell_demapping_py_cc(gr.basic_block):
         return cell_grid
     
     def extract_channels(self, sym):
+        print "cell_demapping: extracting QAM cells"
         for i in range(self.channel_pos.shape[0]):
             if self.channel_pos[i][self.sym_ctr] == self.flag_msc:
                 self.msc_cells.append(sym[self.nfft/2+self.k_min+i])

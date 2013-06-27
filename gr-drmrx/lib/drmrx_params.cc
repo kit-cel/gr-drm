@@ -23,7 +23,7 @@ drmrx_params::drmrx_params()
     d_SO_5 = 5;
     d_SO_NONE = 6;
 
-    /* OFDM parameters */
+    /************ OFDM parameters **********************/
 
     // number of symbols per frame (NOT superframe) depending on RM
     int nsym_frame[5] = {15, 15, 20, 24, 40};

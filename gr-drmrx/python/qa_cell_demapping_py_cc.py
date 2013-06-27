@@ -35,7 +35,7 @@ class qa_cell_demapping_py_cc (gr_unittest.TestCase):
         self.snk_msc = gr.vector_sink_c()
         self.snk_sdc = gr.vector_sink_c()
         self.snk_fac = gr.vector_sink_c()
-        self.debug_plot(self.cell_demapper.channel_pos)
+        #self.debug_plot(self.cell_demapper.channel_pos)
         
 
     def tearDown (self):

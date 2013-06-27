@@ -21,5 +21,6 @@ install(FILES
     drmrx_freq_sync_py.xml
     drmrx_frame_sync_py_cc.xml
     drmrx_detect_SO_py_cc.xml
-    drmrx_cell_demapping_py_cc.xml DESTINATION share/gnuradio/grc/blocks
+    drmrx_cell_demapping_py_cc.xml
+    drmrx_qam_demod.xml DESTINATION share/gnuradio/grc/blocks
 )
