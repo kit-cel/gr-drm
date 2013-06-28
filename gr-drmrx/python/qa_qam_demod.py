@@ -28,26 +28,46 @@ class qa_qam_demod (gr_unittest.TestCase):
     def setUp (self):
         self.tb = gr.top_block ()
         self.rx = drmrx_swig.drmrx_conf()
-        self.src = blocks.null_source(gr.sizeof_gr_complex)
+        self.rx.set_sdc_const_size(16)
+        self.rx.set_msc_const_size(64)
+        test_vec = [1+1j, 1-1j, -1+1j, -1-1j]
+        self.src_fac = blocks.vector_source_c([x/pl.sqrt(2) for x in test_vec])
+        self.src_sdc = blocks.vector_source_c([x/pl.sqrt(10) for x in test_vec])
+        self.src_msc = blocks.vector_source_c([x/pl.sqrt(42) for x in test_vec])
         self.head = blocks.head(gr.sizeof_gr_complex, 100)
-        self.snk = blocks.null_sink(gr.sizeof_char)
-        self.qamdemod = qam_demod(self.rx, "FAC")
+        self.snk_fac = blocks.vector_sink_b()
+        self.snk_sdc = blocks.vector_sink_b()
+        self.snk_msc = blocks.vector_sink_b()
+        self.qamdemod_fac = qam_demod(self.rx, "FAC")
+        self.qamdemod_sdc = qam_demod(self.rx, "SDC")
+        self.qamdemod_msc = qam_demod(self.rx, "MSC")
 
     def tearDown (self):
         self.tb = None
-        
-    def debug_plot(self):
-        print "constellation:",self.qamdemod.constellation
 
-    def test_001_t (self):
+    def test_001_t (self): # FAC
+        print "test 4 QAM"
         # set up fg
-        self.tb.connect(self.src, self.head)
-        self.tb.connect(self.head, self.qamdemod)
-        self.tb.connect(self.qamdemod, self.snk)
+        self.tb.connect(self.src_fac, self.head, self.qamdemod_fac, self.snk_fac)
         self.tb.run ()
         # check data
-        self.debug_plot()
-
-
+        print self.snk_fac.data()
+        
+    def test_002_t (self): # SDC
+        print "test 16 QAM"
+        # set up fg
+        self.tb.connect(self.src_sdc, self.head, self.qamdemod_sdc, self.snk_sdc)
+        self.tb.run ()
+        # check data
+        print self.snk_sdc.data()
+        
+    def test_003_t (self): # MSC
+        print "test 64 QAM"
+        # set up fg
+        self.tb.connect(self.src_msc, self.head, self.qamdemod_msc, self.snk_msc)
+        self.tb.run ()
+        # check data
+        print self.snk_msc.data()
+        
 if __name__ == '__main__':
     gr_unittest.run(qa_qam_demod)
