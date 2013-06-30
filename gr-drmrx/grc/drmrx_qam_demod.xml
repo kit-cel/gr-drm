@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <block>
-  <name>qam_demod</name>
+  <name>QAM demod</name>
   <key>drmrx_qam_demod</key>
   <category>drmrx</category>
   <import>import drmrx</import>

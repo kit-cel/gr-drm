@@ -24,12 +24,13 @@ from gnuradio import gr
 class qam_demod(gr.basic_block):
     """
     docstring for block qam_demod
+    TODO: correct assignment of the indexes to bit sequences. make lookup tables for I and Q.
     """
     def __init__(self, rx, channel_type):
         gr.basic_block.__init__(self,
             name="qam_demod",
             in_sig=[np.complex64],
-            out_sig=[bool])
+            out_sig=[np.uint8])
             
         self.rx = rx
         self.p = rx.p()
@@ -43,6 +44,8 @@ class qam_demod(gr.basic_block):
         self.bits_per_symbol = 0 # log2(M)
         self.msb_factor = 0 # factor to scale MSB index with 
         self.bin_format = '' # needed for dec2bin conversion
+        self.bit_assignment = 0 # connection between decimal indexes and actual bit sequences
+        self.set_output_multiple(6) # set minimum output buffer size (bits, 6==log2(64))
         
     def set_const_params(self):
         if self.channel_type == "MSC":
@@ -82,21 +85,22 @@ class qam_demod(gr.basic_block):
             # decide for I and Q independently    
             for i in range(self.nrows-1): # real part, MSBs             
                 if vec_in[n].real < (-(self.nrows-2) + 2*i)*self.a:
-                    print "I:",vec_in[n].real, "<", (-(self.nrows-2) + 2*i)*self.a
+#                    print "I:",vec_in[n].real, "<", (-(self.nrows-2) + 2*i)*self.a
                     i_I = i
                     break            
             for i in range(self.nrows-1): # imaginary part, LSBs
                 if vec_in[n].imag < (-(self.nrows-2) + 2*i)*self.a:
-                    print "Q:",vec_in[n].imag, "<", (-(self.nrows-2) + 2*i)*self.a 
+#                    print "Q:",vec_in[n].imag, "<", (-(self.nrows-2) + 2*i)*self.a 
                     i_Q = i
                     break           
             self.decided_dec[n] += self.msb_factor*i_I + i_Q # decimal index of constellation point
             print vec_in[n], "was decoded to", i_I, i_Q   
 
     def dec2bin(self):
-                out_vec = np.zeros((len(self.decided_dec)*self.bits_per_symbol,))
+                out_vec = np.zeros((len(self.decided_dec)*self.bits_per_symbol,), dtype=np.uint8)
                 for i in range(len(self.decided_dec)):
-                    out_vec[i*self.bits_per_symbol:(i+1)*self.bits_per_symbol] = list(self.bin_format.format(self.decided_dec[i]))
+                    out_vec[i*self.bits_per_symbol:(i+1)*self.bits_per_symbol] = self.bit_assignment[self.decided_dec[i])]#list(self.bin_format.format(self.decided_dec[i]))
+                print out_vec
                 return out_vec
                 
     def forecast(self, noutput_items, ninput_items_required):
@@ -116,15 +120,15 @@ class qam_demod(gr.basic_block):
                 self.set_relative_rate(self.bits_per_symbol)
             else:
                 print "qam_demod: wait for valid constellation size for", self.channel_type, ". return"
-                self.consume_each(0)
                 return 0
         
         sym_in = len(in0)
+#        print "len(in0)", len(in0), "len(out)", len(out)
         bits_out = len(out)
         max_sym_proc = min(sym_in, int(float(bits_out)/self.bits_per_symbol))
         
-        if bits_out < self.bits_per_symbol:        
-            print "qam_demod: output buffer shorter than bits_per_symbol!"
+#        if bits_out < self.bits_per_symbol:        
+#            print "qam_demod: output buffer shorter than bits_per_symbol!"
         
         self.make_decision(in0, max_sym_proc)
         out[:max_sym_proc*self.bits_per_symbol] = self.dec2bin()
