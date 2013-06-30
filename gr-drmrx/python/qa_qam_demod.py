@@ -30,10 +30,13 @@ class qa_qam_demod (gr_unittest.TestCase):
         self.rx = drmrx_swig.drmrx_conf()
         self.rx.set_sdc_const_size(16)
         self.rx.set_msc_const_size(64)
-        test_vec = [1+1j, 1-1j, -1+1j, -1-1j]
-        self.src_fac = blocks.vector_source_c([x/pl.sqrt(2) for x in test_vec])
-        self.src_sdc = blocks.vector_source_c([x/pl.sqrt(10) for x in test_vec])
-        self.src_msc = blocks.vector_source_c([x/pl.sqrt(42) for x in test_vec])
+        test_vec4 = [1+1j, 1-1j, -1+1j, -1-1j]
+        self.ref_vec4 = [0,0, 0,1, 1,0, 1,1]
+        test_vec16 = [1+1j, 1-1j, -1+1j, -1-1j, 3+3j, -3 -3j, 1+3j]
+        test_vec64 = [1+1j, 1-1j, -1+1j, -1-1j, 3+3j, -3 -3j, 1+3j, 5 + 7j, 7-7j, 7+7j]
+        self.src_fac = blocks.vector_source_c([x/pl.sqrt(2) for x in test_vec4])
+        self.src_sdc = blocks.vector_source_c([x/pl.sqrt(10) for x in test_vec16])
+        self.src_msc = blocks.vector_source_c([x/pl.sqrt(42) for x in test_vec64])      
         self.head = blocks.head(gr.sizeof_gr_complex, 100)
         self.snk_fac = blocks.vector_sink_b()
         self.snk_sdc = blocks.vector_sink_b()
@@ -52,6 +55,8 @@ class qa_qam_demod (gr_unittest.TestCase):
         self.tb.run ()
         # check data
         print self.snk_fac.data()
+        self.assertEqual(self.ref_vec4, self.snk_fac.data())
+        #print self.snk_fac.data()
         
     def test_002_t (self): # SDC
         print "test 16 QAM"
@@ -59,7 +64,7 @@ class qa_qam_demod (gr_unittest.TestCase):
         self.tb.connect(self.src_sdc, self.head, self.qamdemod_sdc, self.snk_sdc)
         self.tb.run ()
         # check data
-        print self.snk_sdc.data()
+        #print self.snk_sdc.data()
         
     def test_003_t (self): # MSC
         print "test 64 QAM"
@@ -67,7 +72,7 @@ class qa_qam_demod (gr_unittest.TestCase):
         self.tb.connect(self.src_msc, self.head, self.qamdemod_msc, self.snk_msc)
         self.tb.run ()
         # check data
-        print self.snk_msc.data()
+        #print self.snk_msc.data()
         
 if __name__ == '__main__':
     gr_unittest.run(qa_qam_demod)
