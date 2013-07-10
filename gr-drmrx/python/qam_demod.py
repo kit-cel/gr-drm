@@ -24,7 +24,6 @@ from gnuradio import gr
 class qam_demod(gr.basic_block):
     """
     docstring for block qam_demod
-    TODO: correct assignment of the indexes to bit sequences. make lookup tables for I and Q.
     """
     def __init__(self, rx, channel_type):
         gr.basic_block.__init__(self,
@@ -58,7 +57,7 @@ class qam_demod(gr.basic_block):
             print "no DRM channel specified. const_size defaults to 0."
         
         self.bits_per_symbol = int(round(np.log(self.const_size)/np.log(2))) 
-        self.msb_factor = int(round(np.log(self.const_size)/np.log(2)/2))
+        self.msb_factor = int(round(np.sqrt(self.const_size)))
         self.bin_format = '{0:0'+str(self.bits_per_symbol)+'b}'
         
         # set bit assignments
@@ -180,23 +179,26 @@ class qam_demod(gr.basic_block):
             i_I, i_Q = self.nrows-1, self.nrows-1
             # decide for I and Q independently    
             for i in range(self.nrows-1): # real part, MSBs             
-                if vec_in[n].real < (-(self.nrows-2) + 2*i)*self.a:
-#                    print "I:",vec_in[n].real, "<", (-(self.nrows-2) + 2*i)*self.a
+                if vec_in[n].real > (self.nrows-2 - 2*i)*self.a:
+#                    print "I:",vec_in[n].real, ">", (self.nrows-2 - 2*i)*self.a
+#                    print "I is set to", i
                     i_I = i
-                    break            
+                    break
+                             
             for i in range(self.nrows-1): # imaginary part, LSBs
-                if vec_in[n].imag < (-(self.nrows-2) + 2*i)*self.a:
+                if vec_in[n].imag > (self.nrows-2 - 2*i)*self.a:
 #                    print "Q:",vec_in[n].imag, "<", (-(self.nrows-2) + 2*i)*self.a 
+#                    print "Q is set to", i
                     i_Q = i
-                    break           
+                    break
+      
             self.decided_dec[n] += self.msb_factor*i_I + i_Q # decimal index of constellation point
-            print vec_in[n], "was decoded to", i_I, i_Q   
+#            print vec_in[n], "was decoded to", i_I, i_Q, "with decimal index", self.decided_dec[n]   
 
     def dec2bin(self):
         out_vec = np.zeros((len(self.decided_dec)*self.bits_per_symbol,), dtype=np.uint8)
         for i in range(len(self.decided_dec)):
             out_vec[i*self.bits_per_symbol:(i+1)*self.bits_per_symbol] = self.bit_assignment[self.decided_dec[i]]
-        print out_vec
         return out_vec
                 
     def calc_max_sym_proc(self, in0, out):
@@ -233,6 +235,7 @@ class qam_demod(gr.basic_block):
         
         self.make_decision(in0, max_sym_proc)
         out[:max_sym_proc*self.bits_per_symbol] = self.dec2bin()
+#        print "work returned", out[:max_sym_proc*self.bits_per_symbol]
             
         self.consume_each(max_sym_proc)
         #print "consume", max_sym_proc, "symbols and return", max_sym_proc*self.bits_per_symbol, "bits"
