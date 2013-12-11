@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_GENERATE_FAC_VB_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 #include "drm_transm_params.h"
 #include "drm_util.h"
 
@@ -36,7 +36,7 @@ DRM_API drm_generate_fac_vb_sptr drm_make_generate_fac_vb (transm_params* tp);
  * \brief Generates the Fast Access Channel (FAC) data
  *
  */
-class DRM_API drm_generate_fac_vb : public gr_sync_block
+class DRM_API drm_generate_fac_vb : public gr::sync_block
 {
 	transm_params* d_tp;
 	unsigned short d_tf_ctr; // transmission frame counter

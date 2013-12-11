@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_CELL_INTERLEAVER_VCVC_H
 
 #include <drm_api.h>
-#include <gr_block.h>
+#include <gnuradio/block.h>
 #include <iostream>
 
 class drm_cell_interleaver_vcvc;
@@ -35,7 +35,7 @@ DRM_API drm_cell_interleaver_vcvc_sptr drm_make_cell_interleaver_vcvc (std::vect
  * \brief Performs cell interleaving. The long_interl flag determines if long interleaving is used.
  *
  */
-class DRM_API drm_cell_interleaver_vcvc : public gr_block
+class DRM_API drm_cell_interleaver_vcvc : public gr::block
 {
 	friend DRM_API drm_cell_interleaver_vcvc_sptr drm_make_cell_interleaver_vcvc (std::vector<int> interl_seq, bool long_interl, int depth);
 
@@ -44,7 +44,7 @@ class DRM_API drm_cell_interleaver_vcvc : public gr_block
 	std::vector<int> d_seq;
 	bool d_long_interl;
 	int d_depth;
-	std::vector< std::vector<gr_complex> > d_buffer;
+	std::vector< std::vector< gr_complex > > d_buffer;
 	std::vector< gr_complex > d_tmp_buffer;
 
  public:

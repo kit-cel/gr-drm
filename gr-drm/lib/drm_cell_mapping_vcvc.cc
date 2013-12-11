@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_cell_mapping_vcvc.h>
 
 
@@ -35,9 +35,9 @@ drm_make_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes)
 
 
 drm_cell_mapping_vcvc::drm_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes)
-	: gr_sync_interpolator ("cell_mapping_vcvc",
-		gr_make_io_signaturev (3, 3, input_sizes),
-		gr_make_io_signature (1, 1, sizeof (gr_complex) * tp->ofdm().nfft()), tp->ofdm().N_S() * tp->ofdm().M_TF() )
+	: gr::sync_interpolator ("cell_mapping_vcvc",
+		gr::io_signature::makev (3, 3, input_sizes),
+		gr::io_signature::make (1, 1, sizeof (gr_complex) * tp->ofdm().nfft()), tp->ofdm().N_S() * tp->ofdm().M_TF() )
 {
 	d_tp = tp;
 	d_msc = tp->msc();

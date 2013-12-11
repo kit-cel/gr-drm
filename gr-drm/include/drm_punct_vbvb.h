@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_PUNCT_VBVB_H
 
 #include <drm_api.h>
-#include <gr_block.h>
+#include <gnuradio/block.h>
 
 class drm_punct_vbvb;
 typedef boost::shared_ptr<drm_punct_vbvb> drm_punct_vbvb_sptr;
@@ -34,7 +34,7 @@ DRM_API drm_punct_vbvb_sptr drm_make_punct_vbvb (std::vector<unsigned char> punc
  * \brief Punctures a vector of (unpacked) bytes according to punct_pat_x. For the last num_tailbits bits punct_pat_2 is used.
  *
  */
-class DRM_API drm_punct_vbvb : public gr_block
+class DRM_API drm_punct_vbvb : public gr::block
 {
 	friend DRM_API drm_punct_vbvb_sptr drm_make_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits);
 

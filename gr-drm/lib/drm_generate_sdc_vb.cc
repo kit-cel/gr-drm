@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_generate_sdc_vb.h>
 
 #include <iostream>
@@ -37,9 +37,9 @@ drm_make_generate_sdc_vb (transm_params* tp)
 
 
 drm_generate_sdc_vb::drm_generate_sdc_vb (transm_params* tp)
-	: gr_sync_block ("generate_sdc",
-		gr_make_io_signature (0, 0, 0),
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * tp->sdc().L() ))
+	: gr::sync_block ("generate_sdc",
+		gr::io_signature::make (0, 0, 0),
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * tp->sdc().L() ))
 {
 	d_tp = tp;
 }

@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_CELL_mapping_vcvc_H
 
 #include <drm_api.h>
-#include <gr_sync_interpolator.h>
+#include <gnuradio/sync_interpolator.h>
 #include <cmath>
 #include <complex>
 #include "drm_transm_params.h"
@@ -36,7 +36,7 @@ DRM_API drm_cell_mapping_vcvc_sptr drm_make_cell_mapping_vcvc (transm_params* tp
 /*!
  * \brief Performs mapping of MSC, SDC, FAC and pilot cells onto the OFDM super transmission frame.
  */
-class DRM_API drm_cell_mapping_vcvc : public gr_sync_interpolator
+class DRM_API drm_cell_mapping_vcvc : public gr::sync_interpolator
 {
 	friend DRM_API drm_cell_mapping_vcvc_sptr drm_make_cell_mapping_vcvc (transm_params* tp, std::vector< int > input_sizes);
 

@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_scrambler_vbvb_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 #include <iostream>
 
 class drm_scrambler_vbvb;
@@ -36,7 +36,7 @@ drm_make_scrambler_vbvb (unsigned int block_len);
  * \brief Scrambles the input sequence according to the following polynomial:
  * G(x) = x^9 + x^5 + 1. The scrambler gets reset after block_len samples.
  */
-class DRM_API drm_scrambler_vbvb : public gr_sync_block
+class DRM_API drm_scrambler_vbvb : public gr::sync_block
 {
 	unsigned int d_block_len;
 	

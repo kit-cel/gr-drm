@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_scrambler_vbvb.h>
 
 
@@ -39,9 +39,9 @@ const short MIN_OUT = 1;
 const short MAX_OUT = 1;
 
 drm_scrambler_vbvb::drm_scrambler_vbvb (unsigned int block_len)
-	: gr_sync_block ("scrambler_vbvb",
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len),
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len)),
+	: gr::sync_block ("scrambler_vbvb",
+		gr::io_signature::make (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len),
+		gr::io_signature::make (MIN_IN, MAX_IN, sizeof (unsigned char) * block_len)),
 	d_block_len(block_len)
 {
 	d_block_len = block_len;

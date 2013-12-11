@@ -26,7 +26,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_audio_encoder_svb.h>
 #include <fstream>
 
@@ -43,9 +43,9 @@ const short MIN_OUT = 1; // only mono output
 const short MAX_OUT = 1;
 
 drm_audio_encoder_svb::drm_audio_encoder_svb (transm_params* tp)
-	: gr_block ("audio_encoder_svb",
-		gr_make_io_signature (MIN_IN, MAX_IN, sizeof (float)),
-		gr_make_io_signature (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
+	: gr::block ("audio_encoder_svb",
+		gr::io_signature::make (MIN_IN, MAX_IN, sizeof (float)),
+		gr::io_signature::make (MIN_OUT, MAX_OUT, sizeof (unsigned char) * tp->msc().L_MUX()))
 {
 	// set buffer pointers to NULL
 	d_in = NULL;

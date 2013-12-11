@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_partitioning_vbvb.h>
 
 
@@ -35,9 +35,9 @@ drm_make_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out)
 
 
 drm_partitioning_vbvb::drm_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out)
-	: gr_sync_block ("partitioning_vbvb",
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_in),
-		gr_make_io_signaturev (vlen_out.size(), vlen_out.size(), vlen_out))
+	: gr::sync_block ("partitioning_vbvb",
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * vlen_in),
+		gr::io_signature::makev (vlen_out.size(), vlen_out.size(), vlen_out))
 {
 	d_n_out = vlen_out.size();
 	d_vlen_out = vlen_out;

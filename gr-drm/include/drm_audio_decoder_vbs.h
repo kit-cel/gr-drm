@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_AUDIO_DECODER_VBS_H
 
 #include <drm_api.h>
-#include <gr_block.h>
+#include <gnuradio/block.h>
 #include "drm_transm_params.h"
 #include "drm_util.h"
 #include "neaacdec.h"
@@ -37,7 +37,7 @@ DRM_API drm_audio_decoder_vbs_sptr drm_make_audio_decoder_vbs (transm_params* tp
  * \brief Decodes MPEG4 AAC LC encoded data, outputs a stream of shorts (raw PCM).
  *
  */
-class DRM_API drm_audio_decoder_vbs : public gr_block
+class DRM_API drm_audio_decoder_vbs : public gr::block
 {
 	friend DRM_API drm_audio_decoder_vbs_sptr drm_make_audio_decoder_vbs (transm_params* tp);
 

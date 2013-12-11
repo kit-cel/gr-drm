@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_ADD_TAILBITS_VBVB_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 
 class drm_add_tailbits_vbvb;
 typedef boost::shared_ptr<drm_add_tailbits_vbvb> drm_add_tailbits_vbvb_sptr;
@@ -34,7 +34,7 @@ DRM_API drm_add_tailbits_vbvb_sptr drm_make_add_tailbits_vbvb (int vlen_in, int 
  * \brief Adds n_tailbits zeros to a vector of lenght vlen_in
  *
  */
-class DRM_API drm_add_tailbits_vbvb : public gr_sync_block
+class DRM_API drm_add_tailbits_vbvb : public gr::sync_block
 {
 	friend DRM_API drm_add_tailbits_vbvb_sptr drm_make_add_tailbits_vbvb (int vlen_in, int n_tailbits);
 

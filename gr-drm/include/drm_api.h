@@ -22,7 +22,7 @@
 #ifndef INCLUDED_DRM_API_H
 #define INCLUDED_DRM_API_H
 
-#include <gruel/attributes.h>
+#include <gnuradio/attributes.h>
 
 #ifdef gnuradio_drm_EXPORTS
 #  define DRM_API __GR_ATTR_EXPORT

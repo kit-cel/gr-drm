@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_generate_fac_vb.h>
 
 
@@ -35,9 +35,9 @@ drm_make_generate_fac_vb (transm_params* tp)
 
 
 drm_generate_fac_vb::drm_generate_fac_vb (transm_params* tp)
-	: gr_sync_block ("generate_fac_vb",
-		gr_make_io_signature (0, 0, 0),
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * tp->fac().L() ))
+	: gr::sync_block ("generate_fac_vb",
+		gr::io_signature::make (0, 0, 0),
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * tp->fac().L() ))
 {
 	d_tp = tp;
 	d_tf_ctr = 0;

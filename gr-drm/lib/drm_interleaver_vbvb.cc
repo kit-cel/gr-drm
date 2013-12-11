@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_interleaver_vbvb.h>
 
 
@@ -35,9 +35,9 @@ drm_make_interleaver_vbvb (std::vector<int> interl_seq)
 
 
 drm_interleaver_vbvb::drm_interleaver_vbvb (std::vector<int> interl_seq)
-	: gr_sync_block ("interleaver_vbvb",
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * interl_seq.size() ),
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * interl_seq.size() ))
+	: gr::sync_block ("interleaver_vbvb",
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * interl_seq.size() ),
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * interl_seq.size() ))
 {
 	d_seq = interl_seq;
 	d_seqsize = interl_seq.size();

@@ -45,7 +45,7 @@ GR_SWIG_BLOCK_MAGIC(drm,audio_encoder_svb);
 
 drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp);
   
-class drm_audio_encoder_svb : public gr_block
+class drm_audio_encoder_svb : public gr::block
 {
 private:
     drm_audio_encoder_svb (transm_params* tp);

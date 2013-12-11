@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_qam_map_vbvc.h>
 
 
@@ -35,9 +35,9 @@ drm_make_qam_map_vbvc (const float map_table[][2], int bits_per_symbol, int vlen
 
 
 drm_qam_map_vbvc::drm_qam_map_vbvc (const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
-	: gr_sync_block ("qam_map_vbvc",
-		gr_make_io_signature (n_inputs, n_inputs, sizeof (unsigned char) * vlen_out * 2 ),
-		gr_make_io_signature (1, 1, sizeof (gr_complex) * vlen_out ))
+	: gr::sync_block ("qam_map_vbvc",
+		gr::io_signature::make (n_inputs, n_inputs, sizeof (unsigned char) * vlen_out * 2 ),
+		gr::io_signature::make (1, 1, sizeof (gr_complex) * vlen_out ))
 {
 	// set values for d_map_table
 	memset(d_map_table, 0, 16); // set d_map_table to zero

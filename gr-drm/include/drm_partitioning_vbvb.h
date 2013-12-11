@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_PARTITIONING_VBVB_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 
 class drm_partitioning_vbvb;
 typedef boost::shared_ptr<drm_partitioning_vbvb> drm_partitioning_vbvb_sptr;
@@ -34,7 +34,7 @@ DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen
  * \brief Performs departitioning (demultiplexing) of the input vector
  * At the moment, only EEP is supported.
  */
-class DRM_API drm_partitioning_vbvb : public gr_sync_block
+class DRM_API drm_partitioning_vbvb : public gr::sync_block
 {
 	friend DRM_API drm_partitioning_vbvb_sptr drm_make_partitioning_vbvb (unsigned int vlen_in, std::vector<int> vlen_out);
 

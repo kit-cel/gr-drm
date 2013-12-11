@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_cell_interleaver_vcvc.h>
 
 
@@ -35,9 +35,9 @@ drm_make_cell_interleaver_vcvc (std::vector<int> interl_seq, bool long_interl, i
 
 
 drm_cell_interleaver_vcvc::drm_cell_interleaver_vcvc (std::vector<int> interl_seq, bool long_interl, int depth)
-	: gr_block ("cell_interleaver_vcvc",
-		gr_make_io_signature (1, 1, sizeof (gr_complex) * interl_seq.size()),
-		gr_make_io_signature (1, 1, sizeof (gr_complex) * interl_seq.size()))
+	: gr::block ("cell_interleaver_vcvc",
+		gr::io_signature::make (1, 1, sizeof (gr_complex) * interl_seq.size()),
+		gr::io_signature::make (1, 1, sizeof (gr_complex) * interl_seq.size()))
 {
 	d_seq = interl_seq;
 	d_long_interl = long_interl;

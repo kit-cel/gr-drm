@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_INTERLEAVER_VBVB_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 
 class drm_interleaver_vbvb;
 typedef boost::shared_ptr<drm_interleaver_vbvb> drm_interleaver_vbvb_sptr;
@@ -34,7 +34,7 @@ DRM_API drm_interleaver_vbvb_sptr drm_make_interleaver_vbvb (std::vector<int> in
  * \brief Interleaves a sequence of the same length as the interleaver sequence as specified in the sequence (representing the interleaved indexes)
  *
  */
-class DRM_API drm_interleaver_vbvb : public gr_sync_block
+class DRM_API drm_interleaver_vbvb : public gr::sync_block
 {
 	friend DRM_API drm_interleaver_vbvb_sptr drm_make_interleaver_vbvb (std::vector<int> interl_seq);
 

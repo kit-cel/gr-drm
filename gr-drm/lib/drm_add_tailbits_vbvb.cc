@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_add_tailbits_vbvb.h>
 
 
@@ -35,9 +35,9 @@ drm_make_add_tailbits_vbvb (int vlen_in, int n_tailbits)
 
 
 drm_add_tailbits_vbvb::drm_add_tailbits_vbvb (int vlen_in, int n_tailbits)
-	: gr_sync_block ("add_tailbits_vbvb",
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_in),
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * (vlen_in + n_tailbits)))
+	: gr::sync_block ("add_tailbits_vbvb",
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * vlen_in),
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * (vlen_in + n_tailbits)))
 {
 	d_vlen = vlen_in;
 	d_n_tail = n_tailbits;

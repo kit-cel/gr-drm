@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_audio_decoder_vbs.h>
 #include <fstream>
 
@@ -36,9 +36,9 @@ drm_make_audio_decoder_vbs (transm_params* tp)
 
 
 drm_audio_decoder_vbs::drm_audio_decoder_vbs (transm_params* tp)
-	: gr_block ("audio_decoder_vbs",
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * tp->msc().L_MUX() ),
-		gr_make_io_signature (1, 1, sizeof (gr_int16)))
+	: gr::block ("audio_decoder_vbs",
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * tp->msc().L_MUX() ),
+		gr::io_signature::make (1, 1, sizeof (gr_int16)))
 {
 	d_tp = tp;
 	d_in = (unsigned char*) 0x1;

@@ -23,7 +23,7 @@
 #define INCLUDED_drm_generate_sdc_vb_H
 
 #include <drm_api.h>
-#include <gr_sync_block.h>
+#include <gnuradio/sync_block.h>
 #include <cmath>
 #include "drm_transm_params.h"
 #include "drm_util.h"
@@ -38,7 +38,7 @@ drm_make_generate_sdc_vb (transm_params* tp);
  * \brief Generates the Service Description Channel (SDC) data.
  *
  */
-class DRM_API drm_generate_sdc_vb : public gr_sync_block
+class DRM_API drm_generate_sdc_vb : public gr::sync_block
 {
 	transm_params* d_tp;
 	

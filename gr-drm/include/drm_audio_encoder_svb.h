@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_AUDIO_ENCODER_SVB_H
 
 #include <drm_api.h>
-#include <gr_block.h>
+#include <gnuradio/block.h>
 #include "drm_transm_params.h"
 #include "drm_util.h"
 #include <faac.h>
@@ -39,7 +39,7 @@ DRM_API drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp
  * \brief Audio source encoder using FAAC to produce AAC stream (LC, mono)
  * Input: PCM stream (float), output: bit vector (unpacked, unsigned chars)
  */
-class DRM_API drm_audio_encoder_svb : public gr_block
+class DRM_API drm_audio_encoder_svb : public gr::block
 {
 	friend DRM_API drm_audio_encoder_svb_sptr drm_make_audio_encoder_svb (transm_params* tp);
 

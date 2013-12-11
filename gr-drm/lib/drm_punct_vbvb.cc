@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include <gr_io_signature.h>
+#include <gnuradio/io_signature.h>
 #include <drm_punct_vbvb.h>
 #include <iostream>
 
@@ -36,9 +36,9 @@ drm_make_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigne
 
 
 drm_punct_vbvb::drm_punct_vbvb (std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
-	: gr_block ("punct_vbvb",
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_in),
-		gr_make_io_signature (1, 1, sizeof (unsigned char) * vlen_out))
+	: gr::block ("punct_vbvb",
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * vlen_in),
+		gr::io_signature::make (1, 1, sizeof (unsigned char) * vlen_out))
 {
 	d_vlen_in = vlen_in;
 	d_vlen_out = vlen_out;
