@@ -92,10 +92,10 @@
     </param>
   </block>
   <block>
-    <key>gr_multiply_const_vxx</key>
+    <key>blocks_multiply_const_vxx</key>
     <param>
       <key>id</key>
-      <value>gr_multiply_const_vxx_1</value>
+      <value>blocks_multiply_const_vxx_1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -219,10 +219,10 @@
     </param>
   </block>
   <block>
-    <key>gr_fft_vxx</key>
+    <key>fft_vxx</key>
     <param>
       <key>id</key>
-      <value>gr_fft_vxx_0</value>
+      <value>fft_vxx_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -285,10 +285,10 @@
     </param>
   </block>
   <block>
-    <key>gr_multiply_const_vxx</key>
+    <key>blocks_multiply_const_vxx</key>
     <param>
       <key>id</key>
-      <value>gr_multiply_const_vxx_0_0</value>
+      <value>blocks_multiply_const_vxx_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -527,10 +527,10 @@
     </param>
   </block>
   <block>
-    <key>gr_stream_to_vector</key>
+    <key>blocks_stream_to_vector</key>
     <param>
       <key>id</key>
-      <value>gr_stream_to_vector_0</value>
+      <value>blocks_stream_to_vector_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -558,10 +558,10 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_source</key>
+    <key>blocks_wavfile_source</key>
     <param>
       <key>id</key>
-      <value>gr_wavfile_source_0_0</value>
+      <value>blocks_wavfile_source_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -589,10 +589,10 @@
     </param>
   </block>
   <block>
-    <key>blks2_rational_resampler_xxx</key>
+    <key>rational_resampler_xxx</key>
     <param>
       <key>id</key>
-      <value>blks2_rational_resampler_xxx_0</value>
+      <value>rational_resampler_xxx_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -628,10 +628,10 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_sink</key>
+    <key>blocks_wavfile_sink</key>
     <param>
       <key>id</key>
-      <value>gr_wavfile_sink_0</value>
+      <value>blocks_wavfile_sink_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -663,10 +663,10 @@
     </param>
   </block>
   <block>
-    <key>gr_complex_to_real</key>
+    <key>blocks_complex_to_real</key>
     <param>
       <key>id</key>
-      <value>gr_complex_to_real_0</value>
+      <value>blocks_complex_to_real_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -686,10 +686,10 @@
     </param>
   </block>
   <block>
-    <key>gr_multiply_xx</key>
+    <key>blocks_multiply_xx</key>
     <param>
       <key>id</key>
-      <value>gr_multiply_xx_0</value>
+      <value>blocks_multiply_xx_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -717,10 +717,10 @@
     </param>
   </block>
   <block>
-    <key>gr_sig_source_x</key>
+    <key>analog_sig_source_x</key>
     <param>
       <key>id</key>
-      <value>gr_sig_source_x_0</value>
+      <value>analog_sig_source_x_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -955,10 +955,10 @@
     </param>
   </block>
   <block>
-    <key>gr_stream_to_vector</key>
+    <key>blocks_stream_to_vector</key>
     <param>
       <key>id</key>
-      <value>gr_stream_to_vector_1</value>
+      <value>blocks_stream_to_vector_1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1136,10 +1136,10 @@
     </param>
   </block>
   <block>
-    <key>gr_wavfile_source</key>
+    <key>blocks_wavfile_source</key>
     <param>
       <key>id</key>
-      <value>gr_wavfile_source_0</value>
+      <value>blocks_wavfile_source_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1831,7 +1831,7 @@
   </block>
   <connection>
     <source_block_id>drm_cell_interleaver_vcvc_0</source_block_id>
-    <sink_block_id>gr_stream_to_vector_0</sink_block_id>
+    <sink_block_id>blocks_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1848,56 +1848,56 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_complex_to_real_0</source_block_id>
-    <sink_block_id>gr_wavfile_sink_0</sink_block_id>
+    <source_block_id>blocks_complex_to_real_0</source_block_id>
+    <sink_block_id>blocks_wavfile_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_multiply_xx_0</source_block_id>
-    <sink_block_id>gr_complex_to_real_0</sink_block_id>
+    <source_block_id>blocks_multiply_xx_0</source_block_id>
+    <sink_block_id>blocks_complex_to_real_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_wavfile_source_0_0</source_block_id>
-    <sink_block_id>gr_multiply_const_vxx_0_0</sink_block_id>
+    <source_block_id>blocks_wavfile_source_0_0</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_multiply_const_vxx_0_0</source_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0_0</source_block_id>
     <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_wavfile_source_0</source_block_id>
-    <sink_block_id>gr_multiply_const_vxx_0_0</sink_block_id>
+    <source_block_id>blocks_wavfile_source_0</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_multiply_const_vxx_1</source_block_id>
-    <sink_block_id>blks2_rational_resampler_xxx_0</sink_block_id>
+    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
+    <sink_block_id>rational_resampler_xxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_multiply_const_vxx_1</source_block_id>
-    <sink_block_id>gr_multiply_xx_0</sink_block_id>
+    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
+    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>digital_ofdm_cyclic_prefixer_0</source_block_id>
-    <sink_block_id>gr_multiply_const_vxx_1</sink_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_sig_source_x_0</source_block_id>
-    <sink_block_id>gr_multiply_xx_0</sink_block_id>
+    <source_block_id>analog_sig_source_x_0</source_block_id>
+    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
@@ -1908,31 +1908,31 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blks2_rational_resampler_xxx_0</source_block_id>
+    <source_block_id>rational_resampler_xxx_0</source_block_id>
     <sink_block_id>uhd_usrp_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>cell_mapping_vcvc_0</source_block_id>
-    <sink_block_id>gr_fft_vxx_0</sink_block_id>
+    <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_fft_vxx_0</source_block_id>
+    <source_block_id>fft_vxx_0</source_block_id>
     <sink_block_id>digital_ofdm_cyclic_prefixer_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_stream_to_vector_1</source_block_id>
+    <source_block_id>blocks_stream_to_vector_1</source_block_id>
     <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_stream_to_vector_0</source_block_id>
+    <source_block_id>blocks_stream_to_vector_0</source_block_id>
     <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1969,7 +1969,7 @@
   </connection>
   <connection>
     <source_block_id>drm_mlc_4qam_vbvc_0_0</source_block_id>
-    <sink_block_id>gr_stream_to_vector_1</sink_block_id>
+    <sink_block_id>blocks_stream_to_vector_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
