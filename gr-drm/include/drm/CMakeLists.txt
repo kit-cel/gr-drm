@@ -29,7 +29,6 @@ install(FILES
     config.h
     params.h
     transm_params.h
-    transdes.h
     generate_sdc_vb.h
     generate_fac_vb.h 
 #   util.h
