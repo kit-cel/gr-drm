@@ -17,10 +17,27 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
+# Get drm_transm_params header files out of the lib/ directory.
+message(STATUS "Copying some header files from lib/ to include/")
+execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_global_constants.h ${PROJECT_SOURCE_DIR}/include/drm/drm_global_constants.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_tables.h ${PROJECT_SOURCE_DIR}/include/drm/drm_tables.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_config.h ${PROJECT_SOURCE_DIR}/include/drm/drm_config.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_params.h ${PROJECT_SOURCE_DIR}/include/drm/drm_params.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_transm_params.h ${PROJECT_SOURCE_DIR}/include/drm/drm_transm_params.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_util.h ${PROJECT_SOURCE_DIR}/include/drm/drm_util.h
+)
+
 ########################################################################
 # Install public header files
 ########################################################################
 install(FILES
-    api.h
-    scrambler_vbvb.h DESTINATION include/drm
+    api.h  
+    drm_global_constants.h
+    drm_tables.h
+    drm_config.h
+    drm_params.h
+    drm_transm_params.h
+    drm_util.h
+    scrambler_vbvb.h 
+    DESTINATION include/drm
 )
