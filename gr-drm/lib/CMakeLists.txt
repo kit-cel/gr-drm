@@ -19,16 +19,23 @@
 # Setup library
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
-add_library(gnuradio-drm SHARED 
-			drm_util.cc drm_transm_params.cc drm_params.cc drm_config.cc
-			drm_tables_mapping.cc drm_tables_params.cc 
-			drm_audio_encoder_svb.cc drm_scrambler_vbvb.cc 
-			drm_tables_mapping.cc drm_tables_params.cc drm_config.cc drm_util.cc
-			drm_params.cc drm_transm_params.cc drm_generate_sdc_vb.cc 
-			drm_generate_fac_vb.cc drm_partitioning_vbvb.cc drm_punct_vbvb.cc 
-			drm_add_tailbits_vbvb.cc drm_interleaver_vbvb.cc drm_qam_map_vbvc.cc 
-			drm_cell_mapping_vcvc.cc drm_audio_decoder_vbs.cc drm_cell_interleaver_vcvc.cc)
-target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${Faac_LIBRARIES} ${Faad_LIBRARIES})
+
+list(APPEND drm_sources 
+			config.cc params.cc
+			tables_mapping.cc tables_params.cc
+			transm_params.cc util.cc 
+			add_tailbits_vbvb_impl.cc 
+			audio_decoder_vbs_impl.cc audio_encoder_svb_impl.cc
+			cell_mapping_vcvc_impl.cc cell_interleaver_vcvc_impl.cc
+			generate_sdc_vb_impl.cc generate_fac_vb_impl.cc
+			interleaver_vbvb_impl.cc 
+			partitioning_vbvb_impl.cc punct_vbvb_impl.cc 
+			qam_map_vbvc_impl.cc
+			scrambler_vbvb_impl.cc		
+)
+
+add_library(gnuradio-drm SHARED ${drm_sources})
+target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES} ${Faad_LIBRARIES})
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 
 ########################################################################
@@ -43,13 +50,25 @@ install(TARGETS gnuradio-drm
 ########################################################################
 # Build and register unit test
 ########################################################################
-#find_package(Boost COMPONENTS unit_test_framework)
-
 #include(GrTest)
-#set(GR_TEST_TARGET_DEPS gnuradio-drm)
-#turn each test cpp file into an executable with an int main() function
-#add_definitions(-DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
 
-#add_executable(qa_drm_audio_encoder_svb qa_drm_audio_encoder_svb.cc)
-#target_link_libraries(qa_drm_audio_encoder_svb gnuradio-drm ${Boost_LIBRARIES})
-#GR_ADD_TEST(qa_drm_audio_encoder_svb qa_drm_audio_encoder_svb)
+#include_directories(${CPPUNIT_INCLUDE_DIRS})
+
+#list(APPEND test_drm_sources
+#    ${CMAKE_CURRENT_SOURCE_DIR}/test_drm.cc
+#    ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm.cc
+#    ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_audio_encoder_svb.cc
+#)
+
+#add_executable(test-drm ${test_drm_sources})
+
+#target_link_libraries(
+#  test-drm
+#  ${GNURADIO_RUNTIME_LIBRARIES}
+#  ${Boost_LIBRARIES}
+#  ${CPPUNIT_LIBRARIES}
+#  gnuradio-drm
+#)
+
+#GR_ADD_TEST(test_drm test-drm)
+

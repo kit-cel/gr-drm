@@ -1,4 +1,5 @@
-# Copyright 2011 Free Software Foundation, Inc.
+#
+# Copyright 2004 Free Software Foundation, Inc.
 #
 # This file is part of GNU Radio
 #
@@ -16,20 +17,36 @@
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-install(FILES
-    drm_audio_encoder_svb.xml
-    drm_scrambler_vbvb.xml
-    drm_generate_sdc_vb.xml
-    drm_generate_fac_vb.xml
-    drm_partitioning_4_vbvb.xml 
-    drm_partitioning_16_vbvb.xml 
-    drm_partitioning_64sm_vbvb.xml
-    drm_punct_vbvb.xml
-    drm_add_tailbits_vbvb.xml
-    drm_interleaver_vbvb.xml
-    drm_qam_map_vbvc.xml
-    drm_cell_mapping_vcvc.xml
-    drm_audio_decoder_vbs.xml
-    drm_cell_interleaver_vcvc.xml
-    DESTINATION share/gnuradio/grc/blocks
-)
+#
+
+def i_code (code3):
+    return code3[0]
+
+def o_code (code3):
+    if len (code3) >= 2:
+        return code3[1]
+    else:
+        return code3[0]
+
+def tap_code (code3):
+    if len (code3) >= 3:
+        return code3[2]
+    else:
+        return code3[0]
+
+def i_type (code3):
+    return char_to_type[i_code (code3)]
+
+def o_type (code3):
+    return char_to_type[o_code (code3)]
+
+def tap_type (code3):
+    return char_to_type[tap_code (code3)]
+
+
+char_to_type = {}
+char_to_type['s'] = 'short'
+char_to_type['i'] = 'int'
+char_to_type['f'] = 'float'
+char_to_type['c'] = 'gr_complex'
+char_to_type['b'] = 'unsigned char'

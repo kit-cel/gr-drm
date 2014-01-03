@@ -16,20 +16,29 @@
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
+
+########################################################################
+# Install public header files
+########################################################################
 install(FILES
-    drm_audio_encoder_svb.xml
-    drm_scrambler_vbvb.xml
-    drm_generate_sdc_vb.xml
-    drm_generate_fac_vb.xml
-    drm_partitioning_4_vbvb.xml 
-    drm_partitioning_16_vbvb.xml 
-    drm_partitioning_64sm_vbvb.xml
-    drm_punct_vbvb.xml
-    drm_add_tailbits_vbvb.xml
-    drm_interleaver_vbvb.xml
-    drm_qam_map_vbvc.xml
-    drm_cell_mapping_vcvc.xml
-    drm_audio_decoder_vbs.xml
-    drm_cell_interleaver_vcvc.xml
-    DESTINATION share/gnuradio/grc/blocks
+    api.h
+    audio_encoder_svb.h
+    scrambler_vbvb.h
+    global_constants.h
+    tables.h
+    config.h
+    params.h
+    transm_params.h
+    transdes.h
+    generate_sdc_vb.h
+    generate_fac_vb.h 
+#   util.h
+    partitioning_vbvb.h
+    punct_vbvb.h
+    add_tailbits_vbvb.h
+    interleaver_vbvb.h
+    qam_map_vbvc.h
+    cell_mapping_vcvc.h
+    audio_decoder_vbs.h
+    cell_interleaver_vcvc.h DESTINATION include/drm
 )
