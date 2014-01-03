@@ -38,6 +38,6 @@ install(FILES
     drm_params.h
     drm_transm_params.h
     drm_util.h
-    scrambler_vbvb.h 
-    DESTINATION include/drm
+    scrambler_vbvb.h
+    audio_encoder_svb.h DESTINATION include/drm
 )

@@ -5,7 +5,7 @@
   <import>import drm</import>
   <make>drm.scrambler_vbvb($block_len)</make>
   <param>
-    <name>Block_len</name>
+    <name>Block Length</name>
     <key>block_len</key>
     <type>raw</type>
   </param>

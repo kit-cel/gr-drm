@@ -33,10 +33,11 @@ list(APPEND drm_sources
 	  drm_tables_mapping.cc 
 	  drm_tables_params.cc
 	  scrambler_vbvb_impl.cc
+    audio_encoder_svb_impl.cc
 )
 
 add_library(gnuradio-drm SHARED ${drm_sources})
-target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES})
+target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES})
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 
 ########################################################################

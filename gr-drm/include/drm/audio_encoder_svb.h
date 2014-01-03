@@ -18,32 +18,44 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DRM_SCRAMBLER_VBVB_IMPL_H
-#define INCLUDED_DRM_SCRAMBLER_VBVB_IMPL_H
 
-#include <drm/scrambler_vbvb.h>
+#ifndef INCLUDED_DRM_AUDIO_ENCODER_SVB_H
+#define INCLUDED_DRM_AUDIO_ENCODER_SVB_H
+
+#include <drm/api.h>
+#include <gnuradio/block.h>
+#include "drm_transm_params.h"
+#include "drm_util.h"
+#include <faac.h>
+#include <iostream>
+#include <string>
 
 namespace gr {
   namespace drm {
 
-    class scrambler_vbvb_impl : public scrambler_vbvb
+    /*!
+     * \brief <+description of block+>
+     * \ingroup drm
+     *
+     */
+    class DRM_API audio_encoder_svb : virtual public gr::block
     {
-	private:
-		unsigned int d_block_len;
-		unsigned int block_len(){ return d_block_len; }
+     public:
+  		typedef boost::shared_ptr<audio_encoder_svb> sptr;
 
-	public:
-		scrambler_vbvb_impl(unsigned int block_len);
-		~scrambler_vbvb_impl();
-
-		// Where all the action really happens
-		int work(int noutput_items,
-		   gr_vector_const_void_star &input_items,
-		   gr_vector_void_star &output_items);
+		static sptr make(transm_params* tp);
+		/*!
+		* \brief Return a shared_ptr to a new instance of drm::audio_encoder_svb.
+		*
+		* To avoid accidental use of raw pointers, drm::audio_encoder_svb's
+		* constructor is in a private implementation
+		* class. drm::audio_encoder_svb::make is the public interface for
+		* creating new instances.
+		*/      	
     };
 
   } // namespace drm
 } // namespace gr
 
-#endif /* INCLUDED_DRM_SCRAMBLER_VBVB_IMPL_H */
+#endif /* INCLUDED_DRM_AUDIO_ENCODER_SVB_H */
 
