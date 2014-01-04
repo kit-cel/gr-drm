@@ -2,7 +2,7 @@
 
 #define DRM_API
 
-%include "gnuradio.i"			// the common stuff
+%include "runtime_swig.i"			// the common stuff
 
 //load generated python docstrings
 %include "drm_swig_doc.i"
