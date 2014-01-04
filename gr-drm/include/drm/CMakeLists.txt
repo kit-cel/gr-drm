@@ -42,5 +42,6 @@ install(FILES
     audio_encoder_svb.h
     generate_fac_vb.h
     generate_sdc_vb.h
-    add_tailbits_vbvb.h DESTINATION include/drm
+    add_tailbits_vbvb.h
+    punct_vbvb.h DESTINATION include/drm
 )

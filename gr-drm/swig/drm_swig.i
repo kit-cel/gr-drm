@@ -19,6 +19,7 @@
 #include "drm/generate_fac_vb.h"
 #include "drm/generate_sdc_vb.h"
 #include "drm/add_tailbits_vbvb.h"
+#include "drm/punct_vbvb.h"
 %}
 
 %include "drm_global_constants.h"
@@ -40,3 +41,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, generate_fac_vb);
 GR_SWIG_BLOCK_MAGIC2(drm, generate_sdc_vb);
 %include "drm/add_tailbits_vbvb.h"
 GR_SWIG_BLOCK_MAGIC2(drm, add_tailbits_vbvb);
+%include "drm/punct_vbvb.h"
+GR_SWIG_BLOCK_MAGIC2(drm, punct_vbvb);

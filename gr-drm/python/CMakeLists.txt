@@ -46,3 +46,4 @@ GR_ADD_TEST(qa_audio_encoder_svb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR
 GR_ADD_TEST(qa_generate_fac_vb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_generate_fac_vb.py)
 GR_ADD_TEST(qa_generate_sdc_vb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_generate_sdc_vb.py)
 GR_ADD_TEST(qa_add_tailbits_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_add_tailbits_vbvb.py)
+GR_ADD_TEST(qa_punct_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_punct_vbvb.py)
