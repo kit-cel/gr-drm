@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <block>
-  <name>partitioning_vbvb</name>
-  <key>drm_partitioning_vbvb</key>
-  <category>drm</category>
+  <name>DRM Partitioning 4-QAM EEP</name>
+  <key>drm_partitioning_4_vbvb</key>
+  <category>DRM</category>
   <import>import drm</import>
   <make>drm.partitioning_vbvb($vlen_in, $vlen_out)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
@@ -11,9 +11,19 @@
        * key (makes the value accessible as $keyname, e.g. in the make node)
        * type -->
   <param>
-    <name>...</name>
-    <key>...</key>
-    <type>...</type>
+    <name>Input vector length</name>
+    <key>vlen_in</key>
+    <type>int</type>
+  </param>
+  <param>
+    <name>Output vector lengths</name>
+    <key>vlen_out</key>
+    <type>raw</type>
+  </param>
+  <param>
+    <name>Length of output</name>
+    <key>vlen1</key>
+    <type>int</type>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -23,7 +33,8 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <type>byte</type>
+    <vlen>$vlen_in</vlen>
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -32,7 +43,8 @@
        * vlen
        * optional (set to 1 for optional inputs) -->
   <source>
-    <name>out</name>
-    <type><!-- e.g. int, float, complex, byte, short, xxx_vector, ...--></type>
+    <name>out1</name>
+    <type>byte</type>
+    <vlen>$vlen1</vlen>
   </source>
 </block>

@@ -25,5 +25,7 @@ install(FILES
     drm_punct_vbvb.xml
     drm_interleaver_vbvb.xml
     drm_interleaver_vcvc.xml
-    drm_partitioning_vbvb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_partitioning_4_vbvb.xml
+    drm_partitioning_16_vbvb.xml
+    drm_partitioning_64sm_vbvb.xml DESTINATION share/gnuradio/grc/blocks
 )

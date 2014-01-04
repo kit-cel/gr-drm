@@ -28,17 +28,18 @@ namespace gr {
 
     class partitioning_vbvb_impl : public partitioning_vbvb
     {
-     private:
-      // Nothing to declare in this block.
+    private:
+    	unsigned int d_n_out; // number of output ports
+		std::vector<int> d_vlen_out; // vector with output vector lengths
 
-     public:
-      partitioning_vbvb_impl(unsigned int vlen_in, std::vector<int> vlen_out);
-      ~partitioning_vbvb_impl();
+    public:
+		partitioning_vbvb_impl(unsigned int vlen_in, std::vector<int> vlen_out);
+		~partitioning_vbvb_impl();
 
-      // Where all the action really happens
-      int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
+      	// Where all the action really happens
+      	int work(int noutput_items,
+	       	gr_vector_const_void_star &input_items,
+	       	gr_vector_void_star &output_items);
     };
 
   } // namespace drm

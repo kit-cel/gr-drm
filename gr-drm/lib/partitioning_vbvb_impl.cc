@@ -40,9 +40,12 @@ namespace gr {
      */
     partitioning_vbvb_impl::partitioning_vbvb_impl(unsigned int vlen_in, std::vector<int> vlen_out)
       : gr::sync_block("partitioning_vbvb",
-              gr::io_signature::make(<+MIN_IN+>, <+MAX_IN+>, sizeof(<+ITYPE+>)),
-              gr::io_signature::make(<+MIN_OUT+>, <+MAX_OUT+>, sizeof(<+OTYPE+>)))
-    {}
+              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_in),
+              gr::io_signature::makev(vlen_out.size(), vlen_out.size(), vlen_out))
+	{
+		d_n_out = vlen_out.size();
+		d_vlen_out = vlen_out;
+	}
 
     /*
      * Our virtual destructor.
@@ -56,13 +59,27 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-        const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-        <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
+		unsigned char *in = (unsigned char *) input_items[0];
+		unsigned char *out[d_n_out];
+		for(int i = 0; i < d_n_out; i++)
+		{
+			out[i] = (unsigned char*) output_items[i];
+		}
 
-        // Do <+signal processing+>
+		// Divide input vector up
+		for(int n = 0; n < noutput_items; n++)
+		{
+			for (int j = 0; j < d_n_out; j++)
+			{
+				for (int k = 0; k < d_vlen_out[j]; k++)
+				{
+					*(out[j])++ = *in++; 
+				}
+			}
+		}
 
-        // Tell runtime system how many output items we produced.
-        return noutput_items;
+		// Tell runtime system how many output items we produced.
+		return noutput_items;
     }
 
   } /* namespace drm */

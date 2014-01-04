@@ -29,7 +29,8 @@ namespace gr {
   namespace drm {
 
     /*!
-     * \brief <+description of block+>
+     * \brief Performs departitioning (demultiplexing) of the input vector
+ 	 * At the moment, only EEP is supported.
      * \ingroup drm
      *
      */
