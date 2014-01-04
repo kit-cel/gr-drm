@@ -20,9 +20,9 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-#import drm_swig
-import drm
+from gnuradio import gr, gr_unittest, blocks
+import drm_swig as drm
+#import drm
 
 class qa_audio_decoder_vbs (gr_unittest.TestCase):
 

@@ -20,19 +20,19 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_punct_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0), False, 16)
+        self.src = blocks.vector_source_b((1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0), False, 16)
         pp1 = (1,1,0,0,1,1)
         pp2 = (1,1,1,0)
         self.punct = drm.punct_vbvb(pp1, pp2, 16, 11, 4)
-        self.snk = gr.vector_sink_b(11)
+        self.snk = blocks.vector_sink_b(11)
         
         self.tb.connect(self.src, self.punct, self.snk)
 

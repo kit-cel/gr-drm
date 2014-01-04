@@ -20,19 +20,19 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-#import drm_swig
-import drm
+from gnuradio import gr, gr_unittest, blocks
+import drm_swig as drm
+#import drm
 
 class qa_interleaver_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((0,1,2,3,4,5,6,7,8,9), True, 10)
-        self.head = gr.head(10,2)
+        self.src = blocks.vector_source_b((0,1,2,3,4,5,6,7,8,9), True, 10)
+        self.head = blocks.head(10,2)
         seq = (3,7,5,8,6,1,9,4,2,0)
         self.interleaver = drm.interleaver_vbvb(seq)
-        self.snk = gr.vector_sink_b(10)
+        self.snk = blocks.vector_sink_b(10)
         
         self.tb.connect(self.src, self.head, self.interleaver, self.snk)
 

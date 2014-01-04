@@ -20,20 +20,20 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_partitioning_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((1,2,3,4,5,6,7,8,9), 1, 9)
+        self.src = blocks.vector_source_b((1,2,3,4,5,6,7,8,9), 1, 9)
         self.demux = drm.partitioning_vbvb(9, (2,3,4))
-        self.head = gr.head(9,2)
-        self.snk1 = gr.vector_sink_b(2)
-        self.snk2 = gr.vector_sink_b(3)
-        self.snk3 = gr.vector_sink_b(4)
+        self.head = blocks.head(9,2)
+        self.snk1 = blocks.vector_sink_b(2)
+        self.snk2 = blocks.vector_sink_b(3)
+        self.snk3 = blocks.vector_sink_b(4)
         
         self.tb.connect(self.src, self.head, self.demux)
         self.tb.connect((self.demux,0), self.snk1)

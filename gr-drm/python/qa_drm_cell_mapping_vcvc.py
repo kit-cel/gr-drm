@@ -20,9 +20,9 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-#import drm_swig
-import drm
+from gnuradio import gr, gr_unittest, blocks
+import drm_swig as drm
+#import drm
 
 class qa_cell_mapping_vcvc (gr_unittest.TestCase):
 

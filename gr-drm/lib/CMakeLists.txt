@@ -20,16 +20,23 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIRS})
+
 list(APPEND drm_sources 
 			config.cc params.cc
 			tables_mapping.cc tables_params.cc
 			transm_params.cc util.cc 
 			add_tailbits_vbvb_impl.cc 
-			audio_decoder_vbs_impl.cc audio_encoder_svb_impl.cc
-			cell_mapping_vcvc_impl.cc cell_interleaver_vcvc_impl.cc
-			generate_sdc_vb_impl.cc generate_fac_vb_impl.cc
+			audio_decoder_vbs_impl.cc
+			audio_encoder_svb_impl.cc
+			cell_mapping_vcvc_impl.cc
+			cell_interleaver_vcvc_impl.cc
+			generate_sdc_vb_impl.cc
+			generate_fac_vb_impl.cc
 			interleaver_vbvb_impl.cc 
-			partitioning_vbvb_impl.cc punct_vbvb_impl.cc 
+			partitioning_vbvb_impl.cc
+			punct_vbvb_impl.cc 
 			qam_map_vbvc_impl.cc
 			scrambler_vbvb_impl.cc		
 )
@@ -50,25 +57,26 @@ install(TARGETS gnuradio-drm
 ########################################################################
 # Build and register unit test
 ########################################################################
-#include(GrTest)
+include(GrTest)
 
-#include_directories(${CPPUNIT_INCLUDE_DIRS})
+include_directories(${CPPUNIT_INCLUDE_DIRS})
 
-#list(APPEND test_drm_sources
-#    ${CMAKE_CURRENT_SOURCE_DIR}/test_drm.cc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm.cc
-#    ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_audio_encoder_svb.cc
-#)
+list(APPEND test_drm_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_drm.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm.cc
+)
 
-#add_executable(test-drm ${test_drm_sources})
+add_executable(test-drm ${test_drm_sources})
 
-#target_link_libraries(
-#  test-drm
-#  ${GNURADIO_RUNTIME_LIBRARIES}
-#  ${Boost_LIBRARIES}
-#  ${CPPUNIT_LIBRARIES}
-#  gnuradio-drm
-#)
+target_link_libraries(
+  test-drm
+  ${GNURADIO_RUNTIME_LIBRARIES}
+  ${Faac_LIBRARIES}
+  ${Faad_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${CPPUNIT_LIBRARIES}
+  gnuradio-drm
+)
 
-#GR_ADD_TEST(test_drm test-drm)
+GR_ADD_TEST(test_drm test-drm)
 

@@ -20,18 +20,18 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_add_tailbits_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((1,1,0,1), True, 4)
-        self.head = gr.head(4,3)
+        self.src = blocks.vector_source_b((1,1,0,1), True, 4)
+        self.head = blocks.head(4,3)
         self.add_tailbits = drm.add_tailbits_vbvb(4,2)
-        self.snk = gr.vector_sink_b(6)
+        self.snk = blocks.vector_sink_b(6)
         
         self.tb.connect(self.src, self.head, self.add_tailbits, self.snk)
 

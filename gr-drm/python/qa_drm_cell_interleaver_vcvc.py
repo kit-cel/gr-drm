@@ -20,9 +20,9 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_cell_interleaver_vcvc (gr_unittest.TestCase):
 
