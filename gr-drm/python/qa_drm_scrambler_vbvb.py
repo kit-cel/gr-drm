@@ -20,18 +20,18 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
+from gnuradio import gr, gr_unittest, blocks
 import numpy as np
-import drm
-#import drm_swig
+#import drm
+import drm_swig as drm
 
 class qa_scrambler_vbvb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.src = gr.vector_source_b((0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0), 0, 16)
+        self.src = blocks.vector_source_b((0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0), 0, 16)
         self.scrambler = drm.scrambler_vbvb(16)
-        self.snk = gr.vector_sink_b(16)
+        self.snk = blocks.vector_sink_b(16)
         self.tb.connect(self.src, self.scrambler, self.snk)
 
     def tearDown (self):

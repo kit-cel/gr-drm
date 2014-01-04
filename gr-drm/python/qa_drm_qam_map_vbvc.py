@@ -20,9 +20,9 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_qam_map_vbvc (gr_unittest.TestCase):
 
@@ -38,10 +38,10 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
         # this models 16-QAM mapping with 2 input streams
         v0 = (0,0,0,1,1,0,1,1)
         v1 = (0,1,1,1,0,0,1,0)
-        self.src0 = gr.vector_source_b(v0, False, len(v0))
-        self.src1 = gr.vector_source_b(v1, False, len(v1))
+        self.src0 = blocks.vector_source_b(v0, False, len(v0))
+        self.src1 = blocks.vector_source_b(v1, False, len(v1))
         self.map = drm.qam_map_vbvc(self.tables.d_QAM16, 4, len(v0)/2, 2)
-        self.snk = gr.vector_sink_c(len(v0)/2)
+        self.snk = blocks.vector_sink_c(len(v0)/2)
         self.tb.connect(self.src0, (self.map, 0))
         self.tb.connect(self.src1, (self.map, 1))
         self.tb.connect(self.map, self.snk)
@@ -62,9 +62,9 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
     def test_002_t (self):
     	# this models 4-QAM with 1 input stream
     	v0 = (0,0,0,1,1,0,1,1)
-    	self.src = gr.vector_source_b(v0, False, len(v0))
+    	self.src = blocks.vector_source_b(v0, False, len(v0))
     	self.map = drm.qam_map_vbvc(self.tables.d_QAM4, 2, len(v0)/2, 1)
-    	self.snk = gr.vector_sink_c(len(v0)/2)    	
+    	self.snk = blocks.vector_sink_c(len(v0)/2)    	
     	self.tb.connect(self.src, self.map, self.snk)
     	self.tb.run()
     	# check data
@@ -78,11 +78,11 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
     	v0 = (0, 0, 0, 0, 1, 1, 1, 1)
         v1 = (1, 1, 0, 0, 1, 0, 1, 1)
 	v2 = (1, 0, 0, 0, 0, 1, 1, 1)
-	self.src0 = gr.vector_source_b(v0, False, len(v0))
-	self.src1 = gr.vector_source_b(v1, False, len(v1))
-	self.src2 = gr.vector_source_b(v2, False, len(v2))
+	self.src0 = blocks.vector_source_b(v0, False, len(v0))
+	self.src1 = blocks.vector_source_b(v1, False, len(v1))
+	self.src2 = blocks.vector_source_b(v2, False, len(v2))
 	self.map = drm.qam_map_vbvc(self.tables.d_QAM64SM, 6, len(v0)/2, 3)
-	self.snk = gr.vector_sink_c(len(v0)/2)
+	self.snk = blocks.vector_sink_c(len(v0)/2)
 	self.tb.connect(self.src0, (self.map, 0))
 	self.tb.connect(self.src1, (self.map, 1))
 	self.tb.connect(self.src2, (self.map, 2))

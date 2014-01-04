@@ -3,7 +3,7 @@
   <name>DRM MLC 64 QAM SM</name>
   <key>drm_mlc_64qam_sm_vbvc</key>
   <category>drm</category>
-  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvc.py")</import>
+  <import>from drm_mlc_64qam_sm_vbvc import drm_mlc_64qam_sm_vbvc.py</import>
   <make>drm_mlc_64qam_sm_vbvc(
 	map_tab=$map_tab,
 	n_tailbits=$n_tailbits,
@@ -186,5 +186,5 @@
   </source>
   <doc>Felix Wunsch
 
-/home/felixwunsch/.grc_gnuradio/drm_mlc_64qam_sm_vbvc.py</doc>
+drm_mlc_64qam_sm_vbvc.py</doc>
 </block>

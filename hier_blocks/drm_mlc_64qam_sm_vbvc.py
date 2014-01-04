@@ -6,9 +6,9 @@
 # Generated: Wed Jul 18 17:54:55 2012
 ##################################################
 
-from gnuradio import gr
+from gnuradio import gr, blocks
 from gnuradio import trellis
-from gnuradio.gr import firdes
+from gnuradio.filter import firdes
 import drm
 
 class drm_mlc_64qam_sm_vbvc(gr.hier_block2):
@@ -51,15 +51,15 @@ class drm_mlc_64qam_sm_vbvc(gr.hier_block2):
 		self.trellis_encoder_xx_0_0_0 = trellis.encoder_bb(trellis.fsm(1, denom_mother_code_rate, gen_poly), 0)
 		self.trellis_encoder_xx_0_0 = trellis.encoder_bb(trellis.fsm(1, denom_mother_code_rate, gen_poly), 0)
 		self.trellis_encoder_xx_0 = trellis.encoder_bb(trellis.fsm(1, denom_mother_code_rate, gen_poly), 0)
-		self.gr_vector_to_stream_1_0_0 = gr.vector_to_stream(gr.sizeof_char*1, part_len_mid + n_tailbits)
-		self.gr_vector_to_stream_1_0 = gr.vector_to_stream(gr.sizeof_char*1, part_len_bot+ n_tailbits)
-		self.gr_vector_to_stream_1 = gr.vector_to_stream(gr.sizeof_char*1, part_len_top + n_tailbits)
-		self.gr_unpack_k_bits_bb_0_0_0 = gr.unpack_k_bits_bb(denom_mother_code_rate)
-		self.gr_unpack_k_bits_bb_0_0 = gr.unpack_k_bits_bb(denom_mother_code_rate)
-		self.gr_unpack_k_bits_bb_0 = gr.unpack_k_bits_bb(denom_mother_code_rate)
-		self.gr_stream_to_vector_0_0_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_mid + n_tailbits) * denom_mother_code_rate)
-		self.gr_stream_to_vector_0_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_bot+ n_tailbits) * denom_mother_code_rate)
-		self.gr_stream_to_vector_0 = gr.stream_to_vector(gr.sizeof_char*1, (part_len_top+ n_tailbits) * denom_mother_code_rate)
+		self.blocks_vector_to_stream_1_0_0 = blocks.vector_to_stream(gr.sizeof_char*1, part_len_mid + n_tailbits)
+		self.blocks_vector_to_stream_1_0 = blocks.vector_to_stream(gr.sizeof_char*1, part_len_bot+ n_tailbits)
+		self.blocks_vector_to_stream_1 = blocks.vector_to_stream(gr.sizeof_char*1, part_len_top + n_tailbits)
+		self.blocks_unpack_k_bits_bb_0_0_0 = blocks.unpack_k_bits_bb(denom_mother_code_rate)
+		self.blocks_unpack_k_bits_bb_0_0 = blocks.unpack_k_bits_bb(denom_mother_code_rate)
+		self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(denom_mother_code_rate)
+		self.blocks_stream_to_vector_0_0_0 = blocks.stream_to_vector(gr.sizeof_char*1, (part_len_mid + n_tailbits) * denom_mother_code_rate)
+		self.blocks_stream_to_vector_0_0 = blocks.stream_to_vector(gr.sizeof_char*1, (part_len_bot+ n_tailbits) * denom_mother_code_rate)
+		self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_char*1, (part_len_top+ n_tailbits) * denom_mother_code_rate)
 		self.drm_qam_map_vbvc_0 = drm.qam_map_vbvc(map_tab, bits_per_symbol, vlen_out, 3)
 		self.drm_punct_vbvb_0_0_0 = drm.punct_vbvb(pp_1, pp_1_tail, (part_len_mid + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
 		self.drm_punct_vbvb_0_0 = drm.punct_vbvb(pp_2, pp_2_tail, (part_len_bot + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
@@ -74,31 +74,31 @@ class drm_mlc_64qam_sm_vbvc(gr.hier_block2):
 		##################################################
 		# Connections
 		##################################################
-		self.connect((self.add_tailbits_vbvb_0, 0), (self.gr_vector_to_stream_1, 0))
-		self.connect((self.trellis_encoder_xx_0, 0), (self.gr_unpack_k_bits_bb_0, 0))
-		self.connect((self.gr_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
-		self.connect((self.gr_unpack_k_bits_bb_0, 0), (self.gr_stream_to_vector_0, 0))
+		self.connect((self.add_tailbits_vbvb_0, 0), (self.blocks_vector_to_stream_1, 0))
+		self.connect((self.trellis_encoder_xx_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
+		self.connect((self.blocks_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
+		self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_stream_to_vector_0, 0))
 		self.connect((self.drm_qam_map_vbvc_0, 0), (self, 0))
 		self.connect((self.drm_punct_vbvb_0, 0), (self.drm_qam_map_vbvc_0, 0))
 		self.connect((self, 0), (self.drm_partitioning_64sm_vbvb_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 0), (self.add_tailbits_vbvb_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 2), (self.add_tailbits_vbvb_0_0, 0))
 		self.connect((self.drm_punct_vbvb_0_0, 0), (self.drm_interleaver_vbvb_0_0, 0))
-		self.connect((self.gr_unpack_k_bits_bb_0_0, 0), (self.gr_stream_to_vector_0_0, 0))
-		self.connect((self.gr_stream_to_vector_0_0, 0), (self.drm_punct_vbvb_0_0, 0))
-		self.connect((self.trellis_encoder_xx_0_0, 0), (self.gr_unpack_k_bits_bb_0_0, 0))
+		self.connect((self.blocks_unpack_k_bits_bb_0_0, 0), (self.blocks_stream_to_vector_0_0, 0))
+		self.connect((self.blocks_stream_to_vector_0_0, 0), (self.drm_punct_vbvb_0_0, 0))
+		self.connect((self.trellis_encoder_xx_0_0, 0), (self.blocks_unpack_k_bits_bb_0_0, 0))
 		self.connect((self.drm_punct_vbvb_0_0_0, 0), (self.drm_interleaver_vbvb_0_0_0, 0))
-		self.connect((self.gr_unpack_k_bits_bb_0_0_0, 0), (self.gr_stream_to_vector_0_0_0, 0))
-		self.connect((self.gr_stream_to_vector_0_0_0, 0), (self.drm_punct_vbvb_0_0_0, 0))
-		self.connect((self.trellis_encoder_xx_0_0_0, 0), (self.gr_unpack_k_bits_bb_0_0_0, 0))
-		self.connect((self.add_tailbits_vbvb_0_0, 0), (self.gr_vector_to_stream_1_0, 0))
-		self.connect((self.add_tailbits_vbvb_0_0_0, 0), (self.gr_vector_to_stream_1_0_0, 0))
+		self.connect((self.blocks_unpack_k_bits_bb_0_0_0, 0), (self.blocks_stream_to_vector_0_0_0, 0))
+		self.connect((self.blocks_stream_to_vector_0_0_0, 0), (self.drm_punct_vbvb_0_0_0, 0))
+		self.connect((self.trellis_encoder_xx_0_0_0, 0), (self.blocks_unpack_k_bits_bb_0_0_0, 0))
+		self.connect((self.add_tailbits_vbvb_0_0, 0), (self.blocks_vector_to_stream_1_0, 0))
+		self.connect((self.add_tailbits_vbvb_0_0_0, 0), (self.blocks_vector_to_stream_1_0_0, 0))
 		self.connect((self.drm_partitioning_64sm_vbvb_0, 1), (self.add_tailbits_vbvb_0_0_0, 0))
 		self.connect((self.drm_interleaver_vbvb_0_0, 0), (self.drm_qam_map_vbvc_0, 2))
 		self.connect((self.drm_interleaver_vbvb_0_0_0, 0), (self.drm_qam_map_vbvc_0, 1))
-		self.connect((self.gr_vector_to_stream_1_0_0, 0), (self.trellis_encoder_xx_0_0_0, 0))
-		self.connect((self.gr_vector_to_stream_1_0, 0), (self.trellis_encoder_xx_0_0, 0))
-		self.connect((self.gr_vector_to_stream_1, 0), (self.trellis_encoder_xx_0, 0))
+		self.connect((self.blocks_vector_to_stream_1_0_0, 0), (self.trellis_encoder_xx_0_0_0, 0))
+		self.connect((self.blocks_vector_to_stream_1_0, 0), (self.trellis_encoder_xx_0_0, 0))
+		self.connect((self.blocks_vector_to_stream_1, 0), (self.trellis_encoder_xx_0, 0))
 
 	def get_map_tab(self):
 		return self.map_tab

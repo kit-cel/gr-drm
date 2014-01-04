@@ -7,9 +7,9 @@
 # Generated: Wed Jul 18 12:56:12 2012
 ##################################################
 
-from gnuradio import gr
+from gnuradio import gr, blocks
 from gnuradio import trellis
-from gnuradio.gr import firdes
+from gnuradio.filter import firdes
 import drm
 
 class drm_mlc_4qam_vbvc(gr.hier_block2):
@@ -40,9 +40,9 @@ class drm_mlc_4qam_vbvc(gr.hier_block2):
 		# Blocks
 		##################################################
 		self.trellis_encoder_xx_0 = trellis.encoder_bb(trellis.fsm(1, denom_mother_code_rate, gen_poly), 0)
-		self.gr_vector_to_stream_0 = gr.vector_to_stream(gr.sizeof_char*1, vlen_in + n_tailbits)
-		self.gr_unpack_k_bits_bb_0 = gr.unpack_k_bits_bb(denom_mother_code_rate)
-		self.gr_stream_to_vector_0 = gr.stream_to_vector(gr.sizeof_char*1, (vlen_in + n_tailbits) * denom_mother_code_rate)
+		self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_char*1, vlen_in + n_tailbits)
+		self.blocks_unpack_k_bits_bb_0 = blocks.unpack_k_bits_bb(denom_mother_code_rate)
+		self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_char*1, (vlen_in + n_tailbits) * denom_mother_code_rate)
 		self.drm_qam_map_vbvc_0 = drm.qam_map_vbvc(map_tab, bits_per_symbol, vlen_out, 1)
 		self.drm_punct_vbvb_0 = drm.punct_vbvb(pp, pp_tail, (vlen_in + n_tailbits) * denom_mother_code_rate, vlen_out * 2, n_tailbits * denom_mother_code_rate)
 		self.drm_interleaver_vbvb_0 = drm.interleaver_vbvb((interl_seq))
@@ -52,11 +52,11 @@ class drm_mlc_4qam_vbvc(gr.hier_block2):
 		# Connections
 		##################################################
 		self.connect((self, 0), (self.add_tailbits_vbvb_0, 0))
-		self.connect((self.add_tailbits_vbvb_0, 0), (self.gr_vector_to_stream_0, 0))
-		self.connect((self.gr_vector_to_stream_0, 0), (self.trellis_encoder_xx_0, 0))
-		self.connect((self.trellis_encoder_xx_0, 0), (self.gr_unpack_k_bits_bb_0, 0))
-		self.connect((self.gr_unpack_k_bits_bb_0, 0), (self.gr_stream_to_vector_0, 0))
-		self.connect((self.gr_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
+		self.connect((self.add_tailbits_vbvb_0, 0), (self.blocks_vector_to_stream_0, 0))
+		self.connect((self.blocks_vector_to_stream_0, 0), (self.trellis_encoder_xx_0, 0))
+		self.connect((self.trellis_encoder_xx_0, 0), (self.blocks_unpack_k_bits_bb_0, 0))
+		self.connect((self.blocks_unpack_k_bits_bb_0, 0), (self.blocks_stream_to_vector_0, 0))
+		self.connect((self.blocks_stream_to_vector_0, 0), (self.drm_punct_vbvb_0, 0))
 		self.connect((self.drm_punct_vbvb_0, 0), (self.drm_interleaver_vbvb_0, 0))
 		self.connect((self.drm_interleaver_vbvb_0, 0), (self.drm_qam_map_vbvc_0, 0))
 		self.connect((self.drm_qam_map_vbvc_0, 0), (self, 0))

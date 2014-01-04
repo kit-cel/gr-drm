@@ -20,9 +20,9 @@
 # 
 #
 
-from gnuradio import gr, gr_unittest
-import drm
-#import drm_swig
+from gnuradio import gr, gr_unittest, blocks
+#import drm
+import drm_swig as drm
 
 class qa_generate_sdc_vb (gr_unittest.TestCase):
 
@@ -30,8 +30,8 @@ class qa_generate_sdc_vb (gr_unittest.TestCase):
         self.tb = gr.top_block ()
         self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
         self.src = drm.generate_sdc_vb(self.tp)
-        self.head = gr.head(self.tp.sdc().L(), 1)
-        self.snk = gr.vector_sink_b(self.tp.sdc().L())
+        self.head = blocks.head(self.tp.sdc().L(), 1)
+        self.snk = blocks.vector_sink_b(self.tp.sdc().L())
         self.tb.connect(self.src, self.head, self.snk)
 
     def tearDown (self):
