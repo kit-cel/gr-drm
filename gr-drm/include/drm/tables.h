@@ -22,6 +22,7 @@
 #ifndef DRM_TABLES_H_
 #define DRM_TABLES_H_
 
+#include <drm/api.h>
 #include <drm/global_constants.h>
 #include <vector>
 #include <cmath>
@@ -29,7 +30,7 @@
 
 namespace gr {
   namespace drm {
-	class tables
+	class DRM_API tables
 	{
 		public:
 

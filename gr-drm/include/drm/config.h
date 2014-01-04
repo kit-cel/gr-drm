@@ -22,6 +22,7 @@
 #ifndef DRM_CONFIG_H_
 #define DRM_CONFIG_H_
 
+#include <drm/api.h>
 #include <drm/tables.h>
 #include <drm/global_constants.h>
 #include <iostream>
@@ -31,7 +32,7 @@ namespace gr
   namespace drm
   {
     /* class holding the initial (user defined) parameters from which the others are derived */
-    class config
+    class DRM_API config
     {
       unsigned short d_RM; // robustness mode (0-4 correspond to A-E)
       unsigned short d_SO; // spectrum occupancy (0-5)

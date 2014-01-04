@@ -22,6 +22,7 @@
 #ifndef _DRM_PARAMS_H_
 #define _DRM_PARAMS_H_
 
+#include <drm/api.h>
 #include <drm/global_constants.h>
 #include <drm/tables.h>
 #include <drm/config.h>
@@ -34,7 +35,7 @@ namespace gr
   namespace drm
   {
     /* classes holding the derived parameters and init routines (where parameters are calculated)*/
-    class global_params
+    class DRM_API global_params
     {
     public:
       virtual void
@@ -51,7 +52,7 @@ namespace gr
       ;
     };
 
-    class ofdm_params : public global_params
+    class DRM_API ofdm_params : public global_params
     {
       unsigned int d_nfft; // FFT length
       unsigned int d_n_cp; // length of guard interval (samples)
@@ -98,7 +99,7 @@ namespace gr
       init(config* cfg);
     };
 
-    class channel_params : public global_params
+    class DRM_API channel_params : public global_params
     {
     protected:
       std::vector<int> d_r_p; // index for tailbit puncturing pattern
@@ -134,7 +135,7 @@ namespace gr
       ;
     };
 
-    class control_chan_params : public channel_params
+    class DRM_API control_chan_params : public channel_params
     {
     protected:
       unsigned int d_L; // length in bits
@@ -175,7 +176,7 @@ namespace gr
       ;
     };
 
-    class sdc_params : public control_chan_params
+    class DRM_API sdc_params : public control_chan_params
     {
       float d_R_1; // coderate R_1
       unsigned short d_R_1_enum; // enumerator of R_1
@@ -225,7 +226,7 @@ namespace gr
       init(config* cfg);
     };
 
-    class fac_params : public control_chan_params
+    class DRM_API fac_params : public control_chan_params
     {
     public:
       fac_params()
@@ -242,7 +243,7 @@ namespace gr
       init(config* cfg);
     };
 
-    class msc_params : public channel_params
+    class DRM_API msc_params : public channel_params
     {
       /* NOTE: so far, only SM is implemented! TODO: implement hierarchical mapping */
       unsigned int d_L_MUX; // number of bits per multiplex frame

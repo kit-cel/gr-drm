@@ -30,13 +30,13 @@ namespace gr {
   namespace drm {
     class DRM_API generate_sdc_vb : virtual public sync_block
     {
+    public:
       typedef boost::shared_ptr <generate_sdc_vb> sptr;
       /*!
        * \brief Generates the Service Description Channel (SDC) data.
        *
        */
       static sptr make(transm_params* tp);
-    public:
       virtual void init_data(unsigned char* data) = 0; // set SDC bitstream according to config parameters (see DRM standard chapter 6.4)
     };
   }

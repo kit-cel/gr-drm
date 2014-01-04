@@ -22,12 +22,13 @@
 #ifndef DRM_TRANSM_PARAMS_H_
 #define DRM_TRANSM_PARAMS_H_
 
+#include <drm/api.h>
 #include <drm/config.h>
 #include <drm/params.h>
 
 namespace gr {
   namespace drm {
-	class transm_params
+	class DRM_API transm_params
 	{
 		config* d_cfg;
 		ofdm_params* d_ofdm;
