@@ -28,5 +28,6 @@ install(FILES
     drm_partitioning_4_vbvb.xml
     drm_partitioning_16_vbvb.xml
     drm_partitioning_64sm_vbvb.xml
-    drm_cell_mapping_vcvc.xml DESTINATION share/gnuradio/grc/blocks
+    drm_cell_mapping_vcvc.xml
+    drm_qam_map_vbvc.xml DESTINATION share/gnuradio/grc/blocks
 )
