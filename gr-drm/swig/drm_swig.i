@@ -17,6 +17,7 @@
 #include "drm/scrambler_vbvb.h"
 #include "drm/audio_encoder_svb.h"
 #include "drm/generate_fac_vb.h"
+#include "drm/generate_sdc_vb.h"
 %}
 
 %include "drm_global_constants.h"
@@ -34,3 +35,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, audio_encoder_svb);
 
 %include "drm/generate_fac_vb.h"
 GR_SWIG_BLOCK_MAGIC2(drm, generate_fac_vb);
+%include "drm/generate_sdc_vb.h"
+GR_SWIG_BLOCK_MAGIC2(drm, generate_sdc_vb);

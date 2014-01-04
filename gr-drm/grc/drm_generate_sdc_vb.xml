@@ -1,9 +1,9 @@
 <block>
-  <name>FAC Generator</name>
-  <key>drm_generate_fac_vb</key>
+  <name>SDC Generator</name>
+  <key>drm_generate_sdc_vb</key>
   <category>DRM</category>
   <import>import drm</import>
-  <make>drm.generate_fac_vb($tp)</make>
+  <make>drm.generate_sdc_vb($tp)</make>
   <param>
     <name>Transmit Parameters</name>
     <key>tp</key>
@@ -12,6 +12,6 @@
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>tp.fac().L()</vlen>
+    <vlen>tp.sdc().L()</vlen>
   </source>
 </block>

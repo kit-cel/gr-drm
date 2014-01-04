@@ -40,5 +40,6 @@ install(FILES
     drm_util.h
     scrambler_vbvb.h
     audio_encoder_svb.h
-    generate_fac_vb.h DESTINATION include/drm
+    generate_fac_vb.h
+    generate_sdc_vb.h DESTINATION include/drm
 )
