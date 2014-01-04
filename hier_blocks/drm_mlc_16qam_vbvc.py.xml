@@ -3,7 +3,7 @@
   <name>DRM MLC 16-QAM</name>
   <key>drm_mlc_16qam_vbvc</key>
   <category>drm</category>
-  <import>execfile("/home/felixwunsch/.grc_gnuradio/drm_mlc_16qam_vbvc.py")</import>
+  <import>from drm_mlc_16qam_vbvc import drm_mlc_16qam_vbvc</import>
   <make>drm_mlc_16qam_vbvc(
 	vlen_in=$vlen_in,
 	vlen_out=$vlen_out,
@@ -154,5 +154,5 @@
   </source>
   <doc>Felix Wunsch
 performs multilevelcoding (16-QAM)
-/home/felixwunsch/.grc_gnuradio/drm_mlc_16qam_vbvc.py</doc>
+drm_mlc_16qam_vbvc.py</doc>
 </block>

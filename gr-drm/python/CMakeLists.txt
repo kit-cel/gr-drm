@@ -53,3 +53,6 @@ GR_ADD_TEST(qa_qam_map_vbvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_
 GR_ADD_TEST(qa_cell_mapping_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_cell_mapping_vcvc.py)
 GR_ADD_TEST(qa_audio_decoder_vbs ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_audio_decoder_vbs.py)
 GR_ADD_TEST(qa_cell_interleaver_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_cell_interleaver_vcvc.py)
+GR_ADD_TEST(qa_mlc_4qam_vbvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_mlc_4qam_vbvc.py)
+GR_ADD_TEST(qa_mlc_16qam_vbvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_mlc_16qam_vbvc.py)
+GR_ADD_TEST(qa_mlc_64qam_sm_vbvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_drm_mlc_64qam_sm_vbvc.py)
