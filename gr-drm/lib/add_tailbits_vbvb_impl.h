@@ -28,17 +28,18 @@ namespace gr {
 
     class add_tailbits_vbvb_impl : public add_tailbits_vbvb
     {
-     private:
-      // Nothing to declare in this block.
+    private:
+		int d_vlen;
+		int d_n_tail;
 
-     public:
-      add_tailbits_vbvb_impl(int vlen_in, int n_tailbits);
-      ~add_tailbits_vbvb_impl();
+    public:
+		add_tailbits_vbvb_impl(int vlen_in, int n_tailbits);
+		~add_tailbits_vbvb_impl();
 
       // Where all the action really happens
-      int work(int noutput_items,
-	       gr_vector_const_void_star &input_items,
-	       gr_vector_void_star &output_items);
+      	int work(int noutput_items,
+	       	gr_vector_const_void_star &input_items,
+	       	gr_vector_void_star &output_items);
     };
 
   } // namespace drm

@@ -40,9 +40,12 @@ namespace gr {
      */
     add_tailbits_vbvb_impl::add_tailbits_vbvb_impl(int vlen_in, int n_tailbits)
       : gr::sync_block("add_tailbits_vbvb",
-              gr::io_signature::make(<+MIN_IN+>, <+MAX_IN+>, sizeof(<+ITYPE+>)),
-              gr::io_signature::make(<+MIN_OUT+>, <+MAX_OUT+>, sizeof(<+OTYPE+>)))
-    {}
+              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_in),
+              gr::io_signature::make(1, 1, sizeof (unsigned char) * (vlen_in + n_tailbits) ))
+    {
+		d_vlen = vlen_in;
+		d_n_tail = n_tailbits;
+	}
 
     /*
      * Our virtual destructor.
@@ -56,13 +59,27 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-        const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-        <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
-
-        // Do <+signal processing+>
-
-        // Tell runtime system how many output items we produced.
-        return noutput_items;
+		unsigned char *in = (unsigned char *) input_items[0];
+		unsigned char *out = (unsigned char *) output_items[0];
+	
+		// set tailbits to zero TODO: make tailbits configurable
+		unsigned char tailbits[(const int) d_n_tail];
+		memset(tailbits, 0, d_n_tail);
+	
+		for( int i = 0; i < noutput_items; i++)
+		{
+			// Append n_tailbits zeros to the input vector
+			memcpy(out, in, d_vlen); // copy input to output
+		
+			memcpy(out + d_vlen, tailbits, d_n_tail);
+		
+			// move buffer pointers
+			in = in + d_vlen;
+			out = out + d_vlen + d_n_tail;
+		}
+	
+		// Tell runtime system how many output items we produced.
+		return noutput_items;
     }
 
   } /* namespace drm */
