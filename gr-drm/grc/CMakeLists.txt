@@ -20,5 +20,6 @@ install(FILES
     drm_scrambler_vbvb.xml
     drm_audio_encoder_svb.xml
     drm_generate_fac_vb.xml
-    drm_generate_sdc_vb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_generate_sdc_vb.xml
+    drm_add_tailbits_vbvb.xml DESTINATION share/gnuradio/grc/blocks
 )
