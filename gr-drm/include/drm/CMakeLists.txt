@@ -43,5 +43,6 @@ install(FILES
     generate_fac_vb.h
     generate_sdc_vb.h
     add_tailbits_vbvb.h
-    punct_vbvb.h DESTINATION include/drm
+    punct_vbvb.h
+    interleaver_vbvb.h DESTINATION include/drm
 )

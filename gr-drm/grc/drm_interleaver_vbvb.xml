@@ -1,0 +1,22 @@
+<block>
+  <name>Bit Interleaver</name>
+  <key>drm_interleaver_vbvb</key>
+  <category>DRM</category>
+  <import>import drm</import>
+  <make>drm.interleaver_vbvb($interl_seq)</make>
+  <param>
+    <name>Interleaver Sequence</name>
+    <key>interl_seq</key>
+    <type>int_vector</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+    <vlen>len($interl_seq)</vlen>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+    <vlen>len($interl_seq)</vlen>
+  </source>
+</block>
