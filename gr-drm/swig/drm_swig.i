@@ -22,6 +22,7 @@
 #include "drm/punct_vbvb.h"
 #include "drm/interleaver_vbvb.h"
 #include "drm/interleaver_vcvc.h"
+#include "drm/partitioning_vbvb.h"
 %}
 
 %include "drm_global_constants.h"
@@ -50,3 +51,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vbvb);
 
 %include "drm/interleaver_vcvc.h"
 GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vcvc);
+%include "drm/partitioning_vbvb.h"
+GR_SWIG_BLOCK_MAGIC2(drm, partitioning_vbvb);

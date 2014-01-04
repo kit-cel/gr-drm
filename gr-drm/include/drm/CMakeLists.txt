@@ -45,5 +45,6 @@ install(FILES
     add_tailbits_vbvb.h
     punct_vbvb.h
     interleaver_vbvb.h
-    interleaver_vcvc.h DESTINATION include/drm
+    interleaver_vcvc.h
+    partitioning_vbvb.h DESTINATION include/drm
 )
