@@ -23,6 +23,7 @@
 #include "drm/interleaver_vbvb.h"
 #include "drm/interleaver_vcvc.h"
 #include "drm/partitioning_vbvb.h"
+#include "drm/cell_mapping_vcvc.h"
 %}
 
 %include "drm_global_constants.h"
@@ -53,3 +54,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vbvb);
 GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vcvc);
 %include "drm/partitioning_vbvb.h"
 GR_SWIG_BLOCK_MAGIC2(drm, partitioning_vbvb);
+%include "drm/cell_mapping_vcvc.h"
+GR_SWIG_BLOCK_MAGIC2(drm, cell_mapping_vcvc);

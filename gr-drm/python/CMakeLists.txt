@@ -50,3 +50,4 @@ GR_ADD_TEST(qa_punct_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_pu
 GR_ADD_TEST(qa_interleaver_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_interleaver_vbvb.py)
 GR_ADD_TEST(qa_interleaver_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_interleaver_vcvc.py)
 GR_ADD_TEST(qa_partitioning_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_partitioning_vbvb.py)
+GR_ADD_TEST(qa_cell_mapping_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cell_mapping_vcvc.py)
