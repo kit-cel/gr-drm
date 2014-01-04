@@ -24,7 +24,6 @@ include(GrPlatform) #define LIB_SUFFIX
 
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
-
 list(APPEND drm_sources    
     drm_util.cc 
     drm_transm_params.cc 
@@ -34,7 +33,7 @@ list(APPEND drm_sources
 	  drm_tables_params.cc
 	  scrambler_vbvb_impl.cc
     audio_encoder_svb_impl.cc
-)
+    generate_fac_vb_impl.cc )
 
 add_library(gnuradio-drm SHARED ${drm_sources})
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES})

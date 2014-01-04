@@ -1,0 +1,17 @@
+<block>
+  <name>FAC Generator</name>
+  <key>drm_generate_fac_vb</key>
+  <category>DRM</category>
+  <import>import drm</import>
+  <make>drm.generate_fac_vb($tp)</make>
+  <param>
+    <name>Tp</name>
+    <key>tp</key>
+    <type>raw</type>
+  </param>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+    <vlen>tp.fac().L()</vlen>
+  </source>
+</block>

@@ -16,8 +16,8 @@
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-
 install(FILES
     drm_scrambler_vbvb.xml
-    drm_audio_encoder_svb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_audio_encoder_svb.xml
+    drm_generate_fac_vb.xml DESTINATION share/gnuradio/grc/blocks
 )
