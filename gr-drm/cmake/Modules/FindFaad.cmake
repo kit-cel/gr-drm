@@ -34,21 +34,36 @@
 #  Faad_FOUND       - True if faad found.
 #
 
+INCLUDE(FindPkgConfig)
+PKG_CHECK_MODULES(PC_FAAD "faad")
+
 if (Faad_INCLUDE_DIR)
   # Already in cache, be silent
   set(Faad_FIND_QUIETLY TRUE)
 endif (Faad_INCLUDE_DIR)
 
-find_path(Faad_INCLUDE_DIR faad.h
-  /opt/local/include
-  /usr/local/include
-  /usr/include
+FIND_PATH(
+	Faad_INCLUDE_DIR
+	NAMES faad.h
+	HINTS ${PC_FAAD_INCLUDE_DIR}
+	PATHS ${CMAKE_INSTALL_PREFIX}/include
+  		/opt/local/include
+  		/usr/local/include
+  		/usr/include
 )
 
-set(Faad_NAMES faad)
-find_library(Faad_LIBRARY
-  NAMES ${Faad_NAMES}
-  PATHS /usr/lib /usr/local/lib /opt/local/lib
+FIND_LIBRARY(
+	Faad_LIBRARY
+	NAMES faad
+	HINTS ${PC_FAAD_LIBDIR}
+	PATHS ${CMAKE_INSTALL_PREFIX}/lib
+		  ${CMAKE_INSTALL_PREFIX}/lib64
+		  /usr/local/lib
+		  /usr/local/lib64
+		  /opt/local/lib
+		  /opt/local/lib64
+		  /usr/lib
+		  /usr/lib64
 )
 
 if (Faad_INCLUDE_DIR AND Faad_LIBRARY)
@@ -76,4 +91,3 @@ mark_as_advanced(
   Faad_LIBRARY
   Faad_INCLUDE_DIR
   )
-
