@@ -21,6 +21,7 @@
 #include "drm/add_tailbits_vbvb.h"
 #include "drm/punct_vbvb.h"
 #include "drm/interleaver_vbvb.h"
+#include "drm/interleaver_vcvc.h"
 %}
 
 %include "drm_global_constants.h"
@@ -46,3 +47,6 @@ GR_SWIG_BLOCK_MAGIC2(drm, add_tailbits_vbvb);
 GR_SWIG_BLOCK_MAGIC2(drm, punct_vbvb);
 %include "drm/interleaver_vbvb.h"
 GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vbvb);
+
+%include "drm/interleaver_vcvc.h"
+GR_SWIG_BLOCK_MAGIC2(drm, interleaver_vcvc);

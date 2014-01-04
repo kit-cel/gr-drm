@@ -23,5 +23,6 @@ install(FILES
     drm_generate_sdc_vb.xml
     drm_add_tailbits_vbvb.xml
     drm_punct_vbvb.xml
-    drm_interleaver_vbvb.xml DESTINATION share/gnuradio/grc/blocks
+    drm_interleaver_vbvb.xml
+    drm_interleaver_vcvc.xml DESTINATION share/gnuradio/grc/blocks
 )
