@@ -30,7 +30,7 @@ namespace gr {
   namespace drm {
 
     /*!
-     * \brief <+description of block+>
+     * \brief Generates the Fast Access Channel (FAC) data
      * \ingroup drm
      *
      */

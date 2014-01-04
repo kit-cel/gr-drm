@@ -39,7 +39,7 @@ namespace gr {
       typedef boost::shared_ptr<punct_vbvb> sptr;
 
       /*!
-       * \brief Punctures a vector of (unpacked) bytes according to punct_pat_1. For the last num_tailbits bits punct_pat_2 is used.
+       * \brief Return a shared_ptr to a new instance of drm::punct_vbvb.
        *
        * To avoid accidental use of raw pointers, drm::punct_vbvb's
        * constructor is in a private implementation

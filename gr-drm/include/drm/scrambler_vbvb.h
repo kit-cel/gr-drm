@@ -40,8 +40,7 @@ namespace gr {
       typedef boost::shared_ptr<scrambler_vbvb> sptr;
 
       /*!
-       * \brief Scrambles the input sequence according to the following polynomial:
-       * G(x) = x^9 + x^5 + 1. The scrambler is reset after 'block_len' samples.
+       * \brief Return a shared_ptr to a new instance of drm::scrambler_vbvb.
        */
       static sptr make(unsigned int block_len);
     };

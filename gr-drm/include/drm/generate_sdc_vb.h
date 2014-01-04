@@ -40,7 +40,7 @@ namespace gr {
       typedef boost::shared_ptr<generate_sdc_vb> sptr;
 
       /*!
-       * \brief Generates the Service Description Channel (SDC) data.
+       * \brief Return a shared_ptr to a new instance of drm::generate_sdc_vb.
        *
        * To avoid accidental use of raw pointers, drm::generate_sdc_vb's
        * constructor is in a private implementation

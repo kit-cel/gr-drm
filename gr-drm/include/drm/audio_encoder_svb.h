@@ -34,7 +34,7 @@ namespace gr {
   namespace drm {
 
     /*!
-     * \brief <+description of block+>
+     * \brief Audio source encoder using FAAC to produce AAC stream (LC, mono)
      * \ingroup drm
      *
      */
