@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Thu Nov  8 20:55:59 2012</timestamp>
+  <timestamp>Sun Jan  5 15:39:28 2014</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -61,188 +61,26 @@
     </param>
   </block>
   <block>
-    <key>drm_generate_fac_vb</key>
+    <key>variable</key>
     <param>
       <key>id</key>
-      <value>drm_generate_fac_vb_0</value>
+      <value>RM</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 804)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_vbvb_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(747, 804)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_stream_to_vector</key>
-    <param>
-      <key>id</key>
-      <value>gr_stream_to_vector_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>tp.ofdm().M_TF()</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1316, 618)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_generate_sdc_vb</key>
-    <param>
-      <key>id</key>
-      <value>drm_generate_sdc_vb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 592)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_vbvb_0_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(745, 592)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_multiply_const_vxx</key>
-    <param>
-      <key>id</key>
-      <value>gr_multiply_const_vxx_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>32768</value>
-    </param>
-    <param>
-      <key>vlen</key>
+      <key>value</key>
       <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(263, 333)</value>
+      <value>(563, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_multiply_const_vxx</key>
-    <param>
-      <key>id</key>
-      <value>gr_multiply_const_vxx_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>7e-3</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1291, 782)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>270</value>
     </param>
   </block>
   <block>
@@ -285,195 +123,6 @@
     <param>
       <key>_coordinate</key>
       <value>(637, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_audio_encoder_svb</key>
-    <param>
-      <key>id</key>
-      <value>drm_audio_encoder_svb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>len_out</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(465, 325)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_vbvb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(735, 333)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>cell_mapping_vcvc</key>
-    <param>
-      <key>id</key>
-      <value>cell_mapping_vcvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1507, 562)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>digital_ofdm_cyclic_prefixer</key>
-    <param>
-      <key>id</key>
-      <value>digital_ofdm_cyclic_prefixer_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>input_size</key>
-      <value>tp.ofdm().nfft()</value>
-    </param>
-    <param>
-      <key>output_size</key>
-      <value>tp.ofdm().nfft() * tp.ofdm().cp_ratio_enum() / tp.ofdm().cp_ratio_denom() + tp.ofdm().nfft()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1458, 734)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>RM</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_fft_vxx</key>
-    <param>
-      <key>id</key>
-      <value>gr_fft_vxx_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>fft_size</key>
-      <value>tp.ofdm().nfft()</value>
-    </param>
-    <param>
-      <key>forward</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>window</key>
-      <value></value>
-    </param>
-    <param>
-      <key>shift</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>nthreads</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1673, 710)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-  </block>
-  <block>
-    <key>note</key>
-    <param>
-      <key>id</key>
-      <value>note_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>note</key>
-      <value>Before generating the flow graph, define the path to a 24 kHz wav-file and change the parameters of the UHD sink. Do not forget to set the correct audio_sample_rate.</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(327, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -550,194 +199,6 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvc</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.sdc().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.sdc().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.sdc().punct_pat_tail_0()</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.sdc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 512)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_4qam_vbvc</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.fac().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.fac().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 724)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_stream_to_vector</key>
-    <param>
-      <key>id</key>
-      <value>gr_stream_to_vector_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>tp.ofdm().M_TF()</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1316, 550)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_cell_interleaver_vcvc</key>
-    <param>
-      <key>id</key>
-      <value>drm_cell_interleaver_vcvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.msc().cell_interl_seq()</value>
-    </param>
-    <param>
-      <key>long_interl</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>depth</key>
-      <value>drm.INTL_DEPTH_DRM</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1302, 383)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>variable</key>
     <param>
       <key>id</key>
@@ -754,37 +215,6 @@
     <param>
       <key>_coordinate</key>
       <value>(706, 139)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_wavfile_source</key>
-    <param>
-      <key>id</key>
-      <value>gr_wavfile_source_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value></value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(40, 242)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -838,6 +268,536 @@
     </param>
   </block>
   <block>
+    <key>drm_generate_fac_vb</key>
+    <param>
+      <key>id</key>
+      <value>drm_generate_fac_vb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 804)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_vbvb_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(747, 804)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_stream_to_vector</key>
+    <param>
+      <key>id</key>
+      <value>gr_stream_to_vector_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>tp.ofdm().M_TF()</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>tp.fac().N()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1316, 618)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_generate_sdc_vb</key>
+    <param>
+      <key>id</key>
+      <value>drm_generate_sdc_vb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 592)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_vbvb_0_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(745, 592)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_multiply_const_vxx</key>
+    <param>
+      <key>id</key>
+      <value>gr_multiply_const_vxx_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>float</value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>32768</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(263, 333)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_multiply_const_vxx</key>
+    <param>
+      <key>id</key>
+      <value>gr_multiply_const_vxx_1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>7e-3</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1291, 782)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>270</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_audio_encoder_svb</key>
+    <param>
+      <key>id</key>
+      <value>drm_audio_encoder_svb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>len_out</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(465, 325)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_vbvb_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(735, 333)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>cell_mapping_vcvc</key>
+    <param>
+      <key>id</key>
+      <value>cell_mapping_vcvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1507, 562)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>note</key>
+    <param>
+      <key>id</key>
+      <value>note_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>note</key>
+      <value>Before generating the flow graph, define the path to a 24 kHz wav-file and change the parameters of the UHD sink. Do not forget to set the correct audio_sample_rate.</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(327, 212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_stream_to_vector</key>
+    <param>
+      <key>id</key>
+      <value>gr_stream_to_vector_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>tp.ofdm().M_TF()</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1316, 550)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_interleaver_vcvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_interleaver_vcvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.msc().cell_interl_seq()</value>
+    </param>
+    <param>
+      <key>long_interl</key>
+      <value>long_interl</value>
+    </param>
+    <param>
+      <key>depth</key>
+      <value>drm.INTL_DEPTH_DRM</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1302, 383)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_wavfile_source</key>
+    <param>
+      <key>id</key>
+      <value>gr_wavfile_source_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value></value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(40, 242)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>gr_wavfile_sink</key>
     <param>
       <key>id</key>
@@ -864,82 +824,12 @@
       <value>16</value>
     </param>
     <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(1787, 956)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_sig_source_x</key>
-    <param>
-      <key>id</key>
-      <value>gr_sig_source_x_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>waveform</key>
-      <value>gr.GR_COS_WAVE</value>
-    </param>
-    <param>
-      <key>freq</key>
-      <value>7e3</value>
-    </param>
-    <param>
-      <key>amp</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>offset</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1129, 957)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>gr_multiply_xx</key>
-    <param>
-      <key>id</key>
-      <value>gr_multiply_xx_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>num_inputs</key>
-      <value>2</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1449, 959)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -959,6 +849,18 @@
     <param>
       <key>vlen</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1000,95 +902,20 @@
       <value>0</value>
     </param>
     <param>
-      <key>_coordinate</key>
-      <value>(1477, 837)</value>
+      <key>affinity</key>
+      <value></value>
     </param>
     <param>
-      <key>_rotation</key>
+      <key>minoutbuf</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>drm_mlc_16qam_vbvc</key>
     <param>
-      <key>id</key>
-      <value>drm_mlc_16qam_vbvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.msc().mod_order()</value>
-    </param>
-    <param>
-      <key>N</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM16</value>
-    </param>
-    <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
-      <value>tp.msc().punct_pat_tail_0_2()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.msc().punct_pat_1_2()</value>
-    </param>
-    <param>
-      <key>pp_1_tail</key>
-      <value>tp.msc().punct_pat_tail_1_2()</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>interl_seq_0_2</key>
-      <value>tp.msc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.msc().bit_interl_seq_1_2()</value>
+      <key>maxoutbuf</key>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(925, 205)</value>
+      <value>(1477, 837)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1116,6 +943,18 @@
     <param>
       <key>nchan</key>
       <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1147,6 +986,10 @@
     <param>
       <key>stream_args</key>
       <value></value>
+    </param>
+    <param>
+      <key>stream_chans</key>
+      <value>[]</value>
     </param>
     <param>
       <key>dev_addr</key>
@@ -1781,12 +1624,453 @@
       <value>0</value>
     </param>
     <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
       <key>_coordinate</key>
       <value>(1714, 837)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_multiply_xx</key>
+    <param>
+      <key>id</key>
+      <value>gr_multiply_xx_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1449, 959)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>analog_sig_source_x</key>
+    <param>
+      <key>id</key>
+      <value>analog_sig_source_x_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>waveform</key>
+      <value>analog.GR_COS_WAVE</value>
+    </param>
+    <param>
+      <key>freq</key>
+      <value>7000</value>
+    </param>
+    <param>
+      <key>amp</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>offset</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1150, 958)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_vbvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_vbvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.sdc().mod_order()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.sdc().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.sdc().punct_pat_tail_0()</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.sdc().N()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.sdc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(944, 520)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_vbvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_vbvc_0_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.fac().mod_order()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.fac().N()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.fac().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(944, 732)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_16qam_vbvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_16qam_vbvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.msc().mod_order()</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM16</value>
+    </param>
+    <param>
+      <key>pp_0</key>
+      <value>tp.msc().punct_pat_0_2()</value>
+    </param>
+    <param>
+      <key>pp_0_tail</key>
+      <value>tp.msc().punct_pat_tail_0_2()</value>
+    </param>
+    <param>
+      <key>pp_1</key>
+      <value>tp.msc().punct_pat_1_2()</value>
+    </param>
+    <param>
+      <key>pp_1_tail</key>
+      <value>tp.msc().punct_pat_tail_1_2()</value>
+    </param>
+    <param>
+      <key>M_total</key>
+      <value>tp.msc().M_total()</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>interl_seq_0_2</key>
+      <value>tp.msc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_1_2</key>
+      <value>tp.msc().bit_interl_seq_1_2()</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.msc().M_total()[1]</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.msc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(942, 236)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>gr_fft_vxx</key>
+    <param>
+      <key>id</key>
+      <value>gr_fft_vxx_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>tp.ofdm().nfft()</value>
+    </param>
+    <param>
+      <key>forward</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>window</key>
+      <value></value>
+    </param>
+    <param>
+      <key>shift</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>nthreads</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1673, 709)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_ofdm_cyclic_prefixer</key>
+    <param>
+      <key>id</key>
+      <value>digital_ofdm_cyclic_prefixer_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>input_size</key>
+      <value>tp.ofdm().nfft()</value>
+    </param>
+    <param>
+      <key>cp_len</key>
+      <value>tp.ofdm().nfft()/4</value>
+    </param>
+    <param>
+      <key>rolloff</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tagname</key>
+      <value>"frame_len"</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1420, 725)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
     </param>
   </block>
   <connection>
@@ -1899,12 +2183,12 @@
   </connection>
   <connection>
     <source_block_id>drm_mlc_16qam_vbvc_0</source_block_id>
-    <sink_block_id>drm_cell_interleaver_vcvc_0</sink_block_id>
+    <sink_block_id>drm_interleaver_vcvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_cell_interleaver_vcvc_0</source_block_id>
+    <source_block_id>drm_interleaver_vcvc_0</source_block_id>
     <sink_block_id>gr_stream_to_vector_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -1928,7 +2212,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>gr_sig_source_x_0</source_block_id>
+    <source_block_id>analog_sig_source_x_0</source_block_id>
     <sink_block_id>gr_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
