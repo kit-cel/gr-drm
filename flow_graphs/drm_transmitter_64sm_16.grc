@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Sat Jan 11 13:10:31 2014</timestamp>
+  <timestamp>Sat Jan 11 18:42:33 2014</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -77,29 +77,6 @@
     <param>
       <key>_coordinate</key>
       <value>(710, 21)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>SO</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(639, 21)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -260,7 +237,30 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(717, 86)</value>
+      <value>(718, 86)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>SO</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(639, 21)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -476,20 +476,28 @@
       <value>True</value>
     </param>
     <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
+      <key>vlen_in</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.sdc().N()</value>
     </param>
     <param>
       <key>n_tailbits</key>
       <value>drm.N_TAILBITS/drm.DENOM_MOTHER_CODE</value>
     </param>
     <param>
-      <key>bits_per_symbol</key>
-      <value>tp.sdc().mod_order()</value>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
     </param>
     <param>
       <key>gen_poly</key>
       <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.sdc().mod_order()</value>
     </param>
     <param>
       <key>map_tab</key>
@@ -500,44 +508,36 @@
       <value>tp.sdc().punct_pat_0()</value>
     </param>
     <param>
-      <key>pp_0_tail</key>
-      <value>tp.sdc().punct_pat_tail_0()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.sdc().punct_pat_1()</value>
-    </param>
-    <param>
-      <key>pp_1_tail</key>
-      <value>tp.sdc().punct_pat_tail_1()</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.sdc().M_total()</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.sdc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.sdc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
       <key>interl_seq_0_2</key>
       <value>tp.sdc().bit_interl_seq_0_2()</value>
     </param>
     <param>
       <key>interl_seq_1_2</key>
       <value>tp.sdc().bit_interl_seq_1_2()</value>
+    </param>
+    <param>
+      <key>pp_1_tail</key>
+      <value>tp.sdc().punct_pat_tail_1()</value>
+    </param>
+    <param>
+      <key>pp_1</key>
+      <value>tp.sdc().punct_pat_1()</value>
+    </param>
+    <param>
+      <key>pp_0_tail</key>
+      <value>tp.sdc().punct_pat_tail_0()</value>
+    </param>
+    <param>
+      <key>M_total</key>
+      <value>tp.sdc().M_total()</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.sdc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.sdc().M_total()[1]</value>
     </param>
     <param>
       <key>affinity</key>
@@ -571,56 +571,40 @@
       <value>True</value>
     </param>
     <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.msc().mod_order()</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
-      <value>tp.msc().punct_pat_tail_0_2()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM64SM</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
+      <key>vlen_in</key>
+      <value>tp.msc().L_MUX()</value>
     </param>
     <param>
       <key>n_tailbits</key>
       <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
     </param>
     <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
       <key>vlen_out</key>
       <value>tp.msc().N_MUX()</value>
     </param>
     <param>
-      <key>vlen_in</key>
-      <value>tp.msc().L_MUX()</value>
+      <key>bits_per_symbol</key>
+      <value>tp.msc().mod_order()</value>
     </param>
     <param>
-      <key>part_len_mid</key>
-      <value>tp.msc().M_total()[1]</value>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM64SM</value>
     </param>
     <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
+      <key>pp_0</key>
+      <value>tp.msc().punct_pat_0_2()</value>
     </param>
     <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[2]</value>
+      <key>pp_0_tail</key>
+      <value>tp.msc().punct_pat_tail_0_2()</value>
     </param>
     <param>
       <key>pp_1</key>
@@ -643,12 +627,28 @@
       <value>tp.msc().bit_interl_seq_0_2()</value>
     </param>
     <param>
+      <key>interl_seq_2_2</key>
+      <value>tp.msc().bit_interl_seq_2_2()</value>
+    </param>
+    <param>
       <key>interl_seq_1_2</key>
       <value>tp.msc().bit_interl_seq_1_2()</value>
     </param>
     <param>
-      <key>interl_seq_2_2</key>
-      <value>tp.msc().bit_interl_seq_2_2()</value>
+      <key>M_total</key>
+      <value>tp.msc().M_total()</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.msc().M_total()[2]</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.msc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>part_len_mid</key>
+      <value>tp.msc().M_total()[1]</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1946,30 +1946,22 @@
     </param>
   </block>
   <block>
-    <key>audio_source</key>
+    <key>drm_audio_encoder_svb</key>
     <param>
       <key>id</key>
-      <value>audio_source_0</value>
+      <value>drm_audio_encoder_svb_0</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>samp_rate</key>
-      <value>44100</value>
+      <key>tp</key>
+      <value>tp</value>
     </param>
     <param>
-      <key>device_name</key>
-      <value></value>
-    </param>
-    <param>
-      <key>ok_to_block</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>num_outputs</key>
-      <value>1</value>
+      <key>len_out</key>
+      <value>tp.msc().L_MUX()</value>
     </param>
     <param>
       <key>affinity</key>
@@ -1985,7 +1977,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(43, 453)</value>
+      <value>(467, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2079,6 +2071,53 @@
     </param>
   </block>
   <block>
+    <key>audio_source</key>
+    <param>
+      <key>id</key>
+      <value>audio_source_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>44100</value>
+    </param>
+    <param>
+      <key>device_name</key>
+      <value></value>
+    </param>
+    <param>
+      <key>ok_to_block</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>num_outputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(43, 453)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
     <key>rational_resampler_xxx</key>
     <param>
       <key>id</key>
@@ -2123,45 +2162,6 @@
     <param>
       <key>_coordinate</key>
       <value>(245, 434)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_audio_encoder_svb</key>
-    <param>
-      <key>id</key>
-      <value>drm_audio_encoder_svb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>len_out</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(467, 336)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2301,14 +2301,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>audio_source_0</source_block_id>
-    <sink_block_id>rational_resampler_xxx_0_0</sink_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <source_block_id>audio_source_0</source_block_id>
+    <sink_block_id>rational_resampler_xxx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

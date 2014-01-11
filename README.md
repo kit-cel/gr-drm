@@ -20,7 +20,7 @@ Contents
 Installation
 ------------
 
-Dependencies: GNU Radio, UHD, FAAC, FAAD2
+Dependencies: GNU Radio (min. v3.7), UHD, FAAC, FAAD2
 
 For installation instructions for GNU Radio and UHD please visit 
 GNUradio http://www.gnuradio.org (there is a build script making things really easy!).
@@ -37,7 +37,7 @@ GNUradio http://www.gnuradio.org (there is a build script making things really e
 		sudo cp libfaac/.libs/libfaac.a /usr/local/lib
 		cd ..
 		
-- FAAD2	
+- FAAD2	(only needed for receiver)
 
 		wget http://downloads.sourceforge.net/faac/faad2-2.7.tar.gz
 		tar zxf faad2-2.7.tar.gz
@@ -54,16 +54,19 @@ GNUradio http://www.gnuradio.org (there is a build script making things really e
 		git clone git://github.com/kit-cel/gr-drm.git
 		cd gr-drm
 		git checkout stable
-		cd gr-drm
 		mkdir build
 		cd build
 		cmake ../
 		make
+		make test # optional
 		sudo make install
 		sudo ldconfig
-		ctest # (optional) at the moment this has to be done after make install as there is a problem with proper importing of drm_swig
-		../../misc/set_grc_path.sh # this replaces the hardcoded home folder in the hier block XML defs with yours
-		cp ../../hier_blocks/* ~/.grc_gnuradio/ # or wherever you store your hier blocks (GRC has to be run once before executing this command)
+
+After successful installation of gr-drm, open the MLC flow graphs in hier_blocks/ 
+with GNU Radio Companion and execute them in order to generate the appropriate 
+XML and Python files that are used by the transmitter flow graphs.
+ 
+You are now ready to transmit!
 				
 		
 Usage
@@ -91,9 +94,10 @@ Companion.
 
 You are also free to play around with several robustness modes (RM) and spectrum 
 occupancies (SO, signal bandwidth) ranging from 4.5 to 20 kHz. The corresponding
-bit rates vary from below 5 kbps to about 55 kbps. Among other parameters, the
+bit rates vary from below 5 kbps to about 55 kbps. A configuration that is widely
+used is RM B (==1) and 10 kHz bandwidth (SO 3). Among other parameters, the
 station label and a text message can also be set by simply adapting the 
-correspondant blocks.
+correspondant blocks' values.
 
 
 (Current) Constraints
@@ -117,4 +121,4 @@ Known Bugs
 If you find any bugs or have great ideas you think the project could benefit 
 from, just write me: uncnr[at]student.kit.edu
 
-last updated on: 2012/08/24
+last updated on: 2014/01/11
