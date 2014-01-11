@@ -62,7 +62,7 @@ GNUradio http://www.gnuradio.org (there is a build script making things really e
 		sudo make install
 		sudo ldconfig
 
-After successful installation of gr-drm, open the MLC flow graphs in hier_blocks/ 
+After successful installation of gr-drm, open the MLC flow graphs in `gnuradio_drm/hier_blocks` 
 with GNU Radio Companion and execute them in order to generate the appropriate 
 XML and Python files that are used by the transmitter flow graphs.
  
