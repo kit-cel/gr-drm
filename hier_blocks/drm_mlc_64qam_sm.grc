@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='ASCII'?>
 <flow_graph>
-  <timestamp>Fri Jan 10 22:07:14 2014</timestamp>
+  <timestamp>Sat Jan 11 13:02:35 2014</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -941,100 +941,6 @@
     </param>
   </block>
   <block>
-    <key>blocks_stream_to_vector</key>
-    <param>
-      <key>id</key>
-      <value>blocks_stream_to_vector_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>num_items</key>
-      <value>(part_len_bot + n_tailbits) * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(252, 755)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_punct_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_punct_vbvb_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>punct_pat_1</key>
-      <value>pp_0</value>
-    </param>
-    <param>
-      <key>punct_pat_2</key>
-      <value>pp_0_tail</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>(part_len_top + n_tailbits) * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out * 2</value>
-    </param>
-    <param>
-      <key>num_tailbits</key>
-      <value>n_tailbits * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(451, 654)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>drm_punct_vbvb</key>
     <param>
       <key>id</key>
@@ -1320,76 +1226,6 @@
     </param>
   </block>
   <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_1_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>interl_seq_1_2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(325, 184)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_2_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>interl_seq_2_2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(73, 184)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>blocks_unpack_k_bits_bb</key>
     <param>
       <key>id</key>
@@ -1476,53 +1312,6 @@
     </param>
   </block>
   <block>
-    <key>drm_qam_map_vbvc</key>
-    <param>
-      <key>id</key>
-      <value>drm_qam_map_vbvc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>map_table</key>
-      <value>map_tab</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>bits_per_symbol</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out</value>
-    </param>
-    <param>
-      <key>n_inputs</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(956, 729)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
     <key>pad_sink</key>
     <param>
       <key>id</key>
@@ -1555,146 +1344,6 @@
     <param>
       <key>_coordinate</key>
       <value>(1172, 759)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_interleaver_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_interleaver_vbvb_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>(interl_seq_1_2)</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(682, 759)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_interleaver_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_interleaver_vbvb_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>(interl_seq_2_2)</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(679, 830)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_interleaver_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_interleaver_vbvb_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>(interl_seq_0_2)</value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(683, 695)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_0_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>interl_seq_0_2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(199, 184)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1826,6 +1475,322 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>drm_interleaver_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_interleaver_vbvb_bot</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>(interl_seq_2_2)</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(679, 830)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>id</key>
+      <value>interl_seq_0_2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>interl_seq_0_2</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>(0,1)</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(199, 184)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>id</key>
+      <value>interl_seq_1_2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>interl_seq_1_2</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>(0,1)</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(325, 183)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>parameter</key>
+    <param>
+      <key>id</key>
+      <value>interl_seq_2_2</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>interl_seq_2_2</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>(0,1)</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value></value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(73, 184)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_punct_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_punct_vbvb_top</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>punct_pat_1</key>
+      <value>pp_0</value>
+    </param>
+    <param>
+      <key>punct_pat_2</key>
+      <value>pp_0_tail</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>(part_len_top + n_tailbits) * denom_mother_code_rate</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>vlen_out * 2</value>
+    </param>
+    <param>
+      <key>num_tailbits</key>
+      <value>n_tailbits * denom_mother_code_rate</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(451, 654)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_qam_map_vbvc</key>
+    <param>
+      <key>id</key>
+      <value>drm_qam_map_vbvc_0</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>map_table</key>
+      <value>map_tab</value>
+    </param>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>bits_per_symbol</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>vlen_out</value>
+    </param>
+    <param>
+      <key>n_inputs</key>
+      <value>3</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(956, 729)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_stream_to_vector</key>
+    <param>
+      <key>id</key>
+      <value>blocks_stream_to_vector_mid</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>byte</value>
+    </param>
+    <param>
+      <key>num_items</key>
+      <value>(part_len_mid + n_tailbits) * denom_mother_code_rate</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(252, 755)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_interleaver_vbvb</key>
+    <param>
+      <key>id</key>
+      <value>drm_interleaver_vbvb_mid</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>(interl_seq_1_2)</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(682, 759)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
     <source_block_id>blocks_unpack_k_bits_bb_top</source_block_id>
     <sink_block_id>blocks_stream_to_vector_top</sink_block_id>
@@ -1835,18 +1800,6 @@
   <connection>
     <source_block_id>blocks_stream_to_vector_top</source_block_id>
     <sink_block_id>drm_punct_vbvb_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_punct_vbvb_top</source_block_id>
-    <sink_block_id>drm_interleaver_vbvb_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_interleaver_vbvb_top</source_block_id>
-    <sink_block_id>drm_qam_map_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1979,6 +1932,12 @@
   <connection>
     <source_block_id>blocks_vector_to_stream_bot</source_block_id>
     <sink_block_id>trellis_encoder_xx_bot</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_punct_vbvb_top</source_block_id>
+    <sink_block_id>drm_qam_map_vbvc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
