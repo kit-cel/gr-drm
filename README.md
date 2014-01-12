@@ -52,17 +52,17 @@ GNUradio http://www.gnuradio.org (there is a build script making things really e
 - gr-drm	
 
 		git clone git://github.com/kit-cel/gr-drm.git
-		cd gr-drm
+		cd gr-drm/gr-drm
 		git checkout stable
 		mkdir build
 		cd build
 		cmake ../
 		make
-		make test # optional
+		make test # optional, all tests should pass!
 		sudo make install
 		sudo ldconfig
 
-After successful installation of gr-drm, open the MLC flow graphs in `gnuradio_drm/hier_blocks` 
+After successful installation of gr-drm, open the MLC flow graphs in `gr-drm/hier_blocks` 
 with GNU Radio Companion and execute them in order to generate the appropriate 
 XML and Python files that are used by the transmitter flow graphs.
  
@@ -72,7 +72,7 @@ You are now ready to transmit!
 Usage
 -----
 
-There are various, fully configured flow graphs under `gnuradio_drm/flow_graphs` 
+There are various, fully configured flow graphs under `gr-drm/flow_graphs` 
 that can be used pretty much as-is. The DRM+ flow graph does not crash but is
 completely untested.
 
