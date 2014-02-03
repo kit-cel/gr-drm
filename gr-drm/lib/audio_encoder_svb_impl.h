@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2014 <+YOU OR YOUR COMPANY+>.
- * 
+/*
+ * Copyright 2014 Felix Wunsch, Communications Engineering Lab (CEL) / Karlsruhe Institute of Technology (KIT).
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -57,7 +57,7 @@ namespace gr {
 
      public:
 		audio_encoder_svb_impl(transm_params* tp);
-		~audio_encoder_svb_impl();    
+		~audio_encoder_svb_impl();
 
 		void aac_encode(unsigned char* aac_buffer); // encodes PCM stream to AAC
 		void make_drm_compliant(unsigned char* aac_buffer); // reorders and processes the encoded AAC data to make it DRM compliant. writes to output buffer.

@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2014 <+YOU OR YOUR COMPANY+>.
- * 
+/*
+ * Copyright 2014 Felix Wunsch, Communications Engineering Lab (CEL) / Karlsruhe Institute of Technology (KIT).
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -147,11 +147,11 @@ namespace gr {
 		/* return if there are not enough samples to produce 1 super audio frame */
 		if(ninput_items[0] < d_n_aac_frames * d_transform_length)
 		{
-			std::cout << "aac_encoder: not enough samples. got " << ninput_items[0] 
+			std::cout << "aac_encoder: not enough samples. got " << ninput_items[0]
 			<< ", need " << d_n_aac_frames * d_transform_length << ". returning.\n";
 			return 0;
 		}
-	
+
 		/* set pointers to input and output buffer */
 		d_in = (float*) input_items[0];
 		d_out = (unsigned char*) output_items[0];
@@ -159,10 +159,10 @@ namespace gr {
 		//std::cout << "start of work()" << std::endl;
 		//std::cout << "d_out: " << (long) d_out << std::endl;
 		unsigned char* d_out_prev = d_out;
-	
+
 		// set output buffer to zero (corresponds to zeropadding as defined in the DRM standard)
 		memset(d_out, 0, sizeof(char) * d_L_MUX_MSC);
-	
+
 		/* encode PCM stream and make it DRM compliant. write to output buffer (in make_drm_compliant()) */
 		// init AAC buffer
 		//std::cout << "aac_encode()" << std::endl;
@@ -170,11 +170,11 @@ namespace gr {
 		aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
 		//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
 		d_out_prev = d_out;
-	
+
 		//std::cout << "make_drm_compliant()" << std::endl;
 		make_drm_compliant(aac_buffer); // reorders and processes the data produced by the encoder to be DRM compliant
 		//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
-		d_out_prev = d_out;	
+		d_out_prev = d_out;
 		/* insert text message if available */
 		if( d_tp->cfg().text())
 		{
@@ -185,20 +185,20 @@ namespace gr {
 
 		/* Call consume each and return */
 		consume_each (d_transform_length * d_n_aac_frames);
-	
+
 		return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
     }
-    
+
 	void
 	audio_encoder_svb_impl::aac_encode(unsigned char* aac_buffer)
 	{
 		// clear d_n_bytes_encoded
 		d_n_bytes_encoded.clear();
-	
+
 		// allocate tmp input buffers for PCM and AAC samples
 		float tmp_pcm_buffer[(const unsigned long) d_transform_length]; // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
 		unsigned char tmp_aac_buffer[(const unsigned long) d_n_max_bytes_out];
-	
+
 		for (int j = 0; j < d_n_aac_frames; j++)
 		{
 			/* copy the part of the input data that is converted in this iteration */
@@ -221,9 +221,9 @@ namespace gr {
 		int frame_length[(const int) d_n_aac_frames];
 		unsigned char* frame_pos[(const int) d_n_aac_frames];
 		frame_pos[0] = aac_buffer;
-	
+
 		/* create header ( accumulated frame lengths | padding | CRC | audio ) */
-	
+
 		// calculate frame positions (pointer arithmetic!)
 		for(int i = 1; i < d_n_aac_frames; i++)
 		{
@@ -236,8 +236,8 @@ namespace gr {
 				frame_pos[i] =  frame_pos[i-1]; // no data was encoded in this step
 			}
 		}
-	
-	
+
+
 		// extract frame lengths and CRC
 		for(int i = 0; i < d_n_aac_frames; i++)
 		{
@@ -252,7 +252,7 @@ namespace gr {
 				frame_length[i] = 0;
 			}
 		}
-	
+
 		// append accumulated frame lengths, i. e. the frame borders
 		unsigned int acc_frame_length = 0;
 		for(int i = 0; i < d_n_aac_frames - 1; i++)
@@ -260,19 +260,19 @@ namespace gr {
 			acc_frame_length += frame_length[i];
 			enqueue_bits_dec(d_out, 12, acc_frame_length);
 		}
-	
+
 		if(d_n_aac_frames == 10)
 		{
 			// add 4 padding bits for byte alignment
 			enqueue_bits_dec(d_out, 4, 0);
 		}
-	
+
 		// append CRC words
 		for(int i = 0; i < d_n_aac_frames; i++)
 		{
 			enqueue_bits_dec(d_out, 8, crc_bits[i]);
 		}
-	
+
 		/* append audio data (EEP is assumed -> no higher protected part) */
 		/* Higher protected part */
 		int cur_num_bytes = 0;
@@ -297,7 +297,7 @@ namespace gr {
 	{
 		//std::cout << "entering prepare()" << std::endl;
 		/* prepare the text message string */
-	
+
 
 		//std::cout << "length of the original string: " << d_text_msg.size() << std::endl;
 		// determine the number of segments, truncate if needed
@@ -312,21 +312,21 @@ namespace gr {
 		// zero-pad string if its length is not a multiple of four (bytes)
 		int n_bytes_pad = (4 - d_text_msg.size() % 4) % 4;
 		d_text_msg.append(n_bytes_pad, 0); // append zeros (0x00)
-	
+
 		int len_string_byte = d_text_msg.size(); // length of the string in bytes
 		///std::cout << "len of padded string: " << len_string_byte << std::endl;
-	
+
 		// allocate bit array (unpacked) that will hold the real text message stream
 		const int len_msg_bit = len_string_byte * 8 + n_segments * (16 + 32 + 16); // payload + header + leading zeros + CRC
 		//std::cout << "len_msg_bit: " << len_msg_bit << std::endl;
 		d_n_text_frames = len_msg_bit/(4*8);
 		//std::cout << "d_n_text_frames: " << d_n_text_frames << ", n_segments: " << n_segments << std::endl;
-		unsigned char msg[len_msg_bit]; 
+		unsigned char msg[len_msg_bit];
 		memset(msg, 9, len_msg_bit); // set to 9 for debugging purposes
-	
+
 		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 		unsigned char* p_msg = &msg[0];
-	
+
 		// insert leading 0xFF bytes and header
 		int ctr = 0; // byte-based counter
 		int bits_written_total = 0;
@@ -334,18 +334,18 @@ namespace gr {
 		{
 			int bits_written = 0;
 			unsigned char* seg_ptr = p_msg; // pointer to the beginning of the current segment
-		
+
 			//std::cout << "insert leading ones and header" << std::endl;
 			//std::cout << "msg address: " << (long) &msg[0] << std::endl;
-			//std::cout << "segment " << i << ": " << std::endl;	
+			//std::cout << "segment " << i << ": " << std::endl;
 			/* beginning of the segment */
 			enqueue_bits_dec(p_msg, 32, 0xFFFFFFFF); // 4 bytes, each set to 0xFF
 			bits_written += 32;
-		
+
 			/* header */
 			enqueue_bits_dec(p_msg, 1, 0); // toggle flag (changes when segments from different messages are transmitted)
 			bits_written += 1;
-		
+
 			if(i == 0) // first flag
 			{
 				enqueue_bits_dec(p_msg, 1, 1); // first flag is set
@@ -355,7 +355,7 @@ namespace gr {
 				enqueue_bits_dec(p_msg, 1, 0);
 			}
 			bits_written += 1;
-		
+
 			if(i == n_segments - 1) // last flag
 			{
 				enqueue_bits_dec(p_msg, 1, 1); // last flag is set
@@ -366,7 +366,7 @@ namespace gr {
 			}
 			enqueue_bits_dec(p_msg, 1, 0); // command flag (0 -> Field 1 signals the length of the body of the segment; if set to 1, field 2 is omitted)
 			bits_written += 2;
-		
+
 			// field 1 (length of the segment in bytes, coded as unsigned number)
 			if( i < n_segments - 1) // the last segment can hold less than 16 bytes of character data and has to be treated separately
 			{
@@ -377,7 +377,7 @@ namespace gr {
 				enqueue_bits_dec(p_msg, 4, len_string_byte - (n_segments-1) * 16 - 1);
 			}
 			bits_written += 4;
-		
+
 			// field 2
 			if(i == 0) // first segment
 			{
@@ -389,10 +389,10 @@ namespace gr {
 				enqueue_bits_dec(p_msg, 3, i); // segment number (1-7)
 			}
 			bits_written += 4;
-		
+
 			enqueue_bits_dec(p_msg, 4, 0); // rfa
 			bits_written += 4;
-		
+
 			//std::cout << "insert body" << std::endl;
 			//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 			/* body */
@@ -420,35 +420,35 @@ namespace gr {
 				p_msg += 16; // enqueue crc does not move the array pointer
 				bits_written += 16;
 			}
-		
+
 			bits_written_total += bits_written;
-		
+
 			/*
 			//std::cout << "prefix: ";
 			for(int k = 0; k < 32; k++)
 				std::cout << (int) seg_ptr[k];
-		
+
 			std::cout << std::endl;
-		
+
 			//std::cout << "header: ";
 			for(int k = 0; k < 16; k++)
 				std::cout << (int) seg_ptr[k+32];
 			std::cout << std::endl;
-		
+
 			//std::cout << "body: ";
 			for(int k = 0; k < bits_written - 32 - 16 - 16; k++)
 				std::cout << (int) seg_ptr[k + 48];
 			std::cout << std::endl;
-		
+
 			//std::cout << "CRC: ";
 			for(int k = 0; k < 16; k++)
 				std::cout << (int) seg_ptr[k + bits_written - 16];
 			std::cout << std::endl;
 			*/
 		}
-	
+
 		//std::cout << "total bits written: " << bits_written_total << std::endl;
-	
+
 		//std::cout << "copy array into a vector" << std::endl;
 		//std::cout << "msg address: " << (long) &msg[0] << std::endl;
 		// copy the char array into a vector (more convenient)
@@ -461,14 +461,14 @@ namespace gr {
 	{
 		// text message handling (last 4 bytes of lower protected payload). For details see chapter 6.5 in the standard.
 		d_out = d_out_start + d_text_msg_index; // set output buffer pointer to the beginning of the text message
-	
+
 		//std::cout << "write message to output stream" << std::endl;
 		// determine the part of the message that is to be inserted in this call to work()
 		//std::cout << "actually inserted bits (ctr: " << d_text_ctr << "): ";
 		for(int i = 0; i < 32; i++)
 		{
 			*d_out++ = d_text_msg_fmt[d_text_ctr*32 + i];
-			//std::cout << (int) *(d_out-1);	
+			//std::cout << (int) *(d_out-1);
 			//if((i+1)%8 == 0){std::cout << std::endl;}
 		}
 		//std::cout << std::endl << std::endl;

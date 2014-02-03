@@ -52,3 +52,4 @@ GR_ADD_TEST(qa_interleaver_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}
 GR_ADD_TEST(qa_partitioning_vbvb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_partitioning_vbvb.py)
 GR_ADD_TEST(qa_cell_mapping_vcvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cell_mapping_vcvc.py)
 GR_ADD_TEST(qa_qam_map_vbvc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_qam_map_vbvc.py)
+GR_ADD_TEST(qa_m3ufile_source_f ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_m3ufile_source_f.py)

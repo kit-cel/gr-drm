@@ -23,63 +23,45 @@
 #endif
 
 #include <gnuradio/io_signature.h>
-#include "add_tailbits_vbvb_impl.h"
+#include "m3ufile_source_f_impl.h"
 
 namespace gr {
   namespace drm {
 
-    add_tailbits_vbvb::sptr
-    add_tailbits_vbvb::make(int vlen_in, int n_tailbits)
+    m3ufile_source_f::sptr
+    m3ufile_source_f::make(std::string filename, transm_params *tp)
     {
       return gnuradio::get_initial_sptr
-        (new add_tailbits_vbvb_impl(vlen_in, n_tailbits));
+        (new m3ufile_source_f_impl(filename, tp));
     }
 
     /*
      * The private constructor
      */
-    add_tailbits_vbvb_impl::add_tailbits_vbvb_impl(int vlen_in, int n_tailbits)
-      : gr::sync_block("add_tailbits_vbvb",
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_in),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * (vlen_in + n_tailbits) ))
-    {
-		d_vlen = vlen_in;
-		d_n_tail = n_tailbits;
-	}
+    m3ufile_source_f_impl::m3ufile_source_f_impl(std::string filename, transm_params *tp)
+      : gr::sync_block("m3ufile_source_f",
+              gr::io_signature::make(0, 0, 0),
+              gr::io_signature::make(1, 1, sizeof(float)))
+    {}
 
     /*
      * Our virtual destructor.
      */
-    add_tailbits_vbvb_impl::~add_tailbits_vbvb_impl()
+    m3ufile_source_f_impl::~m3ufile_source_f_impl()
     {
     }
 
     int
-    add_tailbits_vbvb_impl::work(int noutput_items,
+    m3ufile_source_f_impl::work(int noutput_items,
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-		unsigned char *in = (unsigned char *) input_items[0];
-		unsigned char *out = (unsigned char *) output_items[0];
+        float *out = (float *) output_items[0];
 
-		// set tailbits to zero TODO: make tailbits configurable
-		unsigned char tailbits[(const int) d_n_tail];
-		memset(tailbits, 0, d_n_tail);
+        // Do <+signal processing+>
 
-		for( int i = 0; i < noutput_items; i++)
-		{
-			// Append n_tailbits zeros to the input vector
-			memcpy(out, in, d_vlen); // copy input to output
-
-			memcpy(out + d_vlen, tailbits, d_n_tail);
-
-			// move buffer pointers
-			in = in + d_vlen;
-			out = out + d_vlen + d_n_tail;
-		}
-
-		// Tell runtime system how many output items we produced.
-		return noutput_items;
+        // Tell runtime system how many output items we produced.
+        return noutput_items;
     }
 
   } /* namespace drm */

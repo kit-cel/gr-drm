@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2014 <+YOU OR YOUR COMPANY+>.
- * 
+/*
+ * Copyright 2014 Felix Wunsch, Communications Engineering Lab (CEL) / Karlsruhe Institute of Technology (KIT).
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -51,7 +51,7 @@ namespace gr {
 			d_map_table[i][0] = map_table[i][0];
 			d_map_table[i][1] = map_table[i][1];
 		}
-	
+
 		d_bits_per_symbol = bits_per_symbol;
 		d_vlen_out = vlen_out;
 		d_n_inputs = n_inputs;
@@ -75,13 +75,13 @@ namespace gr {
 	{
 		unsigned char *in[d_n_inputs];
 		gr_complex *out = (gr_complex *) output_items[0];
-	
+
 		// define input pointers
 		for( int i = 0; i < d_n_inputs; i++)
 		{
 			in[i] = (unsigned char*) input_items[i];
 		}
-	
+
 		std::vector< int > bits; // holds the bit to be processed for one symbol
 		int iq_index[2]; // first index is I, 2nd is Q
 		int tmp_index;
@@ -95,12 +95,12 @@ namespace gr {
 				iq_index[0] = 0;
 				iq_index[1] = 0;
 				bits.clear();
-		
+
 				// take 2 bits from every stream
 				for( int k = 0; k < 2; k++)
 				{
 					tmp_index = 0;
-			
+
 					// iterate over streams
 					for( int j = 0; j < d_n_inputs; j++)
 					{
@@ -112,7 +112,7 @@ namespace gr {
 					iq_index[k] = tmp_index;
 				}
 				// map bits through decimal indexes to output symbol
-				*out++ = gr_complex( d_map_table[ iq_index[0] ][0], d_map_table[ iq_index[1] ][1] );		
+				*out++ = gr_complex( d_map_table[ iq_index[0] ][0], d_map_table[ iq_index[1] ][1] );
 			}
 		}
 		// Tell runtime system how many output items we produced.

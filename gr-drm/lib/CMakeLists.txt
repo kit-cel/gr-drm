@@ -41,7 +41,8 @@ list(APPEND drm_sources
     interleaver_vcvc_impl.cc
     partitioning_vbvb_impl.cc
     cell_mapping_vcvc_impl.cc
-    qam_map_vbvc_impl.cc )
+    qam_map_vbvc_impl.cc
+    m3ufile_source_f_impl.cc )
 
 add_library(gnuradio-drm SHARED ${drm_sources})
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES})

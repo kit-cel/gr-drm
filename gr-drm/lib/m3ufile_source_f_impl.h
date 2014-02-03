@@ -1,0 +1,76 @@
+/* -*- c++ -*- */
+/*
+ * Copyright 2014 Felix Wunsch, Communications Engineering Lab (CEL) / Karlsruhe Institute of Technology (KIT).
+ *
+ * This is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3, or (at your option)
+ * any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 51 Franklin Street,
+ * Boston, MA 02110-1301, USA.
+ */
+
+#ifndef INCLUDED_DRM_M3UFILE_SOURCE_F_IMPL_H
+#define INCLUDED_DRM_M3UFILE_SOURCE_F_IMPL_H
+
+#include <drm/m3ufile_source_f.h>
+#include <gnuradio/blocks/wavfile.h>
+#include <fstream>
+
+typedef struct{
+    int runlength; // length of the track in seconds
+    std::string info; // track info, e.g. 'artist name - song title'
+} TRACK_INFO;
+
+typedef struct{
+    int sample_rate;
+	int nchans;
+	int bytes_per_sample;
+	int first_sample_pos;
+	int samples_per_chan;
+} WAV_HDR;
+
+namespace gr {
+  namespace drm {
+
+    class m3ufile_source_f_impl : public m3ufile_source_f
+    {
+     private:
+      transm_params *d_tp; // pointer to the transmit parameter instance
+      bool d_playlist_done; // true if the last track in the list is over
+
+      std::string d_m3u_filename; // M3U playlist file name
+      std::ifstream d_m3u_file; // M3U playlist file handle
+      bool d_extended_format; // indicates whether extended format is used or not
+      TRACK_INFO d_track_info; // info about the current track
+
+      std::ifstream d_wav_filename; // current WAV file handle
+      WAV_HDR d_wav_hdr; // header of the current WAV file
+
+      bool check_for_ext_header(); // check whether the playlist uses extended format
+      bool is_ext_format(); // return true if extended format is used, otherwise false
+      bool get_next_track(); // get the next track of the playlist, return false if EOF
+
+     public:
+      m3ufile_source_f_impl(std::string filename, transm_params *tp);
+      ~m3ufile_source_f_impl();
+
+      // Where all the action really happens
+      int work(int noutput_items,
+	       gr_vector_const_void_star &input_items,
+	       gr_vector_void_star &output_items);
+    };
+
+  } // namespace drm
+} // namespace gr
+
+#endif /* INCLUDED_DRM_M3UFILE_SOURCE_F_IMPL_H */
+

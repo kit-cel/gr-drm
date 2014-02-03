@@ -1,17 +1,17 @@
 /* -*- c++ -*- */
-/* 
- * Copyright 2014 <+YOU OR YOUR COMPANY+>.
- * 
+/*
+ * Copyright 2014 Felix Wunsch, Communications Engineering Lab (CEL) / Karlsruhe Institute of Technology (KIT).
+ *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * This software is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this software; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -86,7 +86,7 @@ namespace gr {
 			default:
 				break;
 		}
-	
+
 		switch(d_msc.mod_order())
 		{
 			case 2: // 4-QAM
@@ -124,7 +124,7 @@ namespace gr {
 		}
 		return true;
 	}
-	
+
     int
     cell_mapping_vcvc_impl::work(int noutput_items,
 			  gr_vector_const_void_star &input_items,
@@ -148,7 +148,7 @@ namespace gr {
 
 		// copy mapping tables to access them flexibly
 		int freq_pil[3][2];
-		const int time_rows = d_time_rows; // this way we can instance an array with this variable	
+		const int time_rows = d_time_rows; // this way we can instance an array with this variable
 		int afs_pil[NUM_AFS_PILOTS][3]; // only used for RM E
 		int time_pil[time_rows][2];
 		const int fac_rows = d_fac_rows;
@@ -193,10 +193,10 @@ namespace gr {
 
 		/* Actual mapping (see chapter 8.4 in the DRM standard for details) */
 		for(int tf = 0; tf < d_M_TF; tf++)
-		{	
+		{
 			/* Pilot cells */
 
-			/* Frequency reference cells (only DRM) and AFS reference cells (only DRM+) */	
+			/* Frequency reference cells (only DRM) and AFS reference cells (only DRM+) */
 			if( d_RM != 4)
 			{
 				for(int s = 0; s < d_N; s++)
@@ -220,11 +220,11 @@ namespace gr {
 				int col = 1; // index for the mapping table. is incremented before the next iteration to access the next column.
 				for( int s = 4; s < d_N; s+=35) // only symbol 4 and (4+35) 39
 				{
-		
+
 					for(int i = 0; i < NUM_AFS_PILOTS; i++)
-					{			
+					{
 						// no special boost is applied to the AFS cells
-						out[tf*d_N*d_nfft + s*d_nfft + afs_pil[i][0] + k_off] = cos(2*pi*afs_pil[i][col]/1024) + j*sin(2*pi*afs_pil[i][col]/1024);		
+						out[tf*d_N*d_nfft + s*d_nfft + afs_pil[i][0] + k_off] = cos(2*pi*afs_pil[i][col]/1024) + j*sin(2*pi*afs_pil[i][col]/1024);
 					}
 					col++;
 				}
@@ -242,7 +242,7 @@ namespace gr {
 				int gain_size = d_tables->d_gain_pos[s].size(); // number of gain cells for that symbol
 				for(int i = 0; i < gain_size; i++)
 				{
-					if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) == 0 ) // cell is empty, map gain reference cell to it	 
+					if( abs(out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off]) == 0 ) // cell is empty, map gain reference cell to it
 					{
 						out[tf*d_N*d_nfft + s*d_nfft + d_tables->d_gain_pos[s][i] + k_off] = d_tables->d_gain_cells[s][i];
 					}
@@ -283,8 +283,8 @@ namespace gr {
 				for( int s = 0; s < d_n_sdc_sym; s++)
 				{
 					for( int i = d_k_min; i <= d_k_max; i++)
-					{		
-						if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0  
+					{
+						if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0
 							&& /* no unused carrier */ is_used_carrier(i) )
 						{
 							out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = sdc_in[n];
@@ -304,12 +304,12 @@ namespace gr {
 			{
 				for( int i = d_k_min; i <= d_k_max; i++)
 				{
-					if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0  
-							&& /* no unused carrier */ is_used_carrier(i) )			
+					if( /* cell is empty */ abs(out[tf*d_N*d_nfft + s*d_nfft + k_off + i]) == 0
+							&& /* no unused carrier */ is_used_carrier(i) )
 					{
 						if(n < d_N_MSC * d_M_TF)
 						{
-				
+
 							out[tf*d_N*d_nfft + s*d_nfft + k_off + i] = msc_in[n];
 							n++; // increment MSC cell counter
 						}
@@ -321,7 +321,7 @@ namespace gr {
 					}
 				}
 			}
-		}		
+		}
 
 		// Tell runtime system how many output items we produced.
 		return d_N * d_M_TF;

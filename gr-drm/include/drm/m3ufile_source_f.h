@@ -18,32 +18,41 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_DRM_ADD_TAILBITS_VBVB_IMPL_H
-#define INCLUDED_DRM_ADD_TAILBITS_VBVB_IMPL_H
 
-#include <drm/add_tailbits_vbvb.h>
+#ifndef INCLUDED_DRM_M3UFILE_SOURCE_F_H
+#define INCLUDED_DRM_M3UFILE_SOURCE_F_H
+
+#include <drm/api.h>
+#include <gnuradio/sync_block.h>
+#include "drm_transm_params.h"
+#include <string>
 
 namespace gr {
   namespace drm {
 
-    class add_tailbits_vbvb_impl : public add_tailbits_vbvb
+    /*!
+     * \brief Plays M3U/M3U8 playlist files. Audio files have to be in WAV format, mono, 16 bit (signed).
+     * \ingroup drm
+     *
+     */
+    class DRM_API m3ufile_source_f : virtual public gr::sync_block
     {
-    private:
-		int d_vlen;
-		int d_n_tail;
+     public:
+      typedef boost::shared_ptr<m3ufile_source_f> sptr;
 
-    public:
-		add_tailbits_vbvb_impl(int vlen_in, int n_tailbits);
-		~add_tailbits_vbvb_impl();
-
-      // Where all the action really happens
-      	int work(int noutput_items,
-	       	gr_vector_const_void_star &input_items,
-	       	gr_vector_void_star &output_items);
+      /*!
+       * \brief Return a shared_ptr to a new instance of drm::m3ufile_source_f.
+       *
+       * To avoid accidental use of raw pointers, drm::m3ufile_source_f's
+       * constructor is in a private implementation
+       * class. drm::m3ufile_source_f::make is the public interface for
+       * creating new instances.
+       */
+      static sptr make(std::string filename, transm_params *tp);
     };
 
   } // namespace drm
 } // namespace gr
 
-#endif /* INCLUDED_DRM_ADD_TAILBITS_VBVB_IMPL_H */
+#endif /* INCLUDED_DRM_M3UFILE_SOURCE_F_H */
 

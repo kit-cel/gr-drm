@@ -25,6 +25,7 @@
 #include "drm/partitioning_vbvb.h"
 #include "drm/cell_mapping_vcvc.h"
 #include "drm/qam_map_vbvc.h"
+#include "drm/m3ufile_source_f.h"
 %}
 
 %include "drm_global_constants.h"
@@ -59,3 +60,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, partitioning_vbvb);
 GR_SWIG_BLOCK_MAGIC2(drm, cell_mapping_vcvc);
 %include "drm/qam_map_vbvc.h"
 GR_SWIG_BLOCK_MAGIC2(drm, qam_map_vbvc);
+%include "drm/m3ufile_source_f.h"
+GR_SWIG_BLOCK_MAGIC2(drm, m3ufile_source_f);
