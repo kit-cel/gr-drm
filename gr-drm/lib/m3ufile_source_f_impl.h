@@ -22,7 +22,7 @@
 #define INCLUDED_DRM_M3UFILE_SOURCE_F_IMPL_H
 
 #include <drm/m3ufile_source_f.h>
-#include <gnuradio/blocks/wavfile.h>
+#include <wavfile_drm.h>
 #include <fstream>
 #include <cstdio>
 

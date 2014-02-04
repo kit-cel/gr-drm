@@ -153,13 +153,13 @@ namespace gr {
         if(d_wav_file != NULL)
             throw std::runtime_error(str(boost::format("can't open file '%s'") % d_track_info.filename.c_str()));
 
-        // parse its header
-        bool is_valid = blocks::wavheader_parse(d_wav_file,
-                                                d_wav_hdr.sample_rate,
-                                                d_wav_hdr.nchans,
-                                                d_wav_hdr.bytes_per_sample,
-                                                d_wav_hdr.first_sample_pos,
-                                                d_wav_hdr.samples_per_chan);
+        // parse its header. uses the local version of the function because it can't be accessed in the gnuradio shared library
+        bool is_valid = wavheader_parse(d_wav_file,
+                                        d_wav_hdr.sample_rate,
+                                        d_wav_hdr.nchans,
+                                        d_wav_hdr.bytes_per_sample,
+                                        d_wav_hdr.first_sample_pos,
+                                        d_wav_hdr.samples_per_chan);
         if(!is_valid)
             throw std::runtime_error("not a valid WAV file");
     }

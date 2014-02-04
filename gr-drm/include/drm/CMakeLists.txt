@@ -25,6 +25,7 @@ execute_process(COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_g
 								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_params.h ${PROJECT_SOURCE_DIR}/include/drm/drm_params.h
 								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_transm_params.h ${PROJECT_SOURCE_DIR}/include/drm/drm_transm_params.h
 								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/drm_util.h ${PROJECT_SOURCE_DIR}/include/drm/drm_util.h
+								COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/lib/wavfile_drm.h ${PROJECT_SOURCE_DIR}/include/drm/wavfile_drm.h
 )
 
 ########################################################################
@@ -49,5 +50,7 @@ install(FILES
     partitioning_vbvb.h
     cell_mapping_vcvc.h
     qam_map_vbvc.h
-    m3ufile_source_f.h DESTINATION include/drm
+    m3ufile_source_f.h 
+    wavfile_drm.h
+    DESTINATION include/drm
 )

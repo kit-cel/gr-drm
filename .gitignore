@@ -13,5 +13,6 @@ gr-drm/include/drm/drm_global_constants.h
 gr-drm/include/drm/drm_params.h
 gr-drm/include/drm/drm_transm_params.h
 gr-drm/include/drm/drm_util.h
+gr-drm/include/drm/wavfile_drm.h
 gr-drmrx
 gr-drmtx
