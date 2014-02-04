@@ -74,14 +74,19 @@ namespace gr {
 			  gr_vector_void_star &output_items)
     {
         float *out = (float *) output_items[0];
-
+        printf("work called\n");
         // terminate block if the playlist is done
         if(d_playlist_done)
+        {
+            printf("Finished the playlist\n"); fflush(stdout);
             return WORK_DONE;
+        }
 
-
-
-
+        if(!get_next_track_info())
+        {
+            printf("done\n");
+            return WORK_DONE;
+        }
 
         // Tell runtime system how many output items we produced.
         return noutput_items;
@@ -119,19 +124,22 @@ namespace gr {
         {
             // gets the #EXTINF part
             d_m3u_file.getline(linebuf, len_linebuf,':');
-            printf("1: %s\n", linebuf);
             if(strcmp(extinf_str,linebuf) != 0)
-                throw std::runtime_error("M3U playlist uses extended format, but #EXTINF was not found");
+                return false;
+            if(!d_m3u_file.good())
+                return false;
 
             // get runlength
             d_m3u_file.getline(linebuf, len_linebuf, ',');
-            printf("2: %s\n", linebuf);
             d_track_info.runlength = atoi(linebuf);
+            if(!d_m3u_file.good())
+                return false;
 
             // get info string
             d_m3u_file.getline(linebuf, len_linebuf);
-            printf("3: %s\n", linebuf);
             d_track_info.info = std::string(linebuf);
+            if(!d_m3u_file.good())
+                return false;
         }
         else // there is no extended information, fill in default values
         {
@@ -143,12 +151,11 @@ namespace gr {
         d_m3u_file.getline(linebuf, len_linebuf);
         d_track_info.filename = std::string(linebuf);
 
-        // check if EOF is reached
-        if(d_m3u_file.eof())
-            return false;
-
         // print results
         printf("next track:\n\t'%s'\n\trunlength: %d\n\tfile: %s\n", d_track_info.info.c_str(), d_track_info.runlength, d_track_info.filename.c_str()); fflush(stdout);
+
+        if(!d_m3u_file.good())
+            return false;
 
         return true;
     }
