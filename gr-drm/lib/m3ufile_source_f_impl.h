@@ -24,18 +24,20 @@
 #include <drm/m3ufile_source_f.h>
 #include <gnuradio/blocks/wavfile.h>
 #include <fstream>
+#include <cstdio>
 
 typedef struct{
+    std::string filename;
     int runlength; // length of the track in seconds
     std::string info; // track info, e.g. 'artist name - song title'
 } TRACK_INFO;
 
 typedef struct{
-    int sample_rate;
+    unsigned int sample_rate;
 	int nchans;
 	int bytes_per_sample;
 	int first_sample_pos;
-	int samples_per_chan;
+	unsigned int samples_per_chan;
 } WAV_HDR;
 
 namespace gr {
@@ -52,12 +54,12 @@ namespace gr {
       bool d_extended_format; // indicates whether extended format is used or not
       TRACK_INFO d_track_info; // info about the current track
 
-      std::ifstream d_wav_filename; // current WAV file handle
+      FILE *d_wav_file; // current WAV file handle
       WAV_HDR d_wav_hdr; // header of the current WAV file
 
       bool check_for_ext_header(); // check whether the playlist uses extended format
-      bool is_ext_format(); // return true if extended format is used, otherwise false
-      bool get_next_track(); // get the next track of the playlist, return false if EOF
+      bool get_next_track_info(); // get the next track of the playlist, return false if EOF
+      void init_wav_file(); // opens the wav file indicated by d_track_info and parses its header
 
      public:
       m3ufile_source_f_impl(std::string filename, transm_params *tp);
