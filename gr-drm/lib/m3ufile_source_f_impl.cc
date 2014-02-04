@@ -93,11 +93,16 @@ namespace gr {
         char ext_header[] = "#EXTM3U";
         const int len_ext_header = strlen(ext_header);
         char linebuf[len_ext_header];
-        d_m3u_file.getline(linebuf, len_ext_header);
+        d_m3u_file.getline(linebuf, len_ext_header+1); // +1 to get the newline character
         if(strcmp(linebuf, ext_header) == 0) // return 0 if equal
-            d_extended_format = true;
+        {
+             d_extended_format = true;
+             printf("extended header found\n");
+
+        }
         else
         {
+            printf("extended header not found\n");
             d_extended_format = false;
             d_m3u_file.seekg(0); // rewind the stream to the beginning or else the first track is lost
         }
@@ -114,18 +119,21 @@ namespace gr {
         {
             // gets the #EXTINF part
             d_m3u_file.getline(linebuf, len_linebuf,':');
+            printf("1: %s\n", linebuf);
             if(strcmp(extinf_str,linebuf) != 0)
                 throw std::runtime_error("M3U playlist uses extended format, but #EXTINF was not found");
 
             // get runlength
             d_m3u_file.getline(linebuf, len_linebuf, ',');
+            printf("2: %s\n", linebuf);
             d_track_info.runlength = atoi(linebuf);
 
             // get info string
             d_m3u_file.getline(linebuf, len_linebuf);
+            printf("3: %s\n", linebuf);
             d_track_info.info = std::string(linebuf);
         }
-        else // there is no exended information, fill in default values
+        else // there is no extended information, fill in default values
         {
             d_track_info.info = "unknown artist";
             d_track_info.runlength = -1;
@@ -150,7 +158,7 @@ namespace gr {
     {
         // open the file
         d_wav_file = fopen(d_track_info.filename.c_str(), "rb");
-        if(d_wav_file != NULL)
+        if(d_wav_file == NULL)
             throw std::runtime_error(str(boost::format("can't open file '%s'") % d_track_info.filename.c_str()));
 
         // parse its header. uses the local version of the function because it can't be accessed in the gnuradio shared library
