@@ -184,10 +184,10 @@ namespace gr {
       int16_t buf_16bit;
 
       if(fread(&buf_16bit, bytes_per_sample, 1, fp) != 1) {
-	return 0;
+        return 0;
       }
       if(bytes_per_sample == 1) {
-	return (short)buf_16bit;
+        return (short)buf_16bit;
       }
       return (short)wav_to_host(buf_16bit);
     }
