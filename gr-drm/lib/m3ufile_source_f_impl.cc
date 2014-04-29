@@ -58,7 +58,7 @@ namespace gr {
         if(get_next_track_info())
             init_wav_file();
         else
-             d_playlist_done = true;
+            d_playlist_done = true;
    }
 
     /*
@@ -73,23 +73,44 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
-        float *out = (float *) output_items[0];
-        printf("work called\n");
-        // terminate block if the playlist is done
+        // check whether the playlist is finished
         if(d_playlist_done)
         {
             printf("Finished the playlist\n"); fflush(stdout);
             return WORK_DONE;
         }
 
-        if(!get_next_track_info())
+        // assign output buffer pointer
+        float *out = (float *) output_items[0];
+
+        // check whether there are enough samples left in the current WAV file
+        bool still_samples_left = true; // if false, the next file (if available) has to be opened
+        int num_samples_to_read = noutput_items;
+        if(d_wav_hdr.samples_per_chan - d_num_samples_read < noutput_items)
         {
-            printf("done\n");
-            return WORK_DONE;
+            still_samples_left = false;
+            num_samples_to_read = d_wav_hdr.samples_per_chan - d_num_samples_read;
         }
 
-        // Tell runtime system how many output items we produced.
-        return noutput_items;
+        // get the samples from the WAV file
+        float samplebuf;
+        for(int i = 0; i < num_samples_to_read; i++)
+        {
+            samplebuf = wav_read_sample(d_wav_file, sizeof(short)); // if EOF is reached too early the function returns 0 (silence) for every following call
+            out[i] = convert_to_float(samplebuf);
+        }
+
+        if(!still_samples_left)
+        {
+            if(get_next_track_info())
+                init_wav_file();
+            else // the playlist is finished
+                d_playlist_done = true;
+        }
+
+        // count samples read and return
+        d_num_samples_read += num_samples_to_read;
+        return num_samples_to_read;
     }
 
     bool
@@ -101,15 +122,17 @@ namespace gr {
         d_m3u_file.getline(linebuf, len_ext_header+1); // +1 to get the newline character
         if(strcmp(linebuf, ext_header) == 0) // return 0 if equal
         {
-             d_extended_format = true;
              printf("extended header found\n");
-
+             return true;
         }
         else
         {
             printf("extended header not found\n");
-            d_extended_format = false;
-            d_m3u_file.seekg(0); // rewind the stream to the beginning or else the first track is lost
+            d_m3u_file.clear(); // clear fail bits
+            d_m3u_file.seekg(0, std::ios::beg); // rewind the stream to the beginning or else the first track is lost
+            //d_m3u_file.close();
+            //d_m3u_file.open(d_m3u_filename.c_str(), std::ios::in);
+            return false;
         }
     }
 
@@ -120,6 +143,7 @@ namespace gr {
         char extinf_str[] = "#EXTINF";
         const int len_linebuf = 128;
         char linebuf[len_linebuf];
+
         if(d_extended_format) // parse #EXTINF string
         {
             // gets the #EXTINF part
@@ -143,12 +167,13 @@ namespace gr {
         }
         else // there is no extended information, fill in default values
         {
-            d_track_info.info = "unknown artist";
+            d_track_info.info = "unknown";
             d_track_info.runlength = -1;
         }
 
         // get file name
         d_m3u_file.getline(linebuf, len_linebuf);
+        printf("extracted string: '%s'\n", linebuf);
         d_track_info.filename = std::string(linebuf);
 
         // print results
@@ -176,7 +201,36 @@ namespace gr {
                                         d_wav_hdr.first_sample_pos,
                                         d_wav_hdr.samples_per_chan);
         if(!is_valid)
-            throw std::runtime_error("not a valid WAV file");
+            throw std::runtime_error(str(boost::format("'%s' is not a valid WAV file") % d_track_info.filename.c_str()));
+
+        if(d_wav_hdr.samples_per_chan == 0)
+            throw std::runtime_error(str(boost::format("'%s' is an empty WAV file") % d_track_info.filename.c_str()));
+
+        // go to the first sample in the file
+        if(fseek(d_wav_file, d_wav_hdr.first_sample_pos, SEEK_SET) != 0)
+            throw std::runtime_error(str(boost::format("Could not go to position %d in file %s") % d_wav_hdr.first_sample_pos % d_track_info.filename.c_str()));
+
+        // reset the num_samples_read counter
+        d_num_samples_read = 0;
+
+        // set normalization parameters
+        if(d_wav_hdr.bytes_per_sample == 1) {
+            d_normalize_fac   = 128;
+            d_normalize_shift = 1;
+        }
+        else {
+            d_normalize_fac   = 0x7FFF;
+            d_normalize_shift = 0;
+        }
+    }
+
+    float
+    m3ufile_source_f_impl::convert_to_float(short int sample)
+    {
+      float sample_out = (float)sample;
+      sample_out /= d_normalize_fac;
+      sample_out -= d_normalize_shift;
+      return sample_out;
     }
 
   } /* namespace drm */

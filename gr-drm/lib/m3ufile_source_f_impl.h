@@ -55,11 +55,17 @@ namespace gr {
       TRACK_INFO d_track_info; // info about the current track
 
       FILE *d_wav_file; // current WAV file handle
+      int d_num_samples_read; // number of samples that have been read so far
       WAV_HDR d_wav_hdr; // header of the current WAV file
+
+      int d_normalize_fac; // normalization factor for short->float conversion
+      int d_normalize_shift; // normalization shift for short->float conversion
 
       bool check_for_ext_header(); // check whether the playlist uses extended format
       bool get_next_track_info(); // get the next track of the playlist, return false if EOF
       void init_wav_file(); // opens the wav file indicated by d_track_info and parses its header
+
+      float convert_to_float(short int sample); // converts the short value into a float normalized to [-1,1]
 
      public:
       m3ufile_source_f_impl(std::string filename, transm_params *tp);
