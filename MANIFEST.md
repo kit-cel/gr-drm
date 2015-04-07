@@ -7,7 +7,7 @@ tags: # Tags are arbitrary, but look at CGRAN what other authors are using
 author:
   - Felix Wunsch <wunsch.felix@googlemail.com>
 copyright_owner:
-  - Felix Wunscho
+  - Felix Wunsch
 license: GPLv3
 #repo: # Put the URL of the repository here, or leave blank for default
 #website: <module_website> # If you have a separate project website, put it here
