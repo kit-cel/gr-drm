@@ -1,6 +1,6 @@
 title: gr-drm
 brief: DRM/DRM+ transmitter
-tags: # Tags are arbitrary, but look at CGRAN what other authors are using
+tags: 
   - sdr
   - digital radio
   - short wave
@@ -9,9 +9,7 @@ author:
 copyright_owner:
   - Felix Wunsch
 license: GPLv3
-#repo: # Put the URL of the repository here, or leave blank for default
-#website: <module_website> # If you have a separate project website, put it here
-#icon: <icon_url> # Put a URL to a square image here that will be used as an icon on CGRAN
+icon: http://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Digital_radio_mondiale-Logo.svg/200px-Digital_radio_mondiale-Logo.svg.png
 ---
 
 After successful installation of gr-drm, open the MLC flow graphs in `gr-drm/hier_blocks` 
@@ -19,8 +17,6 @@ with GNU Radio Companion and execute them in order to generate the appropriate
 XML and Python files that are used by the transmitter flow graphs.
  
 You are now ready to transmit!
-Usage
------
 
 There are various, fully configured flow graphs under `gr-drm/flow_graphs` 
 that can be used pretty much as-is. The DRM+ flow graph does not crash but is
@@ -35,10 +31,6 @@ As wav files usually aren't sampled with 12 or 24 kHz, I use sox for convenient
 resampling.
 Syntax: `sox <mysong.wav> -r <new_sample_rate> <mysongresampled.wav> resample`
 
-
-Features
---------
-
 This project features a DRM/DRM+ software transmitter fully integrated into GNU Radio
 Companion.
 
@@ -48,10 +40,6 @@ bit rates vary from below 5 kbps to about 55 kbps. A configuration that is widel
 used is RM B (==1) and 10 kHz bandwidth (SO 3). Among other parameters, the
 station label and a text message can also be set by simply adapting the 
 correspondant blocks' values.
-
-
-(Current) Constraints
----------------------
 
 As this project is still under development, there are some features of the DRM
 standard that are not (yet) available. The most important are:
@@ -63,12 +51,10 @@ standard that are not (yet) available. The most important are:
 - Reconfiguration
 
 
-Known Bugs
-----------
-
+Known Bugs:
 - text message corrupted for SO 5 / RM A (and possibly other modes) 
 
 If you find any bugs or have great ideas you think the project could benefit 
 from, just write me: uncnr[at]student.kit.edu
 
-last updated on: 2014/01/11
+last updated on: 2015/04/09
