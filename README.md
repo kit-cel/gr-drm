@@ -97,7 +97,7 @@ occupancies (SO, signal bandwidth) ranging from 4.5 to 20 kHz. The corresponding
 bit rates vary from below 5 kbps to about 55 kbps. A configuration that is widely
 used is RM B (==1) and 10 kHz bandwidth (SO 3). Among other parameters, the
 station label and a text message can also be set by simply adapting the 
-correspondant blocks' values.
+correspondent blocks' values.
 
 
 (Current) Constraints
