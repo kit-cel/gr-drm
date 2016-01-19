@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/swig/_drm_swig_swig_tag.cpp">
+      <sourceFolder url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/swig/_drm_swig_swig_tag.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/swig/_drm_swig_swig_tag.cpp">
+      <sourceFolder url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/swig/_drm_swig_swig_tag.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/swig/_drm_swig_swig_tag.cpp">
+      <sourceFolder url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/swig/_drm_swig_swig_tag.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/swig/_drm_swig_swig_tag.cpp">
+      <sourceFolder url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/swig/_drm_swig_swig_tag.cpp" isTestSource="false" />
+    </content>
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/Modules/FindCppUnit.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/Modules/FindFaac.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/Modules/GrPlatform.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/cmake_uninstall.cmake.in" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/docs/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/grc/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/include/drm/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/add_tailbits_bb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/add_tailbits_bb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/audio_encoder_sb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/audio_encoder_sb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/cell_mapping_cc_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/cell_mapping_cc_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_config.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_config.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_params.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_params.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_tables_mapping.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_tables_params.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_transm_params.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_transm_params.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_util.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/drm_util.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/generate_fac_b_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/generate_fac_b_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/generate_sdc_b_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/generate_sdc_b_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/interleaver_bb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/interleaver_bb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/interleaver_cc_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/interleaver_cc_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/m3ufile_source_f_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/m3ufile_source_f_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/partitioning_bb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/partitioning_bb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/punct_bb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/punct_bb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/qa_drm.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/qa_drm.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/qam_map_bc_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/qam_map_bc_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/scrambler_bb_impl.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/scrambler_bb_impl.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/test_drm.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/wavfile_drm.cc" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/lib/wavfile_drm.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/python/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/swig/CMakeLists.txt" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/swig" />
+          <root url="file://$MODULE_DIR$/include" />
+          <root url="file://$MODULE_DIR$/lib" />
+          <root url="file://$MODULE_DIR$/swig" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/swig" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/include" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/lib" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/swig" />
+          <root url="file://$MODULE_DIR$/include" />
+          <root url="file://$MODULE_DIR$/lib" />
+          <root url="file://$MODULE_DIR$/swig" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/4.8/include-fixed" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+        <excluded>
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Debug/swig/_drm_swig_swig_tag.cpp" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/MinSizeRel/swig/_drm_swig_swig_tag.cpp" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/RelWithDebInfo/swig/_drm_swig_swig_tag.cpp" />
+          <root url="file://$USER_HOME$/.clion11/system/cmake/generated/3c631c36/3c631c36/Release/swig/_drm_swig_swig_tag.cpp" />
+          <root url="file://$MODULE_DIR$/include/drm/CMakeLists.txt" />
+          <root url="file://$MODULE_DIR$/lib/drm_tables_mapping.cc" />
+          <root url="file://$MODULE_DIR$/lib/drm_transm_params.cc" />
+          <root url="file://$MODULE_DIR$/lib/generate_sdc_b_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/generate_fac_b_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/punct_bb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/test_drm.cc" />
+          <root url="file://$MODULE_DIR$/lib/interleaver_bb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/drm_tables_params.cc" />
+          <root url="file://$MODULE_DIR$/lib/scrambler_bb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/drm_util.h" />
+          <root url="file://$MODULE_DIR$/lib/wavfile_drm.cc" />
+          <root url="file://$MODULE_DIR$/lib/add_tailbits_bb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/qam_map_bc_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/interleaver_cc_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/generate_fac_b_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/cell_mapping_cc_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/wavfile_drm.h" />
+          <root url="file://$MODULE_DIR$/lib/qa_drm.h" />
+          <root url="file://$MODULE_DIR$/lib/punct_bb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/drm_config.cc" />
+          <root url="file://$MODULE_DIR$/lib/add_tailbits_bb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/drm_params.h" />
+          <root url="file://$MODULE_DIR$/lib/audio_encoder_sb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/audio_encoder_sb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/scrambler_bb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/drm_config.h" />
+          <root url="file://$MODULE_DIR$/lib/drm_util.cc" />
+          <root url="file://$MODULE_DIR$/lib/CMakeLists.txt" />
+          <root url="file://$MODULE_DIR$/lib/qa_drm.cc" />
+          <root url="file://$MODULE_DIR$/lib/partitioning_bb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/m3ufile_source_f_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/qam_map_bc_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/drm_params.cc" />
+          <root url="file://$MODULE_DIR$/lib/interleaver_bb_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/drm_transm_params.h" />
+          <root url="file://$MODULE_DIR$/lib/partitioning_bb_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/m3ufile_source_f_impl.cc" />
+          <root url="file://$MODULE_DIR$/lib/cell_mapping_cc_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/interleaver_cc_impl.h" />
+          <root url="file://$MODULE_DIR$/lib/generate_sdc_b_impl.h" />
+          <root url="file://$MODULE_DIR$/swig/CMakeLists.txt" />
+        </excluded>
+      </library>
+    </orderEntry>
+  </component>
+</module>

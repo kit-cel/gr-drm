@@ -18,7 +18,8 @@
  * the Free Software Foundation, Inc., 51 Franklin Street,
  * Boston, MA 02110-1301, USA.
  */
- 
+
+#include <stdexcept>
 #include "drm_config.h"
 
 /* config implementation */
@@ -90,13 +91,10 @@ config::init(tables* ptr_tables,
 	d_ptables = ptr_tables;
 
 	/* make some range and combination checks */
-	if(!check_arguments())
-	{
-		std::cout << "INVALID CONFIGURATION!\n";
-	}
+	check_arguments();
 }
 
-bool
+void
 config::check_arguments()
 {
 	bool valid = true;
@@ -106,68 +104,54 @@ config::check_arguments()
 	/* some range checks */
 	if (d_RM < 0 || d_RM > 4)
 	{
-		std::cout << "RM out of range!\n";
-		valid = false;
+		throw std::runtime_error("SO out of range!\n");
 	}
 	if (d_SO < 0 || d_SO > 5)
 	{
-		std::cout << "SO out of range!\n";
-		valid = false;
+		throw std::runtime_error("SO out of range!\n");
 	}
 	if (d_msc_mapping < 0 || d_msc_mapping > 4)
 	{
-		std::cout << "MSC mapping out of range!\n";
-		valid = false;
+		throw std::runtime_error("MSC mapping out of range!\n");
 	}
 	if (d_sdc_mapping < 0 || d_sdc_mapping > 1)
 	{
-		std::cout << "SDC mapping out of range!\n";
-		valid = false;
+		throw std::runtime_error("SDC mapping out of range!\n");
 	}
 	if (d_sdc_prot_level < 0 || d_sdc_prot_level > 1)
 	{
-		std::cout << "Protection level out of range!\n";
-		valid = false;
+		throw std::runtime_error("Protection level out of range!\n");
 	}
 
 	/* some combination checks */
 	if (d_RM == 4 && d_SO != 0)
 	{
-		std::cout << "SO has to be 0 in RM E!\n";
-		valid = false;
+		throw std::runtime_error("SO has to be 0 in RM E!\n");
 	}
 	if ((d_RM == 2 || d_RM == 3 ) && (d_SO < 3 || d_SO == 4))
 	{
-		std::cout << "Invalid RM/SO combination! See Annex J in the standard.\n";
-		valid = false;
+		throw std::runtime_error("Invalid RM/SO combination! See Annex J in the standard.\n");
 	}
 	if (d_RM < 4 && d_sdc_prot_level != 0)
 	{
-		std::cout << "Invalid SDC protection level (only for RM E, otherwise set it to zero)!\n";
-		valid = false;
+		throw std::runtime_error("Invalid SDC protection level (only for RM E, otherwise set it to zero)!\n");
 	}
 	if (d_msc_mapping > 2 && d_sdc_mapping == 0)
 	{
-		std::cout << "If hierarchical mapping is used, SDC has to use 4-QAM!\n";
-		valid = false;
+		throw std::runtime_error("If hierarchical mapping is used, SDC has to use 4-QAM!\n");
 	}
 	if(!(d_audio_samp_rate == 12000 || d_audio_samp_rate == 24000 || d_audio_samp_rate == 48000))
 	{
-		std::cout << "Invalid audio sample rate!\n";
-		valid = false;
+		throw std::runtime_error("Invalid audio sample rate!\n");
 	}
 	if(d_RM < 4 && d_audio_samp_rate > 24000)
 	{
-		std::cout << "48 kHz sample rate is only valid for RM E!\n";
-		valid = false;
+		throw std::runtime_error("48 kHz sample rate is only valid for RM E!\n");
 	}
 	if(d_RM == 4 && d_audio_samp_rate < 24000)
 	{
-		std::cout << "12 kHz sample rate is only valid for RM A-E!\n";
-		valid = false;
+		throw std::runtime_error("12 kHz sample rate is only valid for RM A-E!\n");
 	}
-
-	return valid;
 }
 
 unsigned short

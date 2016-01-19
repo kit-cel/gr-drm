@@ -23,12 +23,12 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_audio_encoder_svb (gr_unittest.TestCase):
+class qa_audio_encoder_sb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "this is a long sample text message!")
-        self.audio_enc = drm.audio_encoder_svb(self.tp)
+        self.audio_enc = drm.audio_encoder_sb(self.tp)
         self.src = blocks.null_source(4)
         self.head = blocks.head(4,  960*10*3)
         self.snk = blocks.vector_sink_b(self.tp.msc().L_MUX())
@@ -45,4 +45,4 @@ class qa_audio_encoder_svb (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_audio_encoder_svb, "qa_audio_encoder_svb.xml")
+    gr_unittest.run(qa_audio_encoder_sb, "qa_audio_encoder_sb.xml")

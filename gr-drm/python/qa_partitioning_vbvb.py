@@ -23,12 +23,12 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_partitioning_vbvb (gr_unittest.TestCase):
+class qa_partitioning_bb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.src = blocks.vector_source_b((1,2,3,4,5,6,7,8,9), 1, 9)
-        self.demux = drm.partitioning_vbvb(9, (2,3,4))
+        self.demux = drm.partitioning_bb(9, (2,3,4))
         self.head = blocks.head(9,2)
         self.snk1 = blocks.vector_sink_b(2)
         self.snk2 = blocks.vector_sink_b(3)
@@ -58,4 +58,4 @@ class qa_partitioning_vbvb (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_partitioning_vbvb, "qa_partitioning_vbvb.xml")
+    gr_unittest.run(qa_partitioning_bb, "qa_partitioning_bb.xml")

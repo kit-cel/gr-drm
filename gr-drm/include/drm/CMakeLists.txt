@@ -39,17 +39,17 @@ install(FILES
     drm_params.h
     drm_transm_params.h
     drm_util.h
-    scrambler_vbvb.h
-    audio_encoder_svb.h
-    generate_fac_vb.h
-    generate_sdc_vb.h
-    add_tailbits_vbvb.h
-    punct_vbvb.h
-    interleaver_vbvb.h
-    interleaver_vcvc.h
-    partitioning_vbvb.h
-    cell_mapping_vcvc.h
-    qam_map_vbvc.h
+    scrambler_bb.h
+    audio_encoder_sb.h
+    generate_fac_b.h
+    generate_sdc_b.h
+    add_tailbits_bb.h
+    punct_bb.h
+    interleaver_bb.h
+    interleaver_cc.h
+    partitioning_bb.h
+    cell_mapping_cc.h
+    qam_map_bc.h
     m3ufile_source_f.h 
     wavfile_drm.h
     DESTINATION include/drm

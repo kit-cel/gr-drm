@@ -24,12 +24,12 @@ from gnuradio import blocks
 import drm_swig as drm
 import numpy as np
 
-class qa_scrambler_vbvb (gr_unittest.TestCase):
+class qa_scrambler_bb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.src = blocks.vector_source_b((0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0), 0, 16)
-        self.scrambler = drm.scrambler_vbvb(16)
+        self.scrambler = drm.scrambler_bb(16)
         self.snk = blocks.vector_sink_b(16)
         self.tb.connect(self.src, self.scrambler, self.snk)
 
@@ -46,4 +46,4 @@ class qa_scrambler_vbvb (gr_unittest.TestCase):
         self.assertTupleEqual(res, ref)
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_scrambler_vbvb, "qa_scrambler_vbvb.xml")
+    gr_unittest.run(qa_scrambler_bb, "qa_scrambler_bb.xml")

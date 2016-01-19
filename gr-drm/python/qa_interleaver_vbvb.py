@@ -23,14 +23,14 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_interleaver_vbvb (gr_unittest.TestCase):
+class qa_interleaver_bb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.src = blocks.vector_source_b((0,1,2,3,4,5,6,7,8,9), True, 10)
         self.head = blocks.head(10,2)
         seq = (3,7,5,8,6,1,9,4,2,0)
-        self.interleaver = drm.interleaver_vbvb(seq)
+        self.interleaver = drm.interleaver_bb(seq)
         self.snk = blocks.vector_sink_b(10)
         
         self.tb.connect(self.src, self.head, self.interleaver, self.snk)
@@ -47,4 +47,4 @@ class qa_interleaver_vbvb (gr_unittest.TestCase):
         self.assertTupleEqual(res, ref)
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_interleaver_vbvb, "qa_interleaver_vbvb.xml")
+    gr_unittest.run(qa_interleaver_bb, "qa_interleaver_bb.xml")

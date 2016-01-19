@@ -23,14 +23,14 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_punct_vbvb (gr_unittest.TestCase):
+class qa_punct_bb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.src = blocks.vector_source_b((1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0,1,0,1,0,1,1,0,0,1,0,1,1,1,0,1,0), False, 16)
         pp1 = (1,1,0,0,1,1)
         pp2 = (1,1,1,0)
-        self.punct = drm.punct_vbvb(pp1, pp2, 16, 11, 4)
+        self.punct = drm.punct_bb(pp1, pp2, 16, 11, 4)
         self.snk = blocks.vector_sink_b(11)
         
         self.tb.connect(self.src, self.punct, self.snk)
@@ -46,4 +46,4 @@ class qa_punct_vbvb (gr_unittest.TestCase):
         self.assertTupleEqual(res, (1,0,1,1,0,0,1,1,1,0,1,1,0,1,1,0,0,1,1,1,0,1))
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_punct_vbvb, "qa_punct_vbvb.xml")
+    gr_unittest.run(qa_punct_bb, "qa_punct_bb.xml")
