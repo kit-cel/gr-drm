@@ -25,6 +25,7 @@
 #include <gnuradio/io_signature.h>
 #include "add_tailbits_vbvb_impl.h"
 
+
 namespace gr {
   namespace drm {
 
@@ -39,13 +40,14 @@ namespace gr {
      * The private constructor
      */
     add_tailbits_vbvb_impl::add_tailbits_vbvb_impl(int vlen_in, int n_tailbits)
-      : gr::sync_block("add_tailbits_vbvb",
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_in),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * (vlen_in + n_tailbits) ))
+            : gr::block("add_tailbits_vbvb",
+                                       gr::io_signature::make(1, 1, sizeof(unsigned char)),
+                                       gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
-		d_vlen = vlen_in;
-		d_n_tail = n_tailbits;
-	}
+        d_vlen = vlen_in;
+        d_n_tail = n_tailbits;
+        set_output_multiple(vlen_in + n_tailbits);
+    }
 
     /*
      * Our virtual destructor.
@@ -55,18 +57,19 @@ namespace gr {
     }
 
     int
-    add_tailbits_vbvb_impl::work(int noutput_items,
+    add_tailbits_vbvb_impl::general_work(int noutput_items,
+              gr_vector_int &ninput_items,
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
     {
 		unsigned char *in = (unsigned char *) input_items[0];
 		unsigned char *out = (unsigned char *) output_items[0];
-
-		// set tailbits to zero TODO: make tailbits configurable
+        const int n_vectors = noutput_items/(d_vlen+d_n_tail);
+        // set tailbits to zero TODO: make tailbits configurable
 		unsigned char tailbits[(const int) d_n_tail];
 		memset(tailbits, 0, d_n_tail);
 
-		for( int i = 0; i < noutput_items; i++)
+		for( int i = 0; i < n_vectors; i++)
 		{
 			// Append n_tailbits zeros to the input vector
 			memcpy(out, in, d_vlen); // copy input to output
@@ -76,11 +79,21 @@ namespace gr {
 			// move buffer pointers
 			in = in + d_vlen;
 			out = out + d_vlen + d_n_tail;
-		}
-
+        }
+        consume_each(noutput_items-n_vectors*d_n_tail);
 		// Tell runtime system how many output items we produced.
-		return noutput_items;
+		return n_vectors*(d_vlen+d_n_tail);
     }
+
+      void
+      add_tailbits_vbvb_impl::forecast(int noutput_items,
+                gr_vector_int &ninput_items_required)
+      {
+          unsigned ninputs = ninput_items_required.size();
+          float interpolation_factor = float(d_vlen+d_n_tail)/d_vlen;
+          for(unsigned i = 0; i < ninputs; i++)
+              ninput_items_required[i] = noutput_items/interpolation_factor;
+      }
 
   } /* namespace drm */
 } /* namespace gr */

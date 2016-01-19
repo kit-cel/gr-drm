@@ -41,10 +41,11 @@ namespace gr {
     generate_sdc_vb_impl::generate_sdc_vb_impl(transm_params* tp)
       : gr::sync_block("generate_sdc_vb",
               gr::io_signature::make(0, 0, 0),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * tp->sdc().L() ))
+              gr::io_signature::make(1, 1, sizeof (unsigned char)))
     {
     	d_tp = tp;
-    }
+		set_output_multiple(tp->sdc().L());
+	}
 
     /*
      * Our virtual destructor.
@@ -189,13 +190,15 @@ namespace gr {
 	{
 		const unsigned int sdc_length = d_tp->sdc().L();
 		unsigned char data[sdc_length];
+		unsigned char *out = (unsigned char *) output_items[0];
 		memset(data, 0, sdc_length);
 
+
 		init_data(data);
-		memcpy( (void*) output_items[0], (void*) data, (size_t) sizeof(char) * sdc_length );
+		memcpy(out, data, (size_t) sizeof(char) * sdc_length);
 
 		// Tell runtime system how many output items we produced.
-		return 1;
+		return sdc_length;
 	}
 
   } /* namespace drm */

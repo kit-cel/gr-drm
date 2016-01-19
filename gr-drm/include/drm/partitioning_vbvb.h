@@ -34,7 +34,7 @@ namespace gr {
      * \ingroup drm
      *
      */
-    class DRM_API partitioning_vbvb : virtual public gr::sync_block
+    class DRM_API partitioning_vbvb : virtual public gr::block
     {
      public:
       typedef boost::shared_ptr<partitioning_vbvb> sptr;

@@ -40,14 +40,15 @@ namespace gr {
      */
     punct_vbvb_impl::punct_vbvb_impl(std::vector<unsigned char> punct_pat_1, std::vector<unsigned char> punct_pat_2, int vlen_in, int vlen_out, int num_tailbits)
       : gr::block("punct_vbvb",
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_in),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * vlen_out))
+              gr::io_signature::make(1, 1, sizeof (unsigned char)),
+              gr::io_signature::make(1, 1, sizeof (unsigned char)))
 	{
 		d_vlen_in = vlen_in;
 		d_vlen_out = vlen_out;
 		d_pp1 = punct_pat_1;
 		d_pp2 = punct_pat_2;
 		d_n_tail = num_tailbits;
+		set_output_multiple(vlen_out);
 	}
 
 
@@ -66,12 +67,13 @@ namespace gr {
     {
 		unsigned char *in = (unsigned char *) input_items[0];
 		unsigned char *out = (unsigned char *) output_items[0];
+		int n_vectors = noutput_items/d_vlen_out;
 
 		int len_pp1 = d_pp1.size();
 		int len_pp2 = d_pp2.size();
 		//std::cout << "vlen_in: " << d_vlen_in << ", vlen_out: " << d_vlen_out << ", len_pp1: " << len_pp1 << ", len_pp2: " << len_pp2 << std::endl;
 
-		for( int i = 0; i < noutput_items; i++)
+		for( int i = 0; i < n_vectors; i++)
 		{
 		  for( int j = 0; j < d_vlen_in; j++)
 		  {
@@ -107,11 +109,21 @@ namespace gr {
 
 		// Tell runtime system how many input items we consumed on
 		// each input stream.
-		consume_each (noutput_items);
+		consume_each (n_vectors*d_vlen_in);
 
 		// Tell runtime system how many output items we produced.
-		return noutput_items;
+		return n_vectors*d_vlen_out;
     }
+
+	void
+	punct_vbvb_impl::forecast(int noutput_items,
+								   gr_vector_int &ninput_items_required)
+	{
+		unsigned ninputs = ninput_items_required.size();
+		float interpolation_factor = float(d_vlen_out)/d_vlen_in;
+		for(unsigned i = 0; i < ninputs; i++)
+			ninput_items_required[i] = noutput_items/interpolation_factor;
+	}
 
   } /* namespace drm */
 } /* namespace gr */

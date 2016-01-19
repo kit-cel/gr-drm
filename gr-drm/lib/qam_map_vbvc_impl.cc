@@ -39,9 +39,10 @@ namespace gr {
      * The private constructor
      */
     qam_map_vbvc_impl::qam_map_vbvc_impl(const float map_table[][2], int bits_per_symbol, int vlen_out, int n_inputs)
-      : gr::sync_block("qam_map_vbvc",
-              gr::io_signature::make(n_inputs, n_inputs, sizeof (unsigned char) * vlen_out * 2),
-              gr::io_signature::make(1, 1, sizeof (gr_complex) * vlen_out))
+      : gr::sync_decimator("qam_map_vbvc",
+              gr::io_signature::make(n_inputs, n_inputs, sizeof (unsigned char)),
+              gr::io_signature::make(1, 1, sizeof (gr_complex)),
+	          2)
 	{
 		// set values for d_map_table
 		memset(d_map_table, 0, 16); // set d_map_table to zero
@@ -59,6 +60,7 @@ namespace gr {
 		{
 			d_pow2.push_back(pow(2,i));
 		}
+		set_output_multiple(vlen_out);
 	}
 
     /*
@@ -75,7 +77,7 @@ namespace gr {
 	{
 		unsigned char *in[d_n_inputs];
 		gr_complex *out = (gr_complex *) output_items[0];
-
+		int n_vectors = noutput_items/d_vlen_out;
 		// define input pointers
 		for( int i = 0; i < d_n_inputs; i++)
 		{
@@ -86,7 +88,7 @@ namespace gr {
 		int iq_index[2]; // first index is I, 2nd is Q
 		int tmp_index;
 
-		for(int n = 0; n < noutput_items; n++)
+		for(int n = 0; n < n_vectors; n++)
 		{
 			// Map bits from several streams to symbols (SM only)
 			for( int i = 0; i < d_vlen_out; i++)
@@ -116,7 +118,7 @@ namespace gr {
 			}
 		}
 		// Tell runtime system how many output items we produced.
-		return noutput_items;
+		return n_vectors*d_vlen_out;
 	}
 
   } /* namespace drm */

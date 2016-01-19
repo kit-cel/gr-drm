@@ -8,25 +8,26 @@
     <name>Interleaving Sequence</name>
     <key>interl_seq</key>
     <type>int_vector</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Long Interleaving</name>
     <key>long_interl</key>
     <type>bool</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Interleaving Depth</name>
     <key>depth</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <sink>
     <name>in</name>
     <type>complex</type>
-    <vlen>len($interl_seq)</vlen>
   </sink>
   <source>
     <name>out</name>
     <type>complex</type>
-    <vlen>len($interl_seq)</vlen>
   </source>
 </block>

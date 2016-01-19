@@ -8,15 +8,14 @@
     <name>Block Length</name>
     <key>block_len</key>
     <type>raw</type>
+    <hide>part</hide>
   </param>
   <sink>
     <name>in</name>
     <type>byte</type>
-    <vlen>$block_len</vlen>
   </sink>
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>$block_len</vlen>
   </source>
 </block>

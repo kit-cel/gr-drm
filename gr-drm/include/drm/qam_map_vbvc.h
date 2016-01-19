@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_QAM_MAP_VBVC_H
 
 #include <drm/api.h>
-#include <gnuradio/sync_block.h>
+#include <gnuradio/sync_decimator.h>
 
 namespace gr {
   namespace drm {
@@ -34,7 +34,7 @@ namespace gr {
      * \ingroup drm
      *
      */
-    class DRM_API qam_map_vbvc : virtual public gr::sync_block
+    class DRM_API qam_map_vbvc : virtual public gr::sync_decimator
     {
     public:
     	typedef boost::shared_ptr<qam_map_vbvc> sptr;

@@ -30,16 +30,21 @@ namespace gr {
     {
     private:
     	unsigned int d_n_out; // number of output ports
+        unsigned int d_vlen_in; // length of input vector
 		std::vector<int> d_vlen_out; // vector with output vector lengths
+
 
     public:
 		partitioning_vbvb_impl(unsigned int vlen_in, std::vector<int> vlen_out);
 		~partitioning_vbvb_impl();
 
       	// Where all the action really happens
-      	int work(int noutput_items,
-	       	gr_vector_const_void_star &input_items,
-	       	gr_vector_void_star &output_items);
+        int general_work(int noutput_items,
+                         gr_vector_int &ninput_items,
+                         gr_vector_const_void_star &input_items,
+                         gr_vector_void_star &output_items);
+        void forecast(int noutput_items, gr_vector_int &ninput_items_required);
+
     };
 
   } // namespace drm

@@ -8,15 +8,14 @@
     <name>Interleaver Sequence</name>
     <key>interl_seq</key>
     <type>int_vector</type>
+    <hide>part</hide>
   </param>
   <sink>
     <name>in</name>
-    <type>byte</type>
-    <vlen>len($interl_seq)</vlen>
+    <type>byte</type>    
   </sink>
   <source>
     <name>out</name>
-    <type>byte</type>
-    <vlen>len($interl_seq)</vlen>
+    <type>byte</type>    
   </source>
 </block>

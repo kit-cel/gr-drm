@@ -40,10 +40,11 @@ namespace gr {
      */
     scrambler_vbvb_impl::scrambler_vbvb_impl(unsigned int block_len)
       : gr::sync_block("scrambler_vbvb",
-              gr::io_signature::make(1, 1, sizeof(unsigned char) * block_len),
-              gr::io_signature::make(1, 1, sizeof(unsigned char) * block_len))
+              gr::io_signature::make(1, 1, sizeof(unsigned char)),
+              gr::io_signature::make(1, 1, sizeof(unsigned char)))
     {
     	d_block_len = block_len;
+        set_output_multiple(block_len);
     }
 
     /*
@@ -60,10 +61,10 @@ namespace gr {
     {
         const unsigned char *in = (const unsigned char *) input_items[0];
         unsigned char *out = (unsigned char *) output_items[0];
-
+        const int n_vectors = noutput_items/d_block_len;
 				const unsigned int n_reset = block_len();
 
-				for(int j = 0; j < noutput_items; j++)
+				for(int j = 0; j < n_vectors; j++)
 				{
 					// Generate PRBS of length block_len (G(x) = x^9 + x^5 + 1)
 					unsigned char prbs[n_reset]; // Pseudo random bit sequence array
@@ -96,7 +97,7 @@ namespace gr {
 					}
 				}
         // Tell runtime system how many output items we produced.
-        return noutput_items;
+        return n_vectors*d_block_len;
     }
 
   } /* namespace drm */

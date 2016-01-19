@@ -42,8 +42,9 @@ namespace gr {
     audio_encoder_svb_impl::audio_encoder_svb_impl(transm_params* tp)
       : gr::block("audio_encoder_svb",
               gr::io_signature::make(1, 1, sizeof (float)),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * tp->msc().L_MUX()))
+              gr::io_signature::make(1, 1, sizeof (unsigned char) ))
     {
+		set_output_multiple(tp->msc().L_MUX());
     	// set buffer pointers to NULL
 		d_in = NULL;
 		d_out = NULL;
@@ -151,7 +152,7 @@ namespace gr {
 			<< ", need " << d_n_aac_frames * d_transform_length << ". returning.\n";
 			return 0;
 		}
-
+		//std::cout<<d_L_MUX_MSC <<"   "<<d_transform_length<<"   "<<d_n_aac_frames<<std::endl;
 		/* set pointers to input and output buffer */
 		d_in = (float*) input_items[0];
 		d_out = (unsigned char*) output_items[0];
@@ -186,7 +187,7 @@ namespace gr {
 		/* Call consume each and return */
 		consume_each (d_transform_length * d_n_aac_frames);
 
-		return 1; // n_aac_frames super audio frames -> 1 transmission frame was produced
+		return d_L_MUX_MSC; // n_aac_frames super audio frames -> 1 transmission frame was produced
     }
 
 	void

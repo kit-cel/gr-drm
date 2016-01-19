@@ -8,11 +8,13 @@
     <name>Transmit Parameters</name>
     <key>tp</key>
     <type>raw</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Output Vector Length</name>
     <key>len_out</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <sink>
     <name>in</name>
@@ -21,6 +23,5 @@
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>$len_out</vlen>
   </source>
 </block>

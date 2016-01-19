@@ -33,6 +33,7 @@ namespace gr {
       	transm_params* d_tp;
 		unsigned short d_tf_ctr; // transmission frame counter
 
+
     public:
 		generate_fac_vb_impl(transm_params* tp);
 		~generate_fac_vb_impl();

@@ -8,10 +8,10 @@
     <name>Transmit Parameters</name>
     <key>tp</key>
     <type>raw</type>
+    <hide>part</hide>
   </param>
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>tp.fac().L()</vlen>
   </source>
 </block>

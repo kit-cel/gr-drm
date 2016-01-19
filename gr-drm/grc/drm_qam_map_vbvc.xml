@@ -14,6 +14,7 @@
     <name>Mapping table</name>
     <key>map_table</key>
     <type>raw</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Bits per symbol</name>
@@ -24,11 +25,13 @@
     <name>Output vector length</name>
     <key>vlen_out</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Input ports</name>
     <key>n_inputs</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -39,8 +42,7 @@
   <sink>
     <name>in</name>
     <type>byte</type>
-    <vlen>$vlen_out * 2</vlen>
-    <nports>$n_inputs</nports>
+    <nports>$n_inputs</nports>	
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -51,6 +53,5 @@
   <source>
     <name>out</name>
     <type>complex</type>
-    <vlen>$vlen_out</vlen>
   </source>
 </block>

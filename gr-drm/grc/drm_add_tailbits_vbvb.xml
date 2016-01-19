@@ -8,20 +8,20 @@
     <name>Input Vector Length</name>
     <key>vlen_in</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Number of Tail Bits</name>
     <key>n_tailbits</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <sink>
     <name>in</name>
     <type>byte</type>
-    <vlen>$vlen_in</vlen>
   </sink>
   <source>
     <name>out</name>
     <type>byte</type>
-    <vlen>$vlen_in + $n_tailbits</vlen>
   </source>
 </block>

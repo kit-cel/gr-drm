@@ -47,6 +47,7 @@ namespace gr {
 		int d_k_min;
 		int d_k_max;
 		std::vector<int> d_unused_carriers;
+		std::vector<int> d_input_size;
 
     public:
 		cell_mapping_vcvc_impl(transm_params* tp, std::vector< int > input_sizes);
@@ -55,9 +56,11 @@ namespace gr {
 		bool is_used_carrier(int k);
 
 		// Where all the action really happens
-		int work(int noutput_items,
-		   	gr_vector_const_void_star &input_items,
-		   	gr_vector_void_star &output_items);
+		int general_work(int noutput_items,
+						 gr_vector_int &ninput_items,
+						 gr_vector_const_void_star &input_items,
+						 gr_vector_void_star &output_items);
+		void forecast(int noutput_items, gr_vector_int &ninput_items_required);
     };
 
   } // namespace drm

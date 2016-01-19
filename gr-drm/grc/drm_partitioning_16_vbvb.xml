@@ -14,21 +14,25 @@
     <name>Input vector length</name>
     <key>vlen_in</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Output vector lengths</name>
     <key>vlen_out</key>
     <type>raw</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Length of topmost output</name>
     <key>vlen1</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
   <param>
     <name>Length of second output</name>
     <key>vlen2</key>
     <type>int</type>
+    <hide>part</hide>
   </param>
 
   <!-- Make one 'sink' node per input. Sub-nodes:
@@ -38,8 +42,7 @@
        * optional (set to 1 for optional inputs) -->
   <sink>
     <name>in</name>
-    <type>byte</type>
-    <vlen>$vlen_in</vlen>
+    <type>byte</type>    
   </sink>
 
   <!-- Make one 'source' node per output. Sub-nodes:
@@ -49,12 +52,10 @@
        * optional (set to 1 for optional inputs) -->
   <source>
     <name>out1</name>
-    <type>byte</type>
-    <vlen>$vlen1</vlen>
+    <type>byte</type>    
   </source>
   <source>
     <name>out2</name>
-    <type>byte</type>
-    <vlen>$vlen2</vlen>
+    <type>byte</type>    
   </source>
 </block>

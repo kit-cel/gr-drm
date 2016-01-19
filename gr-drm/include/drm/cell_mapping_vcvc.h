@@ -36,7 +36,7 @@ namespace gr {
      * \ingroup drm
      *
      */
-    class DRM_API cell_mapping_vcvc : virtual public gr::sync_interpolator
+    class DRM_API cell_mapping_vcvc : virtual public gr::block
     {
      public:
       typedef boost::shared_ptr<cell_mapping_vcvc> sptr;

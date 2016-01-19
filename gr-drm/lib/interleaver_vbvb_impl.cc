@@ -40,11 +40,13 @@ namespace gr {
      */
     interleaver_vbvb_impl::interleaver_vbvb_impl(std::vector<int> interl_seq)
       : gr::sync_block("interleaver_vbvb",
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * interl_seq.size() ),
-              gr::io_signature::make(1, 1, sizeof (unsigned char) * interl_seq.size() ))
+              gr::io_signature::make(1, 1, sizeof (unsigned char)),
+              gr::io_signature::make(1, 1, sizeof (unsigned char)))
 	{
 		d_seq = interl_seq;
 		d_seqsize = interl_seq.size();
+        set_output_multiple(interl_seq.size());
+
 	}
 
     /*
@@ -61,8 +63,9 @@ namespace gr {
 	{
 		const unsigned char *in = (const unsigned char *) input_items[0];
 		unsigned char *out = (unsigned char *) output_items[0];
+        const int n_vectors = noutput_items/d_seqsize;
 
-		for(int n = 0; n < noutput_items; n++)
+		for(int n = 0; n < n_vectors; n++)
 		{
 			// Interleave array entries according to the interleaver sequence
 			for(int i = 0; i < d_seqsize; i++)
@@ -72,7 +75,7 @@ namespace gr {
 		}
 
 		// Tell runtime system how many output items we produced.
-		return noutput_items;
+		return n_vectors * d_seqsize;
 	}
 
   } /* namespace drm */

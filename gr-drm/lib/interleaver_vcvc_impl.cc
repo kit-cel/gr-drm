@@ -40,9 +40,10 @@ namespace gr {
      */
     interleaver_vcvc_impl::interleaver_vcvc_impl(std::vector<int> interl_seq, bool long_interl, int depth)
       : gr::block("interleaver_vcvc",
-              gr::io_signature::make(1, 1, sizeof (gr_complex) * interl_seq.size()),
-              gr::io_signature::make(1, 1, sizeof (gr_complex) * interl_seq.size()))
+              gr::io_signature::make(1, 1, sizeof (gr_complex)),
+              gr::io_signature::make(1, 1, sizeof (gr_complex)))
 	{
+		set_output_multiple(interl_seq.size());
 		d_seq = interl_seq;
 		d_long_interl = long_interl;
 		d_depth = depth;
@@ -68,7 +69,7 @@ namespace gr {
 
 		// Tell runtime system how many input items we consumed on
 		// each input stream.
-		consume_each (1);
+		consume_each (d_seq.size());
 
 		/* For details on the cell interleaving process see chapter 7.6 in the DRM standard */
 		if(d_long_interl) // perform long interleaving
@@ -93,7 +94,7 @@ namespace gr {
 				//std::cout << "deleting first row in the vector vector matrix" << std::endl;
 				d_buffer.erase( d_buffer.begin() ); // delete the first row (oldest frame)
 
-				return 1; // return 1 transmission frame
+				return d_seq.size(); // return 1 transmission frame
 			}
 			else
 			{
@@ -108,7 +109,7 @@ namespace gr {
 				out[i] = in[ d_seq[i] ];
 			}
 			// Tell runtime system how many output items we produced.
-			return 1;
+			return d_seq.size();
 		}
 	}
 

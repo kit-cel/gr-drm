@@ -23,7 +23,7 @@
 #define INCLUDED_DRM_ADD_TAILBITS_VBVB_H
 
 #include <drm/api.h>
-#include <gnuradio/sync_block.h>
+#include <gnuradio/sync_interpolator.h>
 
 namespace gr {
   namespace drm {
@@ -33,7 +33,7 @@ namespace gr {
      * \ingroup drm
      *
      */
-    class DRM_API add_tailbits_vbvb : virtual public gr::sync_block
+    class DRM_API add_tailbits_vbvb : virtual public block
     {
      public:
       typedef boost::shared_ptr<add_tailbits_vbvb> sptr;
@@ -47,6 +47,7 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(int vlen_in, int n_tailbits);
+
     };
 
   } // namespace drm

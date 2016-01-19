@@ -39,10 +39,12 @@ namespace gr {
      * The private constructor
      */
     cell_mapping_vcvc_impl::cell_mapping_vcvc_impl(transm_params* tp, std::vector< int > input_sizes)
-      : gr::sync_interpolator("cell_mapping_vcvc",
-              gr::io_signature::makev(3, 3, input_sizes),
-              gr::io_signature::make(1, 1, sizeof (gr_complex) * tp->ofdm().nfft()), tp->ofdm().N_S() * tp->ofdm().M_TF() )
+      : gr::block("cell_mapping_vcvc",
+              gr::io_signature::make(3, 3, sizeof(gr_complex)),
+              gr::io_signature::make(1, 1, sizeof (gr_complex)* tp->ofdm().nfft()))
 	{
+		set_output_multiple(tp->ofdm().N_S() * tp->ofdm().M_TF());
+
 		d_tp = tp;
 		d_msc = tp->msc();
 		d_RM = tp->cfg().RM();
@@ -55,7 +57,17 @@ namespace gr {
 		d_M_TF = tp->ofdm().M_TF();
 		d_k_min = tp->ofdm().K_min();
 		d_k_max = tp->ofdm().K_max();
+		d_input_size = input_sizes;
 
+		// To avoid warning set relative rate to max.
+		/*
+		int max_elem = 0 ;
+		for(int i = 0; i<input_sizes.size();i++){
+			if(input_sizes[i] > max_elem)
+				max_elem = input_sizes[i];
+		}
+		set_relative_rate(float(tp->ofdm().N_S()) * tp->ofdm().M_TF() / max_elem);
+		*/
 		switch(d_RM)
 		{
 			case 0: // A
@@ -126,9 +138,10 @@ namespace gr {
 	}
 
     int
-    cell_mapping_vcvc_impl::work(int noutput_items,
-			  gr_vector_const_void_star &input_items,
-			  gr_vector_void_star &output_items)
+    cell_mapping_vcvc_impl::general_work(int noutput_items,
+										 gr_vector_int &ninput_items,
+										 gr_vector_const_void_star &input_items,
+										 gr_vector_void_star &output_items)
 	{
 		gr_complex *msc_in = (gr_complex *) input_items[0];
 		gr_complex *sdc_in = (gr_complex *) input_items[1];
@@ -323,10 +336,21 @@ namespace gr {
 			}
 		}
 
+		for(int i = 0; i < d_input_size.size(); i++)
+			consume(i,d_input_size[i]/ sizeof(gr_complex));
+
 		// Tell runtime system how many output items we produced.
 		return d_N * d_M_TF;
 	}
 
+	void
+	cell_mapping_vcvc_impl::forecast(int noutput_items, gr_vector_int &ninput_items_required)
+	{
+		for(int i = 0; i < d_input_size.size(); i++) {
+			ninput_items_required[i] = d_input_size[i]/ sizeof(gr_complex);
+		}
+
+	}
   } /* namespace drm */
 } /* namespace gr */
 
