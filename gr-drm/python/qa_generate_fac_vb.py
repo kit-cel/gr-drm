@@ -23,12 +23,12 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_generate_fac_vb (gr_unittest.TestCase):
+class qa_generate_fac_b (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
-        self.src = drm.generate_fac_vb(self.tp)
+        self.src = drm.generate_fac_b(self.tp)
         self.head = blocks.head(self.tp.fac().L(), 3)
         self.snk = blocks.vector_sink_b(self.tp.fac().L())
         
@@ -57,4 +57,4 @@ class qa_generate_fac_vb (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_generate_fac_vb, "qa_generate_fac_vb.xml")
+    gr_unittest.run(qa_generate_fac_b, "qa_generate_fac_b.xml")

@@ -1,0 +1,21 @@
+<block>
+  <name>Scrambler</name>
+  <key>drm_scrambler_bb</key>
+  <category>DRM</category>
+  <import>import drm</import>
+  <make>drm.scrambler_bb($block_len)</make>
+  <param>
+    <name>Block Length</name>
+    <key>block_len</key>
+    <type>raw</type>
+    <hide>part</hide>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>byte</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>byte</type>
+  </source>
+</block>

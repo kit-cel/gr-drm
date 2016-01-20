@@ -17,18 +17,18 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 install(FILES
-    drm_scrambler_vbvb.xml
-    drm_audio_encoder_svb.xml
-    drm_generate_fac_vb.xml
-    drm_generate_sdc_vb.xml
-    drm_add_tailbits_vbvb.xml
-    drm_punct_vbvb.xml
-    drm_interleaver_vbvb.xml
-    drm_interleaver_vcvc.xml
-    drm_partitioning_4_vbvb.xml
-    drm_partitioning_16_vbvb.xml
-    drm_partitioning_64sm_vbvb.xml
-    drm_cell_mapping_vcvc.xml
-    drm_qam_map_vbvc.xml
+    drm_scrambler_bb.xml
+    drm_audio_encoder_sb.xml
+    drm_generate_fac_b.xml
+    drm_generate_sdc_b.xml
+    drm_add_tailbits_bb.xml
+    drm_punct_bb.xml
+    drm_interleaver_bb.xml
+    drm_interleaver_cc.xml
+    drm_partitioning_4_bb.xml
+    drm_partitioning_16_bb.xml
+    drm_partitioning_64sm_bb.xml
+    drm_cell_mapping_cc.xml
+    drm_qam_map_bc.xml
     drm_m3ufile_source_f.xml DESTINATION share/gnuradio/grc/blocks
 )

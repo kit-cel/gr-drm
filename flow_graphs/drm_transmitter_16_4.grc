@@ -77,115 +77,7 @@
     <key>variable</key>
     <param>
       <key>id</key>
-      <value>text_message</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"\x48\x65\x6c\x6c\x6f\x21\x20\x2f\x20\x48\x61\x6c\x6c\x6f\x21\x20\x2f\x20\xd0\x9f\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82\x21\x20\x2f\x20\x21\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85"</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 138)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>station_label</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"GNU Radio on DRM"</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 75)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(706, 139)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>audio_sample_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>24000</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(709, 75)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>msc_prot_level_2</value>
+      <value>RM</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -201,61 +93,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(708, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 11)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>48e3</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(196, 75)</value>
+      <value>(563, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -293,7 +131,61 @@
     <key>variable</key>
     <param>
       <key>id</key>
-      <value>RM</value>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>48e3</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, False, 1, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(196, 11)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>msc_prot_level_2</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -309,7 +201,115 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(563, 10)</value>
+      <value>(708, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>audio_sample_rate</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>24000</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(709, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>long_interl</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(706, 139)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>station_label</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"GNU Radio on DRM"</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>id</key>
+      <value>text_message</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"\x48\x65\x6c\x6c\x6f\x21\x20\x2f\x20\x48\x61\x6c\x6c\x6f\x21\x20\x2f\x20\xd0\x9f\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82\x21\x20\x2f\x20\x21\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85"</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 138)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -348,10 +348,10 @@
     </param>
   </block>
   <block>
-    <key>drm_audio_encoder_svb</key>
+    <key>drm_audio_encoder_sb</key>
     <param>
       <key>id</key>
-      <value>drm_audio_encoder_svb_0</value>
+      <value>drm_audio_encoder_sb_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -501,10 +501,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0</value>
+      <value>drm_scrambler_bb_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -544,10 +544,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_16qam_vbvc</key>
+    <key>drm_mlc_16qam_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_16qam_vbvc_0</value>
+      <value>drm_mlc_16qam_bc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -647,10 +647,10 @@
     </param>
   </block>
   <block>
-    <key>drm_interleaver_vcvc</key>
+    <key>drm_interleaver_cc</key>
     <param>
       <key>id</key>
-      <value>drm_interleaver_vcvc_0</value>
+      <value>drm_interleaver_cc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -757,10 +757,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0_1</value>
+      <value>drm_scrambler_bb_0_1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -800,10 +800,10 @@
     </param>
   </block>
   <block>
-    <key>drm_generate_sdc_vb</key>
+    <key>drm_generate_sdc_b</key>
     <param>
       <key>id</key>
-      <value>drm_generate_sdc_vb_0</value>
+      <value>drm_generate_sdc_b_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -843,10 +843,10 @@
     </param>
   </block>
   <block>
-    <key>drm_generate_fac_vb</key>
+    <key>drm_generate_fac_b</key>
     <param>
       <key>id</key>
-      <value>drm_generate_fac_vb_0</value>
+      <value>drm_generate_fac_b_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -886,10 +886,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0_0</value>
+      <value>drm_scrambler_bb_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -980,10 +980,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0</value>
+      <value>drm_mlc_4qam_bc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1059,10 +1059,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0_0</value>
+      <value>drm_mlc_4qam_bc_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1201,10 +1201,10 @@
     </param>
   </block>
   <block>
-    <key>cell_mapping_vcvc</key>
+    <key>cell_mapping_cc</key>
     <param>
       <key>id</key>
-      <value>cell_mapping_vcvc_0</value>
+      <value>cell_mapping_cc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2439,7 +2439,7 @@
     </param>
     <param>
       <key>file</key>
-      <value></value>
+      <value>/home/julian/Dokumente/Hiwi/Felix/gr-drm/flow_graphs/new_world_24khz.wav</value>
     </param>
     <param>
       <key>repeat</key>
@@ -2479,20 +2479,20 @@
     </param>
   </block>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0</source_block_id>
-    <sink_block_id>drm_mlc_16qam_vbvc_0</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0</source_block_id>
+    <sink_block_id>drm_mlc_16qam_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_audio_encoder_svb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0</sink_block_id>
+    <source_block_id>drm_audio_encoder_sb_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_16qam_vbvc_0</source_block_id>
-    <sink_block_id>drm_interleaver_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_16qam_bc_0</source_block_id>
+    <sink_block_id>drm_interleaver_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2510,61 +2510,61 @@
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>rational_resampler_xxx_0_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cell_mapping_vcvc_0</source_block_id>
+    <source_block_id>cell_mapping_cc_0</source_block_id>
     <sink_block_id>blocks_file_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_generate_sdc_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_1</sink_block_id>
+    <source_block_id>drm_generate_sdc_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_generate_fac_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_0</sink_block_id>
+    <source_block_id>drm_generate_fac_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvc_0_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_4qam_bc_0_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_interleaver_vcvc_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_interleaver_cc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvc_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_4qam_bc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvc_0_0</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0_0</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvc_0</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0_1</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2611,7 +2611,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cell_mapping_vcvc_0</source_block_id>
+    <source_block_id>cell_mapping_cc_0</source_block_id>
     <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>

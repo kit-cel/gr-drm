@@ -317,10 +317,10 @@
     </param>
   </block>
   <block>
-    <key>drm_generate_fac_vb</key>
+    <key>drm_generate_fac_b</key>
     <param>
       <key>id</key>
-      <value>drm_generate_fac_vb_0</value>
+      <value>drm_generate_fac_b_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -360,10 +360,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0_0</value>
+      <value>drm_scrambler_bb_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -403,10 +403,10 @@
     </param>
   </block>
   <block>
-    <key>drm_generate_sdc_vb</key>
+    <key>drm_generate_sdc_b</key>
     <param>
       <key>id</key>
-      <value>drm_generate_sdc_vb_0</value>
+      <value>drm_generate_sdc_b_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -446,10 +446,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0_1</value>
+      <value>drm_scrambler_bb_0_1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -489,10 +489,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0</value>
+      <value>drm_mlc_4qam_bc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -599,10 +599,10 @@
     </param>
   </block>
   <block>
-    <key>drm_audio_encoder_svb</key>
+    <key>drm_audio_encoder_sb</key>
     <param>
       <key>id</key>
-      <value>drm_audio_encoder_svb_0</value>
+      <value>drm_audio_encoder_sb_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -646,10 +646,10 @@
     </param>
   </block>
   <block>
-    <key>drm_scrambler_vbvb</key>
+    <key>drm_scrambler_bb</key>
     <param>
       <key>id</key>
-      <value>drm_scrambler_vbvb_0</value>
+      <value>drm_scrambler_bb_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1227,10 +1227,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_64qam_sm_vbvc</key>
+    <key>drm_mlc_64qam_sm_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_64qam_sm_vbvc_1</value>
+      <value>drm_mlc_64qam_sm_bc_1</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1346,10 +1346,10 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_vbvc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_4qam_vbvc_0_0</value>
+      <value>drm_mlc_4qam_bc_0_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1425,10 +1425,10 @@
     </param>
   </block>
   <block>
-    <key>drm_interleaver_vcvc</key>
+    <key>drm_interleaver_cc</key>
     <param>
       <key>id</key>
-      <value>drm_interleaver_vcvc_0</value>
+      <value>drm_interleaver_cc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1476,10 +1476,10 @@
     </param>
   </block>
   <block>
-    <key>cell_mapping_vcvc</key>
+    <key>cell_mapping_cc</key>
     <param>
       <key>id</key>
-      <value>cell_mapping_vcvc_0</value>
+      <value>cell_mapping_cc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -2444,38 +2444,38 @@
     </param>
   </block>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0_0</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvc_0_0</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0_0</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_4qam_vbvc_0</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0_1</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_generate_sdc_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_1</sink_block_id>
+    <source_block_id>drm_generate_sdc_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_generate_fac_vb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0_0</sink_block_id>
+    <source_block_id>drm_generate_fac_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvc_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_4qam_bc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_audio_encoder_svb_0</source_block_id>
-    <sink_block_id>drm_scrambler_vbvb_0</sink_block_id>
+    <source_block_id>drm_audio_encoder_sb_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2498,14 +2498,14 @@
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_scrambler_vbvb_0</source_block_id>
-    <sink_block_id>drm_mlc_64qam_sm_vbvc_1</sink_block_id>
+    <source_block_id>drm_scrambler_bb_0</source_block_id>
+    <sink_block_id>drm_mlc_64qam_sm_bc_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_64qam_sm_vbvc_1</source_block_id>
-    <sink_block_id>drm_interleaver_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_64qam_sm_bc_1</source_block_id>
+    <sink_block_id>drm_interleaver_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2534,7 +2534,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>cell_mapping_vcvc_0</source_block_id>
+    <source_block_id>cell_mapping_cc_0</source_block_id>
     <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
@@ -2553,13 +2553,13 @@
   </connection>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>rational_resampler_xxx_0_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_svb_0</sink_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2570,14 +2570,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_4qam_vbvc_0_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_mlc_4qam_bc_0_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_interleaver_vcvc_0</source_block_id>
-    <sink_block_id>cell_mapping_vcvc_0</sink_block_id>
+    <source_block_id>drm_interleaver_cc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

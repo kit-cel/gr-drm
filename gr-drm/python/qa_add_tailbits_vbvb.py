@@ -23,13 +23,13 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_add_tailbits_vbvb (gr_unittest.TestCase):
+class qa_add_tailbits_bb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
         self.src = blocks.vector_source_b((1,1,0,1), True, 4)
         self.head = blocks.head(4,3)
-        self.add_tailbits = drm.add_tailbits_vbvb(4,2)
+        self.add_tailbits = drm.add_tailbits_bb(4,2)
         self.snk = blocks.vector_sink_b(6)
         
         self.tb.connect(self.src, self.head, self.add_tailbits, self.snk)
@@ -45,4 +45,4 @@ class qa_add_tailbits_vbvb (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_add_tailbits_vbvb, "qa_add_tailbits_vbvb.xml")
+    gr_unittest.run(qa_add_tailbits_bb, "qa_add_tailbits_bb.xml")

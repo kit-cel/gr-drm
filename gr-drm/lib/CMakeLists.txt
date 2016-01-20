@@ -31,17 +31,17 @@ list(APPEND drm_sources
     drm_config.cc
 	  drm_tables_mapping.cc 
 	  drm_tables_params.cc
-	  scrambler_vbvb_impl.cc
-    audio_encoder_svb_impl.cc
-    generate_fac_vb_impl.cc
-    generate_sdc_vb_impl.cc
-    add_tailbits_vbvb_impl.cc
-    punct_vbvb_impl.cc
-    interleaver_vbvb_impl.cc
-    interleaver_vcvc_impl.cc
-    partitioning_vbvb_impl.cc
-    cell_mapping_vcvc_impl.cc
-    qam_map_vbvc_impl.cc
+	  scrambler_bb_impl.cc
+    audio_encoder_sb_impl.cc
+    generate_fac_b_impl.cc
+    generate_sdc_b_impl.cc
+    add_tailbits_bb_impl.cc
+    punct_bb_impl.cc
+    interleaver_bb_impl.cc
+    interleaver_cc_impl.cc
+    partitioning_bb_impl.cc
+    cell_mapping_cc_impl.cc
+    qam_map_bc_impl.cc
     m3ufile_source_f_impl.cc
     wavfile_drm.cc )
 

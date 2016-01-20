@@ -3,81 +3,10 @@
 <flow_graph>
   <timestamp>Sat Jan 11 18:28:46 2014</timestamp>
   <block>
-    <key>options</key>
+    <key>drm_partitioning_64sm_bb</key>
     <param>
       <key>id</key>
-      <value>drm_mlc_64qam_sm_vbvc</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value>MLC 64QAM SM</value>
-    </param>
-    <param>
-      <key>author</key>
-      <value>Felix Wunsch</value>
-    </param>
-    <param>
-      <key>description</key>
-      <value>MLC 64QAM SM</value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>2000,2000</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>hb</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>DRM</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>prompt</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>max_nouts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value></value>
-    </param>
-    <param>
-      <key>thread_safe_setters</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_partitioning_64sm_vbvb</key>
-    <param>
-      <key>id</key>
-      <value>drm_partitioning_64sm_vbvb_0</value>
+      <value>drm_partitioning_64sm_bb_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -133,10 +62,10 @@
     </param>
   </block>
   <block>
-    <key>drm_interleaver_vbvb</key>
+    <key>drm_interleaver_bb</key>
     <param>
       <key>id</key>
-      <value>drm_interleaver_vbvb_bot</value>
+      <value>drm_interleaver_bb_bot</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -176,10 +105,10 @@
     </param>
   </block>
   <block>
-    <key>drm_qam_map_vbvc</key>
+    <key>drm_qam_map_bc</key>
     <param>
       <key>id</key>
-      <value>drm_qam_map_vbvc_0</value>
+      <value>drm_qam_map_bc_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -231,10 +160,10 @@
     </param>
   </block>
   <block>
-    <key>drm_interleaver_vbvb</key>
+    <key>drm_interleaver_bb</key>
     <param>
       <key>id</key>
-      <value>drm_interleaver_vbvb_mid</value>
+      <value>drm_interleaver_bb_mid</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1134,10 +1063,10 @@
     </param>
   </block>
   <block>
-    <key>drm_add_tailbits_vbvb</key>
+    <key>drm_add_tailbits_bb</key>
     <param>
       <key>id</key>
-      <value>drm_add_tailbits_vbvb_top</value>
+      <value>drm_add_tailbits_bb_top</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1240,10 +1169,10 @@
     </param>
   </block>
   <block>
-    <key>drm_add_tailbits_vbvb</key>
+    <key>drm_add_tailbits_bb</key>
     <param>
       <key>id</key>
-      <value>drm_add_tailbits_vbvb_top_0</value>
+      <value>drm_add_tailbits_bb_top_0</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1346,10 +1275,10 @@
     </param>
   </block>
   <block>
-    <key>drm_add_tailbits_vbvb</key>
+    <key>drm_add_tailbits_bb</key>
     <param>
       <key>id</key>
-      <value>drm_add_tailbits_vbvb_bot</value>
+      <value>drm_add_tailbits_bb_bot</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1495,10 +1424,10 @@
     </param>
   </block>
   <block>
-    <key>drm_punct_vbvb</key>
+    <key>drm_punct_bb</key>
     <param>
       <key>id</key>
-      <value>drm_punct_vbvb_top</value>
+      <value>drm_punct_bb_top</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1597,10 +1526,10 @@
     </param>
   </block>
   <block>
-    <key>drm_punct_vbvb</key>
+    <key>drm_punct_bb</key>
     <param>
       <key>id</key>
-      <value>drm_punct_vbvb_mid</value>
+      <value>drm_punct_bb_mid</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1699,10 +1628,10 @@
     </param>
   </block>
   <block>
-    <key>drm_punct_vbvb</key>
+    <key>drm_punct_bb</key>
     <param>
       <key>id</key>
-      <value>drm_punct_vbvb_bot</value>
+      <value>drm_punct_bb_bot</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1843,27 +1772,98 @@
       <value>0</value>
     </param>
   </block>
+  <block>
+    <key>options</key>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_64qam_sm_bc</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>title</key>
+      <value>MLC 64QAM SM</value>
+    </param>
+    <param>
+      <key>author</key>
+      <value>Felix Wunsch</value>
+    </param>
+    <param>
+      <key>description</key>
+      <value>MLC 64QAM SM</value>
+    </param>
+    <param>
+      <key>window_size</key>
+      <value>2000,2000</value>
+    </param>
+    <param>
+      <key>generate_options</key>
+      <value>hb</value>
+    </param>
+    <param>
+      <key>category</key>
+      <value>DRM</value>
+    </param>
+    <param>
+      <key>run_options</key>
+      <value>prompt</value>
+    </param>
+    <param>
+      <key>run</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>max_nouts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value></value>
+    </param>
+    <param>
+      <key>thread_safe_setters</key>
+      <value></value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(10, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+  </block>
   <connection>
-    <source_block_id>drm_qam_map_vbvc_0</source_block_id>
+    <source_block_id>drm_qam_map_bc_0</source_block_id>
     <sink_block_id>pad_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_partitioning_64sm_vbvb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_vbvb_top</sink_block_id>
+    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
+    <sink_block_id>drm_add_tailbits_bb_top</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_partitioning_64sm_vbvb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_vbvb_bot</sink_block_id>
+    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
+    <sink_block_id>drm_add_tailbits_bb_bot</sink_block_id>
     <source_key>2</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>drm_partitioning_64sm_vbvb_0</sink_block_id>
+    <sink_block_id>drm_partitioning_64sm_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1874,8 +1874,8 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_partitioning_64sm_vbvb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_vbvb_top_0</sink_block_id>
+    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
+    <sink_block_id>drm_add_tailbits_bb_top_0</sink_block_id>
     <source_key>1</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -1886,26 +1886,26 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_interleaver_vbvb_bot</source_block_id>
-    <sink_block_id>drm_qam_map_vbvc_0</sink_block_id>
+    <source_block_id>drm_interleaver_bb_bot</source_block_id>
+    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_punct_vbvb_bot</source_block_id>
-    <sink_block_id>drm_interleaver_vbvb_bot</sink_block_id>
+    <source_block_id>drm_punct_bb_bot</source_block_id>
+    <sink_block_id>drm_interleaver_bb_bot</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_punct_vbvb_mid</source_block_id>
-    <sink_block_id>drm_interleaver_vbvb_mid</sink_block_id>
+    <source_block_id>drm_punct_bb_mid</source_block_id>
+    <sink_block_id>drm_interleaver_bb_mid</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_interleaver_vbvb_mid</source_block_id>
-    <sink_block_id>drm_qam_map_vbvc_0</sink_block_id>
+    <source_block_id>drm_interleaver_bb_mid</source_block_id>
+    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
@@ -1916,44 +1916,44 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_punct_vbvb_top</source_block_id>
-    <sink_block_id>drm_qam_map_vbvc_0</sink_block_id>
+    <source_block_id>drm_punct_bb_top</source_block_id>
+    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_add_tailbits_vbvb_top</source_block_id>
+    <source_block_id>drm_add_tailbits_bb_top</source_block_id>
     <sink_block_id>trellis_encoder_xx_top</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_add_tailbits_vbvb_top_0</source_block_id>
+    <source_block_id>drm_add_tailbits_bb_top_0</source_block_id>
     <sink_block_id>trellis_encoder_xx_top_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_add_tailbits_vbvb_bot</source_block_id>
+    <source_block_id>drm_add_tailbits_bb_bot</source_block_id>
     <sink_block_id>trellis_encoder_xx_bot</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_unpack_k_bits_bb_top</source_block_id>
-    <sink_block_id>drm_punct_vbvb_top</sink_block_id>
+    <sink_block_id>drm_punct_bb_top</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_unpack_k_bits_bb_mid</source_block_id>
-    <sink_block_id>drm_punct_vbvb_mid</sink_block_id>
+    <sink_block_id>drm_punct_bb_mid</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>blocks_unpack_k_bits_bb_bot</source_block_id>
-    <sink_block_id>drm_punct_vbvb_bot</sink_block_id>
+    <sink_block_id>drm_punct_bb_bot</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
