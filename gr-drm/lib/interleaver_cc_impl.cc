@@ -43,7 +43,7 @@ namespace gr {
               gr::io_signature::make(1, 1, sizeof (gr_complex)),
               gr::io_signature::make(1, 1, sizeof (gr_complex)))
 	{
-		set_output_multiple(interl_seq.size());
+        set_output_multiple(interl_seq.size()*3);
 		d_seq = interl_seq;
 		d_long_interl = long_interl;
 		d_depth = depth;
@@ -82,7 +82,7 @@ namespace gr {
 			d_buffer.push_back(d_tmp_buffer);
 			d_tmp_buffer.clear();
 
-			//std::cout << "d_buffer.size(): " << d_buffer.size() << ", d_depth: " << d_depth << ", d_seq.size(): " << d_seq.size() << std::endl;
+            //std::cout << "d_buffer.size(): " << d_buffer.size() << ", d_depth: " << d_depth << ", d_seq.size(): " << d_seq.size() << std::endl;
 			if( d_buffer.size() == d_depth ) // perform interleaving and delete the oldest frame that won't be necessary for the next step
 			{
 				//std::cout << "interleaving cells" << std::endl;
