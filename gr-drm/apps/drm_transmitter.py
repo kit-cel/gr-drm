@@ -3,7 +3,7 @@
 # GNU Radio Python Flow Graph
 # Title: DRM Transmitter 1
 # Author: Felix Wunsch
-# Description: 16/4/4 QAM, EEP
+# Description: Unisversal DRM Transmitter
 # Generated: Wed Feb 10 15:24:56 2016
 ##################################################
 

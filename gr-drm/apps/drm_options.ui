@@ -438,22 +438,14 @@
     </property>
     <addaction name="actionTransmission_Options"/>
    </widget>
-   <widget class="QMenu" name="menu_View">
-    <property name="title">
-     <string>&amp;View</string>
-    </property>
-    <addaction name="actionAudio_Spectrum"/>
-    <addaction name="actionOFDM_Spectrum"/>
-    <addaction name="actionCombined_View"/>
-   </widget>
    <widget class="QMenu" name="menu_About">
     <property name="title">
-     <string>&amp;About</string>
+     <string>Help</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_Settings"/>
-   <addaction name="menu_View"/>
    <addaction name="menu_About"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -472,19 +464,9 @@
     <string>Transmission Options</string>
    </property>
   </action>
-  <action name="actionAudio_Spectrum">
+  <action name="actionAbout">
    <property name="text">
-    <string>Audio Spectrum</string>
-   </property>
-  </action>
-  <action name="actionOFDM_Spectrum">
-   <property name="text">
-    <string>OFDM Spectrum</string>
-   </property>
-  </action>
-  <action name="actionCombined_View">
-   <property name="text">
-    <string>Combined View</string>
+    <string>About</string>
    </property>
   </action>
  </widget>

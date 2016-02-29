@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'drm_options.ui'
 #
-# Created: Thu Feb 25 10:54:30 2016
+# Created: Mon Feb 29 15:27:51 2016
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -216,8 +216,6 @@ class Ui_MainWindow(object):
         self.menu_File.setObjectName(_fromUtf8("menu_File"))
         self.menu_Settings = QtGui.QMenu(self.menubar)
         self.menu_Settings.setObjectName(_fromUtf8("menu_Settings"))
-        self.menu_View = QtGui.QMenu(self.menubar)
-        self.menu_View.setObjectName(_fromUtf8("menu_View"))
         self.menu_About = QtGui.QMenu(self.menubar)
         self.menu_About.setObjectName(_fromUtf8("menu_About"))
         MainWindow.setMenuBar(self.menubar)
@@ -230,22 +228,15 @@ class Ui_MainWindow(object):
         self.action_Exit_Alt_F4.setObjectName(_fromUtf8("action_Exit_Alt_F4"))
         self.actionTransmission_Options = QtGui.QAction(MainWindow)
         self.actionTransmission_Options.setObjectName(_fromUtf8("actionTransmission_Options"))
-        self.actionAudio_Spectrum = QtGui.QAction(MainWindow)
-        self.actionAudio_Spectrum.setObjectName(_fromUtf8("actionAudio_Spectrum"))
-        self.actionOFDM_Spectrum = QtGui.QAction(MainWindow)
-        self.actionOFDM_Spectrum.setObjectName(_fromUtf8("actionOFDM_Spectrum"))
-        self.actionCombined_View = QtGui.QAction(MainWindow)
-        self.actionCombined_View.setObjectName(_fromUtf8("actionCombined_View"))
+        self.actionAbout = QtGui.QAction(MainWindow)
+        self.actionAbout.setObjectName(_fromUtf8("actionAbout"))
         self.menu_File.addAction(self.actionOpen)
         self.menu_File.addSeparator()
         self.menu_File.addAction(self.action_Exit_Alt_F4)
         self.menu_Settings.addAction(self.actionTransmission_Options)
-        self.menu_View.addAction(self.actionAudio_Spectrum)
-        self.menu_View.addAction(self.actionOFDM_Spectrum)
-        self.menu_View.addAction(self.actionCombined_View)
+        self.menu_About.addAction(self.actionAbout)
         self.menubar.addAction(self.menu_File.menuAction())
         self.menubar.addAction(self.menu_Settings.menuAction())
-        self.menubar.addAction(self.menu_View.menuAction())
         self.menubar.addAction(self.menu_About.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -256,7 +247,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(_translate("MainWindow", "DRM Transmitter", None))
         self.main_label.setText(_translate("MainWindow", "Transmission Parameters", None))
         self.groupBox.setTitle(_translate("MainWindow", "MSC Modulation", None))
         self.msc_16.setText(_translate("MainWindow", "16 QAM", None))
@@ -279,12 +270,9 @@ class Ui_MainWindow(object):
         self.stop_btn.setShortcut(_translate("MainWindow", "Ctrl+S", None))
         self.menu_File.setTitle(_translate("MainWindow", "&File", None))
         self.menu_Settings.setTitle(_translate("MainWindow", "&Settings", None))
-        self.menu_View.setTitle(_translate("MainWindow", "&View", None))
-        self.menu_About.setTitle(_translate("MainWindow", "&About", None))
+        self.menu_About.setTitle(_translate("MainWindow", "Help", None))
         self.actionOpen.setText(_translate("MainWindow", "Open", None))
         self.action_Exit_Alt_F4.setText(_translate("MainWindow", "&Exit       Alt +F4", None))
         self.actionTransmission_Options.setText(_translate("MainWindow", "Transmission Options", None))
-        self.actionAudio_Spectrum.setText(_translate("MainWindow", "Audio Spectrum", None))
-        self.actionOFDM_Spectrum.setText(_translate("MainWindow", "OFDM Spectrum", None))
-        self.actionCombined_View.setText(_translate("MainWindow", "Combined View", None))
+        self.actionAbout.setText(_translate("MainWindow", "About", None))
 

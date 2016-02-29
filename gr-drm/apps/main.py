@@ -2,7 +2,7 @@
 """
 Created on Thu Jan 14 10:49:57 2016
 
-@author: julian
+@author: Julian Wetzel
 """
 
 from PyQt4 import QtGui
@@ -20,10 +20,12 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
         super(DRMMainWindow,self).__init__(parent)
         self.setupUi(self)
         self.search_file_btn.clicked.connect(self.browse_file)
+        self.actionOpen.triggered.connect(self.popup)
         self.actionTransmission_Options.triggered.connect(self.popup)
         self.start_btn.clicked.connect(self.getParameters)
         self.stop_btn.clicked.connect(self.stopTransmission)
         self.pulse_check.stateChanged.connect(self.disableSearchFileBtn)
+        self.actionAbout.triggered.connect(self.showAbout)
         self.rm_box.addItems(["A","B","C","D"])
         self.so_box.addItems(["0","1","2","3","4","5"])
         self.audio_samp.addItems(["12 KHz","24 KHz", "48 KHz"])
@@ -111,6 +113,16 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
         else:
             self.so_entries = ["3","5"]
         self.so_box.addItems(self.so_entries)
+
+    def showAbout(self):
+        about = QtGui.QMessageBox()
+        about.setIcon(QtGui.QMessageBox.Information)
+        about.setText("This is a graphical user interface written in python for the DRM transmitter implemented in GNURadio")
+        about.setInformativeText("Copyright (C) 2016 Karlsruhe Institute of Technology CEL Julian Wetzel")
+        about.setWindowTitle("About GNURadio DRM Transmitter")
+        about.setStandardButtons(QtGui.QMessageBox.Ok)
+        about.exec_()
+
 
 class DRMTransOptionsDialog(QtGui.QDialog,transmission_options.Ui_Dialog):
     def __init__(self):
