@@ -45,7 +45,6 @@ namespace gr {
 	{
         set_output_multiple(interl_seq.size());
 		set_min_output_buffer(0,interl_seq.size()*3);
-		std::cout<< "interl_seq size : " << interl_seq.size()<< std::endl;
 		d_seq = interl_seq;
 		d_long_interl = long_interl;
 		d_depth = depth;

@@ -26,7 +26,7 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
         self.pulse_check.stateChanged.connect(self.disableSearchFileBtn)
         self.rm_box.addItems(["A","B","C","D"])
         self.so_box.addItems(["0","1","2","3","4","5"])
-        self.audio_samp.addItems(["16 KHz", "22.05 KHz", "24 KHz", "32 KHz", "44.1 KHz", "48 KHz"])
+        self.audio_samp.addItems(["12 KHz","24 KHz", "48 KHz"])
         self.rm_box.activated.connect(self.rm_so_config)
         self.transmissionOptionsBtn.clicked.connect(self.popup)
         self.setParameters()
@@ -80,7 +80,7 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
         self.file_path.setText(DRMParameters.audio_file)
         self.text_message.setText(DRMParameters.text_msg)
         self.station_label.setText(DRMParameters.station_label)
-        self.audio_samp.setCurrentIndex(2)
+        self.audio_samp.setCurrentIndex(1)
         self.so_box.setCurrentIndex(DRMParameters.so)
         self.rm_box.setCurrentIndex(DRMParameters.rm)
         self.pulse_check.setChecked(DRMParameters.pulse_audio)
@@ -98,10 +98,10 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
             self.tb = drm_transmitter.drm_transmitter(DRMParameters)
             self.tb.start()
 
-        except:
+        except RuntimeError as config_error:
             self.start_btn.show()
             self.stop_btn.hide()
-            QtGui.QMessageBox.warning(self,"Error","An Error occured please check configuration",QtGui.QMessageBox.Ok)
+            QtGui.QMessageBox.warning(self,"Error in Configuration",str(config_error),QtGui.QMessageBox.Ok)
 
     def rm_so_config(self):
         self.so_box.clear()
@@ -183,7 +183,7 @@ class usrp:
     addr=[]
 class mode_dicts:
     rm_modes = {"A" : 0, "B" : 1, "C" : 2, "D" : 3}
-    audio_rates = {"16 KHz" : 16, "22.05 KHz" : 22.05,"24 KHz" : 24,"32 KHz" :32, "44.1 KHz" : 44.1,"48 KHz" : 48}
+    audio_rates = {"12 KHz" : 12, "24 KHz" : 24,"48 KHz" : 48}
 
 
 def main():

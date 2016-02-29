@@ -175,17 +175,16 @@ class drm_transmitter(gr.top_block):
         self.drm_audio_encoder_sb_0 = drm.audio_encoder_sb(tp)
         self.digital_ofdm_cyclic_prefixer_1 = digital.ofdm_cyclic_prefixer(tp.ofdm().nfft(), tp.ofdm().nfft()+tp.ofdm().nfft()/4, 0, "")
         self.cell_mapping_cc_0 = drm.cell_mapping_cc(tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))
-
+        self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
         if DRMParameters.pulse_audio:
             self.audio_source_1 = audio.source(audio_sample_rate, "", True)
         else:
             self.blocks_wavfile_source_0 = blocks.wavfile_source(self.audio_file, False)
-        self.blocks_wavfile_sink_0 = blocks.wavfile_sink(self.output_name, 1, 48000, 16)
+        if DRMParameters.gen_output:
+            self.blocks_wavfile_sink_0 = blocks.wavfile_sink(self.output_name, 1, 48000, 16)
         self.blocks_multiply_xx_0 = blocks.multiply_vcc(1)
         self.blocks_multiply_const_vxx_1 = blocks.multiply_const_vcc((7e-3, ))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_vff((32768, ))
-        self.blocks_file_sink_0 = blocks.file_sink(gr.sizeof_gr_complex*1024, "post_cell_mapping.bin", False)
-        self.blocks_file_sink_0.set_unbuffered(False)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.analog_sig_source_x_0 = analog.sig_source_c(samp_rate, analog.GR_COS_WAVE, 7000, 1, 0)
 
@@ -193,7 +192,8 @@ class drm_transmitter(gr.top_block):
         # Connections
         ##################################################
         self.connect((self.analog_sig_source_x_0, 0), (self.blocks_multiply_xx_0, 1))    
-        self.connect((self.blocks_complex_to_real_0, 0), (self.blocks_wavfile_sink_0, 0))    
+        if DRMParameters.gen_output:
+            self.connect((self.blocks_complex_to_real_0, 0), (self.blocks_wavfile_sink_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.drm_audio_encoder_sb_0, 0))    
         self.connect((self.blocks_multiply_const_vxx_1, 0), (self.blocks_multiply_xx_0, 0))
         self.connect((self.blocks_multiply_xx_0, 0), (self.blocks_complex_to_real_0, 0))
@@ -201,8 +201,7 @@ class drm_transmitter(gr.top_block):
             self.connect((self.audio_source_1, 0), (self.blocks_multiply_const_vxx_0, 0))
         else:
             self.connect((self.blocks_wavfile_source_0, 0), (self.blocks_multiply_const_vxx_0, 0))
-        self.connect((self.cell_mapping_cc_0, 0), (self.blocks_file_sink_0, 0))    
-        self.connect((self.cell_mapping_cc_0, 0), (self.fft_vxx_0, 0))    
+        self.connect((self.cell_mapping_cc_0, 0), (self.fft_vxx_0, 0))
         self.connect((self.digital_ofdm_cyclic_prefixer_1, 0), (self.blocks_multiply_const_vxx_1, 0))    
         self.connect((self.drm_audio_encoder_sb_0, 0), (self.drm_scrambler_bb_0, 0))    
         self.connect((self.drm_generate_fac_b_0, 0), (self.drm_scrambler_bb_0_0, 0))    
@@ -218,6 +217,7 @@ class drm_transmitter(gr.top_block):
         if DRMParameters.uhd_found:
             self.connect((self.rational_resampler_xxx_0, 0), (self.uhd_usrp_sink_0, 0))
             self.connect((self.blocks_multiply_const_vxx_1, 0), (self.rational_resampler_xxx_0, 0))
+        self.connect((self.blocks_complex_to_real_0, 0), (self.blocks_null_sink_0, 0))
 
 
     def get_text_message(self):
