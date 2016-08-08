@@ -1,40 +1,68 @@
 <?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.7'?>
+<?grc format='1' created='3.7.10'?>
 <flow_graph>
   <timestamp>Tue Apr 29 11:36:51 2014</timestamp>
   <block>
     <key>options</key>
     <param>
-      <key>id</key>
-      <value>drm_transmitter_64sm_4</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value>DRM Transmitter 2</value>
-    </param>
-    <param>
       <key>author</key>
       <value>Felix Wunsch</value>
-    </param>
-    <param>
-      <key>description</key>
-      <value>64SM/4/4 QAM, EEP</value>
     </param>
     <param>
       <key>window_size</key>
       <value>2500, 1920</value>
     </param>
     <param>
+      <key>category</key>
+      <value>Custom</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>description</key>
+      <value>64SM/4/4 QAM, EEP</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(10, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>generate_options</key>
       <value>no_gui</value>
     </param>
     <param>
-      <key>category</key>
-      <value>Custom</value>
+      <key>hier_block_src_path</key>
+      <value>.:</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_transmitter_64sm_4</value>
+    </param>
+    <param>
+      <key>max_nouts</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>qt_qss_theme</key>
+      <value></value>
+    </param>
+    <param>
+      <key>realtime_scheduling</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>run_command</key>
+      <value>{python} -u {filename}</value>
     </param>
     <param>
       <key>run_options</key>
@@ -45,267 +73,23 @@
       <value>False</value>
     </param>
     <param>
-      <key>max_nouts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value>1</value>
-    </param>
-    <param>
       <key>thread_safe_setters</key>
       <value></value>
     </param>
     <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
+      <key>title</key>
+      <value>DRM Transmitter 2</value>
     </param>
   </block>
   <block>
     <key>variable</key>
     <param>
-      <key>id</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, True, 2, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
-    </param>
-    <param>
       <key>comment</key>
       <value></value>
     </param>
     <param>
-      <key>_coordinate</key>
-      <value>(199, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>text_message</value>
-    </param>
-    <param>
       <key>_enabled</key>
       <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"\x48\x65\x6c\x6c\x6f\x21\x20\x2f\x20\x48\x61\x6c\x6c\x6f\x21\x20\x2f\x20\xd0\x9f\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82\x21\x20\x2f\x20\x21\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85"</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 138)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>samp_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>48e3</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(199, 72)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>audio_sample_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>24000</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(714, 75)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(835, 9)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>station_label</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>"GNU Radio on DRM"</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(563, 75)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>msc_prot_level_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(708, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>SO</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(637, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>id</key>
-      <value>RM</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -315,537 +99,280 @@
       <key>_rotation</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>drm_generate_fac_b</key>
     <param>
       <key>id</key>
-      <value>drm_generate_fac_b_0</value>
+      <value>RM</value>
     </param>
     <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 804)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_bb_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(747, 804)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_generate_sdc_b</key>
-    <param>
-      <key>id</key>
-      <value>drm_generate_sdc_b_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(32, 592)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_bb_0_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(745, 592)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_4qam_bc</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_bc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.sdc().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.sdc().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.sdc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.sdc().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.sdc().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.sdc().punct_pat_tail_0()</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 512)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>note</key>
-    <param>
-      <key>id</key>
-      <value>note_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>note</key>
-      <value>Before generating the flow graph, define the path to a 24 kHz wav-file and change the parameters of the UHD sink. Do not forget to set the correct audio_sample_rate.</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(327, 212)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_audio_encoder_sb</key>
-    <param>
-      <key>id</key>
-      <value>drm_audio_encoder_sb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>len_out</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(465, 325)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_scrambler_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_scrambler_bb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>block_len</key>
-      <value>tp.msc().L_MUX()</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(725, 333)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_complex_to_real</key>
-    <param>
-      <key>id</key>
-      <value>blocks_complex_to_real_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen</key>
+      <key>value</key>
       <value>1</value>
     </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
+  </block>
+  <block>
+    <key>variable</key>
     <param>
       <key>comment</key>
       <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1568, 979)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>digital_ofdm_cyclic_prefixer</key>
-    <param>
-      <key>id</key>
-      <value>digital_ofdm_cyclic_prefixer_1</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>input_size</key>
-      <value>tp.ofdm().nfft()</value>
-    </param>
-    <param>
-      <key>cp_len</key>
-      <value>tp.ofdm().nfft()/4</value>
-    </param>
-    <param>
-      <key>rolloff</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>tagname</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
       <key>_coordinate</key>
-      <value>(1411, 719)</value>
+      <value>(637, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
-      <value>180</value>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>SO</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>3</value>
     </param>
   </block>
   <block>
-    <key>blocks_multiply_xx</key>
+    <key>variable</key>
     <param>
-      <key>id</key>
-      <value>blocks_multiply_xx_0</value>
+      <key>comment</key>
+      <value></value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>type</key>
-      <value>complex</value>
+      <key>_coordinate</key>
+      <value>(714, 75)</value>
     </param>
     <param>
-      <key>num_inputs</key>
-      <value>2</value>
+      <key>_rotation</key>
+      <value>0</value>
     </param>
     <param>
-      <key>vlen</key>
+      <key>id</key>
+      <value>audio_sample_rate</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>24000</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(835, 9)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>long_interl</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(708, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>msc_prot_level_2</value>
+    </param>
+    <param>
+      <key>value</key>
       <value>1</value>
     </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
+  </block>
+  <block>
+    <key>variable</key>
     <param>
       <key>comment</key>
       <value></value>
     </param>
     <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
       <key>_coordinate</key>
-      <value>(1414, 971)</value>
+      <value>(199, 72)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>samp_rate</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>48e3</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 75)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>station_label</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"GNU Radio on DRM"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(563, 138)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>text_message</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>"\x48\x65\x6c\x6c\x6f\x21\x20\x2f\x20\x48\x61\x6c\x6c\x6f\x21\x20\x2f\x20\xd0\x9f\xd1\x80\xd0\xb8\xd0\xb2\xd0\xb5\xd1\x82\x21\x20\x2f\x20\x21\xd8\xb3\xd9\x84\xd8\xa7\xd9\x85"</value>
+    </param>
+  </block>
+  <block>
+    <key>variable</key>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(199, 10)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>tp</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>drm.transm_params(RM, SO, False, 0, True, 2, 0, msc_prot_level_2, 1, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
     </param>
   </block>
   <block>
     <key>analog_sig_source_x</key>
     <param>
+      <key>amp</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>freq</key>
+      <value>7000</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1119, 961)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
       <key>id</key>
       <value>analog_sig_source_x_0</value>
     </param>
     <param>
-      <key>_enabled</key>
-      <value>True</value>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>offset</key>
+      <value>0</value>
     </param>
     <param>
       <key>type</key>
@@ -859,304 +386,28 @@
       <key>waveform</key>
       <value>analog.GR_COS_WAVE</value>
     </param>
-    <param>
-      <key>freq</key>
-      <value>7000</value>
-    </param>
-    <param>
-      <key>amp</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>offset</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1119, 961)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_wavfile_sink</key>
-    <param>
-      <key>id</key>
-      <value>blocks_wavfile_sink_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>file</key>
-      <value>drm_out.wav</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>48000</value>
-    </param>
-    <param>
-      <key>bits_per_sample</key>
-      <value>16</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1760, 959)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_multiply_const_vxx</key>
-    <param>
-      <key>id</key>
-      <value>blocks_multiply_const_vxx_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>7e-3</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1269, 805)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>270</value>
-    </param>
-  </block>
-  <block>
-    <key>fft_vxx</key>
-    <param>
-      <key>id</key>
-      <value>fft_vxx_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>fft_size</key>
-      <value>tp.ofdm().nfft()</value>
-    </param>
-    <param>
-      <key>forward</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>window</key>
-      <value></value>
-    </param>
-    <param>
-      <key>shift</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>nthreads</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1637, 712)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>180</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_multiply_const_vxx</key>
-    <param>
-      <key>id</key>
-      <value>blocks_multiply_const_vxx_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>float</value>
-    </param>
-    <param>
-      <key>const</key>
-      <value>32768</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(265, 339)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
   </block>
   <block>
     <key>audio_source</key>
     <param>
-      <key>id</key>
-      <value>audio_source_0</value>
+      <key>alias</key>
+      <value></value>
     </param>
     <param>
-      <key>_enabled</key>
-      <value>False</value>
+      <key>comment</key>
+      <value></value>
     </param>
     <param>
-      <key>samp_rate</key>
-      <value>44100</value>
+      <key>affinity</key>
+      <value></value>
     </param>
     <param>
       <key>device_name</key>
       <value></value>
     </param>
     <param>
-      <key>ok_to_block</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>num_outputs</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
+      <key>_enabled</key>
+      <value>False</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1166,237 +417,184 @@
       <key>_rotation</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>rational_resampler_xxx</key>
     <param>
       <key>id</key>
-      <value>rational_resampler_xxx_0_0</value>
+      <value>audio_source_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>num_outputs</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>ok_to_block</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>44100</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_complex_to_real</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1568, 979)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_complex_to_real_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>const</key>
+      <value>32768</value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(265, 339)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_0</value>
     </param>
     <param>
       <key>type</key>
-      <value>fff</value>
-    </param>
-    <param>
-      <key>interp</key>
-      <value>240</value>
-    </param>
-    <param>
-      <key>decim</key>
-      <value>441</value>
-    </param>
-    <param>
-      <key>taps</key>
-      <value></value>
-    </param>
-    <param>
-      <key>fbw</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
+      <value>float</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_multiply_const_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
     </param>
     <param>
-      <key>_coordinate</key>
-      <value>(241, 428)</value>
+      <key>const</key>
+      <value>7e-3</value>
     </param>
     <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_mlc_64qam_sm_bc</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_64qam_sm_bc_1</value>
+      <key>affinity</key>
+      <value></value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>vlen_in</key>
-      <value>tp.msc().L_MUX()</value>
+      <key>_coordinate</key>
+      <value>(1269, 805)</value>
     </param>
     <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+      <key>_rotation</key>
+      <value>270</value>
     </param>
     <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
+      <key>id</key>
+      <value>blocks_multiply_const_vxx_1</value>
     </param>
     <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.msc().N_MUX()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.msc().mod_order()</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM64SM</value>
-    </param>
-    <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
-      <value>tp.msc().punct_pat_tail_0_2()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.msc().punct_pat_1_2()</value>
-    </param>
-    <param>
-      <key>pp_1_tail</key>
-      <value>tp.msc().punct_pat_tail_1_2()</value>
-    </param>
-    <param>
-      <key>pp_2</key>
-      <value>tp.msc().punct_pat_2_2()</value>
-    </param>
-    <param>
-      <key>pp_2_tail</key>
-      <value>tp.msc().punct_pat_tail_2_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_0_2</key>
-      <value>tp.msc().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_2_2</key>
-      <value>tp.msc().bit_interl_seq_2_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.msc().bit_interl_seq_1_2()</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[2]</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>part_len_mid</key>
-      <value>tp.msc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
+      <key>type</key>
+      <value>complex</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(956, 175)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
+      <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
-    <key>drm_mlc_4qam_bc</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_4qam_bc_0_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>tp.fac().L()</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>tp.fac().N()</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>denom_mother_code_rate</key>
-      <value>drm.DENOM_MOTHER_CODE</value>
-    </param>
-    <param>
-      <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM4</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.fac().bit_interl_seq_0_2()</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>tp.fac().mod_order()</value>
-    </param>
-    <param>
-      <key>pp</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_tail</key>
-      <value>tp.fac().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>gen_poly</key>
-      <value>(91, 121, 101, 91, 121, 101)</value>
-    </param>
+    <key>blocks_multiply_xx</key>
     <param>
       <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -1404,50 +602,54 @@
       <value></value>
     </param>
     <param>
-      <key>minoutbuf</key>
+      <key>_enabled</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1414, 971)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_multiply_xx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(924, 724)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
+      <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>num_inputs</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
     </param>
   </block>
   <block>
-    <key>drm_interleaver_cc</key>
+    <key>blocks_wavfile_sink</key>
     <param>
-      <key>id</key>
-      <value>drm_interleaver_cc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>tp.msc().cell_interl_seq()</value>
-    </param>
-    <param>
-      <key>long_interl</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>depth</key>
-      <value>drm.INTL_DEPTH_DRM</value>
+      <key>bits_per_sample</key>
+      <value>16</value>
     </param>
     <param>
       <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -1455,74 +657,47 @@
       <value></value>
     </param>
     <param>
-      <key>minoutbuf</key>
+      <key>_enabled</key>
       <value>0</value>
     </param>
     <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
+      <key>file</key>
+      <value>drm_out.wav</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1305, 286)</value>
+      <value>(1760, 959)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>cell_mapping_cc</key>
     <param>
       <key>id</key>
-      <value>cell_mapping_cc_0</value>
+      <value>blocks_wavfile_sink_0</value>
     </param>
     <param>
-      <key>_enabled</key>
-      <value>True</value>
+      <key>nchan</key>
+      <value>1</value>
     </param>
     <param>
-      <key>tp</key>
-      <value>tp</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1507, 562)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
+      <key>samp_rate</key>
+      <value>48000</value>
     </param>
   </block>
   <block>
     <key>blocks_wavfile_source</key>
     <param>
-      <key>id</key>
-      <value>blocks_wavfile_source_0</value>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
     </param>
     <param>
       <key>_enabled</key>
@@ -1530,34 +705,6 @@
     </param>
     <param>
       <key>file</key>
-      <value></value>
-    </param>
-    <param>
-      <key>repeat</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -1568,39 +715,35 @@
       <key>_rotation</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>rational_resampler_xxx</key>
     <param>
       <key>id</key>
-      <value>rational_resampler_xxx_0</value>
+      <value>blocks_wavfile_source_0</value>
     </param>
     <param>
-      <key>_enabled</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>ccc</value>
-    </param>
-    <param>
-      <key>interp</key>
-      <value>250</value>
-    </param>
-    <param>
-      <key>decim</key>
-      <value>48</value>
-    </param>
-    <param>
-      <key>taps</key>
-      <value></value>
-    </param>
-    <param>
-      <key>fbw</key>
+      <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>repeat</key>
+      <value>True</value>
+    </param>
+  </block>
+  <block>
+    <key>cell_mapping_cc</key>
+    <param>
       <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -1608,16 +751,798 @@
       <value></value>
     </param>
     <param>
-      <key>minoutbuf</key>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1507, 562)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>cell_mapping_cc_0</value>
     </param>
     <param>
       <key>maxoutbuf</key>
       <value>0</value>
     </param>
     <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+  </block>
+  <block>
+    <key>digital_ofdm_cyclic_prefixer</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>cp_len</key>
+      <value>tp.ofdm().nfft()/4</value>
+    </param>
+    <param>
       <key>comment</key>
       <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>input_size</key>
+      <value>tp.ofdm().nfft()</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1411, 719)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>digital_ofdm_cyclic_prefixer_1</value>
+    </param>
+    <param>
+      <key>tagname</key>
+      <value></value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>rolloff</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_audio_encoder_sb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(465, 325)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_audio_encoder_sb_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>len_out</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_generate_fac_b</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 804)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_generate_fac_b_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_generate_sdc_b</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(32, 592)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_generate_sdc_b_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>tp</key>
+      <value>tp</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_interleaver_cc</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1305, 286)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_interleaver_cc_0</value>
+    </param>
+    <param>
+      <key>depth</key>
+      <value>drm.INTL_DEPTH_DRM</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.msc().cell_interl_seq()</value>
+    </param>
+    <param>
+      <key>long_interl</key>
+      <value>long_interl</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_bc</key>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.sdc().mod_order()</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(924, 512)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_bc_0</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.sdc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.sdc().N()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.sdc().punct_pat_tail_0()</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.sdc().punct_pat_0()</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_4qam_bc</key>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.fac().mod_order()</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(924, 724)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_4qam_bc_0_0</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>interl_seq</key>
+      <value>tp.fac().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM4</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.fac().N()</value>
+    </param>
+    <param>
+      <key>pp_tail</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+    <param>
+      <key>pp</key>
+      <value>tp.fac().punct_pat_0()</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_mlc_64qam_sm_bc</key>
+    <param>
+      <key>bits_per_symbol</key>
+      <value>tp.msc().mod_order()</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>denom_mother_code_rate</key>
+      <value>drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(956, 175)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>gen_poly</key>
+      <value>(91, 121, 101, 91, 121, 101)</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_mlc_64qam_sm_bc_1</value>
+    </param>
+    <param>
+      <key>vlen_in</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>interl_seq_0_2</key>
+      <value>tp.msc().bit_interl_seq_0_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_1_2</key>
+      <value>tp.msc().bit_interl_seq_1_2()</value>
+    </param>
+    <param>
+      <key>interl_seq_2_2</key>
+      <value>tp.msc().bit_interl_seq_2_2()</value>
+    </param>
+    <param>
+      <key>M_total</key>
+      <value>tp.msc().M_total()</value>
+    </param>
+    <param>
+      <key>part_len_top</key>
+      <value>tp.msc().M_total()[0]</value>
+    </param>
+    <param>
+      <key>part_len_mid</key>
+      <value>tp.msc().M_total()[1]</value>
+    </param>
+    <param>
+      <key>part_len_bot</key>
+      <value>tp.msc().M_total()[2]</value>
+    </param>
+    <param>
+      <key>map_tab</key>
+      <value>tp.cfg().ptables().d_QAM64SM</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>n_tailbits</key>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
+    </param>
+    <param>
+      <key>vlen_out</key>
+      <value>tp.msc().N_MUX()</value>
+    </param>
+    <param>
+      <key>pp_0</key>
+      <value>tp.msc().punct_pat_0_2()</value>
+    </param>
+    <param>
+      <key>pp_1</key>
+      <value>tp.msc().punct_pat_1_2()</value>
+    </param>
+    <param>
+      <key>pp_2</key>
+      <value>tp.msc().punct_pat_2_2()</value>
+    </param>
+    <param>
+      <key>pp_0_tail</key>
+      <value>tp.msc().punct_pat_tail_0_2()</value>
+    </param>
+    <param>
+      <key>pp_1_tail</key>
+      <value>tp.msc().punct_pat_tail_1_2()</value>
+    </param>
+    <param>
+      <key>pp_2_tail</key>
+      <value>tp.msc().punct_pat_tail_2_2()</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_bb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.msc().L_MUX()</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(725, 333)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_bb_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_bb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.fac().L()</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(747, 804)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_bb_0_0</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>drm_scrambler_bb</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>block_len</key>
+      <value>tp.sdc().L()</value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(745, 592)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>drm_scrambler_bb_0_1</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+  </block>
+  <block>
+    <key>fft_vxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fft_size</key>
+      <value>tp.ofdm().nfft()</value>
+    </param>
+    <param>
+      <key>forward</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1637, 712)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>180</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>fft_vxx_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>nthreads</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>shift</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>window</key>
+      <value></value>
+    </param>
+  </block>
+  <block>
+    <key>note</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(327, 212)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>note_0</value>
+    </param>
+    <param>
+      <key>note</key>
+      <value>Before generating the flow graph, define the path to a 24 kHz wav-file and change the parameters of the UHD sink. Do not forget to set the correct audio_sample_rate.</value>
+    </param>
+  </block>
+  <block>
+    <key>rational_resampler_xxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>decim</key>
+      <value>48</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>fbw</key>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1627,168 +1552,95 @@
       <key>_rotation</key>
       <value>0</value>
     </param>
-  </block>
-  <block>
-    <key>uhd_usrp_sink</key>
     <param>
       <key>id</key>
-      <value>uhd_usrp_sink_0</value>
+      <value>rational_resampler_xxx_0</value>
+    </param>
+    <param>
+      <key>interp</key>
+      <value>250</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>taps</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>ccc</value>
+    </param>
+  </block>
+  <block>
+    <key>rational_resampler_xxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>decim</key>
+      <value>441</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>False</value>
     </param>
     <param>
-      <key>type</key>
-      <value>fc32</value>
-    </param>
-    <param>
-      <key>otw</key>
-      <value></value>
-    </param>
-    <param>
-      <key>stream_args</key>
-      <value></value>
-    </param>
-    <param>
-      <key>stream_chans</key>
-      <value>[]</value>
-    </param>
-    <param>
-      <key>dev_addr</key>
-      <value></value>
-    </param>
-    <param>
-      <key>dev_args</key>
-      <value>""</value>
-    </param>
-    <param>
-      <key>sync</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_rate</key>
-      <value>0.0</value>
-    </param>
-    <param>
-      <key>num_mboards</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>clock_source0</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source0</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec0</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source5</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source5</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec5</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source6</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source6</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec6</key>
-      <value></value>
-    </param>
-    <param>
-      <key>clock_source7</key>
-      <value></value>
-    </param>
-    <param>
-      <key>time_source7</key>
-      <value></value>
-    </param>
-    <param>
-      <key>sd_spec7</key>
-      <value></value>
-    </param>
-    <param>
-      <key>nchan</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>samp_rate</key>
-      <value>samp_rate * 250 / 48</value>
-    </param>
-    <param>
-      <key>center_freq0</key>
-      <value>5e6</value>
-    </param>
-    <param>
-      <key>gain0</key>
+      <key>fbw</key>
       <value>0</value>
     </param>
     <param>
-      <key>norm_gain0</key>
-      <value>False</value>
+      <key>_coordinate</key>
+      <value>(241, 428)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rational_resampler_xxx_0_0</value>
+    </param>
+    <param>
+      <key>interp</key>
+      <value>240</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>taps</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>fff</value>
+    </param>
+  </block>
+  <block>
+    <key>uhd_usrp_sink</key>
+    <param>
+      <key>alias</key>
+      <value></value>
     </param>
     <param>
       <key>ant0</key>
@@ -1799,196 +1651,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq1</key>
-      <value>0</value>
+      <key>center_freq0</key>
+      <value>5e6</value>
     </param>
     <param>
-      <key>gain1</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain1</key>
+      <key>norm_gain0</key>
       <value>False</value>
     </param>
     <param>
-      <key>ant1</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw1</key>
+      <key>gain0</key>
       <value>0</value>
-    </param>
-    <param>
-      <key>center_freq2</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain2</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain2</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant2</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw2</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq3</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain3</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain3</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant3</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw3</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq4</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain4</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain4</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant4</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw4</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq5</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain5</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain5</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant5</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw5</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq6</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain6</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain6</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant6</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw6</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq7</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain7</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain7</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant7</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw7</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq8</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain8</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain8</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant8</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw8</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq9</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain9</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain9</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>ant9</key>
-      <value></value>
-    </param>
-    <param>
-      <key>bw9</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>center_freq10</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>gain10</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain10</key>
-      <value>False</value>
     </param>
     <param>
       <key>ant10</key>
@@ -1999,16 +1671,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq11</key>
+      <key>center_freq10</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain11</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain11</key>
+      <key>norm_gain10</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain10</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant11</key>
@@ -2019,16 +1691,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq12</key>
+      <key>center_freq11</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain12</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain12</key>
+      <key>norm_gain11</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain11</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant12</key>
@@ -2039,16 +1711,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq13</key>
+      <key>center_freq12</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain13</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain13</key>
+      <key>norm_gain12</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain12</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant13</key>
@@ -2059,16 +1731,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq14</key>
+      <key>center_freq13</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain14</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain14</key>
+      <key>norm_gain13</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain13</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant14</key>
@@ -2079,16 +1751,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq15</key>
+      <key>center_freq14</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain15</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain15</key>
+      <key>norm_gain14</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain14</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant15</key>
@@ -2099,16 +1771,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq16</key>
+      <key>center_freq15</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain16</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain16</key>
+      <key>norm_gain15</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain15</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant16</key>
@@ -2119,16 +1791,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq17</key>
+      <key>center_freq16</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain17</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain17</key>
+      <key>norm_gain16</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain16</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant17</key>
@@ -2139,16 +1811,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq18</key>
+      <key>center_freq17</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain18</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain18</key>
+      <key>norm_gain17</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain17</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant18</key>
@@ -2159,16 +1831,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq19</key>
+      <key>center_freq18</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain19</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain19</key>
+      <key>norm_gain18</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain18</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant19</key>
@@ -2179,16 +1851,36 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq20</key>
+      <key>center_freq19</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain20</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain20</key>
+      <key>norm_gain19</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain19</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw1</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq1</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain1</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain1</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant20</key>
@@ -2199,16 +1891,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq21</key>
+      <key>center_freq20</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain21</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain21</key>
+      <key>norm_gain20</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain20</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant21</key>
@@ -2219,16 +1911,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq22</key>
+      <key>center_freq21</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain22</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain22</key>
+      <key>norm_gain21</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain21</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant22</key>
@@ -2239,16 +1931,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq23</key>
+      <key>center_freq22</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain23</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain23</key>
+      <key>norm_gain22</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain22</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant23</key>
@@ -2259,16 +1951,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq24</key>
+      <key>center_freq23</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain24</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain24</key>
+      <key>norm_gain23</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain23</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant24</key>
@@ -2279,16 +1971,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq25</key>
+      <key>center_freq24</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain25</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain25</key>
+      <key>norm_gain24</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain24</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant25</key>
@@ -2299,16 +1991,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq26</key>
+      <key>center_freq25</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain26</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain26</key>
+      <key>norm_gain25</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain25</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant26</key>
@@ -2319,16 +2011,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq27</key>
+      <key>center_freq26</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain27</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain27</key>
+      <key>norm_gain26</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain26</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant27</key>
@@ -2339,16 +2031,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq28</key>
+      <key>center_freq27</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain28</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain28</key>
+      <key>norm_gain27</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain27</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant28</key>
@@ -2359,16 +2051,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq29</key>
+      <key>center_freq28</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain29</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain29</key>
+      <key>norm_gain28</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain28</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant29</key>
@@ -2379,16 +2071,36 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq30</key>
+      <key>center_freq29</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain30</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain30</key>
+      <key>norm_gain29</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain29</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw2</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq2</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain2</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain2</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant30</key>
@@ -2399,16 +2111,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>center_freq31</key>
+      <key>center_freq30</key>
       <value>0</value>
     </param>
     <param>
-      <key>gain31</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>norm_gain31</key>
+      <key>norm_gain30</key>
       <value>False</value>
+    </param>
+    <param>
+      <key>gain30</key>
+      <value>0</value>
     </param>
     <param>
       <key>ant31</key>
@@ -2419,11 +2131,163 @@
       <value>0</value>
     </param>
     <param>
-      <key>len_tag_name</key>
+      <key>center_freq31</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain31</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain31</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant3</key>
       <value></value>
     </param>
     <param>
-      <key>alias</key>
+      <key>bw3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain3</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain3</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain4</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain4</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain5</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain5</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain6</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain6</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain7</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain7</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant8</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain8</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain8</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>ant9</key>
+      <value></value>
+    </param>
+    <param>
+      <key>bw9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>center_freq9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>norm_gain9</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>gain9</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>clock_rate</key>
+      <value>0.0</value>
+    </param>
+    <param>
+      <key>comment</key>
       <value></value>
     </param>
     <param>
@@ -2431,8 +2295,16 @@
       <value></value>
     </param>
     <param>
-      <key>comment</key>
+      <key>dev_addr</key>
       <value></value>
+    </param>
+    <param>
+      <key>dev_args</key>
+      <value>""</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>1</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2442,40 +2314,160 @@
       <key>_rotation</key>
       <value>0</value>
     </param>
+    <param>
+      <key>id</key>
+      <value>uhd_usrp_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>fc32</value>
+    </param>
+    <param>
+      <key>clock_source0</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec0</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source0</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source1</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source2</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source3</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source4</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source5</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source6</key>
+      <value></value>
+    </param>
+    <param>
+      <key>clock_source7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>sd_spec7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>time_source7</key>
+      <value></value>
+    </param>
+    <param>
+      <key>nchan</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>num_mboards</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>samp_rate</key>
+      <value>samp_rate * 250 / 48</value>
+    </param>
+    <param>
+      <key>hide_cmd_port</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>hide_lo_controls</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>stream_args</key>
+      <value></value>
+    </param>
+    <param>
+      <key>stream_chans</key>
+      <value>[]</value>
+    </param>
+    <param>
+      <key>sync</key>
+      <value></value>
+    </param>
+    <param>
+      <key>len_tag_name</key>
+      <value></value>
+    </param>
+    <param>
+      <key>otw</key>
+      <value></value>
+    </param>
   </block>
   <connection>
-    <source_block_id>drm_scrambler_bb_0_0</source_block_id>
-    <sink_block_id>drm_mlc_4qam_bc_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_scrambler_bb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_4qam_bc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_generate_sdc_b_0</source_block_id>
-    <sink_block_id>drm_scrambler_bb_0_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_generate_fac_b_0</source_block_id>
-    <sink_block_id>drm_scrambler_bb_0_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_mlc_4qam_bc_0</source_block_id>
-    <sink_block_id>cell_mapping_cc_0</sink_block_id>
+    <source_block_id>analog_sig_source_x_0</source_block_id>
+    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_audio_encoder_sb_0</source_block_id>
-    <sink_block_id>drm_scrambler_bb_0</sink_block_id>
+    <source_block_id>audio_source_0</source_block_id>
+    <sink_block_id>rational_resampler_xxx_0_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2486,26 +2478,8 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_xx_0</source_block_id>
-    <sink_block_id>blocks_complex_to_real_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>analog_sig_source_x_0</source_block_id>
-    <sink_block_id>blocks_multiply_xx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_scrambler_bb_0</source_block_id>
-    <sink_block_id>drm_mlc_64qam_sm_bc_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_mlc_64qam_sm_bc_1</source_block_id>
-    <sink_block_id>drm_interleaver_cc_0</sink_block_id>
+    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2522,26 +2496,8 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>rational_resampler_xxx_0</source_block_id>
-    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>digital_ofdm_cyclic_prefixer_1</source_block_id>
-    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>cell_mapping_cc_0</source_block_id>
-    <sink_block_id>fft_vxx_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>fft_vxx_0</source_block_id>
-    <sink_block_id>digital_ofdm_cyclic_prefixer_1</sink_block_id>
+    <source_block_id>blocks_multiply_xx_0</source_block_id>
+    <sink_block_id>blocks_complex_to_real_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2552,22 +2508,46 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
+    <source_block_id>cell_mapping_cc_0</source_block_id>
+    <sink_block_id>fft_vxx_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>rational_resampler_xxx_0_0</source_block_id>
-    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
+    <source_block_id>digital_ofdm_cyclic_prefixer_1</source_block_id>
+    <sink_block_id>blocks_multiply_const_vxx_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>audio_source_0</source_block_id>
-    <sink_block_id>rational_resampler_xxx_0_0</sink_block_id>
+    <source_block_id>drm_audio_encoder_sb_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_generate_fac_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_generate_sdc_b_0</source_block_id>
+    <sink_block_id>drm_scrambler_bb_0_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_interleaver_cc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_mlc_4qam_bc_0</source_block_id>
+    <sink_block_id>cell_mapping_cc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>1</sink_key>
   </connection>
   <connection>
     <source_block_id>drm_mlc_4qam_bc_0_0</source_block_id>
@@ -2576,8 +2556,44 @@
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_interleaver_cc_0</source_block_id>
-    <sink_block_id>cell_mapping_cc_0</sink_block_id>
+    <source_block_id>drm_mlc_64qam_sm_bc_1</source_block_id>
+    <sink_block_id>drm_interleaver_cc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_bb_0</source_block_id>
+    <sink_block_id>drm_mlc_64qam_sm_bc_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_bb_0_0</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>drm_scrambler_bb_0_1</source_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>fft_vxx_0</source_block_id>
+    <sink_block_id>digital_ofdm_cyclic_prefixer_1</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rational_resampler_xxx_0</source_block_id>
+    <sink_block_id>uhd_usrp_sink_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rational_resampler_xxx_0_0</source_block_id>
+    <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

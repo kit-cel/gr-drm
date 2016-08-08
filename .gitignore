@@ -16,3 +16,4 @@ gr-drm/include/drm/drm_util.h
 gr-drm/include/drm/wavfile_drm.h
 gr-drmrx
 gr-drmtx
+.idea/

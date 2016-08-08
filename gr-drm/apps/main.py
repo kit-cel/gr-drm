@@ -55,7 +55,7 @@ class DRMMainWindow(QtGui.QMainWindow,drm_options.Ui_MainWindow):
             DRMParameters.gen_output = self.trans_dialog.gen_file.isChecked()
             if  DRMParameters.uhd_found == True and self.trans_dialog.usrp_select.currentIndex() < len(usrp.name):
                 DRMParameters.usrp_name = str(usrp.name[self.trans_dialog.usrp_select.currentIndex()])
-                DRMParameters.usrp_addr = str(usrp.addr[self.trans_dialog.usrp_select.currentIndex()])
+                DRMParameters.usrp_id = str(usrp.identification[self.trans_dialog.usrp_select.currentIndex()])
             else:
                 DRMParameters.uhd_found = False
 
@@ -137,7 +137,8 @@ class DRMTransOptionsDialog(QtGui.QDialog,transmission_options.Ui_Dialog):
             self.label_5.hide()
         self.gen_file.stateChanged.connect(self.hide_out_path)
         self.usrp_select.clear()
-        del usrp.addr[:]
+        del usrp.identification[:]
+        del usrp.networked[:]
         del usrp.name[:]
         # Look for usrps connected to host
         try:
@@ -149,11 +150,16 @@ class DRMTransOptionsDialog(QtGui.QDialog,transmission_options.Ui_Dialog):
             for line in output:
                 line = line.decode('UTF-8')
                 if not line.find('name')==-1:
-                    usrp.name.append(line[line.find('name')+6:])
+                    usrp.name.append('name='+line[line.find('name')+6:])
                 elif not line.find('addr')==-1:
-                    usrp.addr.append(line[line.find('addr')+6:])
+                    usrp.identification.append('addr='+line[line.find('addr')+6:])
+                    usrp.networked.append(True)
+                elif not line.find('serial')==-1:
+                    usrp.identification.append('serial='+line[line.find('serial')+8:])
+                    usrp.networked.append(False)
+            print "USRP name:", usrp.name, "identification:", usrp.identification, "networked series:", usrp.networked
             for x in range(0, len(usrp.name)):
-                self.usrp_select.addItem(usrp.addr[x]+' ('+usrp.name[x]+')')
+                self.usrp_select.addItem(usrp.identification[x]+' ('+usrp.name[x]+')')
             self.usrp_select.addItem('No USRP')
 
         except:
@@ -183,16 +189,18 @@ class DRMParameters:
     text_msg = 'Hello! Hallo!'
     station_label = 'DRM on GNURadio'
     audio_samp = 24
-    audio_file = 'new_world_24khz.wav'
-    gen_output = True
+    audio_file = ''
+    gen_output = False
     uhd_found = False
     usrp_addr = ''
     usrp_name = ''
-    pulse_audio = True
+    pulse_audio = False
 
 class usrp:
     name=[]
-    addr=[]
+    identification=[]
+    networked=[]
+    
 class mode_dicts:
     rm_modes = {"A" : 0, "B" : 1, "C" : 2, "D" : 3}
     audio_rates = {"12 KHz" : 12, "24 KHz" : 24,"48 KHz" : 48}

@@ -47,7 +47,7 @@ class drm_transmitter(gr.top_block):
         self.RM = RM = DRMParameters.rm
         self.tp = tp = drm.transm_params(RM, SO, False, 0, False, DRMParameters.msc_mod, 0, msc_prot_level_2, DRMParameters.sdc_mod, 0, long_interl, audio_sample_rate, station_label, text_message)
         self.samp_rate = samp_rate = 48e3
-        self.usrp_addr = 'addr='+DRMParameters.usrp_addr
+        self.usrp_addr = DRMParameters.usrp_id
         self.output_name = DRMParameters.output_name
         self.center_freq = DRMParameters.center_freq*1e6
         self.audio_file = DRMParameters.audio_file
