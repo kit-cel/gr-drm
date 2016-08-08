@@ -22,8 +22,30 @@ Installation
 
 Dependencies: GNU Radio (min. v3.7), UHD, FAAC, FAAD2
 
+From Source (automated)
+=======================
+
+If you're using a recent version of the popular linux distributions, [pybombs](http://pybombs.info) is probably the way to go:
+
+```shell
+git clone --recursive https://github.com/pybombs/pybombs.git
+cd pybombs
+./pybombs install gr-drm
+```
+
+and answering all the questions to best knowledge (the defaults are sane); you might need to later call
+
+```shell
+./pybombs env
+```
+
+to generate a file that you can `source <filename>` in your .bashrc or .zshenv.
+
+From Source (manual)
+====================
+
 For installation instructions for GNU Radio and UHD please visit 
-GNUradio http://www.gnuradio.org (there is a build script making things really easy!).
+[GNU Radio](http://www.gnuradio.org) (there is a build script making things really easy!).
 
 - FAAC	
 
@@ -119,6 +141,6 @@ Known Bugs
 - text message corrupted for SO 5 / RM A (and possibly other modes) 
 
 If you find any bugs or have great ideas you think the project could benefit 
-from, just write me: uncnr[at]student.kit.edu
+from, just write me: felix.wunsch[at]kit.edu
 
 last updated on: 2014/01/11
