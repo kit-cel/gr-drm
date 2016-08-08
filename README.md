@@ -20,7 +20,7 @@ Contents
 Installation
 ------------
 
-Dependencies: GNU Radio (min. v3.7), UHD, FAAC, FAAD2
+Dependencies: GNU Radio (min. v3.7), UHD, FAAC
 
 From Source (automated)
 =======================
@@ -59,34 +59,22 @@ For installation instructions for GNU Radio and UHD please visit
 		sudo cp libfaac/.libs/libfaac.a /usr/local/lib
 		cd ..
 		
-- FAAD2	(only needed for receiver)
-
-		wget http://downloads.sourceforge.net/faac/faad2-2.7.tar.gz
-		tar zxf faad2-2.7.tar.gz
-		cd faad2-2.7
-		. bootstrap
-		./configure --disable-shared --without-xmms --without-bmp --with-drm --without-mpeg4ip --with-pic
-		make
-		sudo cp include/faad.h include/neaacdec.h /usr/include
-		sudo cp libfaad/.libs/libfaad.a /usr/local/lib
-		cd ..
-		
 - gr-drm	
 
 		git clone git://github.com/kit-cel/gr-drm.git
-		cd gr-drm/gr-drm
-		git checkout stable
+		cd gr-drm
 		mkdir build
 		cd build
 		cmake ../
 		make
 		make test # optional, all tests should pass!
-		sudo make install
+		sudo make install # sudo is only needed if you don't install to your home folder
 		sudo ldconfig
 
 After successful installation of gr-drm, open the MLC flow graphs in `gr-drm/hier_blocks` 
 with GNU Radio Companion and execute them in order to generate the appropriate 
-XML and Python files that are used by the transmitter flow graphs.
+XML and Python files that are used by the transmitter flow graphs. After generating,
+you need to restart GRC or to click the "reload" button.
  
 You are now ready to transmit!
 				
@@ -94,9 +82,11 @@ You are now ready to transmit!
 Usage
 -----
 
-There are various, fully configured flow graphs under `gr-drm/flow_graphs` 
-that can be used pretty much as-is. The DRM+ flow graph does not crash but is
-completely untested.
+There are various, fully configured flow graphs under `apps/drm_tx_grc` 
+that can be used pretty much as-is. Robustness Mode B with Spectrum Occupancy 3 (10 kHz)
+is the most popular mode and is also tested against the Newstar DR111 DRM Receiver. 
+Other modes may work, too. The DRM+ flow graph is completely untested due to the 
+lack of a receiver.
 
 Of course you have to set the path to your USRP (or leave it blank for 
 autodetection) and a source wav-file (either 12 or 24 kHz). There are also 
@@ -119,7 +109,8 @@ occupancies (SO, signal bandwidth) ranging from 4.5 to 20 kHz. The corresponding
 bit rates vary from below 5 kbps to about 55 kbps. A configuration that is widely
 used is RM B (==1) and 10 kHz bandwidth (SO 3). Among other parameters, the
 station label and a text message can also be set by simply adapting the 
-correspondent blocks' values.
+correspondant blocks' values. Please note that not every combination of Robustness 
+mode and Spectrum Occupancy is valid. 
 
 
 (Current) Constraints
@@ -132,7 +123,6 @@ standard that are not (yet) available. The most important are:
 - Hierarchical mapping (HMsym and HMmix)
 - multiple audio/data streams (currently only one audio stream in AAC Mono (no 
   SBR) is possible)
-- Reconfiguration
 
 
 Known Bugs
@@ -143,4 +133,4 @@ Known Bugs
 If you find any bugs or have great ideas you think the project could benefit 
 from, just write me: felix.wunsch[at]kit.edu
 
-last updated on: 2014/01/11
+last updated on: 2016/08/08

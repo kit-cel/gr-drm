@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <?grc format='1' created='3.7.10'?>
 <flow_graph>
-  <timestamp>Tue Apr 29 11:37:08 2014</timestamp>
+  <timestamp>Tue Apr 29 11:37:41 2014</timestamp>
   <block>
     <key>options</key>
     <param>
@@ -10,7 +10,7 @@
     </param>
     <param>
       <key>window_size</key>
-      <value>3000, 2000</value>
+      <value>2500, 1920</value>
     </param>
     <param>
       <key>category</key>
@@ -22,7 +22,7 @@
     </param>
     <param>
       <key>description</key>
-      <value>64SM/16/4 QAM, EEP</value>
+      <value>RM B, SO 3, 16/4/4 QAM, short interleaving, EEP</value>
     </param>
     <param>
       <key>_enabled</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>drm_transmitter_64sm_16</value>
+      <value>drm_plus_transmitter</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -58,7 +58,7 @@
     </param>
     <param>
       <key>realtime_scheduling</key>
-      <value></value>
+      <value>1</value>
     </param>
     <param>
       <key>run_command</key>
@@ -70,7 +70,7 @@
     </param>
     <param>
       <key>run</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>thread_safe_setters</key>
@@ -78,7 +78,7 @@
     </param>
     <param>
       <key>title</key>
-      <value>DRM Transmitter 4</value>
+      <value>DRM+ Transmitter</value>
     </param>
   </block>
   <block>
@@ -93,7 +93,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(564, 20)</value>
+      <value>(563, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -105,7 +105,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>1</value>
+      <value>4</value>
     </param>
   </block>
   <block>
@@ -120,7 +120,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(639, 20)</value>
+      <value>(637, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -132,7 +132,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>3</value>
+      <value>0</value>
     </param>
   </block>
   <block>
@@ -147,7 +147,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(718, 86)</value>
+      <value>(716, 75)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -174,34 +174,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(837, 20)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>id</key>
-      <value>long_interl</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>True</value>
-    </param>
-  </block>
-  <block>
-    <key>variable</key>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(710, 21)</value>
+      <value>(708, 10)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -228,7 +201,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(230, 92)</value>
+      <value>(200, 74)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -240,7 +213,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>48e3</value>
+      <value>96e3</value>
     </param>
   </block>
   <block>
@@ -255,7 +228,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(565, 86)</value>
+      <value>(563, 75)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -282,7 +255,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(565, 149)</value>
+      <value>(563, 138)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -309,7 +282,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(230, 25)</value>
+      <value>(198, 11)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -321,7 +294,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>drm.transm_params(RM, SO, False, 0, False, 2, 0, msc_prot_level_2, 0, 0, long_interl, audio_sample_rate, station_label, text_message)</value>
+      <value>drm.transm_params(RM, SO, False, 0, True, 0, 0, msc_prot_level_2, 1, 0, True, audio_sample_rate, station_label, text_message)</value>
     </param>
   </block>
   <block>
@@ -344,15 +317,15 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>True</value>
     </param>
     <param>
       <key>freq</key>
-      <value>7000</value>
+      <value>70000</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1146.5824393443625, 978.6367151010102)</value>
+      <value>(1102, 974)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -407,11 +380,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(43, 453)</value>
+      <value>(28, 434)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -458,11 +431,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1595.5824393443625, 996.6367151010102)</value>
+      <value>(1740, 996)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -505,11 +478,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(269, 345)</value>
+      <value>(271, 326)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -560,7 +533,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1296.5824393443625, 822.6367151010102)</value>
+      <value>(1252, 818)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -603,11 +576,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>True</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1441.5824393443625, 988.6367151010102)</value>
+      <value>(1397, 984)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -658,7 +631,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>0</value>
+      <value>True</value>
     </param>
     <param>
       <key>file</key>
@@ -666,7 +639,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1787.5824393443625, 976.6367151010102)</value>
+      <value>(1934, 975)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -682,7 +655,7 @@
     </param>
     <param>
       <key>samp_rate</key>
-      <value>48000</value>
+      <value>int(samp_rate*2)</value>
     </param>
   </block>
   <block>
@@ -701,7 +674,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>True</value>
+      <value>False</value>
     </param>
     <param>
       <key>file</key>
@@ -709,7 +682,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(55, 339)</value>
+      <value>(57, 320)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -756,7 +729,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1509, 573)</value>
+      <value>(1507, 562)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -807,7 +780,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1438.5824393443625, 736.6367151010102)</value>
+      <value>(1395, 733)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -854,7 +827,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(467, 336)</value>
+      <value>(465, 325)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -901,7 +874,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(34, 815)</value>
+      <value>(32, 804)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -944,7 +917,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(34, 603)</value>
+      <value>(32, 592)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -987,7 +960,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1547, 343)</value>
+      <value>(1327, 358)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -999,7 +972,7 @@
     </param>
     <param>
       <key>depth</key>
-      <value>drm.INTL_DEPTH_DRM</value>
+      <value>drm.INTL_DEPTH_DRMPLUS</value>
     </param>
     <param>
       <key>interl_seq</key>
@@ -1007,7 +980,7 @@
     </param>
     <param>
       <key>long_interl</key>
-      <value>long_interl</value>
+      <value>True</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1019,7 +992,7 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_16qam_bc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>bits_per_symbol</key>
       <value>tp.sdc().mod_order()</value>
@@ -1046,7 +1019,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(928, 466)</value>
+      <value>(924, 512)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1058,35 +1031,19 @@
     </param>
     <param>
       <key>id</key>
-      <value>drm_mlc_16qam_bc_0</value>
+      <value>drm_mlc_4qam_bc_0</value>
     </param>
     <param>
       <key>vlen_in</key>
       <value>tp.sdc().L()</value>
     </param>
     <param>
-      <key>interl_seq_0_2</key>
+      <key>interl_seq</key>
       <value>tp.sdc().bit_interl_seq_0_2()</value>
     </param>
     <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.sdc().bit_interl_seq_1_2()</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.sdc().M_total()</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.sdc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.sdc().M_total()[1]</value>
-    </param>
-    <param>
       <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM16</value>
+      <value>tp.cfg().ptables().d_QAM4</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1098,27 +1055,19 @@
     </param>
     <param>
       <key>n_tailbits</key>
-      <value>drm.N_TAILBITS/drm.DENOM_MOTHER_CODE</value>
+      <value>drm.N_TAILBITS / drm.DENOM_MOTHER_CODE</value>
     </param>
     <param>
       <key>vlen_out</key>
       <value>tp.sdc().N()</value>
     </param>
     <param>
-      <key>pp_0</key>
-      <value>tp.sdc().punct_pat_0()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.sdc().punct_pat_1()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
+      <key>pp_tail</key>
       <value>tp.sdc().punct_pat_tail_0()</value>
     </param>
     <param>
-      <key>pp_1_tail</key>
-      <value>tp.sdc().punct_pat_tail_1()</value>
+      <key>pp</key>
+      <value>tp.sdc().punct_pat_0()</value>
     </param>
   </block>
   <block>
@@ -1149,7 +1098,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(927, 773)</value>
+      <value>(924, 724)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1201,7 +1150,7 @@
     </param>
   </block>
   <block>
-    <key>drm_mlc_64qam_sm_bc</key>
+    <key>drm_mlc_4qam_bc</key>
     <param>
       <key>bits_per_symbol</key>
       <value>tp.msc().mod_order()</value>
@@ -1228,7 +1177,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(928, 98)</value>
+      <value>(929, 265)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1240,43 +1189,19 @@
     </param>
     <param>
       <key>id</key>
-      <value>drm_mlc_64qam_sm_bc_0</value>
+      <value>drm_mlc_4qam_bc_1</value>
     </param>
     <param>
       <key>vlen_in</key>
       <value>tp.msc().L_MUX()</value>
     </param>
     <param>
-      <key>interl_seq_0_2</key>
+      <key>interl_seq</key>
       <value>tp.msc().bit_interl_seq_0_2()</value>
     </param>
     <param>
-      <key>interl_seq_1_2</key>
-      <value>tp.msc().bit_interl_seq_1_2()</value>
-    </param>
-    <param>
-      <key>interl_seq_2_2</key>
-      <value>tp.msc().bit_interl_seq_2_2()</value>
-    </param>
-    <param>
-      <key>M_total</key>
-      <value>tp.msc().M_total()</value>
-    </param>
-    <param>
-      <key>part_len_top</key>
-      <value>tp.msc().M_total()[0]</value>
-    </param>
-    <param>
-      <key>part_len_mid</key>
-      <value>tp.msc().M_total()[1]</value>
-    </param>
-    <param>
-      <key>part_len_bot</key>
-      <value>tp.msc().M_total()[2]</value>
-    </param>
-    <param>
       <key>map_tab</key>
-      <value>tp.cfg().ptables().d_QAM64SM</value>
+      <value>tp.cfg().ptables().d_QAM4</value>
     </param>
     <param>
       <key>maxoutbuf</key>
@@ -1295,28 +1220,12 @@
       <value>tp.msc().N_MUX()</value>
     </param>
     <param>
-      <key>pp_0</key>
-      <value>tp.msc().punct_pat_0_2()</value>
-    </param>
-    <param>
-      <key>pp_1</key>
-      <value>tp.msc().punct_pat_1_2()</value>
-    </param>
-    <param>
-      <key>pp_2</key>
-      <value>tp.msc().punct_pat_2_2()</value>
-    </param>
-    <param>
-      <key>pp_0_tail</key>
+      <key>pp_tail</key>
       <value>tp.msc().punct_pat_tail_0_2()</value>
     </param>
     <param>
-      <key>pp_1_tail</key>
-      <value>tp.msc().punct_pat_tail_2_2()</value>
-    </param>
-    <param>
-      <key>pp_2_tail</key>
-      <value>tp.msc().punct_pat_tail_1_2()</value>
+      <key>pp</key>
+      <value>tp.msc().punct_pat_0_2()</value>
     </param>
   </block>
   <block>
@@ -1343,7 +1252,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(737, 344)</value>
+      <value>(735, 333)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1386,7 +1295,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(749, 815)</value>
+      <value>(747, 804)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1429,7 +1338,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(747, 603)</value>
+      <value>(745, 592)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1476,7 +1385,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1664.5824393443625, 729.6367151010102)</value>
+      <value>(1620, 725)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1527,7 +1436,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(329, 223)</value>
+      <value>(327, 212)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1558,11 +1467,11 @@
     </param>
     <param>
       <key>decim</key>
-      <value>48</value>
+      <value>92</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>False</value>
     </param>
     <param>
       <key>fbw</key>
@@ -1570,7 +1479,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1490, 857)</value>
+      <value>(1432, 854)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1621,7 +1530,7 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>False</value>
+      <value>True</value>
     </param>
     <param>
       <key>fbw</key>
@@ -1629,7 +1538,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(245, 434)</value>
+      <value>(247, 415)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -1658,6 +1567,65 @@
     <param>
       <key>type</key>
       <value>fff</value>
+    </param>
+  </block>
+  <block>
+    <key>rational_resampler_xxx</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>decim</key>
+      <value>1</value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>fbw</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(1535, 972)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>rational_resampler_xxx_0_1</value>
+    </param>
+    <param>
+      <key>interp</key>
+      <value>2</value>
+    </param>
+    <param>
+      <key>maxoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>minoutbuf</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>taps</key>
+      <value></value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>ccc</value>
     </param>
   </block>
   <block>
@@ -2328,11 +2296,11 @@
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>False</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(1710.5824393443625, 857.6367151010102)</value>
+      <value>(1665, 853)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -2521,7 +2489,7 @@
   </connection>
   <connection>
     <source_block_id>blocks_multiply_xx_0</source_block_id>
-    <sink_block_id>blocks_complex_to_real_0</sink_block_id>
+    <sink_block_id>rational_resampler_xxx_0_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2568,7 +2536,7 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_16qam_bc_0</source_block_id>
+    <source_block_id>drm_mlc_4qam_bc_0</source_block_id>
     <sink_block_id>cell_mapping_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>1</sink_key>
@@ -2580,14 +2548,14 @@
     <sink_key>2</sink_key>
   </connection>
   <connection>
-    <source_block_id>drm_mlc_64qam_sm_bc_0</source_block_id>
+    <source_block_id>drm_mlc_4qam_bc_1</source_block_id>
     <sink_block_id>drm_interleaver_cc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>drm_scrambler_bb_0</source_block_id>
-    <sink_block_id>drm_mlc_64qam_sm_bc_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_1</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2599,7 +2567,7 @@
   </connection>
   <connection>
     <source_block_id>drm_scrambler_bb_0_1</source_block_id>
-    <sink_block_id>drm_mlc_16qam_bc_0</sink_block_id>
+    <sink_block_id>drm_mlc_4qam_bc_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
@@ -2618,6 +2586,12 @@
   <connection>
     <source_block_id>rational_resampler_xxx_0_0</source_block_id>
     <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>rational_resampler_xxx_0_1</source_block_id>
+    <sink_block_id>blocks_complex_to_real_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

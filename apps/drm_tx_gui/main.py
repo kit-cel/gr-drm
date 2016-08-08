@@ -192,7 +192,7 @@ class DRMParameters:
     audio_file = ''
     gen_output = False
     uhd_found = False
-    usrp_addr = ''
+    usrp_id = ''
     usrp_name = ''
     pulse_audio = False
 
