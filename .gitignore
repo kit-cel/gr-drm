@@ -17,3 +17,4 @@ gr-drm/include/drm/wavfile_drm.h
 gr-drmrx
 gr-drmtx
 .idea/
+*.pyc
