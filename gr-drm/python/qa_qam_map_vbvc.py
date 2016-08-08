@@ -23,7 +23,7 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_qam_map_vbvc (gr_unittest.TestCase):
+class qa_qam_map_bc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -39,7 +39,7 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
         v1 = (0,1,1,1,0,0,1,0)
         self.src0 = blocks.vector_source_b(v0, False, len(v0))
         self.src1 = blocks.vector_source_b(v1, False, len(v1))
-        self.map = drm.qam_map_vbvc(self.tables.d_QAM16, 4, len(v0)/2, 2)
+        self.map = drm.qam_map_bc(self.tables.d_QAM16, 4, len(v0)/2, 2)
         self.snk = blocks.vector_sink_c(len(v0)/2)
         self.tb.connect(self.src0, (self.map, 0))
         self.tb.connect(self.src1, (self.map, 1))
@@ -59,7 +59,7 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
     	# this models 4-QAM with 1 input stream
     	v0 = (0,0,0,1,1,0,1,1)
     	self.src = blocks.vector_source_b(v0, False, len(v0))
-    	self.map = drm.qam_map_vbvc(self.tables.d_QAM4, 2, len(v0)/2, 1)
+    	self.map = drm.qam_map_bc(self.tables.d_QAM4, 2, len(v0)/2, 1)
     	self.snk = blocks.vector_sink_c(len(v0)/2)    	
     	self.tb.connect(self.src, self.map, self.snk)
     	self.tb.run()
@@ -77,7 +77,7 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
 	self.src0 = blocks.vector_source_b(v0, False, len(v0))
 	self.src1 = blocks.vector_source_b(v1, False, len(v1))
 	self.src2 = blocks.vector_source_b(v2, False, len(v2))
-	self.map = drm.qam_map_vbvc(self.tables.d_QAM64SM, 6, len(v0)/2, 3)
+	self.map = drm.qam_map_bc(self.tables.d_QAM64SM, 6, len(v0)/2, 3)
 	self.snk = blocks.vector_sink_c(len(v0)/2)
 	self.tb.connect(self.src0, (self.map, 0))
 	self.tb.connect(self.src1, (self.map, 1))
@@ -93,4 +93,4 @@ class qa_qam_map_vbvc (gr_unittest.TestCase):
 	self.assertComplexTuplesAlmostEqual(ref, res)
 	    	
 if __name__ == '__main__':
-    gr_unittest.run(qa_qam_map_vbvc, "qa_qam_map_vbvc.xml")
+    gr_unittest.run(qa_qam_map_bc, "qa_qam_map_bc.xml")

@@ -1,0 +1,33 @@
+<block>
+  <name>Cell Interleaver</name>
+  <key>drm_interleaver_cc</key>
+  <category>DRM</category>
+  <import>import drm</import>
+  <make>drm.interleaver_cc($interl_seq, $long_interl, $depth)</make>
+  <param>
+    <name>Interleaving Sequence</name>
+    <key>interl_seq</key>
+    <type>int_vector</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>Long Interleaving</name>
+    <key>long_interl</key>
+    <type>bool</type>
+    <hide>part</hide>
+  </param>
+  <param>
+    <name>Interleaving Depth</name>
+    <key>depth</key>
+    <type>int</type>
+    <hide>part</hide>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+</block>

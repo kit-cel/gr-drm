@@ -23,7 +23,7 @@ from gnuradio import gr, gr_unittest
 from gnuradio import blocks
 import drm_swig as drm
 
-class qa_interleaver_vcvc (gr_unittest.TestCase):
+class qa_interleaver_cc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
@@ -38,4 +38,4 @@ class qa_interleaver_vcvc (gr_unittest.TestCase):
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_interleaver_vcvc, "qa_interleaver_vcvc.xml")
+    gr_unittest.run(qa_interleaver_cc, "qa_interleaver_cc.xml")

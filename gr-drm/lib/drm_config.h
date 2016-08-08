@@ -83,7 +83,7 @@ public:
 			  std::string station_label,
 			  std::string text_message); // set member variables
 			  
-	bool check_arguments(); // some range and plausibility checks
+	void check_arguments(); // some range and plausibility checks
 };
 
 #endif
