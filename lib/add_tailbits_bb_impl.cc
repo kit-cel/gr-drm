@@ -66,7 +66,7 @@ namespace gr {
 		unsigned char *out = (unsigned char *) output_items[0];
         const int n_vectors = noutput_items/(d_vlen+d_n_tail);
         // set tailbits to zero TODO: make tailbits configurable
-		unsigned char tailbits[(const int) d_n_tail];
+		__GR_VLA(unsigned char, tailbits, (const int) d_n_tail);
 		memset(tailbits, 0, d_n_tail);
 
 		for( int i = 0; i < n_vectors; i++)

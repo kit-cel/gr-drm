@@ -118,7 +118,7 @@ namespace gr {
     {
         char ext_header[] = "#EXTM3U";
         const int len_ext_header = strlen(ext_header);
-        char linebuf[len_ext_header];
+        __GR_VLA(char, linebuf, len_ext_header);
         d_m3u_file.getline(linebuf, len_ext_header+1); // +1 to get the newline character
         if(strcmp(linebuf, ext_header) == 0) // return 0 if equal
         {
