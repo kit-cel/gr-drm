@@ -18,7 +18,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#define _USE_MATH_DEFINES //define before including math header
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
