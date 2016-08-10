@@ -189,7 +189,7 @@ namespace gr {
 				gr_vector_void_star &output_items)
 	{
 		const unsigned int sdc_length = d_tp->sdc().L();
-		unsigned char data[sdc_length];
+		__GR_VLA(unsigned char, data, sdc_length);
 		unsigned char *out = (unsigned char *) output_items[0];
 		memset(data, 0, sdc_length);
 

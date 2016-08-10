@@ -167,7 +167,7 @@ namespace gr {
 		/* encode PCM stream and make it DRM compliant. write to output buffer (in make_drm_compliant()) */
 		// init AAC buffer
 		//std::cout << "aac_encode()" << std::endl;
-		unsigned char aac_buffer[(const unsigned long) d_n_max_bytes_out * (const unsigned long) d_n_aac_frames];
+		__GR_VLA(unsigned char, aac_buffer, (const unsigned long) d_n_max_bytes_out * (const unsigned long) d_n_aac_frames);
 		aac_encode(aac_buffer); // encodes pcm data for 1 super transmission frame
 		//std::cout << "d_out: " << (long) d_out << ", bits written: " << d_out - d_out_prev << std::endl;
 		d_out_prev = d_out;
@@ -197,8 +197,8 @@ namespace gr {
 		d_n_bytes_encoded.clear();
 
 		// allocate tmp input buffers for PCM and AAC samples
-		float tmp_pcm_buffer[(const unsigned long) d_transform_length]; // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
-		unsigned char tmp_aac_buffer[(const unsigned long) d_n_max_bytes_out];
+		__GR_VLA(float, tmp_pcm_buffer, (const unsigned long) d_transform_length); // if multiple super audio frames are processed, move this outside this function to avoid multiple allocation
+		__GR_VLA(unsigned char, tmp_aac_buffer, (const unsigned long) d_n_max_bytes_out);
 
 		for (int j = 0; j < d_n_aac_frames; j++)
 		{
@@ -218,9 +218,9 @@ namespace gr {
 	audio_encoder_sb_impl::make_drm_compliant(unsigned char* aac_buffer)
 	{
 		/* init buffers for CRC, payload and frame lengths */
-		unsigned char crc_bits[(const int) d_n_aac_frames];
-		int frame_length[(const int) d_n_aac_frames];
-		unsigned char* frame_pos[(const int) d_n_aac_frames];
+		__GR_VLA(unsigned char, crc_bits, (const int) d_n_aac_frames);
+		__GR_VLA(int, frame_length, (const int) d_n_aac_frames);
+		__GR_VLA(unsigned char*, frame_pos, (const int) d_n_aac_frames);
 		frame_pos[0] = aac_buffer;
 
 		/* create header ( accumulated frame lengths | padding | CRC | audio ) */
@@ -322,7 +322,7 @@ namespace gr {
 		//std::cout << "len_msg_bit: " << len_msg_bit << std::endl;
 		d_n_text_frames = len_msg_bit/(4*8);
 		//std::cout << "d_n_text_frames: " << d_n_text_frames << ", n_segments: " << n_segments << std::endl;
-		unsigned char msg[len_msg_bit];
+		__GR_VLA(unsigned char, msg, len_msg_bit);
 		memset(msg, 9, len_msg_bit); // set to 9 for debugging purposes
 
 		//std::cout << "msg address: " << (long) &msg[0] << std::endl;

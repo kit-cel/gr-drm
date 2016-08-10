@@ -22,12 +22,13 @@
 #ifndef DRM_TABLES_H_
 #define DRM_TABLES_H_
 
+#include <drm/api.h>
 #include "drm_global_constants.h"
 #include <vector>
 #include <cmath>
 #include <complex>
 
-class tables
+class DRM_API tables
 {
 	public:
 

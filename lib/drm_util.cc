@@ -18,7 +18,11 @@
  * the Free Software Foundation, Inc., 51 Franklin Street,
  * Boston, MA 02110-1301, USA.
  */
- 
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "drm_util.h"
 #include <iostream>
 
@@ -80,10 +84,10 @@ void
 enqueue_crc(unsigned char* ptr, transm_params* tp, int len, const unsigned short ord) //  see DRM standard, annex D
 {
 	unsigned short rob_mode = tp->cfg().RM();
-	unsigned char shift_reg[ord]; // shift register of length ord
-	unsigned char shift_reg_prev[ord]; // state of register before last shift
+	__GR_VLA(unsigned char, shift_reg, ord); // shift register of length ord
+	__GR_VLA(unsigned char, shift_reg_prev, ord); // state of register before last shift
 	unsigned char next_lsb; // the bit that results out of XORing the MSb with the input
-	unsigned char crc_word[ord]; // CRC word
+	__GR_VLA(unsigned char, crc_word, ord); // CRC word
 	memset(shift_reg, 1, ord); // set all stages to one (see DRM standard, annex D)
 	memset(shift_reg_prev, 0, ord); // just for debugging purposes
 	switch(ord)

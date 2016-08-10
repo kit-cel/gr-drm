@@ -75,7 +75,7 @@ namespace gr {
 			  gr_vector_const_void_star &input_items,
 			  gr_vector_void_star &output_items)
 	{
-		unsigned char *in[d_n_inputs];
+		__GR_VLA(unsigned char *, in, d_n_inputs);
 		gr_complex *out = (gr_complex *) output_items[0];
 		int n_vectors = noutput_items/d_vlen_out;
 		// define input pointers

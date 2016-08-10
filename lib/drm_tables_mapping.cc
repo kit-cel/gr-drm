@@ -21,8 +21,11 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "drm_tables.h"
-#define _USE_MATH_DEFINES
 
 /* frequency reference cells [carrier index][phase_index(0,k)]
  * corresponds to 750 Hz, 2250 Hz and 3000 Hz */

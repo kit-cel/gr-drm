@@ -67,7 +67,7 @@ namespace gr {
 				for(int j = 0; j < n_vectors; j++)
 				{
 					// Generate PRBS of length block_len (G(x) = x^9 + x^5 + 1)
-					unsigned char prbs[n_reset]; // Pseudo random bit sequence array
+					__GR_VLA(unsigned char, prbs, n_reset); // Pseudo random bit sequence array
 					unsigned char lfsr[9] = {1, 1, 1, 1, 1, 1, 1, 1, 1}; // inital state: all ones
 					unsigned char lfsr_prev[9]; // holds previous shift register state while shifting
 					unsigned char next_bit;

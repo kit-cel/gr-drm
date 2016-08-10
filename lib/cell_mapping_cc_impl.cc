@@ -163,9 +163,9 @@ namespace gr {
 		int freq_pil[3][2];
 		const int time_rows = d_time_rows; // this way we can instance an array with this variable
 		int afs_pil[NUM_AFS_PILOTS][3]; // only used for RM E
-		int time_pil[time_rows][2];
+		int time_pil[RMA_NUM_TIME_PIL][2];
 		const int fac_rows = d_fac_rows;
-		int fac_pos[fac_rows][2];
+		int fac_pos[N_FAC_DRM][2];
 		int unused_carriers_A[3] = {-1, 0, 1};
 
 		switch(d_RM)
