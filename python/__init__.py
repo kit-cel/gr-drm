@@ -45,6 +45,10 @@ if _RTLD_GLOBAL != 0:
 from drm_swig import *
 
 # import any pure python here
+from mlc_factory import make_mlc
+from drm_mlc_4qam_bc import drm_mlc_4qam_bc
+from drm_mlc_16qam_bc import drm_mlc_16qam_bc
+from drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
 #
 
 # ----------------------------------------------------------------

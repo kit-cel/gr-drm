@@ -1,7 +1,7 @@
 <block>
   <name>Cell Interleaver</name>
   <key>drm_interleaver_cc</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.interleaver_cc($interl_seq, $long_interl, $depth)</make>
   <param>

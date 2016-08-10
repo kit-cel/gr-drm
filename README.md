@@ -46,8 +46,10 @@ From Source (manual)
 
 For installation instructions for GNU Radio and UHD please visit 
 [GNU Radio](http://www.gnuradio.org) (there is a build script making things really easy!).
+The instructions assume that you don't want to install into your home folder. If that's the
+case, adjust the prefixes accordingly.
 
-- FAAC	
+- FAAC
 
 		wget http://downloads.sourceforge.net/faac/faac-1.28.tar.gz
 		tar zxf faac-1.28.tar.gz
@@ -70,23 +72,13 @@ For installation instructions for GNU Radio and UHD please visit
 		make test # optional, all tests should pass!
 		sudo make install # sudo is only needed if you don't install to your home folder
 		sudo ldconfig
-
-After successful installation of gr-drm, open the MLC flow graphs in `gr-drm/hier_blocks` 
-with GNU Radio Companion and execute them in order to generate the appropriate 
-XML and Python files that are used by the transmitter flow graphs. After generating,
-you need to restart GRC or to click the "reload" button.
- 
-You are now ready to transmit!
-				
 		
 Usage
 -----
 
-There are various, fully configured flow graphs under `apps/drm_tx_grc` 
-that can be used pretty much as-is. Robustness Mode B with Spectrum Occupancy 3 (10 kHz)
-is the most popular mode and is also tested against the Newstar DR111 DRM Receiver. 
-Other modes may work, too. The DRM+ flow graph is completely untested due to the 
-lack of a receiver.
+After successful installation of gr-drm, you can either use the flow graph
+in `apps/grc_flowgraph` or the GUI in `apps/gui`. The DRM+ flow graph is 
+completely untested due to the lack of a receiver.
 
 Of course you have to set the path to your USRP (or leave it blank for 
 autodetection) and a source wav-file (either 12 or 24 kHz). There are also 
@@ -108,8 +100,7 @@ You are also free to play around with several robustness modes (RM) and spectrum
 occupancies (SO, signal bandwidth) ranging from 4.5 to 20 kHz. The corresponding
 bit rates vary from below 5 kbps to about 55 kbps. A configuration that is widely
 used is RM B (==1) and 10 kHz bandwidth (SO 3). Among other parameters, the
-station label and a text message can also be set by simply adapting the 
-correspondant blocks' values. Please note that not every combination of Robustness 
+station label and a text message can also be set. Please note that not every combination of Robustness 
 mode and Spectrum Occupancy is valid. 
 
 
@@ -130,7 +121,7 @@ Known Bugs
 
 - text message corrupted for SO 5 / RM A (and possibly other modes) 
 
-If you find any bugs or have great ideas you think the project could benefit 
+If you find any bugs or have ideas you think the project could benefit 
 from, just write me: felix.wunsch[at]kit.edu
 
-last updated on: 2016/08/08
+last updated on: 2016/10/08

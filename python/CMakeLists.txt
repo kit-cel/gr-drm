@@ -31,6 +31,10 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
+    mlc_factory.py
+    drm_mlc_4qam_bc.py
+    drm_mlc_16qam_bc.py
+    drm_mlc_64qam_sm_bc.py
     DESTINATION ${GR_PYTHON_DIR}/drm
 )
 

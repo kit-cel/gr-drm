@@ -1,7 +1,7 @@
 <block>
   <name>Audio Encoder</name>
   <key>drm_audio_encoder_sb</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.audio_encoder_sb($tp)</make>
   <param>

@@ -45,7 +45,6 @@ public:
 				  unsigned short SO, 
 				  bool UEP,
 				  unsigned int n_bytes_A, 
-				  bool text,
 				  unsigned short msc_mapping,
 				  unsigned short msc_prot_level_1, 
 				  unsigned short msc_prot_level_2,

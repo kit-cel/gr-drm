@@ -30,5 +30,8 @@ install(FILES
     drm_partitioning_64sm_bb.xml
     drm_cell_mapping_cc.xml
     drm_qam_map_bc.xml
-    drm_m3ufile_source_f.xml DESTINATION share/gnuradio/grc/blocks
+    drm_m3ufile_source_f.xml 
+    drm_mlc_bc.xml
+    drm_config.xml
+    DESTINATION share/gnuradio/grc/blocks
 )

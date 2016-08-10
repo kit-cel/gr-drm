@@ -46,7 +46,6 @@ config::init(tables* ptr_tables,
 			  unsigned short SO, 
 			  bool UEP,
 			  unsigned int n_bytes_A, 
-			  bool text,
 			  unsigned short msc_mapping,
 			  unsigned short msc_prot_level_1, 
 			  unsigned short msc_prot_level_2,
@@ -58,34 +57,28 @@ config::init(tables* ptr_tables,
 			  std::string text_message)
 {
 	/* user defined parameters */
-	//d_RM = 1; // B
 	d_RM = RM;
-	//d_SO = 3; // 10 kHz
 	d_SO = SO;
 	d_UEP = false; // EEP
 	d_n_bytes_A = 0; // EEP
-	if(text_message.size() > 0) // set text message flag
+	if(text_message.size() > 0) // set flag if a text message is available
 	{
-		d_text = true; // this is false by default, so only change it when there is a message
+		d_text = true;
 	}
 	d_long_interl = long_interl;
-	//d_long_interl = false; // short interleaving (400ms)
 	d_msc_mapping = msc_mapping;
 	if(RM == 4 && msc_mapping != 0) // no other mapping tahn 4QAM is possible for DRM+
 	{
 		std::cout << "config:: MSC mapping has been reset to 4-QAM. This is the only mapping scheme used for DRM+.\n";
 		d_msc_mapping = 0;
 	}
-	//d_msc_mapping = 1; // 16-QAM SM
 	d_msc_prot_level_1 = 0; // not used because UEP==0
-	//d_msc_prot_level_2 = 1; // R_all = 0.62
 	d_msc_prot_level_2 = msc_prot_level_2;
 	d_sdc_mapping = sdc_mapping;
-	//d_sdc_mapping = 1; // 4-QAM
 	d_sdc_prot_level = 0; // R = 0.5, takes only effect if RM E is chosen
 	d_audio_samp_rate = audio_samp_rate; // 12 or 24 kHz audio
 	d_station_label = station_label; // station label (up to 16 characters)
-	d_text_message = text_message; // text message (up to 8*16 bytes of UTF-8 encoded character data)
+	d_text_message = text_message; // text message (up to 8*16 bytes of UTF-8 encoded characters)
 
 	/* pointer to tables needed for init */
 	d_ptables = ptr_tables;

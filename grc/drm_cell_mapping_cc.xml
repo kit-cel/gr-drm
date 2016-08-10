@@ -2,7 +2,7 @@
 <block>
   <name>DRM Cell mapping</name>
   <key>cell_mapping_cc</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.cell_mapping_cc($tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.

@@ -1,7 +1,7 @@
 <block>
   <name>M3U(8) file source</name>
   <key>drm_m3ufile_source_f</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.m3ufile_source_f($filename, $tp)</make>
   <param>

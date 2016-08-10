@@ -1,7 +1,7 @@
 <block>
   <name>Scrambler</name>
   <key>drm_scrambler_bb</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.scrambler_bb($block_len)</make>
   <param>

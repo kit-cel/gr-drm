@@ -6,7 +6,7 @@ github.txt
 *.dat
 *.bin
 build
-apps/drm_tx_grc/*.py
+apps/grc_flowgraphs/*.py
 include/drm/drm_config.h
 include/drm/drm_tables.h
 include/drm/drm_global_constants.h

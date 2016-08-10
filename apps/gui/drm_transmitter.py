@@ -7,13 +7,10 @@
 # Generated: Wed Feb 10 15:24:56 2016
 ##################################################
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
+#import os
+#import sys
+#sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
 
-from drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
-from drm_mlc_16qam_bc import drm_mlc_16qam_bc
-from drm_mlc_4qam_bc import drm_mlc_4qam_bc
 from gnuradio import analog
 from gnuradio import audio
 from gnuradio import blocks
@@ -45,7 +42,7 @@ class drm_transmitter(gr.top_block):
         self.audio_sample_rate = audio_sample_rate = DRMParameters.audio_samp*1000
         self.SO = SO = DRMParameters.so
         self.RM = RM = DRMParameters.rm
-        self.tp = tp = drm.transm_params(RM, SO, False, 0, False, DRMParameters.msc_mod, 0, msc_prot_level_2, DRMParameters.sdc_mod, 0, long_interl, audio_sample_rate, station_label, text_message)
+        self.tp = tp = drm.transm_params(RM, SO, False, 0, DRMParameters.msc_mod, 0, msc_prot_level_2, DRMParameters.sdc_mod, 0, long_interl, audio_sample_rate, station_label, text_message)
         self.samp_rate = samp_rate = 48e3
         self.usrp_addr = DRMParameters.usrp_id
         self.output_name = DRMParameters.output_name
@@ -77,103 +74,27 @@ class drm_transmitter(gr.top_block):
         self.drm_scrambler_bb_0_1 = drm.scrambler_bb(tp.sdc().L())
         self.drm_scrambler_bb_0_0 = drm.scrambler_bb(tp.fac().L())
         self.drm_scrambler_bb_0 = drm.scrambler_bb(tp.msc().L_MUX())
-        self.drm_mlc_4qam_bc_0_0 = drm_mlc_4qam_bc(
-            bits_per_symbol=tp.fac().mod_order(),
-            denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
-            gen_poly=(91, 121, 101, 91, 121, 101),
-            interl_seq=tp.fac().bit_interl_seq_0_2(),
-            map_tab=tp.cfg().ptables().d_QAM4,
-            n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
-            pp=tp.fac().punct_pat_0(),
-            pp_tail=tp.fac().punct_pat_0(),
-            vlen_in=tp.fac().L(),
-            vlen_out=tp.fac().N(),
+        self.drm_mlc_fac_bc = drm.make_mlc(
+            channel_type="FAC",
+            tp=tp
         )
 
         #SDC Configuration
-
-        if DRMParameters.sdc_mod == 0:
-            self.drm_mlc_sdc_bc= drm_mlc_16qam_bc(
-                vlen_in=tp.sdc().L(),
-                vlen_out=tp.sdc().N(),
-                n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
-                denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
-                gen_poly=(91, 121, 101, 91, 121, 101),
-                bits_per_symbol=tp.sdc().mod_order(),
-                map_tab=tp.cfg().ptables().d_QAM16,
-                pp_0=tp.sdc().punct_pat_0(),
-                interl_seq_0_2=tp.sdc().bit_interl_seq_0_2(),
-                interl_seq_1_2=tp.sdc().bit_interl_seq_1_2(),
-                pp_1_tail=tp.sdc().punct_pat_tail_1(),
-                pp_1=tp.sdc().punct_pat_1(),
-                pp_0_tail=tp.sdc().punct_pat_tail_0(),
-                M_total=tp.sdc().M_total(),
-                part_len_top=tp.sdc().M_total()[0],
-                part_len_bot=tp.sdc().M_total()[1],
+        self.drm_mlc_sdc_bc= drm.make_mlc(
+                channel_type="SDC",
+                tp=tp
             )
-        else:
-            self.drm_mlc_sdc_bc = drm_mlc_4qam_bc(
-                vlen_in=tp.sdc().L(),
-                vlen_out=tp.sdc().N(),
-                n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
-                denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
-                map_tab=tp.cfg().ptables().d_QAM4,
-                interl_seq=tp.sdc().bit_interl_seq_0_2(),
-                bits_per_symbol=tp.sdc().mod_order(),
-                pp=tp.sdc().punct_pat_0(),
-                pp_tail=tp.sdc().punct_pat_tail_0(),
-                gen_poly=(91, 121, 101, 91, 121, 101),
-            )
-
+            
         #MSC Configuration
-
-        if DRMParameters.msc_mod == 2:
-            self.drm_mlc_msc_bc = drm_mlc_64qam_sm_bc(
-                vlen_in=tp.msc().L_MUX(),
-                n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
-                denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
-                gen_poly=(91, 121, 101, 91, 121, 101),
-                vlen_out=tp.msc().N_MUX(),
-                bits_per_symbol=tp.msc().mod_order(),
-                map_tab=tp.cfg().ptables().d_QAM64SM,
-                pp_0=tp.msc().punct_pat_0_2(),
-                pp_0_tail=tp.msc().punct_pat_tail_0_2(),
-                pp_1=tp.msc().punct_pat_1_2(),
-                pp_1_tail=tp.msc().punct_pat_tail_1_2(),
-                pp_2=tp.msc().punct_pat_2_2(),
-                pp_2_tail=tp.msc().punct_pat_tail_2_2(),
-                interl_seq_0_2=tp.msc().bit_interl_seq_0_2(),
-                interl_seq_2_2=tp.msc().bit_interl_seq_2_2(),
-                interl_seq_1_2=tp.msc().bit_interl_seq_1_2(),
-                M_total=tp.msc().M_total(),
-                part_len_bot=tp.msc().M_total()[2],
-                part_len_top=tp.msc().M_total()[0],
-                part_len_mid=tp.msc().M_total()[1],
-            )
-        else:
-            self.drm_mlc_msc_bc = drm_mlc_16qam_bc(
-                vlen_in=tp.msc().L_MUX(),
-                vlen_out=tp.msc().N_MUX(),
-                n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
-                denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
-                gen_poly=(91, 121, 101, 91, 121, 101),
-                bits_per_symbol=tp.msc().mod_order(),
-                map_tab=tp.cfg().ptables().d_QAM16,
-                pp_0=tp.msc().punct_pat_0_2(),
-                interl_seq_0_2=tp.msc().bit_interl_seq_0_2(),
-                interl_seq_1_2=tp.msc().bit_interl_seq_1_2(),
-                pp_1_tail=tp.msc().punct_pat_tail_1_2(),
-                pp_1=tp.msc().punct_pat_1_2(),
-                pp_0_tail=tp.msc().punct_pat_tail_0_2(),
-                M_total=tp.msc().M_total(),
-                part_len_top=tp.msc().M_total()[0],
-                part_len_bot=tp.msc().M_total()[1],
+        self.drm_mlc_msc_bc = drm.make_mlc(
+                channel_type="MSC",
+                tp=tp
             )
         self.drm_interleaver_cc_0 = drm.interleaver_cc((tp.msc().cell_interl_seq()), long_interl, drm.INTL_DEPTH_DRM)
         self.drm_generate_sdc_b_0 = drm.generate_sdc_b(tp)
         self.drm_generate_fac_b_0 = drm.generate_fac_b(tp)
         self.drm_audio_encoder_sb_0 = drm.audio_encoder_sb(tp)
-        self.digital_ofdm_cyclic_prefixer_1 = digital.ofdm_cyclic_prefixer(tp.ofdm().nfft(), tp.ofdm().nfft()+tp.ofdm().nfft()/4, 0, "")
+        self.digital_ofdm_cyclic_prefixer_1 = digital.ofdm_cyclic_prefixer(tp.ofdm().nfft(), tp.ofdm().nfft()+tp.ofdm().nfft()*tp.ofdm().cp_ratio_enum()/tp.ofdm().cp_ratio_denom(), 0, "")
         self.cell_mapping_cc_0 = drm.cell_mapping_cc(tp, (tp.msc().N_MUX() * tp.ofdm().M_TF() * 8, tp.sdc().N() * 8, tp.fac().N() * tp.ofdm().M_TF() * 8))
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_float*1)
         if DRMParameters.pulse_audio:
@@ -209,9 +130,9 @@ class drm_transmitter(gr.top_block):
         self.connect((self.drm_interleaver_cc_0, 0), (self.cell_mapping_cc_0, 0))    
         self.connect((self.drm_mlc_msc_bc, 0), (self.drm_interleaver_cc_0, 0))
         self.connect((self.drm_mlc_sdc_bc, 0), (self.cell_mapping_cc_0, 1))
-        self.connect((self.drm_mlc_4qam_bc_0_0, 0), (self.cell_mapping_cc_0, 2))    
+        self.connect((self.drm_mlc_fac_bc, 0), (self.cell_mapping_cc_0, 2))    
         self.connect((self.drm_scrambler_bb_0, 0), (self.drm_mlc_msc_bc, 0))
-        self.connect((self.drm_scrambler_bb_0_0, 0), (self.drm_mlc_4qam_bc_0_0, 0))    
+        self.connect((self.drm_scrambler_bb_0_0, 0), (self.drm_mlc_fac_bc, 0))    
         self.connect((self.drm_scrambler_bb_0_1, 0), (self.drm_mlc_sdc_bc, 0))
         self.connect((self.fft_vxx_0, 0), (self.digital_ofdm_cyclic_prefixer_1, 0))    
         if DRMParameters.uhd_found:

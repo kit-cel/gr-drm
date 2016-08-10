@@ -2,7 +2,7 @@
 <block>
   <name>DRM Partitioning 16-QAM EEP</name>
   <key>drm_partitioning_16_bb</key>
-  <category>DRM</category>
+  <category>[DRM]</category>
   <import>import drm</import>
   <make>drm.partitioning_bb($vlen_in, $vlen_out)</make>
   <!-- Make one 'param' node for every Parameter you want settable from the GUI.
