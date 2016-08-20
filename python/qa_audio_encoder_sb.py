@@ -27,7 +27,7 @@ class qa_audio_encoder_sb (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "this is a long sample text message!")
+        self.tp = drm.transm_params(1, 3, False, 0, 1, 0, 1, 1, 0, False, 24000, "station label", "this is a long sample text message!")
         self.audio_enc = drm.audio_encoder_sb(self.tp)
         self.src = blocks.null_source(4)
         self.head = blocks.head(4,  960*10*3)

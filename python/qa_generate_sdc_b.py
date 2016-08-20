@@ -27,7 +27,7 @@ class qa_generate_sdc_b (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        self.tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
+        self.tp = drm.transm_params(1, 3, False, 0, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
         self.src = drm.generate_sdc_b(self.tp)
         self.head = blocks.head(1, self.tp.sdc().L())
         self.snk = blocks.vector_sink_b()

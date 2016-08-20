@@ -27,7 +27,7 @@ class qa_qam_map_bc (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
-        tp = drm.transm_params(1, 3, False, 0, False, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
+        tp = drm.transm_params(1, 3, False, 0, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
     	self.tables = tp.cfg().ptables()
 
     def tearDown (self):
