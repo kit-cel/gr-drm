@@ -29,20 +29,56 @@ namespace gr {
   namespace drm {
 
     audio_decoder_bf::sptr
-    audio_decoder_bf::make(transm_params* tp, int block_length)
+    audio_decoder_bf::make(transm_params* tp)
     {
       return gnuradio::get_initial_sptr
-        (new audio_decoder_bf_impl(tp, block_length));
+        (new audio_decoder_bf_impl(tp));
     }
 
     /*
      * The private constructor
      */
-    audio_decoder_bf_impl::audio_decoder_bf_impl(transm_params* tp, int block_length)
+    audio_decoder_bf_impl::audio_decoder_bf_impl(transm_params* tp)
       : gr::block("audio_decoder_bf",
-              gr::io_signature::make(<+MIN_IN+>, <+MAX_IN+>, sizeof(<+ITYPE+>)),
-              gr::io_signature::make(<+MIN_OUT+>, <+MAX_OUT+>, sizeof(<+OTYPE+>)))
-    {}
+              gr::io_signature::make(1, 1, sizeof(char)),
+              gr::io_signature::make(1, 1, sizeof(float))),
+              d_tp(tp),
+              d_L_MUX(tp->msc().L_MUX()),
+              d_audio_samp_rate(tp->cfg().audio_samp_rate()),
+              d_dec_handle(NULL)
+    {
+      open_decoder();
+    }
+    
+    void audio_decoder_bf_impl::open_decoder()
+    {
+      int aac_samp_rate = 12000;
+      if (d_dec_handle == NULL)
+        d_dec_handle = NeAACDecOpen();
+      if (d_dec_handle != NULL)
+      {
+        /* Only 12 kHz and 24 kHz is allowed */
+        switch (d_audio_samp_rate)
+        {
+        case 12000:
+	        aac_samp_rate = 12000;
+	        break;
+
+        case 24000:
+	        aac_samp_rate = 24000;
+	        break;
+
+        default:
+	        break;
+        }
+      /* Only allow MONO without SBR at the moment */
+      NeAACDecInitDRM(&d_dec_handle, aac_samp_rate,
+	      (unsigned char)DRMCH_MONO);
+
+      d_audio_samp_rate = aac_samp_rate;
+      d_len_dec_out_per_chan = d_AUD_DEC_TRANSFORM_LENGTH;
+      }
+    }
 
     /*
      * Our virtual destructor.
@@ -54,7 +90,7 @@ namespace gr {
     void
     audio_decoder_bf_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
     {
-      /* <+forecast+> e.g. ninput_items_required[0] = noutput_items */
+      ninput_items_required[0] = d_L_MUX;
     }
 
     int
@@ -63,8 +99,8 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items)
     {
-      const <+ITYPE+> *in = (const <+ITYPE+> *) input_items[0];
-      <+OTYPE+> *out = (<+OTYPE+> *) output_items[0];
+      const char *in = (const char*) input_items[0];
+      float *out = (float*) output_items[0];
 
       // Do <+signal processing+>
       // Tell runtime system how many input items we consumed on

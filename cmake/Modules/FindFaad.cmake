@@ -1,5 +1,5 @@
-#  FAAD_INCLUDE_DIRS - where to find neaacdec.h, etc.
-#  FAAD_LIBRARIES    - List of libraries when using libfaad.
+#  Faad_INCLUDE_DIRS - where to find neaacdec.h, etc.
+#  Faad_LIBRARY_DIRS    - List of libraries when using libfaad.
 #  Faad_FOUND        - True if libfaad found.
 
 # Look for the header file.
@@ -13,12 +13,12 @@ MARK_AS_ADVANCED(FAAD_LIBRARY)
 # Copy the results to the output variables.
 IF(FAAD_INCLUDE_DIR AND FAAD_LIBRARY)
   SET(Faad_FOUND 1)
-  SET(FAAD_LIBRARIES ${FAAD_LIBRARY})
-  SET(FAAD_INCLUDE_DIRS ${FAAD_INCLUDE_DIR})
+  SET(Faad_LIBRARY_DIRS ${FAAD_LIBRARY})
+  SET(Faad_INCLUDE_DIRS ${FAAD_INCLUDE_DIR})
 ELSE(FAAD_INCLUDE_DIR AND FAAD_LIBRARY)
   SET(Faad_FOUND 0)
-  SET(FAAD_LIBRARIES)
-  SET(FAAD_INCLUDE_DIRS)
+  SET(Faad_LIBRARY_DIRS)
+  SET(Faad_INCLUDE_DIRS)
 ENDIF(FAAD_INCLUDE_DIR AND FAAD_LIBRARY)
 
 # Report the results.

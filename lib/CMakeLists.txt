@@ -49,7 +49,7 @@ list(APPEND drm_sources
     audio_decoder_bf_impl.cc )
 
 add_library(gnuradio-drm SHARED ${drm_sources})
-target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES})
+target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES} ${Faad_LIBRARY_DIRS})
 set_target_properties(gnuradio-drm PROPERTIES DEFINE_SYMBOL "gnuradio_drm_EXPORTS")
 
 ########################################################################
@@ -80,6 +80,8 @@ target_link_libraries(
   ${GNURADIO_RUNTIME_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
+  ${Faac_LIBRARIES} 
+  ${Faad_LIBRARY_DIRS}
   gnuradio-drm
 )
 

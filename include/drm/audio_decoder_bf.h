@@ -24,6 +24,8 @@
 
 #include <drm/api.h>
 #include <gnuradio/block.h>
+#include "drm_transm_params.h"
+
 
 namespace gr {
   namespace drm {
@@ -46,7 +48,7 @@ namespace gr {
        * class. drm::audio_decoder_bf::make is the public interface for
        * creating new instances.
        */
-      static sptr make(transm_params* tp, int block_length);
+      static sptr make(transm_params* tp);
     };
 
   } // namespace drm

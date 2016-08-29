@@ -22,6 +22,8 @@
 #define INCLUDED_DRM_AUDIO_DECODER_BF_IMPL_H
 
 #include <drm/audio_decoder_bf.h>
+#include <neaacdec.h>
+
 
 namespace gr {
   namespace drm {
@@ -29,10 +31,17 @@ namespace gr {
     class audio_decoder_bf_impl : public audio_decoder_bf
     {
      private:
-      // Nothing to declare in this block.
+      transm_params* d_tp;
+      int d_L_MUX;
+      int d_audio_samp_rate;
+      NeAACDecHandle d_dec_handle;
+      int d_len_dec_out_per_chan;
+      static const int d_AUD_DEC_TRANSFORM_LENGTH = 960;
+      
+      void open_decoder();
 
      public:
-      audio_decoder_bf_impl(transm_params* tp, int block_length);
+      audio_decoder_bf_impl(transm_params* tp);
       ~audio_decoder_bf_impl();
 
       // Where all the action really happens

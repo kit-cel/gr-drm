@@ -125,6 +125,7 @@ include_directories(
     ${CPPUNIT_INCLUDE_DIRS}
     ${GNURADIO_ALL_INCLUDE_DIRS}
     ${Faac_INCLUDE_DIR}
+    ${Faad_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -132,6 +133,7 @@ link_directories(
     ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
     ${Faac_LIBRARY_DIRS}
+    ${Faad_LIBRARY_DIRS}
 )
 
 # Set component parameters
