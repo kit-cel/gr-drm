@@ -57,7 +57,20 @@ def make_mlc(channel_type, tp):
         else:
             raise RuntimeError("Invalid SDC modulation order: " + str(tp.sdc().mod_order()))
     elif channel_type is "MSC": 
-        if tp.cfg().msc_mapping() == 1:
+        if tp.cfg().msc_mapping() == 0:  # FIXME This is likely to be an errouneous configuration! Only relevant for DRM+, though
+            return drm_mlc_4qam_bc(
+                bits_per_symbol=tp.msc().mod_order(),
+                denom_mother_code_rate=drm.DENOM_MOTHER_CODE,
+                gen_poly=gen_poly,
+                interl_seq=tp.msc().bit_interl_seq_0_2(),
+                map_tab=tp.cfg().ptables().d_QAM4,
+                n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
+                pp=tp.msc().punct_pat_0_2(),
+                pp_tail=tp.msc().punct_pat_0_2(),
+                vlen_in=tp.msc().L_MUX(),
+                vlen_out=tp.msc().N_MUX()
+                )  
+        elif tp.cfg().msc_mapping() == 1:
             return drm_mlc_16qam_bc(
                 vlen_in=tp.msc().L_MUX(),
                 vlen_out=tp.msc().N_MUX(),
@@ -100,6 +113,7 @@ def make_mlc(channel_type, tp):
                 part_len_mid=tp.msc().M_total()[1],
                 )
         else:
+            print("MSC Mapping:", tp.cfg().msc_mapping())
             raise RuntimeError("Invalid MSC modulation order: " + str(tp.msc().mod_order()))
     else:
         raise RuntimeError("Invalid channel type:", channel_type)
