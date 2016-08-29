@@ -43,7 +43,7 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT WIN32)
 endif()
 
 ########################################################################
-# Find FAAC
+# Find FAAC and FAAD
 ########################################################################
 find_package(Faac REQUIRED)
 if(NOT Faac_FOUND)
@@ -52,6 +52,12 @@ else()
 	message(STATUS "FAAC found")
 endif()
 
+find_package(Faad REQUIRED)
+if(NOT Faad_FOUND)
+	message(FATAL_ERROR "FAAD required to compile drm")
+else()
+	message(STATUS "FAAD found")
+endif()
 
 ########################################################################
 # Find boost

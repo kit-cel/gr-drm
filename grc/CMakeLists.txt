@@ -33,5 +33,5 @@ install(FILES
     drm_m3ufile_source_f.xml 
     drm_mlc_bc.xml
     drm_config.xml
-    DESTINATION share/gnuradio/grc/blocks
+    drm_audio_decoder_bf.xml DESTINATION share/gnuradio/grc/blocks
 )

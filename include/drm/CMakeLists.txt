@@ -52,5 +52,5 @@ install(FILES
     qam_map_bc.h
     m3ufile_source_f.h 
     wavfile_drm.h
-    DESTINATION include/drm
+    audio_decoder_bf.h DESTINATION include/drm
 )

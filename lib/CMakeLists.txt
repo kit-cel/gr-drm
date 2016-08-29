@@ -45,7 +45,8 @@ list(APPEND drm_sources
     cell_mapping_cc_impl.cc
     qam_map_bc_impl.cc
     m3ufile_source_f_impl.cc
-    wavfile_drm.cc )
+    wavfile_drm.cc
+    audio_decoder_bf_impl.cc )
 
 add_library(gnuradio-drm SHARED ${drm_sources})
 target_link_libraries(gnuradio-drm ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${Faac_LIBRARIES})
