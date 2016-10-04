@@ -72,11 +72,14 @@ namespace gr {
 	        break;
         }
       /* Only allow MONO without SBR at the moment */
-      NeAACDecInitDRM(&d_dec_handle, aac_samp_rate,
-	      (unsigned char)DRMCH_MONO);
+      NeAACDecInitDRM(&d_dec_handle, aac_samp_rate, (unsigned char)DRMCH_MONO);
 
       d_audio_samp_rate = aac_samp_rate;
       d_len_dec_out_per_chan = d_AUD_DEC_TRANSFORM_LENGTH;
+      }
+      else
+      {
+          throw std::runtime_error("Failed to open AAC decoder");
       }
     }
 
@@ -105,7 +108,7 @@ namespace gr {
       // Do <+signal processing+>
       // Tell runtime system how many input items we consumed on
       // each input stream.
-      consume_each (noutput_items);
+      consume_each(noutput_items);
 
       // Tell runtime system how many output items we produced.
       return noutput_items;

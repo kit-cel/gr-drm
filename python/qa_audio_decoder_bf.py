@@ -27,15 +27,21 @@ class qa_audio_decoder_bf (gr_unittest.TestCase):
 
     def setUp (self):
         self.tb = gr.top_block ()
+        self.tp = drm.transm_params(1, 3, False, 0, 1, 0, 1, 1, 0, False, 24000, "station label", "text message")
 
     def tearDown (self):
         self.tb = None
 
     def test_001_t (self):
         # set up fg
+        src = blocks.null_source(1)
+        head = blocks.head(1, 10000)
+        dst = blocks.null_sink(4)
+        dec = drm.audio_decoder_bf(self.tp)
+        self.tb.connect(src, head, dec, dst)
         self.tb.run ()
         # check data
 
 
 if __name__ == '__main__':
-    gr_unittest.run(qa_audio_decoder_bf, "qa_audio_decoder_bf.xml")
+    gr_unittest.run(qa_audio_decoder_bf)
