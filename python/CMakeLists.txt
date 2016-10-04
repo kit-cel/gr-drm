@@ -35,6 +35,7 @@ GR_PYTHON_INSTALL(
     drm_mlc_4qam_bc.py
     drm_mlc_16qam_bc.py
     drm_mlc_64qam_sm_bc.py
+    transm_params_factory.py
     DESTINATION ${GR_PYTHON_DIR}/drm
 )
 
