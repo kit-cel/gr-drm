@@ -83,6 +83,23 @@ namespace gr {
       }
     }
 
+    short* audio_decoder_bf_impl::decode(unsigned char *frameptr, unsigned long len_frame)
+    {
+      short* audioptr = NULL;
+      NeAACDecFrameInfo DecFrameInfo;
+      DecFrameInfo.channels = 1;
+      DecFrameInfo.error = 1;
+      if (d_dec_handle != NULL)
+      {
+          audioptr = (short*) NeAACDecDecode(d_dec_handle, &DecFrameInfo, frameptr, len_frame);
+      }
+      if(DecFrameInfo.error != 0)
+      {
+        throw std::runtime_error("AAC Decoder error");
+      }
+      return audioptr;
+    }
+
     /*
      * Our virtual destructor.
      */
@@ -105,9 +122,10 @@ namespace gr {
       const char *in = (const char*) input_items[0];
       float *out = (float*) output_items[0];
 
-      // Do <+signal processing+>
-      // Tell runtime system how many input items we consumed on
-      // each input stream.
+      // TODO: find out how the audio frame length is determined (needed for the decoding)
+      // TODO: find out how the audio is encoded into the buffer of shorts (just scaling to [-1, 1] required?)
+      // TODO: find out what frame format NeAACDecDecode expects (something with CRC at the beginning)
+
       consume_each(noutput_items);
 
       // Tell runtime system how many output items we produced.

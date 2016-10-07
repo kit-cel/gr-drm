@@ -39,6 +39,7 @@ namespace gr {
       static const int d_AUD_DEC_TRANSFORM_LENGTH = 960;
       
       void open_decoder();
+      short* decode(unsigned char *frameptr, unsigned long len_frame);
 
      public:
       audio_decoder_bf_impl(transm_params* tp);
