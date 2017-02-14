@@ -48,7 +48,7 @@
            <string/>
           </property>
           <property name="pixmap">
-           <pixmap>drm_gui_local/gnu_radio_scaled.gif</pixmap>
+           <pixmap>drm_gui_local/grlogo.svg</pixmap>
           </property>
           <property name="scaledContents">
            <bool>false</bool>

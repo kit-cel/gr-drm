@@ -44,7 +44,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_6.addItem(spacerItem)
         self.label_11 = QtGui.QLabel(self.centralwidget)
         self.label_11.setText(_fromUtf8(""))
-        self.label_11.setPixmap(QtGui.QPixmap(_fromUtf8("gnu_radio_scaled.gif")))
+        self.label_11.setPixmap(QtGui.QPixmap(_fromUtf8("grlogo.svg")))
         self.label_11.setScaledContents(False)
         self.label_11.setObjectName(_fromUtf8("label_11"))
         self.horizontalLayout_6.addWidget(self.label_11)
