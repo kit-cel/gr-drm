@@ -10,6 +10,8 @@ author:
 copyright_owner:
   - Felix Wunsch
 license: GPLv3
+repo: https://github.com/kit-cel/gr-drm.git
+stable_release: HEAD
 icon: http://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Digital_radio_mondiale-Logo.svg/200px-Digital_radio_mondiale-Logo.svg.png
 ---
 GR-DRM
