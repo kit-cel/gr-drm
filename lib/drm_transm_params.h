@@ -41,19 +41,19 @@ public:
 	sdc_params sdc();
 	fac_params fac();
 
-	transm_params(unsigned short RM, 
-				  unsigned short SO, 
-				  bool UEP,
-				  unsigned int n_bytes_A, 
-				  unsigned short msc_mapping,
-				  unsigned short msc_prot_level_1, 
-				  unsigned short msc_prot_level_2,
-				  unsigned short sdc_mapping,
-				  unsigned short sdc_prot_level,
-				  bool long_interl,
-				  unsigned int audio_samp_rate,
-				  std::string station_label,
-				  std::string text_message);
+	transm_params(   unsigned short RM=1, 
+				     unsigned short SO=3, 
+				     bool UEP=false,
+				     unsigned int n_bytes_A=0, 
+				     unsigned short msc_mapping=2,
+				     unsigned short msc_prot_level_1=0, 
+				     unsigned short msc_prot_level_2=0,
+				     unsigned short sdc_mapping=1,
+				     unsigned short sdc_prot_level=0,
+				     bool long_interl=true,
+				     unsigned int audio_samp_rate=12000,
+				     std::string station_label="gr-drm",
+	      			 std::string text_message="This is GNU Radio on DRM");
 	~transm_params(){};
 };
 
