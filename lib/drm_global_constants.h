@@ -23,7 +23,20 @@
 #define DRM_GLOBAL_CONSTANTS_H_
 
 #define NUM_RM				5 // number of robustness modes ('A'-'E')
+#define RM_A                0
+#define RM_B                1
+#define RM_C                2
+#define RM_D                3
+#define RM_E                4
+
 #define NUM_SO				6 // number of available bandwidths (-> spectrum occupancy 0-5)
+#define SO_0                0
+#define SO_1                1
+#define SO_2                2
+#define SO_3                3
+#define SO_4                4
+#define SO_5                5
+
 #define FS_SOUNDCARD		48000 // sound card sample rate (48 kHz)
 
 #define N_FAC_DRM			65 // number of FAC QAM cells in DRM

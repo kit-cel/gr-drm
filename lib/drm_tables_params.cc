@@ -21,6 +21,9 @@
  
 #include "drm_tables.h"
 
+/* Transmission parameters */
+
+
 /* Puncturing patterns */
 // '1's denote bits to be kept, '0's bits to be dropped
 const unsigned char tables::d_PP_1_6[6] = {1,1,1,1,1,1};

@@ -128,7 +128,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>RM</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>sdc_mapping</key>
@@ -302,6 +302,57 @@ audio_sample_rate.</value>
     <param>
       <key>minoutbuf</key>
       <value>0</value>
+    </param>
+    <param>
+      <key>vlen</key>
+      <value>1</value>
+    </param>
+  </block>
+  <block>
+    <key>blocks_file_sink</key>
+    <param>
+      <key>append</key>
+      <value>False</value>
+    </param>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>affinity</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>file</key>
+      <value>/home/wunsch/code/gr-drm/RMA_SO3_64-16QAM.bin</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(936, 540)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>blocks_file_sink_0</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>complex</value>
+    </param>
+    <param>
+      <key>unbuffered</key>
+      <value>False</value>
     </param>
     <param>
       <key>vlen</key>
@@ -528,7 +579,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>file</key>
-      <value>/home/wunsch/Music/new_world_12khz.wav</value>
+      <value>/home/wunsch/Music/happy12.wav</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -1201,7 +1252,7 @@ of the USRP.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>fbw</key>
@@ -2021,7 +2072,7 @@ of the USRP.</value>
     </param>
     <param>
       <key>_enabled</key>
-      <value>1</value>
+      <value>0</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2197,6 +2248,12 @@ of the USRP.</value>
   <connection>
     <source_block_id>blocks_multiply_const_vxx_0</source_block_id>
     <sink_block_id>drm_audio_encoder_sb_0</sink_block_id>
+    <source_key>0</source_key>
+    <sink_key>0</sink_key>
+  </connection>
+  <connection>
+    <source_block_id>blocks_multiply_const_vxx_1</source_block_id>
+    <sink_block_id>blocks_file_sink_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

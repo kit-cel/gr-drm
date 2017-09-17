@@ -57,3 +57,4 @@ GR_ADD_TEST(qa_partitioning_bb ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/
 GR_ADD_TEST(qa_cell_mapping_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_cell_mapping_cc.py)
 GR_ADD_TEST(qa_qam_map_bc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_qam_map_bc.py)
 GR_ADD_TEST(qa_m3ufile_source_f ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_m3ufile_source_f.py)
+GR_ADD_TEST(qa_synchronization_cc ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/qa_synchronization_cc.py)

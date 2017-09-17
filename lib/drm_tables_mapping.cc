@@ -27,6 +27,24 @@
 
 #include "drm_tables.h"
 
+/* OFDM parameters */
+const unsigned int tables::d_nfft[NUM_RM] = {1152, 1024, 704, 448, 216};
+const unsigned int tables::d_N_S[NUM_RM] = {15, 15, 20, 24, 40}; // see DRM standard Table 82
+const unsigned int tables::d_cp_ratio[NUM_RM][2] = {{1, 9}, {1, 4}, {4, 11}, {11, 14}, {1, 9}};
+const unsigned int tables::d_ncp[NUM_RM]= {128, 256, 256, 352, 24};
+const unsigned int tables::d_M_TF[NUM_RM] = {3, 3, 3, 3, 4}; // see DRM standard p. 137
+const int tables::d_K_range[2*NUM_RM][NUM_SO] = {{2, 2, -102, -114, -98, -110}, // see DRM standard Table 84
+												  {102, 114, 102, 114, 314, 350},
+												  {1, 1, -91, -103, -87, -99},
+												  {91, 103, 91, 103, 279, 311},
+												  {0, 0, 0, -69, 0, -67},
+												  {0, 0, 0, 69, 0, 213},
+												  {0, 0, 0, -44, 0, -43},
+												  {0, 0, 0, 44, 0, 135},
+												  {-106, 0, 0, 0, 0, 0},
+												  {106, 0, 0, 0, 0, 0}};
+const int tables::d_n_unused[NUM_RM]= {3, 1, 1, 1, 0}; // see DRM standard Table 85
+
 /* frequency reference cells [carrier index][phase_index(0,k)]
  * corresponds to 750 Hz, 2250 Hz and 3000 Hz */
 const int tables::d_freq_A[NUM_FREQ_PILOTS][2] = {

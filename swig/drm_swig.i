@@ -26,6 +26,7 @@
 #include "drm/cell_mapping_cc.h"
 #include "drm/qam_map_bc.h"
 #include "drm/m3ufile_source_f.h"
+#include "drm/synchronization_cc.h"
 %}
 
 %include "drm_global_constants.h"
@@ -62,3 +63,5 @@ GR_SWIG_BLOCK_MAGIC2(drm, cell_mapping_cc);
 GR_SWIG_BLOCK_MAGIC2(drm, qam_map_bc);
 %include "drm/m3ufile_source_f.h"
 GR_SWIG_BLOCK_MAGIC2(drm, m3ufile_source_f);
+%include "drm/synchronization_cc.h"
+GR_SWIG_BLOCK_MAGIC2(drm, synchronization_cc);

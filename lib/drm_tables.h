@@ -116,6 +116,14 @@ class DRM_API tables
 	/****************************************************************
 	 ********* OFDM/MSC/SDC/FAC parameters **************************
 	 ****************************************************************/
+	/* OFDM */
+	static const unsigned int d_nfft[NUM_RM];
+	static const unsigned int d_N_S[NUM_RM];
+	static const unsigned int d_cp_ratio[NUM_RM][2];
+    static const unsigned int d_ncp[NUM_RM];
+	static const unsigned int d_M_TF[NUM_RM];
+	static const int d_K_range[2*NUM_RM][NUM_SO];
+    static const int d_n_unused[NUM_RM];
 
 	/* MSC */
 	static const unsigned int d_MSC_N_MUX[NUM_RM][NUM_SO]; // row: RM, col: SO

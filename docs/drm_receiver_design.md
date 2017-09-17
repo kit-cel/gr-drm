@@ -1,8 +1,8 @@
 DRM RECEIVER DESIGN
 ===================
 
-Robustness mode and bandwidth detection, synchronization
-===========================================================
+Robustness mode detection and time / fine frequency synchronization
+===================================================================
 Single block utilizing kernels to avoid state handling across blocks and maintain readability.
 a) Mode detection, symbol timing recovery, and fractional frequency offset correction based on cyclic prefix correlation.
     - FFT length @ 48 kHz for RM A/B/C/D: 1152/1024/704/448
@@ -14,8 +14,8 @@ b) Bandwidth detection and coarse frequency offset correction based on subcarrie
         - RM C and SO 3/5: 139/281
         - RM D and SO 3/5: 89/189
         
-SO detection and coarse frequency correction
-============================================
+SO detection and coarse frequency synchronization
+=================================================
 Based on a known RM, possible SOs can be evaluated based on the estimated bandwidth of the signal.
 The determined number of occupied subcarriers can then be used to determine the coarse frequency offset.
 This could also be done by using the time pilots.

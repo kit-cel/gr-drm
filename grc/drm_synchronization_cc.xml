@@ -1,0 +1,36 @@
+<block>
+  <name>Synchronization</name>
+  <key>drm_synchronization_cc</key>
+  <category>[DRM]</category>
+  <import>import drm</import>
+  <make>drm.synchronization_cc($tp)</make>
+  <param>
+    <name>Tp</name>
+    <key>tp</key>
+    <type>raw</type>
+  </param>
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+    <source>
+    <name>FLC_RMA</name>
+    <type>complex</type>
+  </source>
+  <source>
+    <name>FLC_RMB</name>
+    <type>complex</type>
+  </source>
+  <source>
+    <name>FLC_RMC</name>
+    <type>complex</type>
+  </source>
+  <source>
+    <name>FLC_RMD</name>
+    <type>complex</type>
+  </source>
+</block>
