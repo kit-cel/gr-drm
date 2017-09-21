@@ -950,7 +950,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>file</key>
-      <value>/home/wunsch/code/gr-drm/RMB_SO3_64-16QAM.bin</value>
+      <value>/home/wunsch/code/gr-drm/examples/RMB_SO3_64-16QAM.bin</value>
     </param>
     <param>
       <key>_coordinate</key>
@@ -2526,7 +2526,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(864, 684)</value>
+      <value>(872, 648)</value>
     </param>
     <param>
       <key>gui_hint</key>
@@ -2818,7 +2818,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>tr_mode</key>
-      <value>qtgui.TRIG_MODE_FREE</value>
+      <value>qtgui.TRIG_MODE_TAG</value>
     </param>
     <param>
       <key>tr_slope</key>
@@ -2826,7 +2826,7 @@ audio_sample_rate.</value>
     </param>
     <param>
       <key>tr_tag</key>
-      <value>""</value>
+      <value>"RM_detected"</value>
     </param>
     <param>
       <key>type</key>

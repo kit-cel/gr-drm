@@ -26,6 +26,8 @@
 
 namespace gr {
   namespace drm {
+    unsigned int STATE_RM_SEARCH = 1;
+    unsigned int STATE_RM_TRACKING = 2;
 
     class synchronization_cc_impl : public synchronization_cc
     {
@@ -36,7 +38,12 @@ namespace gr {
       unsigned int d_ncp;
       float d_threshold;
       std::vector<flc_kernel> d_flc_kernels; // one kernel per possible configuration
-      bool d_tracking;
+      unsigned int d_state;
+      unsigned int d_RM;
+      int detect_threshold_crossing(gr_complex *ptr, unsigned int len);
+      static const unsigned int d_bufsize = 2048;
+      float d_buf[d_bufsize];
+      int d_samples_since_symbol_start;
 
      public:
       void reset(); // resets the synchronization
