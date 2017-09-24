@@ -34,6 +34,7 @@ namespace gr {
         {
             // possible improvements: 1) calculate the sum iteratively (-> can't use VOLK any longer and needs to have state)
             //                        2) introduce an option to skip steps to make it more efficient, possibly with linear interpolation or zero-order-hold
+            // outputs the negated phase output between the two windows
             std::complex<float> dotprod, p1, p2;
             for(int i = 0; i < nsteps; i++) {
                 volk_32fc_x2_conjugate_dot_prod_32fc(&dotprod, ibuf + i, ibuf + d_lag + i, d_len);

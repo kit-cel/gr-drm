@@ -45,16 +45,18 @@ namespace gr {
               gr::io_signature::make(1, 5, sizeof(gr_complex))),
               d_tp(tp),
               d_state(STATE_RM_SEARCH),
-              d_RM(0)
+              d_RM(0),
+              d_freq_offset(gr_complex(1, 0)),
+              d_phase(gr_complex(1, 0)),
+              d_iir_alpha(0.1)
     {
         d_nfft = d_tp->ofdm().nfft();
         d_ncp = d_tp->ofdm().n_cp();
-        d_threshold = 0.8; // hardcoded for now
+        d_threshold = 0.75; // hardcoded for now
         for(int i=RM_A; i <= RM_D; i++)
         {
             int nfft = d_tp->cfg().ptables()->d_nfft[i];
             int ncp = d_tp->cfg().ptables()->d_ncp[i];
-            std::cout << "i:" << i << "//" << nfft << ',' <<  ncp << std::endl;
             d_flc_kernels.push_back(flc_kernel(ncp, nfft));
         }
         set_output_multiple(2048); // this is larger than the largest combination of nfft + ncp, but still reasonable
@@ -69,7 +71,21 @@ namespace gr {
 
     void synchronization_cc_impl::reset()
     {
-        d_state = STATE_RM_SEARCH;
+      d_state = STATE_RM_SEARCH;
+      d_freq_offset = gr_complex(1, 0);
+      d_phase = gr_complex(1, 0);
+    }
+    
+    void synchronization_cc_impl::update_freq_offset(gr_complex corr_coef)
+    {
+      d_freq_offset = std::exp(gr_complex(0, std::arg(d_freq_offset) * (1 - d_iir_alpha) 
+                       + d_iir_alpha * std::arg(corr_coef) / d_nfft));
+    }
+    
+    void synchronization_cc_impl::correct_freq_offset(const gr_complex* iptr, gr_complex* optr, unsigned int len)
+    {
+      volk_32fc_s32fc_x2_rotator_32fc(optr, iptr, d_freq_offset, &d_phase, len); // correct frequency offset
+      d_phase = std::exp(gr_complex(0, std::arg(d_phase) + std::arg(d_freq_offset) * len)); // update phase to stay continuous
     }
     
     int synchronization_cc_impl::detect_threshold_crossing(gr_complex *ptr, unsigned int len)
@@ -82,7 +98,6 @@ namespace gr {
         bufsize = std::min(d_bufsize, len - offset);
         volk_32fc_magnitude_squared_32f(d_buf, ptr + offset, bufsize);
         volk_32f_index_max_16u(&max_index, d_buf, bufsize);
-        std::cout << max_index << std::endl;
         if(d_buf[max_index] > d_threshold){
           return offset + max_index;
         }
@@ -130,6 +145,9 @@ namespace gr {
               + d_tp->cfg().ptables()->d_ncp[d_RM]/2;
               add_item_tag(0, nitems_written(0) + symbol_start_index, pmt::mp("RM_detected"), 
               pmt::from_long(d_RM));
+              add_item_tag(d_RM + 1, nitems_written(0) + symbol_start_index, pmt::mp("RM_detected"), 
+              pmt::from_long(d_RM));
+              update_freq_offset(flc[d_RM][threshold_crossed_index]);
               // consume all samples up to the threshold crossing so that the tracking 
               // is as simple as possible
               memcpy(outsig, insig, threshold_crossed_index * sizeof(gr_complex));
@@ -154,15 +172,17 @@ namespace gr {
             reset();
             break;
           }
+          else{
+            update_freq_offset(flc_val);
+          }
         }
-        memcpy(outsig, insig, offset * sizeof(gr_complex));
+        //memcpy(outsig, insig, offset * sizeof(gr_complex));
+        correct_freq_offset(insig, outsig, offset);
         return offset;
       }
       else {
         throw std::runtime_error("This should not be reached.");
-      }
-
-      
+      } 
     }
 
   } /* namespace drm */

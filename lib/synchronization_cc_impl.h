@@ -44,6 +44,12 @@ namespace gr {
       static const unsigned int d_bufsize = 2048;
       float d_buf[d_bufsize];
       int d_samples_since_symbol_start;
+      
+      gr_complex d_freq_offset;
+      float d_iir_alpha;
+      void update_freq_offset(gr_complex corr_coef);
+      void correct_freq_offset(const gr_complex* iptr, gr_complex* optr, unsigned int len);
+      gr_complex d_phase;
 
      public:
       void reset(); // resets the synchronization
