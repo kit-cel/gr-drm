@@ -75,6 +75,7 @@ namespace gr {
 
 		for( int i = 0; i < n_vectors; i++)
 		{
+		  int tail_index = 0;
 		  for( int j = 0; j < d_vlen_in; j++)
 		  {
 		  	  //std::cout << "index j: " << j;
@@ -94,7 +95,7 @@ namespace gr {
 			  else // tail bit puncturing
 			  {
 			  	  //std::cout << " tail biting. pp2[" << j % len_pp2 << "]=" << (int) d_pp2[(j  + i*d_vlen_in) % len_pp2];
-			  	  if(d_pp2[j % len_pp2]) // keep bit if the corresponding puncturing pattern entry is '1'
+			  	  if(d_pp2[tail_index % len_pp2]) // keep bit if the corresponding puncturing pattern entry is '1'
 			  	  {
 			  	  	  //std::cout << "-> KEPT " << (int) in[j + i*d_vlen_in] << ".\n";
 			  	  	  *out++ = in[j + i*d_vlen_in];
@@ -103,6 +104,7 @@ namespace gr {
 			  	  {
 			  	  	  //std::cout << "-> DROPPED " << (int) in[j + i*d_vlen_in] << ".\n";
 			  	  }
+				  ++tail_index;
 			  }
 		  }
 		}
