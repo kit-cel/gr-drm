@@ -50,7 +50,7 @@ def make_mlc(channel_type, tp):
                 map_tab=tp.cfg().ptables().d_QAM4,
                 n_tailbits=drm.N_TAILBITS / drm.DENOM_MOTHER_CODE,
                 pp=tp.sdc().punct_pat_0(),
-                pp_tail=tp.sdc().punct_pat_0(),
+                pp_tail=tp.sdc().punct_pat_tail_0(),
                 vlen_in=tp.sdc().L(),
                 vlen_out=tp.sdc().N()
                 )       
