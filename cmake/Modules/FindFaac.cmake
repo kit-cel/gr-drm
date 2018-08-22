@@ -45,7 +45,7 @@ find_path(Faac_INCLUDE_DIR faac.h
   /usr/include
 )
 
-set(Faac_NAMES faac)
+set(Faac_NAMES faac_drm faac)
 find_library(Faac_LIBRARY
   NAMES ${Faac_NAMES}
   PATHS /usr/lib /usr/local/lib /opt/local/lib
