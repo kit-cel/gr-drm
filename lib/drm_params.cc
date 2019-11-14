@@ -19,8 +19,8 @@
  * Boston, MA 02110-1301, USA.
  */
  
-#include "drm_params.h"
-#include "drm_util.h"
+#include <drm/drm_params.h>
+#include <drm/drm_util.h>
 #include <cmath>
 
 // TODO: maybe divide this up into drm_params_ofdm/msc/fac/sdc.cpp

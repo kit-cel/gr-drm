@@ -19,9 +19,9 @@
  * Boston, MA 02110-1301, USA.
  */
  
-#include "drm_transm_params.h"
-#include "drm_tables.h"
-#include "drm_params.h"
+#include <drm/drm_transm_params.h>
+#include <drm/drm_tables.h>
+#include <drm/drm_params.h>
 
 transm_params::transm_params(unsigned short RM, 
 							 unsigned short SO, 

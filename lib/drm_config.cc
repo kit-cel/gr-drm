@@ -20,7 +20,7 @@
  */
 
 #include <stdexcept>
-#include "drm_config.h"
+#include <drm/drm_config.h>
 
 /* config implementation */
 config::config()

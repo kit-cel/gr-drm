@@ -22,9 +22,10 @@ FIND_LIBRARY(
           /usr/local/lib64
           /usr/lib
           /usr/lib64
-)
+          )
+
+include("${CMAKE_CURRENT_LIST_DIR}/drmTarget.cmake")
 
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(DRM DEFAULT_MSG DRM_LIBRARIES DRM_INCLUDE_DIRS)
 MARK_AS_ADVANCED(DRM_LIBRARIES DRM_INCLUDE_DIRS)
-

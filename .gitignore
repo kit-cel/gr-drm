@@ -7,12 +7,5 @@ github.txt
 *.bin
 build
 apps/grc_flowgraphs/*.py
-include/drm/drm_config.h
-include/drm/drm_tables.h
-include/drm/drm_global_constants.h
-include/drm/drm_params.h
-include/drm/drm_transm_params.h
-include/drm/drm_util.h
-include/drm/wavfile_drm.h
 .idea/
 *.pyc

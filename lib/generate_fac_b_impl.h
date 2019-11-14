@@ -22,7 +22,7 @@
 #define INCLUDED_DRM_GENERATE_FAC_B_IMPL_H
 
 #include <drm/generate_fac_b.h>
-#include "drm_util.h"
+#include <drm/drm_util.h>
 
 namespace gr {
   namespace drm {
