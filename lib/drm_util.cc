@@ -23,7 +23,7 @@
 #include "config.h"
 #endif
 
-#include "drm_util.h"
+#include <drm/drm_util.h>
 #include <iostream>
 
 // powers of two for fast access without using pow() (costly!)

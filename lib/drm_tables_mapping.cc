@@ -25,7 +25,7 @@
 #include "config.h"
 #endif
 
-#include "drm_tables.h"
+#include <drm/drm_tables.h>
 
 /* frequency reference cells [carrier index][phase_index(0,k)]
  * corresponds to 750 Hz, 2250 Hz and 3000 Hz */

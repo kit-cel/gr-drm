@@ -12,7 +12,7 @@ copyright_owner:
 license: GPLv3
 repo: https://github.com/kit-cel/gr-drm.git
 stable_release: HEAD
-icon: http://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Digital_radio_mondiale-Logo.svg/200px-Digital_radio_mondiale-Logo.svg.png
+icon: https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Digital_radio_mondiale-Logo.svg/200px-Digital_radio_mondiale-Logo.svg.png
 ---
 GR-DRM
 ======
@@ -36,7 +36,7 @@ Contents
 Installation
 ------------
 
-Dependencies: GNU Radio (min. v3.7), UHD, FAAC
+Dependencies: GNU Radio (min. v3.8), UHD, FAAC
 
 From Source (automated)
 =======================

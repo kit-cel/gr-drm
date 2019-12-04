@@ -22,37 +22,18 @@
 This is the GNU Radio DRM module. Place your Python package
 description here (python/__init__.py).
 '''
-
-# ----------------------------------------------------------------
-# Temporary workaround for ticket:181 (swig+python problem)
-import sys
-_RTLD_GLOBAL = 0
-try:
-    from dl import RTLD_GLOBAL as _RTLD_GLOBAL
-except ImportError:
-    try:
-	from DLFCN import RTLD_GLOBAL as _RTLD_GLOBAL
-    except ImportError:
-	pass
-
-if _RTLD_GLOBAL != 0:
-    _dlopenflags = sys.getdlopenflags()
-    sys.setdlopenflags(_dlopenflags|_RTLD_GLOBAL)
-# ----------------------------------------------------------------
-
+from __future__ import unicode_literals
 
 # import swig generated symbols into the drm namespace
-from drm_swig import *
+try:
+    # this might fail if the module is python-only
+    from .drm_swig import *
+except ImportError:
+    pass
 
 # import any pure python here
-from mlc_factory import make_mlc
-from drm_mlc_4qam_bc import drm_mlc_4qam_bc
-from drm_mlc_16qam_bc import drm_mlc_16qam_bc
-from drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
+from .mlc_factory import make_mlc
+from .drm_mlc_4qam_bc import drm_mlc_4qam_bc
+from .drm_mlc_16qam_bc import drm_mlc_16qam_bc
+from .drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
 #
-
-# ----------------------------------------------------------------
-# Tail of workaround
-if _RTLD_GLOBAL != 0:
-    sys.setdlopenflags(_dlopenflags)      # Restore original flags
-# ----------------------------------------------------------------

@@ -1,8 +1,8 @@
 import drm
 
-from drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
-from drm_mlc_16qam_bc import drm_mlc_16qam_bc
-from drm_mlc_4qam_bc import drm_mlc_4qam_bc
+from .drm_mlc_64qam_sm_bc import drm_mlc_64qam_sm_bc
+from .drm_mlc_16qam_bc import drm_mlc_16qam_bc
+from .drm_mlc_4qam_bc import drm_mlc_4qam_bc
 
 gen_poly = (91, 121, 101, 91, 121, 101)
 

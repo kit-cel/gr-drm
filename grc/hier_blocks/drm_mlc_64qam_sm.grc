@@ -1,1960 +1,726 @@
-<?xml version='1.0' encoding='utf-8'?>
-<?grc format='1' created='3.7.7'?>
-<flow_graph>
-  <timestamp>Sat Jan 11 18:28:46 2014</timestamp>
-  <block>
-    <key>drm_partitioning_64sm_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_partitioning_64sm_bb_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>vlen_in</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>M_total</value>
-    </param>
-    <param>
-      <key>vlen1</key>
-      <value>part_len_top</value>
-    </param>
-    <param>
-      <key>vlen2</key>
-      <value>part_len_mid</value>
-    </param>
-    <param>
-      <key>vlen3</key>
-      <value>part_len_bot</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(222, 334)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_interleaver_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_interleaver_bb_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>(interl_seq_2_2)</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(679, 830)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_qam_map_bc</key>
-    <param>
-      <key>id</key>
-      <value>drm_qam_map_bc_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>map_table</key>
-      <value>map_tab</value>
-    </param>
-    <param>
-      <key>bits_per_symbol</key>
-      <value>bits_per_symbol</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out</value>
-    </param>
-    <param>
-      <key>n_inputs</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(956, 729)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_interleaver_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_interleaver_bb_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>interl_seq</key>
-      <value>(interl_seq_1_2)</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(682, 759)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>vlen_in</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Input Vector Length</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(198, 9)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>n_tailbits</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Number of Tail Bits</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(351, 9)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Denominator of the Mother Code Rate</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(503, 9)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>gen_poly</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Generator Polynomial</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(672, 8)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>vlen_out</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Output Vector Length</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(934, 8)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>bits_per_symbol</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Bits per Symbol</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>intx</value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(809, 7)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>map_tab</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Mapping Table</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(199, 104)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Puncturing Pattern 0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(332, 105)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_0_tail</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Tail Bit Puncturing Pattern 0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(447, 104)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_1</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Puncturing Pattern 1</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(600, 105)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_1_tail</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Tail Bit Puncturing Pattern 1</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(759, 104)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Puncturing Pattern 2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(917, 103)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>pp_2_tail</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Tail Bit Puncturing Pattern 2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1081, 98)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_0_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Interleaving Sequence 0</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(199, 184)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_2_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Interleaving Sequence 2</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(73, 184)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>interl_seq_1_2</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>Interleaving Sequence 1</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>(0,1)</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(325, 183)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>M_total</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>M_total</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(451, 185)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>part_len_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>M_total[2]</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(545, 186)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>part_len_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>M_total[0]</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(663, 186)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>parameter</key>
-    <param>
-      <key>id</key>
-      <value>part_len_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>M_total[1]</value>
-    </param>
-    <param>
-      <key>value</key>
-      <value>3</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value></value>
-    </param>
-    <param>
-      <key>short_id</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(781, 187)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_add_tailbits_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_add_tailbits_bb_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>part_len_top</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>n_tailbits</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(543, 269)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>trellis_encoder_xx</key>
-    <param>
-      <key>id</key>
-      <value>trellis_encoder_xx_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>bb</value>
-    </param>
-    <param>
-      <key>fsm_args</key>
-      <value>1, denom_mother_code_rate, gen_poly</value>
-    </param>
-    <param>
-      <key>init_state</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>blockwise</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>blocklength</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1029, 263)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_add_tailbits_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_add_tailbits_bb_top_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>part_len_mid</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>n_tailbits</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(524, 366)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>trellis_encoder_xx</key>
-    <param>
-      <key>id</key>
-      <value>trellis_encoder_xx_top_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>bb</value>
-    </param>
-    <param>
-      <key>fsm_args</key>
-      <value>1, denom_mother_code_rate, gen_poly</value>
-    </param>
-    <param>
-      <key>init_state</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>blockwise</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>blocklength</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1010, 360)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_add_tailbits_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_add_tailbits_bb_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>part_len_bot</value>
-    </param>
-    <param>
-      <key>n_tailbits</key>
-      <value>n_tailbits</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(559, 436)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>trellis_encoder_xx</key>
-    <param>
-      <key>id</key>
-      <value>trellis_encoder_xx_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>bb</value>
-    </param>
-    <param>
-      <key>fsm_args</key>
-      <value>1, denom_mother_code_rate, gen_poly</value>
-    </param>
-    <param>
-      <key>init_state</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>blockwise</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>blocklength</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(996, 428)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_unpack_k_bits_bb</key>
-    <param>
-      <key>id</key>
-      <value>blocks_unpack_k_bits_bb_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>k</key>
-      <value>denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(82, 695)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_punct_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_punct_bb_top</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>punct_pat_1</key>
-      <value>pp_0</value>
-    </param>
-    <param>
-      <key>punct_pat_2</key>
-      <value>pp_0_tail</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>(part_len_top + n_tailbits) * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out * 2</value>
-    </param>
-    <param>
-      <key>num_tailbits</key>
-      <value>n_tailbits * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(451, 654)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_unpack_k_bits_bb</key>
-    <param>
-      <key>id</key>
-      <value>blocks_unpack_k_bits_bb_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>k</key>
-      <value>denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(81, 751)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_punct_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_punct_bb_mid</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>punct_pat_1</key>
-      <value>pp_1</value>
-    </param>
-    <param>
-      <key>punct_pat_2</key>
-      <value>pp_1_tail</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>(part_len_mid+ n_tailbits) * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out * 2</value>
-    </param>
-    <param>
-      <key>num_tailbits</key>
-      <value>n_tailbits * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(452, 776)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>blocks_unpack_k_bits_bb</key>
-    <param>
-      <key>id</key>
-      <value>blocks_unpack_k_bits_bb_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>k</key>
-      <value>denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(75, 874)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>drm_punct_bb</key>
-    <param>
-      <key>id</key>
-      <value>drm_punct_bb_bot</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>punct_pat_1</key>
-      <value>pp_2</value>
-    </param>
-    <param>
-      <key>punct_pat_2</key>
-      <value>pp_2_tail</value>
-    </param>
-    <param>
-      <key>vlen_in</key>
-      <value>(part_len_bot + n_tailbits) * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>vlen_out</key>
-      <value>vlen_out * 2</value>
-    </param>
-    <param>
-      <key>num_tailbits</key>
-      <value>n_tailbits * denom_mother_code_rate</value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>affinity</key>
-      <value></value>
-    </param>
-    <param>
-      <key>minoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>maxoutbuf</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(446, 899)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>pad_source</key>
-    <param>
-      <key>id</key>
-      <value>pad_source_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>in</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>byte</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(56, 366)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>pad_sink</key>
-    <param>
-      <key>id</key>
-      <value>pad_sink_0</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>label</key>
-      <value>out</value>
-    </param>
-    <param>
-      <key>type</key>
-      <value>complex</value>
-    </param>
-    <param>
-      <key>vlen</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>num_streams</key>
-      <value>1</value>
-    </param>
-    <param>
-      <key>optional</key>
-      <value>False</value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(1172, 759)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <block>
-    <key>options</key>
-    <param>
-      <key>id</key>
-      <value>drm_mlc_64qam_sm_bc</value>
-    </param>
-    <param>
-      <key>_enabled</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>title</key>
-      <value>MLC 64QAM SM</value>
-    </param>
-    <param>
-      <key>author</key>
-      <value>Felix Wunsch</value>
-    </param>
-    <param>
-      <key>description</key>
-      <value>MLC 64QAM SM</value>
-    </param>
-    <param>
-      <key>window_size</key>
-      <value>2000,2000</value>
-    </param>
-    <param>
-      <key>generate_options</key>
-      <value>hb</value>
-    </param>
-    <param>
-      <key>category</key>
-      <value>DRM</value>
-    </param>
-    <param>
-      <key>run_options</key>
-      <value>prompt</value>
-    </param>
-    <param>
-      <key>run</key>
-      <value>True</value>
-    </param>
-    <param>
-      <key>max_nouts</key>
-      <value>0</value>
-    </param>
-    <param>
-      <key>realtime_scheduling</key>
-      <value></value>
-    </param>
-    <param>
-      <key>thread_safe_setters</key>
-      <value></value>
-    </param>
-    <param>
-      <key>alias</key>
-      <value></value>
-    </param>
-    <param>
-      <key>comment</key>
-      <value></value>
-    </param>
-    <param>
-      <key>_coordinate</key>
-      <value>(10, 10)</value>
-    </param>
-    <param>
-      <key>_rotation</key>
-      <value>0</value>
-    </param>
-  </block>
-  <connection>
-    <source_block_id>drm_qam_map_bc_0</source_block_id>
-    <sink_block_id>pad_sink_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_bb_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_bb_bot</sink_block_id>
-    <source_key>2</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>pad_source_0</source_block_id>
-    <sink_block_id>drm_partitioning_64sm_bb_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>trellis_encoder_xx_top</source_block_id>
-    <sink_block_id>blocks_unpack_k_bits_bb_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_partitioning_64sm_bb_0</source_block_id>
-    <sink_block_id>drm_add_tailbits_bb_top_0</sink_block_id>
-    <source_key>1</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>trellis_encoder_xx_bot</source_block_id>
-    <sink_block_id>blocks_unpack_k_bits_bb_bot</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_interleaver_bb_bot</source_block_id>
-    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>2</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_punct_bb_bot</source_block_id>
-    <sink_block_id>drm_interleaver_bb_bot</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_punct_bb_mid</source_block_id>
-    <sink_block_id>drm_interleaver_bb_mid</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_interleaver_bb_mid</source_block_id>
-    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>1</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>trellis_encoder_xx_top_0</source_block_id>
-    <sink_block_id>blocks_unpack_k_bits_bb_mid</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_punct_bb_top</source_block_id>
-    <sink_block_id>drm_qam_map_bc_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_add_tailbits_bb_top</source_block_id>
-    <sink_block_id>trellis_encoder_xx_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_add_tailbits_bb_top_0</source_block_id>
-    <sink_block_id>trellis_encoder_xx_top_0</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>drm_add_tailbits_bb_bot</source_block_id>
-    <sink_block_id>trellis_encoder_xx_bot</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_unpack_k_bits_bb_top</source_block_id>
-    <sink_block_id>drm_punct_bb_top</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_unpack_k_bits_bb_mid</source_block_id>
-    <sink_block_id>drm_punct_bb_mid</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-  <connection>
-    <source_block_id>blocks_unpack_k_bits_bb_bot</source_block_id>
-    <sink_block_id>drm_punct_bb_bot</sink_block_id>
-    <source_key>0</source_key>
-    <sink_key>0</sink_key>
-  </connection>
-</flow_graph>
+options:
+  parameters:
+    author: Felix Wunsch
+    category: DRM
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: MLC 64QAM SM
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: drm_mlc_64qam_sm_bc
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: MLC 64QAM SM
+    window_size: 2000,2000
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [10, 10]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: M_total
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M_total
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [451, 185]
+    rotation: 0
+    state: enabled
+- name: bits_per_symbol
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Bits per Symbol
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [809, 7]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_bot
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: denom_mother_code_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [75, 874]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_mid
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: denom_mother_code_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [81, 751]
+    rotation: 0
+    state: enabled
+- name: blocks_unpack_k_bits_bb_top
+  id: blocks_unpack_k_bits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    k: denom_mother_code_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [82, 695]
+    rotation: 0
+    state: enabled
+- name: denom_mother_code_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Denominator of the Mother Code Rate
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [503, 9]
+    rotation: 0
+    state: enabled
+- name: drm_add_tailbits_bb_bot
+  id: drm_add_tailbits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_tailbits: n_tailbits
+    vlen_in: part_len_bot
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [559, 436]
+    rotation: 0
+    state: enabled
+- name: drm_add_tailbits_bb_top
+  id: drm_add_tailbits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_tailbits: n_tailbits
+    vlen_in: part_len_top
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [543, 269]
+    rotation: 0
+    state: enabled
+- name: drm_add_tailbits_bb_top_0
+  id: drm_add_tailbits_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_tailbits: n_tailbits
+    vlen_in: part_len_mid
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [524, 366]
+    rotation: 0
+    state: enabled
+- name: drm_interleaver_bb_bot
+  id: drm_interleaver_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    interl_seq: (interl_seq_2_2)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [679, 830]
+    rotation: 0
+    state: enabled
+- name: drm_interleaver_bb_mid
+  id: drm_interleaver_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    interl_seq: (interl_seq_1_2)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [682, 759]
+    rotation: 0
+    state: enabled
+- name: drm_partitioning_64sm_bb_0
+  id: drm_partitioning_64sm_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen1: part_len_top
+    vlen2: part_len_mid
+    vlen3: part_len_bot
+    vlen_in: vlen_in
+    vlen_out: M_total
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [222, 334]
+    rotation: 0
+    state: enabled
+- name: drm_punct_bb_bot
+  id: drm_punct_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_tailbits: n_tailbits * denom_mother_code_rate
+    punct_pat_1: pp_2
+    punct_pat_2: pp_2_tail
+    vlen_in: (part_len_bot + n_tailbits) * denom_mother_code_rate
+    vlen_out: vlen_out * 2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [446, 899]
+    rotation: 0
+    state: enabled
+- name: drm_punct_bb_mid
+  id: drm_punct_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_tailbits: n_tailbits * denom_mother_code_rate
+    punct_pat_1: pp_1
+    punct_pat_2: pp_1_tail
+    vlen_in: (part_len_mid+ n_tailbits) * denom_mother_code_rate
+    vlen_out: vlen_out * 2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [452, 776]
+    rotation: 0
+    state: enabled
+- name: drm_punct_bb_top
+  id: drm_punct_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_tailbits: n_tailbits * denom_mother_code_rate
+    punct_pat_1: pp_0
+    punct_pat_2: pp_0_tail
+    vlen_in: (part_len_top + n_tailbits) * denom_mother_code_rate
+    vlen_out: vlen_out * 2
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [451, 654]
+    rotation: 0
+    state: enabled
+- name: drm_qam_map_bc_0
+  id: drm_qam_map_bc
+  parameters:
+    affinity: ''
+    alias: ''
+    bits_per_symbol: bits_per_symbol
+    comment: ''
+    map_table: map_tab
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    n_inputs: '3'
+    vlen_out: vlen_out
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [956, 729]
+    rotation: 0
+    state: enabled
+- name: gen_poly
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Generator Polynomial
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 8]
+    rotation: 0
+    state: enabled
+- name: interl_seq_0_2
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Interleaving Sequence 0
+    short_id: ''
+    type: ''
+    value: (0,1)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [199, 184]
+    rotation: 0
+    state: enabled
+- name: interl_seq_1_2
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Interleaving Sequence 1
+    short_id: ''
+    type: ''
+    value: (0,1)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [325, 183]
+    rotation: 0
+    state: enabled
+- name: interl_seq_2_2
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Interleaving Sequence 2
+    short_id: ''
+    type: ''
+    value: (0,1)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [73, 184]
+    rotation: 0
+    state: enabled
+- name: map_tab
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Mapping Table
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [199, 104]
+    rotation: 0
+    state: enabled
+- name: n_tailbits
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Number of Tail Bits
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [351, 9]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1172, 759]
+    rotation: 0
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [56, 366]
+    rotation: 0
+    state: enabled
+- name: part_len_bot
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M_total[2]
+    short_id: ''
+    type: ''
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [545, 186]
+    rotation: 0
+    state: enabled
+- name: part_len_mid
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M_total[1]
+    short_id: ''
+    type: ''
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [781, 187]
+    rotation: 0
+    state: enabled
+- name: part_len_top
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: M_total[0]
+    short_id: ''
+    type: ''
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [663, 186]
+    rotation: 0
+    state: enabled
+- name: pp_0
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Puncturing Pattern 0
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [332, 105]
+    rotation: 0
+    state: enabled
+- name: pp_0_tail
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Tail Bit Puncturing Pattern 0
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [447, 104]
+    rotation: 0
+    state: enabled
+- name: pp_1
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Puncturing Pattern 1
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 105]
+    rotation: 0
+    state: enabled
+- name: pp_1_tail
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Tail Bit Puncturing Pattern 1
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [759, 104]
+    rotation: 0
+    state: enabled
+- name: pp_2
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Puncturing Pattern 2
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [917, 103]
+    rotation: 0
+    state: enabled
+- name: pp_2_tail
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Tail Bit Puncturing Pattern 2
+    short_id: ''
+    type: ''
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1081, 98]
+    rotation: 0
+    state: enabled
+- name: trellis_encoder_xx_bot
+  id: trellis_encoder_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    blocklength: '0'
+    blockwise: 'False'
+    comment: ''
+    fsm_args: 1, denom_mother_code_rate, gen_poly
+    init_state: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: bb
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [996, 428]
+    rotation: 0
+    state: enabled
+- name: trellis_encoder_xx_top
+  id: trellis_encoder_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    blocklength: '0'
+    blockwise: 'False'
+    comment: ''
+    fsm_args: 1, denom_mother_code_rate, gen_poly
+    init_state: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: bb
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1029, 263]
+    rotation: 0
+    state: enabled
+- name: trellis_encoder_xx_top_0
+  id: trellis_encoder_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    blocklength: '0'
+    blockwise: 'False'
+    comment: ''
+    fsm_args: 1, denom_mother_code_rate, gen_poly
+    init_state: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: bb
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1010, 360]
+    rotation: 0
+    state: enabled
+- name: vlen_in
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Input Vector Length
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [198, 9]
+    rotation: 0
+    state: enabled
+- name: vlen_out
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Output Vector Length
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [934, 8]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_unpack_k_bits_bb_bot, '0', drm_punct_bb_bot, '0']
+- [blocks_unpack_k_bits_bb_mid, '0', drm_punct_bb_mid, '0']
+- [blocks_unpack_k_bits_bb_top, '0', drm_punct_bb_top, '0']
+- [drm_add_tailbits_bb_bot, '0', trellis_encoder_xx_bot, '0']
+- [drm_add_tailbits_bb_top, '0', trellis_encoder_xx_top, '0']
+- [drm_add_tailbits_bb_top_0, '0', trellis_encoder_xx_top_0, '0']
+- [drm_interleaver_bb_bot, '0', drm_qam_map_bc_0, '2']
+- [drm_interleaver_bb_mid, '0', drm_qam_map_bc_0, '1']
+- [drm_partitioning_64sm_bb_0, '0', drm_add_tailbits_bb_top, '0']
+- [drm_partitioning_64sm_bb_0, '1', drm_add_tailbits_bb_top_0, '0']
+- [drm_partitioning_64sm_bb_0, '2', drm_add_tailbits_bb_bot, '0']
+- [drm_punct_bb_bot, '0', drm_interleaver_bb_bot, '0']
+- [drm_punct_bb_mid, '0', drm_interleaver_bb_mid, '0']
+- [drm_punct_bb_top, '0', drm_qam_map_bc_0, '0']
+- [drm_qam_map_bc_0, '0', pad_sink_0, '0']
+- [pad_source_0, '0', drm_partitioning_64sm_bb_0, '0']
+- [trellis_encoder_xx_bot, '0', blocks_unpack_k_bits_bb_bot, '0']
+- [trellis_encoder_xx_top, '0', blocks_unpack_k_bits_bb_top, '0']
+- [trellis_encoder_xx_top_0, '0', blocks_unpack_k_bits_bb_mid, '0']
+
+metadata:
+  file_format: 1

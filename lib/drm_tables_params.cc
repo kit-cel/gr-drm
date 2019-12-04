@@ -19,7 +19,7 @@
  * Boston, MA 02110-1301, USA.
  */
  
-#include "drm_tables.h"
+#include <drm/drm_tables.h>
 
 /* Puncturing patterns */
 // '1's denote bits to be kept, '0's bits to be dropped

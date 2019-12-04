@@ -23,7 +23,7 @@
 
 #include <drm/generate_sdc_b.h>
 #include <cmath>
-#include "drm_util.h"
+#include <drm/drm_util.h>
 
 namespace gr {
   namespace drm {
